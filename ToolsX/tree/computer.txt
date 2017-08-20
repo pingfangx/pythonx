@@ -90,7 +90,16 @@
 	    BlogX
 	    PythonX
 	file
+	    back'备份的
+	        phone
+	            5730XM
 		study'保存一些学习资料，包括课件等
+		    crack
+		    program
+		        android
+		        ios
+		        web
+		        other
 		media'多媒体，图、文、视频等
 		    photoshop'ps的相关文档
 			picture
@@ -102,6 +111,8 @@
 			android'apk文件留存
 			Microsoft
 			Adobe
+			    photoshopcc2017
+			android
 			Tencent
 		program'编程的工作路径，源码，库等
 			study'学习
