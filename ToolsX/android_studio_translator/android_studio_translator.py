@@ -281,7 +281,7 @@ class AndroidStudioTranslator:
                 # 因为有加了#，所以处理下
                 line = line.lstrip('# ')
                 # 相差的长度是trip掉的，注意在替换了\n之后
-                prefix = old_line[0:len(old_line) - len(line)]
+                prefix = old_line[0:len(old_line) - len(line)].rstrip()
             else:
                 prefix = '#' * 5
             append = ''
