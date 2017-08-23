@@ -32,6 +32,7 @@ class AndroidStudioTranslator:
              'data/project_save.tmx.xml'],
             ['处理keymap文件', self.handle_keymap_file, en_file, keymap_file],
             ['删除OmegaT翻译记忆文件中的快捷方式', self.delete_shortcut, 'data/project_save2.tmx'],
+            ['删除OmegaT翻译记忆文件中的省略号', self.delete_ellipsis, 'data/project_save2.tmx'],
         ]
         iox.choose_action(action_list)
 
@@ -327,6 +328,37 @@ class AndroidStudioTranslator:
                 else:
                     replace_result = content.replace('_', '')
                     print('替换【%s】为【%s】' % (content, replace_result))
+                seg.text = replace_result
+
+        tree.write(result_file, encoding='utf-8')
+        print('输出为' + result_file)
+
+    @staticmethod
+    def delete_ellipsis(file, result_file=None):
+        """
+        删除每一行结尾的“.”，包括一个（句号）或多个（如省略号）
+        :param file: 
+        :param result_file: 
+        :return: 
+        """
+        if result_file is None:
+            result_file = filex.get_result_file_name(file, '_delete_ellipsis')
+        tree = Et.parse(file)
+        tmx = tree.getroot()
+        body = tmx.find('body')
+        # (.*懒惰)(空白?点一次或多次)
+        p = re.compile(r'(.*?)(\s?\.+)$')
+        for seg in body.iter('seg'):
+            content = seg.text
+            if content is None:
+                continue
+            if '.' in content:
+                if re.match(p, content) is not None:
+                    replace_result = re.sub(p, r'\1', content)
+                    print('删除【%s】为【%s】' % (content, replace_result))
+                else:
+                    replace_result = content
+                    print('未处理【%s】为【%s】' % (content, replace_result))
                 seg.text = replace_result
 
         tree.write(result_file, encoding='utf-8')
