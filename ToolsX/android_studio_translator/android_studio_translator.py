@@ -1,10 +1,9 @@
+import re
 from xml.etree import ElementTree as Et
 
 from xx import encodex
 from xx import filex
 from xx import iox
-
-import re
 
 
 class AndroidStudioTranslator:
@@ -32,7 +31,8 @@ class AndroidStudioTranslator:
              'data/project_save.tmx.xml'],
             ['处理keymap文件', self.handle_keymap_file, en_file, keymap_file],
             ['删除OmegaT翻译记忆文件中的快捷方式', self.delete_shortcut, 'data/project_save2.tmx'],
-            ['删除OmegaT翻译记忆文件中的省略号', self.delete_ellipsis, 'data/project_save2.tmx'],
+            ['删除文件中的省略号', self.delete_ellipsis, 'data/keymap_with_desc2.properties'],
+            ['删除OmegaT翻译记忆文件中的省略号', self.delete_ellipsis_of_omegat, 'data/project_save2.tmx'],
         ]
         iox.choose_action(action_list)
 
@@ -335,6 +335,38 @@ class AndroidStudioTranslator:
 
     @staticmethod
     def delete_ellipsis(file, result_file=None):
+        """
+        删除每一行结尾的“.”，包括一个（句号）或多个（如省略号）
+        :param file: 
+        :param result_file: 
+        :return: 
+        """
+        if result_file is None:
+            result_file = filex.get_result_file_name(file, '_delete_ellipsis')
+        lines = filex.read_lines(file)
+        if lines is None:
+            return
+        # (.*懒惰)(空白?点一次或多次)
+        p = re.compile(r'(.*?)(\s?\.+)$')
+        result = []
+        for line in lines:
+            line = line.replace('\n', '')
+            if line is None:
+                continue
+            if '.' in line:
+                if re.match(p, line) is not None:
+                    replace_result = re.sub(p, r'\1', line)
+                    print('删除【%s】为【%s】' % (line, replace_result))
+                    line = replace_result
+                else:
+                    print('未处理【%s】' % line)
+            result.append(line + '\n')
+
+        filex.write_lines(result_file, result)
+        print('输出为' + result_file)
+
+    @staticmethod
+    def delete_ellipsis_of_omegat(file, result_file=None):
         """
         删除每一行结尾的“.”，包括一个（句号）或多个（如省略号）
         :param file: 
