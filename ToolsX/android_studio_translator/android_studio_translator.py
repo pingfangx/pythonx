@@ -25,11 +25,13 @@ class AndroidStudioTranslator:
         # 删除快捷键，删除省略号，补充没有的操作
         en_file_modified = 'keymap/default/ActionsBundle_en_modified.properties'
         keymap_default_file = 'keymap/default/keymap_default.xml'
+        cn_file_modified = 'keymap/default/ActionsBundle_en_modified_zh_CN_cn_result.properties'
         action_list = [
             ['退出', exit],
             ['参照翻译(未翻译保留)', self.translate_file_by_reference, en_file, cn_modified_file],
             ['参照翻译(未翻译标记)', self.translate_file_by_reference, en_file, cn_modified_file, None, '%s=%s【未翻译】'],
-            ['将文件的unicode转为中文', self.change_unicode_to_chinese, unicode_file, cn_file],
+            ['将文件的unicode转为中文', self.change_unicode_to_chinese,
+             'keymap/default/ActionsBundle_en_modified_zh_CN.properties'],
             ['将文件的中文转为unicode', self.change_chinese_to_unicode, cn_file],
             ['处理快捷方式（未翻译留空）', self.handle_shortcut, en_file, cn_modified_file, cn_modified_shortcut_file],
             ['将中文翻译结果导出为OmegaT数据', self.convert_to_omegat_dict, en_file, cn_modified_shortcut_file,
@@ -42,7 +44,7 @@ class AndroidStudioTranslator:
             ['删除OmegaT翻译记忆文件中的快捷方式', self.delete_shortcut_of_omegat, 'data/project_save2.tmx'],
             ['删除文件中的省略号', self.delete_ellipsis, 'data/result/keymap_with_desc.properties'],
             ['删除OmegaT翻译记忆文件中的省略号', self.delete_ellipsis_of_omegat, 'data/project_save2.tmx'],
-            ['处理默认快捷键', self.process_default_keymap, 'data/keymap_default.xml', en_file, cn_file],
+            ['处理默认快捷键', self.process_default_keymap, keymap_default_file, en_file_modified, cn_file_modified],
         ]
         iox.choose_action(action_list)
 
