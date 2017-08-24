@@ -20,6 +20,11 @@ class AndroidStudioTranslator:
         cn_modified_shortcut_file = 'data/ActionsBundle_cn_modified_shortcut.properties'
         # 6手动完成的keymap文件
         keymap_file = 'data/keymap.txt'
+
+        # 默认快捷键的
+        # 删除快捷键，删除省略号，补充没有的操作
+        en_file_modified = 'keymap/default/ActionsBundle_en_modified.properties'
+        keymap_default_file = 'keymap/default/keymap_default.xml'
         action_list = [
             ['退出', exit],
             ['参照翻译(未翻译保留)', self.translate_file_by_reference, en_file, cn_modified_file],
@@ -507,12 +512,13 @@ class AndroidStudioTranslator:
         tree.write(result_file, encoding='utf-8')
         print('输出为' + result_file)
 
-    def process_default_keymap(self, keymap_file, en_file, cn_file, result_file=None):
+    def process_default_keymap(self, keymap_file, en_file, cn_file, sort=True, result_file=None):
         """
         解析AndroidStudio的快捷键配置文件为文本
         :param keymap_file: 快捷键文件，位于/lib/resources.jar，之前的版本为idea/Keymap_Default.xml，pre版改为keymaps/$default.xml
         :param en_file: 英文文件,ActionsBundle.properties
         :param cn_file: 英文文件的翻译
+        :param sort: 是否需要按快捷键翻译
         :param result_file: 
         :return: 
         """
@@ -524,17 +530,26 @@ class AndroidStudioTranslator:
         en_dict = filex.get_dict_from_file(en_file)
         cn_dict = filex.get_dict_from_file(cn_file)
         result_list = []
+        # 因为可能有重复的，所以手动构建再排序
+        shortcut_id_list = []
         for action_id, shortcut in keymap_dict.items():
+            shortcut_id_list.append('%s---%s' % (shortcut, action_id))
+        if sort:
+            shortcut_id_list = sorted(shortcut_id_list)
+        for shortcut_id in shortcut_id_list:
+            shortcut, action_id = shortcut_id.split('---')
             action_name = 'action.%s.text' % action_id
             if action_name in en_dict.keys():
                 # print('有key %s' % action_name)
+                en_value = en_dict[action_name]
                 if action_name in cn_dict.keys():
-                    result = '%s（%s）【%s】' % (en_dict[action_name], cn_dict[action_name], shortcut)
+                    cn_value = cn_dict[action_name]
                 else:
-                    result = '%s（%s）【%s】' % (en_dict[action_name], "【未翻译】", shortcut)
+                    cn_value = '【未翻译】'
             else:
-                result = '%s（%s）【%s】' % (action_id, "【未记录未翻译】", shortcut)
-            result_list.append('* %s\n' % result)
+                en_value = action_id
+                cn_value = '【未记录未翻译】'
+            result_list.append('* 【%s】%s(%s)\n' % (shortcut, cn_value, en_value))
         filex.write_lines(result_file, result_list)
 
     @staticmethod
