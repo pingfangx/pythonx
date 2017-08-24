@@ -33,7 +33,8 @@ class AndroidStudioTranslator:
             ['处理翻译完的keymap文件', self.handle_translated_keymap_file,
              r"E:\workspace\TranslatorX\AndroidStudio\source\keymap_with_desc_delete_ellipsis.properties",
              r"E:\workspace\TranslatorX\AndroidStudio\target\keymap_with_desc_delete_ellipsis_zh_CN.properties"],
-            ['删除OmegaT翻译记忆文件中的快捷方式', self.delete_shortcut, 'data/project_save2.tmx'],
+            ['删除文件中的快捷方式', self.delete_shortcut, en_file],
+            ['删除OmegaT翻译记忆文件中的快捷方式', self.delete_shortcut_of_omegat, 'data/project_save2.tmx'],
             ['删除文件中的省略号', self.delete_ellipsis, 'data/result/keymap_with_desc.properties'],
             ['删除OmegaT翻译记忆文件中的省略号', self.delete_ellipsis_of_omegat, 'data/project_save2.tmx'],
             ['处理默认快捷键', self.process_default_keymap, 'data/keymap_default.xml', en_file, cn_file],
@@ -381,6 +382,39 @@ class AndroidStudioTranslator:
 
     @staticmethod
     def delete_shortcut(file, result_file=None):
+        """
+        删除文件中的快捷方式
+        :param file: 
+        :param result_file: 
+        :return: 
+        """
+        if result_file is None:
+            result_file = filex.get_result_file_name(file, '_delete_shortcut')
+        lines = filex.read_lines(file)
+        if lines is None:
+            return
+        # (.*懒惰)(空白?点一次或多次)
+        p = re.compile(r'(.*?)(\s?\(_\w\))')
+        result = []
+        for line in lines:
+            line = line.replace('\n', '')
+            if line is None:
+                continue
+            if '_' in line:
+                if re.match(p, line) is not None:
+                    replace_result = re.sub(p, r'\1', line)
+                    print('删除【%s】为【%s】' % (line, replace_result))
+                else:
+                    replace_result = line.replace('_', '')
+                    print('替换【%s】为【%s】' % (line, replace_result))
+                line = replace_result
+            result.append(line + '\n')
+
+        filex.write_lines(result_file, result)
+        print('输出为' + result_file)
+
+    @staticmethod
+    def delete_shortcut_of_omegat(file, result_file=None):
         """
         删除文件中的快捷方式，本来应该在导出的时候就删除，但是已经改了一些了，只好处理
         :param file: 
