@@ -36,6 +36,7 @@ class AndroidStudioTranslator:
             ['删除OmegaT翻译记忆文件中的快捷方式', self.delete_shortcut, 'data/project_save2.tmx'],
             ['删除文件中的省略号', self.delete_ellipsis, 'data/result/keymap_with_desc.properties'],
             ['删除OmegaT翻译记忆文件中的省略号', self.delete_ellipsis_of_omegat, 'data/project_save2.tmx'],
+            ['处理默认快捷键', self.process_default_keymap, 'data/keymap_default.xml', en_file, cn_file],
         ]
         iox.choose_action(action_list)
 
@@ -471,6 +472,102 @@ class AndroidStudioTranslator:
 
         tree.write(result_file, encoding='utf-8')
         print('输出为' + result_file)
+
+    def process_default_keymap(self, keymap_file, en_file, cn_file, result_file=None):
+        """
+        解析AndroidStudio的快捷键配置文件为文本
+        :param keymap_file: 快捷键文件，位于/lib/resources.jar，之前的版本为idea/Keymap_Default.xml，pre版改为keymaps/$default.xml
+        :param en_file: 英文文件,ActionsBundle.properties
+        :param cn_file: 英文文件的翻译
+        :param result_file: 
+        :return: 
+        """
+        if result_file is None:
+            result_file = filex.get_result_file_name(keymap_file, '_parsed')
+        keymap_dict = self.get_default_keymap(keymap_file)
+        if keymap_dict is None:
+            return
+        en_dict = filex.get_dict_from_file(en_file)
+        cn_dict = filex.get_dict_from_file(cn_file)
+        result_list = []
+        for action_id, shortcut in keymap_dict.items():
+            action_name = 'action.%s.text' % action_id
+            if action_name in en_dict.keys():
+                # print('有key %s' % action_name)
+                if action_name in cn_dict.keys():
+                    result = '%s（%s）【%s】' % (en_dict[action_name], cn_dict[action_name], shortcut)
+                else:
+                    result = '%s（%s）【%s】' % (en_dict[action_name], "【未翻译】", shortcut)
+            else:
+                result = '%s（%s）【%s】' % (action_id, "【未记录未翻译】", shortcut)
+            result_list.append('* %s\n' % result)
+        filex.write_lines(result_file, result_list)
+
+    @staticmethod
+    def get_default_keymap(keymap_file):
+        """
+        获取快捷键字典
+        :param keymap_file: 
+        :return: 
+        """
+        replace_list = [
+            ['Add', 'Numpad +'],
+            ['Subtract', 'Numpad -'],
+            ['Multiply', 'Numpad *'],
+            ['Divide', 'Numpad /'],
+            ['Equals', '='],
+
+            ['Left', '向左箭头'],
+            ['Right', '向右箭头'],
+            ['Up', '向上箭头'],
+            ['Down', '向下箭头'],
+
+            ['Page_up', 'Page Up'],
+            ['Page_down', 'Page Down'],
+            ['Back_space', 'Backspace'],
+            ['Open_bracket', '['],
+            ['Close_bracket', ']'],
+            ['Back_quote', '后引号'],
+            ['Quote', '引号'],
+            ['Context_menu', '上下文菜单'],
+            ['Space', '空格'],
+
+            ['Button1', '左键'],
+            ['Button2', '右键'],
+
+            ['Control', 'Ctrl'],
+            ['Escape', 'Esc'],
+
+            ['Period', '句点'],
+            ['Slash', '/'],
+        ]
+        tree = Et.parse(keymap_file)
+        keymap = tree.getroot()
+        keymap_dict = dict()
+        for action in keymap.iter('action'):
+            id = action.attrib['id']
+            shortcut_key_list = []
+            # 快捷键分为键盘和鼠标，而且可能有多个，所以不查找，直接遍历
+            for shortcut in action:
+                # shortcut_type = shortcut.tag
+                # 每个快捷键可能有第一键、第二键，所以对属性直接拼接
+                shortcut_key = []
+                for value in shortcut.attrib.values():
+                    keys = []
+                    for key in value.split(' '):
+                        key = key.capitalize()
+                        for replace in replace_list:
+                            # 不使用replace，直接完整比较
+                            if key == replace[0]:
+                                key = replace[1]
+                        keys.append(key)
+                    shortcut_key.append('+'.join(keys))
+                shortcut_key_list.append(','.join(shortcut_key))
+            # 可能有多组快捷键
+            shortcut_key_str = ';'.join(shortcut_key_list)
+            if shortcut_key_str != '':
+                keymap_dict[id] = shortcut_key_str
+        return keymap_dict
 
 
 if __name__ == '__main__':
