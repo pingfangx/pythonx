@@ -26,6 +26,10 @@ class AndroidStudioTranslator:
         en_file_modified = 'keymap/default/ActionsBundle_en_modified.properties'
         keymap_default_file = 'keymap/default/keymap_default.xml'
         cn_file_modified = 'keymap/default/ActionsBundle_en_modified_zh_CN_cn_result.properties'
+
+        # 快捷键参考
+        keymap_reference_file = 'keymap/reference/IntelliJIDEA_ReferenceCard.txt'
+        keymap_reference_translation_file = 'keymap/reference/IntelliJIDEA_ReferenceCard_modified_zh_CN.properties'
         action_list = [
             ['退出', exit],
             ['参照翻译(未翻译保留)', self.translate_file_by_reference, en_file, cn_modified_file],
@@ -45,6 +49,9 @@ class AndroidStudioTranslator:
             ['删除文件中的省略号', self.delete_ellipsis, 'data/result/keymap_with_desc.properties'],
             ['删除OmegaT翻译记忆文件中的省略号', self.delete_ellipsis_of_omegat, 'data/project_save2.tmx'],
             ['处理默认快捷键', self.process_default_keymap, keymap_default_file, en_file_modified, cn_file_modified],
+            ['处理快捷键参考文件', self.process_keymap_reference_card, keymap_reference_file],
+            ['处理快捷键参考文件的翻译结果', self.process_keymap_reference_card_translation, keymap_reference_file,
+             keymap_reference_translation_file],
         ]
         iox.choose_action(action_list)
 
@@ -639,6 +646,64 @@ class AndroidStudioTranslator:
             if shortcut_key_str != '':
                 keymap_dict[id] = shortcut_key_str
         return keymap_dict
+
+    @staticmethod
+    def process_keymap_reference_card(file_path, result_file=None):
+        """
+        处理快捷键参考文件
+        来自：https://resources.jetbrains.com/storage/products/intellij-idea/docs/IntelliJIDEA_ReferenceCard.pdf
+        保存后将其复制出来，然后用“【”划分快捷键，再进行一次处理
+        :param file_path: 
+        :param result_file: 
+        :return: 
+        """
+        if result_file is None:
+            result_file = filex.get_result_file_name(file_path, '_modified', 'properties')
+        lines = filex.read_lines(file_path)
+        if lines is None:
+            return
+        result = []
+        # 以一个或多个#开头，接内容
+        p_title = re.compile(r'^(#+)\s?(.*)')
+        for line in lines:
+            line = line.replace('\n', '')
+            line = re.sub(p_title, r'[\1] \2', line)
+            if '【' in line:
+                split_result = line.split('【')
+                line = '* %s' % split_result[0]
+            result.append(line + '\n')
+        filex.write_lines(result_file, result)
+
+    @staticmethod
+    def process_keymap_reference_card_translation(en_file, cn_file, result_file=None):
+        """
+        将翻译结果转为md文件
+        :param en_file: 
+        :param cn_file: 
+        :param result_file: 
+        :return: 
+        """
+        if result_file is None:
+            result_file = filex.get_result_file_name(en_file, '_result', 'md')
+        en_lines = filex.read_lines(en_file)
+        cn_lines = filex.read_lines(cn_file)
+        if en_lines is None or cn_lines is None:
+            return None
+
+        # 以[]中一个或多个#开头，接内容
+        p_title = re.compile(r'^\[(#+)\]\s?(.*)')
+        result = []
+        for i in range(len(cn_lines)):
+            line = cn_lines[i]
+            line = encodex.unicode_str_to_chinese(line)
+            line = re.sub(p_title, r'\1 \2', line)
+            en_line = en_lines[i].replace('\n', '')
+            if '【' in en_line:
+                shortcut = en_line.split('【')[1]
+                line = line.replace('* ', "")
+                line = '* %-30s%s' % ('【%s】' % shortcut, line)
+            result.append(line)
+        filex.write_lines(result_file, result)
 
 
 if __name__ == '__main__':
