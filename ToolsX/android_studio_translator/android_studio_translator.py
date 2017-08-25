@@ -514,6 +514,23 @@ class AndroidStudioTranslator:
         tree.write(result_file, encoding='utf-8')
         print('输出为' + result_file)
 
+    @staticmethod
+    def sort_shortcut(shortcut):
+        """
+        排序快捷方式
+        :param shortcut: 
+        :return: 
+        """
+        # 因为用了.*所以，前后都不能为数字，否则可能会将数字匹配到前面或后面一部分
+        p = re.compile('(.*?\D)(\d)(\D.*)')
+        match = p.match(shortcut)
+        if match is not None:
+            result = '%s0%s%s' % (match.group(1), match.group(2), match.group(3))
+            print('%s替换为%s' % (shortcut, result))
+        else:
+            result = shortcut
+        return result
+
     def process_default_keymap(self, keymap_file, en_file, cn_file, sort=True, result_file=None):
         """
         解析AndroidStudio的快捷键配置文件为文本
@@ -525,7 +542,10 @@ class AndroidStudioTranslator:
         :return: 
         """
         if result_file is None:
-            result_file = filex.get_result_file_name(keymap_file, '_parsed')
+            if sort:
+                result_file = filex.get_result_file_name(keymap_file, '_parsed_sorted')
+            else:
+                result_file = filex.get_result_file_name(keymap_file, '_parsed')
         keymap_dict = self.get_default_keymap(keymap_file)
         if keymap_dict is None:
             return
@@ -537,7 +557,7 @@ class AndroidStudioTranslator:
         for action_id, shortcut in keymap_dict.items():
             shortcut_id_list.append('%s---%s' % (shortcut, action_id))
         if sort:
-            shortcut_id_list = sorted(shortcut_id_list)
+            shortcut_id_list = sorted(shortcut_id_list, key=self.sort_shortcut)
         for shortcut_id in shortcut_id_list:
             shortcut, action_id = shortcut_id.split('---')
             action_name = 'action.%s.text' % action_id
