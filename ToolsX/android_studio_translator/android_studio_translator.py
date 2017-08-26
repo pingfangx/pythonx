@@ -705,6 +705,30 @@ class AndroidStudioTranslator:
             result.append(line)
         filex.write_lines(result_file, result)
 
+    @staticmethod
+    def get_dictionary_from_omegat(file_path):
+        """
+        读取omegaT的记忆文件
+        :param file_path:
+        :return:
+        """
+        result = dict()
+        tree = Et.parse(file_path)
+        tmx = tree.getroot()
+        body = tmx.find('body')
+        for tu in body.iter('tu'):
+            en = None
+            cn = None
+            for tuv in tu.iter('tuv'):
+                lang = tuv.attrib['lang']
+                if lang == 'EN-US':
+                    en = tuv.find('seg').text
+                elif lang == 'ZH-CN':
+                    cn = tuv.find('seg').text
+            if en is not None and cn is not None:
+                result[en.strip()] = cn.strip()
+        return result
+
 
 if __name__ == '__main__':
     AndroidStudioTranslator().main()
