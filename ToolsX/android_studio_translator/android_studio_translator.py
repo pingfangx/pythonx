@@ -1,6 +1,6 @@
 import re
 from xml.etree import ElementTree as Et
-
+import os
 from xx import encodex
 from xx import filex
 from xx import iox
@@ -30,6 +30,9 @@ class AndroidStudioTranslator:
         # 快捷键参考
         keymap_reference_file = 'keymap/reference/IntelliJIDEA_ReferenceCard.txt'
         keymap_reference_translation_file = 'keymap/reference/IntelliJIDEA_ReferenceCard_modified_zh_CN.properties'
+
+        # tips
+        tips_translation_dir = r'D:\workspace\TranslatorX\AndroidStudio\target\tips'
         action_list = [
             ['退出', exit],
             ['参照翻译(未翻译保留)', self.translate_file_by_reference, en_file, cn_modified_file],
@@ -52,6 +55,7 @@ class AndroidStudioTranslator:
             ['处理快捷键参考文件', self.process_keymap_reference_card, keymap_reference_file],
             ['处理快捷键参考文件的翻译结果', self.process_keymap_reference_card_translation, keymap_reference_file,
              keymap_reference_translation_file],
+            ['处理tips翻译结果', self.process_tips_translation_result, tips_translation_dir]
         ]
         iox.choose_action(action_list)
 
@@ -728,6 +732,47 @@ class AndroidStudioTranslator:
             if en is not None and cn is not None:
                 result[en.strip()] = cn.strip()
         return result
+
+    def process_tips_translation_result(self, dir_name, result_dir=None):
+        """
+        处理OmegaT翻译的tips的结果
+        :param dir_name:
+        :param result_dir:
+        :return:
+        """
+        if result_dir is None:
+            result_dir = dir_name + "_result"
+        print(result_dir)
+        for parent, dirnames, filenames in os.walk(dir_name):
+            result_file_dir = parent.replace(dir_name, result_dir)
+            length = len(filenames)
+            for i in range(length):
+                file = filenames[i]
+                if os.path.splitext(file)[1] == '.html':
+                    print('处理%d/%d' % (i + 1, length))
+                    self.process_tips_translation_file(parent + '\\' + file, result_file_dir + '\\' + file)
+
+    @staticmethod
+    def process_tips_translation_file(file_path, result_file):
+        """
+        处理翻译的tip文件，将
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        删除，这是OmegaT自动添加的，添加后AndroidStudio反而不能正常加载了。
+        然后&符号需要转义回去。
+        :param file_path:
+        :param result_file:
+        :return:
+        """
+        lines = filex.read_lines(file_path)
+        if lines is None:
+            return
+        meta = r'<meta http-equiv="content-type" content="text/html; charset=UTF-8">'
+        result = []
+        for line in lines:
+            if meta not in line:
+                line = line.replace('&amp;', '&')
+                result.append(line)
+        filex.write_lines(result_file, result)
 
 
 if __name__ == '__main__':
