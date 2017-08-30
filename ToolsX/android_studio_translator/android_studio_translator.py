@@ -32,7 +32,10 @@ class AndroidStudioTranslator:
         keymap_reference_translation_file = 'keymap/reference/IntelliJIDEA_ReferenceCard_modified_zh_CN.properties'
 
         # tips
-        tips_translation_dir = r'D:\workspace\TranslatorX\AndroidStudio\target\tips'
+        tips_translation_dir = r'E:\workspace\TranslatorX\AndroidStudio\target\tips'
+        tips_translation_processed_dir = tips_translation_dir + '_result'
+        tips_order_file = r'tips/IdeTipsAndTricks.xml'
+        tips_order_dir = r'E:\workspace\TranslatorX\AndroidStudio\target\tips_order'
         action_list = [
             ['退出', exit],
             ['参照翻译(未翻译保留)', self.translate_file_by_reference, en_file, cn_modified_file],
@@ -55,7 +58,8 @@ class AndroidStudioTranslator:
             ['处理快捷键参考文件', self.process_keymap_reference_card, keymap_reference_file],
             ['处理快捷键参考文件的翻译结果', self.process_keymap_reference_card_translation, keymap_reference_file,
              keymap_reference_translation_file],
-            ['处理tips翻译结果', self.process_tips_translation_result, tips_translation_dir]
+            ['处理tips翻译结果', self.process_tips_translation_result, tips_translation_dir, tips_translation_processed_dir],
+            ['排序tips文件', self.order_tips_file, tips_order_file, tips_translation_processed_dir, tips_order_dir]
         ]
         iox.choose_action(action_list)
 
@@ -773,6 +777,36 @@ class AndroidStudioTranslator:
                 line = line.replace('&amp;', '&')
                 result.append(line)
         filex.write_lines(result_file, result)
+
+    @staticmethod
+    def order_tips_file(file_path, processed_dir, result_dir):
+        """
+        排序tips的翻译文件
+        :param file_path:位于lib/resources.jar，/META-INF/IdeTipsAndTricks.xml
+        :param processed_dir: 
+        :param result_dir: 
+        :return: 
+        """
+
+        tree = Et.parse(file_path)
+        root = tree.getroot()
+        order_files = []
+        for tu in root.iter('tipAndTrick'):
+            order_files.append(tu.attrib['file'])
+
+        file_dict = dict()
+        for parent, dirnames, filenames in os.walk(processed_dir):
+            for file in filenames:
+                file_dict[file] = parent + '\\' + file
+        for i in range(len(order_files)):
+            name = order_files[i]
+            if name in file_dict.keys():
+                old_name = file_dict[name]
+                new_name = '%s\\%03d-%s' % (result_dir, i + 1, name)
+                print('移动%s为%s' % (old_name, new_name))
+                os.rename(old_name, new_name)
+            else:
+                print('无' + file_dict[name])
 
 
 if __name__ == '__main__':
