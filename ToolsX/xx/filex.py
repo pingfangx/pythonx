@@ -1,33 +1,61 @@
 import os.path
+from configparser import ConfigParser
 
 
-def read_lines(file_path):
+def read_lines(file_path, encoding='utf-8', ignore_line_separator=False):
     """
     读取所有行
-    :param file_path: 
-    :return: 
+    :param file_path: 文件路径
+    :param encoding: 编码
+    :param ignore_line_separator: 是否忽略换行符
+    :return:
     """
     if not os.path.exists(file_path):
         return None
 
-    with open(file_path, encoding='utf-8') as f:
-        result = f.readlines()
+    with open(file_path, encoding=encoding) as f:
+        if ignore_line_separator:
+            result = [line.replace('\n', '') for line in f.readlines()]
+        else:
+            result = f.readlines()
     return result
 
 
-def write_lines(file_path, lines, print_msg=True):
+def write_lines(file_path, lines, mode='w', add_line_separator=False, print_msg=True):
     """
     写入翻译结果
     :param file_path: 要写入的文件
     :param lines: 结果数组
+    :param mode: 写入模式
+    :param add_line_separator: 是否添加换行符
     :param print_msg: 是否显示
     :return: 
     """
-    file = open(file_path, mode='w', encoding='utf-8')
+    if add_line_separator:
+        lines = [line + '\n' for line in lines]
+    check_and_create_dir(file_path, print_msg=print_msg)
+    file = open(file_path, mode=mode, encoding='utf-8')
     file.writelines(lines)
     file.close()
     if print_msg:
         print('写入完成' + file_path)
+
+
+def check_and_create_dir(file_path, print_msg=True):
+    """
+    检查并创建文件夹
+    :param file_path: 要检查的文件路径，可以是文件也可以是文件夹
+    :param print_msg: 是否显示消息
+    :return:
+    """
+    if os.path.isdir(file_path):
+        dir_name = file_path
+    else:
+        dir_name = os.path.dirname(file_path)
+    if not os.path.exists(dir_name):
+        if print_msg:
+            print('创建' + dir_name)
+        os.makedirs(dir_name)
 
 
 def get_dict_from_file(file_path, separator='='):
@@ -66,3 +94,15 @@ def get_result_file_name(source_file_name, suffix, extension=None):
             extension = '.' + extension
     result_file = '%s%s%s' % (name_suffix[0], suffix, extension)
     return result_file
+
+
+def get_config(file_path, encoding='utf-8'):
+    """
+    读取配置
+    :param file_path:配置文件 
+    :param encoding: 编码
+    :return: 
+    """
+    conf = ConfigParser()
+    conf.read(file_path, encoding=encoding)
+    return conf
