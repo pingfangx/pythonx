@@ -156,10 +156,7 @@ class TiebaFloor:
             return
 
         msg = None
-        # 最大楼层，不知道有没有好方法获取最后一个元素
-        max_floor = 0
-        for k in floor_dict:
-            max_floor = k
+        max_floor = sorted(floor_dict.keys())[-1]
 
         # 检查最低等级
         min_level = 0
