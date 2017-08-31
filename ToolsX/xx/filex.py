@@ -50,7 +50,7 @@ def check_and_create_dir(file_path, print_msg=True):
         dir_name = file_path
     else:
         dir_name = os.path.dirname(file_path)
-    if not os.path.exists(dir_name):
+    if dir_name != '' and not os.path.exists(dir_name):
         if print_msg:
             print('创建' + dir_name)
         os.makedirs(dir_name)
