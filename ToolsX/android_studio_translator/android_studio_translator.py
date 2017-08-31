@@ -31,17 +31,12 @@ class AndroidStudioTranslator:
         keymap_reference_file = 'keymap/reference/IntelliJIDEA_ReferenceCard.txt'
         keymap_reference_translation_file = 'keymap/reference/IntelliJIDEA_ReferenceCard_modified_zh_CN.properties'
 
-        # tips
-        tips_translation_dir = r'E:\workspace\TranslatorX\AndroidStudio\target\tips'
-        tips_translation_processed_dir = tips_translation_dir + '_result'
-        tips_order_file = r'tips/IdeTipsAndTricks.xml'
-        tips_order_dir = r'E:\workspace\TranslatorX\AndroidStudio\target\tips_order'
         action_list = [
             ['退出', exit],
             ['参照翻译(未翻译保留)', self.translate_file_by_reference, en_file, cn_modified_file],
             ['参照翻译(未翻译标记)', self.translate_file_by_reference, en_file, cn_modified_file, None, '%s=%s【未翻译】'],
             ['将文件的unicode转为中文', self.change_unicode_to_chinese,
-             'keymap/default/ActionsBundle_en_modified_zh_CN.properties'],
+             'tips/IdeTipsAndTricks_name_zh_CN.properties'],
             ['将文件的中文转为unicode', self.change_chinese_to_unicode, cn_file],
             ['处理快捷方式（未翻译留空）', self.handle_shortcut, en_file, cn_modified_file, cn_modified_shortcut_file],
             ['将中文翻译结果导出为OmegaT数据', self.convert_to_omegat_dict, en_file, cn_modified_shortcut_file,
@@ -58,8 +53,6 @@ class AndroidStudioTranslator:
             ['处理快捷键参考文件', self.process_keymap_reference_card, keymap_reference_file],
             ['处理快捷键参考文件的翻译结果', self.process_keymap_reference_card_translation, keymap_reference_file,
              keymap_reference_translation_file],
-            ['处理tips翻译结果', self.process_tips_translation_result, tips_translation_dir, tips_translation_processed_dir],
-            ['排序tips文件', self.order_tips_file, tips_order_file, tips_translation_processed_dir, tips_order_dir]
         ]
         iox.choose_action(action_list)
 
@@ -736,77 +729,6 @@ class AndroidStudioTranslator:
             if en is not None and cn is not None:
                 result[en.strip()] = cn.strip()
         return result
-
-    def process_tips_translation_result(self, dir_name, result_dir=None):
-        """
-        处理OmegaT翻译的tips的结果
-        :param dir_name:
-        :param result_dir:
-        :return:
-        """
-        if result_dir is None:
-            result_dir = dir_name + "_result"
-        print(result_dir)
-        for parent, dirnames, filenames in os.walk(dir_name):
-            result_file_dir = parent.replace(dir_name, result_dir)
-            length = len(filenames)
-            for i in range(length):
-                file = filenames[i]
-                if os.path.splitext(file)[1] == '.html':
-                    print('处理%d/%d' % (i + 1, length))
-                    self.process_tips_translation_file(parent + '\\' + file, result_file_dir + '\\' + file)
-
-    @staticmethod
-    def process_tips_translation_file(file_path, result_file):
-        """
-        处理翻译的tip文件，将
-        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-        删除，这是OmegaT自动添加的，添加后AndroidStudio反而不能正常加载了。
-        然后&符号需要转义回去。
-        :param file_path:
-        :param result_file:
-        :return:
-        """
-        lines = filex.read_lines(file_path)
-        if lines is None:
-            return
-        meta = r'<meta http-equiv="content-type" content="text/html; charset=UTF-8">'
-        result = []
-        for line in lines:
-            if meta not in line:
-                line = line.replace('&amp;', '&')
-                result.append(line)
-        filex.write_lines(result_file, result)
-
-    @staticmethod
-    def order_tips_file(file_path, processed_dir, result_dir):
-        """
-        排序tips的翻译文件
-        :param file_path:位于lib/resources.jar，/META-INF/IdeTipsAndTricks.xml
-        :param processed_dir: 
-        :param result_dir: 
-        :return: 
-        """
-
-        tree = Et.parse(file_path)
-        root = tree.getroot()
-        order_files = []
-        for tu in root.iter('tipAndTrick'):
-            order_files.append(tu.attrib['file'])
-
-        file_dict = dict()
-        for parent, dirnames, filenames in os.walk(processed_dir):
-            for file in filenames:
-                file_dict[file] = parent + '\\' + file
-        for i in range(len(order_files)):
-            name = order_files[i]
-            if name in file_dict.keys():
-                old_name = file_dict[name]
-                new_name = '%s\\%03d-%s' % (result_dir, i + 1, name)
-                print('移动%s为%s' % (old_name, new_name))
-                os.rename(old_name, new_name)
-            else:
-                print('无' + file_dict[name])
 
 
 if __name__ == '__main__':
