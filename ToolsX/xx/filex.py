@@ -1,4 +1,5 @@
 import os.path
+from configparser import ConfigParser
 
 
 def read_lines(file_path, encoding='utf-8', ignore_line_separator=False):
@@ -20,11 +21,12 @@ def read_lines(file_path, encoding='utf-8', ignore_line_separator=False):
     return result
 
 
-def write_lines(file_path, lines, add_line_separator=False, print_msg=True):
+def write_lines(file_path, lines, mode='w', add_line_separator=False, print_msg=True):
     """
     写入翻译结果
     :param file_path: 要写入的文件
     :param lines: 结果数组
+    :param mode: 写入模式
     :param add_line_separator: 是否添加换行符
     :param print_msg: 是否显示
     :return: 
@@ -32,7 +34,7 @@ def write_lines(file_path, lines, add_line_separator=False, print_msg=True):
     if add_line_separator:
         lines = [line + '\n' for line in lines]
     check_and_create_dir(file_path, print_msg=print_msg)
-    file = open(file_path, mode='w', encoding='utf-8')
+    file = open(file_path, mode=mode, encoding='utf-8')
     file.writelines(lines)
     file.close()
     if print_msg:
@@ -50,7 +52,7 @@ def check_and_create_dir(file_path, print_msg=True):
         dir_name = file_path
     else:
         dir_name = os.path.dirname(file_path)
-    if not os.path.exists(dir_name):
+    if dir_name != '' and not os.path.exists(dir_name):
         if print_msg:
             print('创建' + dir_name)
         os.makedirs(dir_name)
@@ -92,3 +94,15 @@ def get_result_file_name(source_file_name, suffix, extension=None):
             extension = '.' + extension
     result_file = '%s%s%s' % (name_suffix[0], suffix, extension)
     return result_file
+
+
+def get_config(file_path, encoding='utf-8'):
+    """
+    读取配置
+    :param file_path:配置文件 
+    :param encoding: 编码
+    :return: 
+    """
+    conf = ConfigParser()
+    conf.read(file_path, encoding=encoding)
+    return conf
