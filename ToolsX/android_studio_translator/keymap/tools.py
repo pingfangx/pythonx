@@ -21,6 +21,7 @@ class Tools:
         en_modified_file = 'bundle/ActionsBundle_en_modified.properties'
 
         omega_tmx_file = 'bundle/project_save.tmx.xml'
+        omega_saved_file = r"D:\workspace\TranslatorX\AndroidStudio\omegat\project_save.tmx"
         action_list = [
             ['退出', exit],
             ['参照翻译(未翻译保留)', self.translate_file_by_reference, en_file, cn_modified_file],
@@ -31,10 +32,10 @@ class Tools:
             ['处理ActionsBundle_en.properties', self.process_file_for_translation, en_file],
             ['处理ActionsBundle_cn_split.properties', self.process_file_for_translation, cn_split_file,
              cn_modified_file],
-            ['删除文件中的快捷方式', self.delete_shortcut, en_file],
-            ['删除文件末尾的.或省略号', self.delete_ellipsis, en_file],
-            ['删除OmegaT翻译记忆文件中的快捷方式', self.delete_shortcut_of_omegat, 'data/project_save2.tmx'],
-            ['删除OmegaT翻译记忆文件中的.或省略号', self.delete_ellipsis_of_omegat, 'data/project_save2.tmx'],
+            ['删除文件末尾的.或省略号', self.delete_symbol, en_file, 0, 0],
+            ['删除文件中的快捷方式', self.delete_symbol, en_file, 0, 1],
+            ['删除OmegaT翻译记忆文件中的.或省略号（慎用）', self.delete_symbol, omega_saved_file, 1, 0],
+            ['删除OmegaT翻译记忆文件中的快捷方式（慎用）', self.delete_symbol, omega_saved_file, 1, 1],
         ]
         iox.choose_action(action_list)
 
@@ -232,139 +233,79 @@ class Tools:
         if result_file is None:
             result_file = filex.get_result_file_name(file, '_modified')
         print('删除省略号')
-        Tools.delete_ellipsis(file, result_file)
+        Tools.delete_symbol(file, 0, 0, result_file)
         # 后面的将接着用result_fiel
         print('删除快捷方式')
-        Tools.delete_shortcut(result_file, result_file)
+        Tools.delete_symbol(result_file, 0, 1, result_file)
         print('再次删除省略号，防止位于快捷方式之前')
-        Tools.delete_ellipsis(result_file, result_file)
+        Tools.delete_symbol(result_file, 0, 0, result_file)
 
     @staticmethod
-    def delete_shortcut(file, result_file=None):
+    def delete_symbol(file, file_type=0, delete_type=0, result_file=None):
         """
-        删除文件中的快捷方式
+        删除符号
         :param file:
+        :param file_type: 文件类型，0为文件，1为omega，omega的文件要小心处理，只有首次导入时应该处理，后面可能已翻译好了。
+        :param delete_type: 删除类型，0为省略号，1为快捷方式
         :param result_file:
         :return:
         """
         if result_file is None:
-            result_file = filex.get_result_file_name(file, '_delete_shortcut')
+            if delete_type == 1:
+                result_file = filex.get_result_file_name(file, '_delete_shortcut')
+            else:
+                result_file = filex.get_result_file_name(file, '_delete_ellipsis')
+        if delete_type == 1:
+            # (.*懒惰)(空白?点一次或多次)
+            replace_list = [
+                [re.compile(r'(.*?)(\s?\(_\w\))'), r'\1'],
+                [re.compile('_'), '']
+            ]
+        else:
+            # (.*懒惰)(空白?点一次或多次)
+            replace_list = [
+                [re.compile(r'(.*?)(\s?(\.|。|…)+)$'), r'\1']
+            ]
+
+        if file_type == 1:
+            Tools.delete_symbol_of_omegat(file, result_file, replace_list)
+        else:
+            Tools.delete_symbol_of_file(file, result_file, replace_list)
+
+    @staticmethod
+    def delete_symbol_of_file(file, result_file, replace_list):
         lines = filex.read_lines(file)
         if lines is None:
             return
-        # (.*懒惰)(空白?点一次或多次)
-        p = re.compile(r'(.*?)(\s?\(_\w\))')
         result = []
         for line in lines:
             line = line.replace('\n', '')
             if line is None:
                 continue
-            if '_' in line:
-                if re.match(p, line) is not None:
-                    replace_result = re.sub(p, r'\1', line)
-                    print('删除【%s】为【%s】' % (line, replace_result))
-                else:
-                    replace_result = line.replace('_', '')
-                    print('替换【%s】为【%s】' % (line, replace_result))
-                line = replace_result
+            old_line = line
+            for replace_pattern in replace_list:
+                line = re.sub(replace_pattern[0], replace_pattern[1], line)
+                if old_line != line:
+                    print('处理【%s】为【%s】' % (old_line, line))
             result.append(line + '\n')
 
         filex.write_lines(result_file, result)
 
     @staticmethod
-    def delete_ellipsis(file, result_file=None, print_msg=True):
-        """
-        删除每一行结尾的“.”，包括一个（句号）或多个（如省略号）
-        :param file:
-        :param result_file:
-        :param print_msg:
-        :return:
-        """
-        if result_file is None:
-            result_file = filex.get_result_file_name(file, '_delete_ellipsis')
-        lines = filex.read_lines(file)
-        if lines is None:
-            return
-        # (.*懒惰)(空白?点一次或多次)
-        p = re.compile(r'(.*?)(\s?(\.|。|…)+)$')
-        result = []
-        for line in lines:
-            line = line.replace('\n', '')
+    def delete_symbol_of_omegat(file, result_file, replace_list):
+        tree = Et.parse(file)
+        tmx = tree.getroot()
+        body = tmx.find('body')
+        for seg in body.iter('seg'):
+            line = seg.text
             if line is None:
                 continue
-            if '.' in line:
-                if re.match(p, line) is not None:
-                    replace_result = re.sub(p, r'\1', line)
-                    if print_msg:
-                        print('删除【%s】为【%s】' % (line, replace_result))
-                    line = replace_result
-                else:
-                    if print_msg:
-                        pass
-                        # print('未处理【%s】' % line)
-            result.append(line + '\n')
-
-        filex.write_lines(result_file, result)
-
-    @staticmethod
-    def delete_shortcut_of_omegat(file, result_file=None):
-        """
-        删除文件中的快捷方式，本来应该在导出的时候就删除，但是已经改了一些了，只好处理
-        :param file:
-        :param result_file:
-        :return:
-        """
-        if result_file is None:
-            result_file = filex.get_result_file_name(file, '_delete_shortcut')
-        tree = Et.parse(file)
-        tmx = tree.getroot()
-        body = tmx.find('body')
-        # (.*懒惰)(空白?\(下划线字母\))
-        p = re.compile(r'(.*?)(\s?\(_\w\))')
-        for seg in body.iter('seg'):
-            content = seg.text
-            if content is None:
-                continue
-            if '_' in content:
-                if re.match(p, content) is not None:
-                    replace_result = re.sub(p, r'\1', content)
-                    print('删除【%s】为【%s】' % (content, replace_result))
-                else:
-                    replace_result = content.replace('_', '')
-                    print('替换【%s】为【%s】' % (content, replace_result))
-                seg.text = replace_result
-
-        tree.write(result_file, encoding='utf-8')
-        print('输出为' + result_file)
-
-    @staticmethod
-    def delete_ellipsis_of_omegat(file, result_file=None):
-        """
-        删除每一行结尾的“.”，包括一个（句号）或多个（如省略号）
-        :param file:
-        :param result_file:
-        :return:
-        """
-        if result_file is None:
-            result_file = filex.get_result_file_name(file, '_delete_ellipsis')
-        tree = Et.parse(file)
-        tmx = tree.getroot()
-        body = tmx.find('body')
-        # (.*懒惰)(空白?点一次或多次)
-        p = re.compile(r'(.*?)(\s?\.+)$')
-        for seg in body.iter('seg'):
-            content = seg.text
-            if content is None:
-                continue
-            if '.' in content:
-                if re.match(p, content) is not None:
-                    replace_result = re.sub(p, r'\1', content)
-                    print('删除【%s】为【%s】' % (content, replace_result))
-                else:
-                    replace_result = content
-                    print('未处理【%s】为【%s】' % (content, replace_result))
-                seg.text = replace_result
-
+            old_line = line
+            for replace_pattern in replace_list:
+                line = re.sub(replace_pattern[0], replace_pattern[1], line)
+                if old_line != line:
+                    print('处理【%s】为【%s】' % (old_line, line))
+            seg.text = line
         tree.write(result_file, encoding='utf-8')
         print('输出为' + result_file)
 
