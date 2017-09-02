@@ -5,6 +5,8 @@ from xx import encodex
 from xx import filex
 from xx import iox
 
+import android_studio_translator.translation_tools as tool
+
 
 class AndroidStudioTranslator:
     def main(self):
@@ -115,8 +117,8 @@ class AndroidStudioTranslator:
         if result_file is None:
             result_file = filex.get_result_file_name(cn_file, '_shortcut_result')
 
-        en_dict = filex.get_dict_from_file(en_file)
-        cn_dict = filex.get_dict_from_file(cn_file)
+        en_dict = tool.get_dict_from_file(en_file)
+        cn_dict = tool.get_dict_from_file(cn_file)
         count = 0
         for (k, v) in en_dict.items():
             if '_' in v:
@@ -151,7 +153,7 @@ class AndroidStudioTranslator:
         if result_file is None:
             result_file = filex.get_result_file_name(en_file, '_translation_result')
 
-        translation_dict = filex.get_dict_from_file(cn_file)
+        translation_dict = tool.get_dict_from_file(cn_file)
         result = self.translate_file_by_dict(en_file, translation_dict, untranslated_replace)
 
         filex.write_lines(result_file, result)
@@ -206,8 +208,8 @@ class AndroidStudioTranslator:
         if output_file is None:
             output_file = filex.get_result_file_name(cn_file, '_omegat_result', 'xml')
 
-        en_dict = filex.get_dict_from_file(en_file)
-        cn_dict = filex.get_dict_from_file(cn_file)
+        en_dict = tool.get_dict_from_file(en_file)
+        cn_dict = tool.get_dict_from_file(cn_file)
 
         tmx = Et.Element('tmx')
         tmx.attrib['version'] = '1.1'
@@ -289,7 +291,7 @@ class AndroidStudioTranslator:
         if lines is None:
             return
 
-        en_dict = filex.get_dict_from_file(en_file)
+        en_dict = tool.get_dict_from_file(en_file)
         # 反转
         reversed_dict = {value: key for key, value in en_dict.items()}
 
@@ -557,8 +559,8 @@ class AndroidStudioTranslator:
         keymap_dict = self.get_default_keymap(keymap_file)
         if keymap_dict is None:
             return
-        en_dict = filex.get_dict_from_file(en_file)
-        cn_dict = filex.get_dict_from_file(cn_file)
+        en_dict = tool.get_dict_from_file(en_file)
+        cn_dict = tool.get_dict_from_file(cn_file)
         result_list = []
         # 因为可能有重复的，所以手动构建再排序
         shortcut_id_list = []
