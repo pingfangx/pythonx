@@ -1,24 +1,24 @@
-from xml.etree import ElementTree as Et
-from xx import iox
-from xx import filex
-from xx import encodex
 import re
+from xml.etree import ElementTree as Et
+
 from android_studio_translator import translation_tools as tool
+from xx import encodex
+from xx import filex
+from xx import iox
 
 
 class Tools:
     def main(self):
         # 1原文件
         en_file = 'bundle/ActionsBundle_en.properties'
+        # 补充过的英文文件
+        en_add_file = 'bundle/ActionsBundle_en_add.properties'
         # 2汉化文件
         unicode_file = 'bundle/ActionsBundle_unicode.properties'
         # 3转为中文
         cn_file = 'bundle/ActionsBundle_cn.properties'
-        # 4修改断句的文件
-        cn_split_file = 'bundle/ActionsBundle_cn_split.properties'
+        # 中文修改过的文件，删除快捷方式，删除末尾的.或省略号
         cn_modified_file = 'bundle/ActionsBundle_cn_modified.properties'
-        # 英文修改过的文件，删除快捷方式，删除末尾的.或省略号
-        en_modified_file = 'bundle/ActionsBundle_en_modified.properties'
 
         omega_tmx_file = 'bundle/project_save.tmx.xml'
         omega_saved_file = r"D:\workspace\TranslatorX\AndroidStudio\omegat\project_save.tmx"
@@ -29,11 +29,9 @@ class Tools:
             ['将文件的unicode转为中文', self.change_unicode_to_chinese, unicode_file],
             ['将文件的中文转为unicode', self.change_chinese_to_unicode, cn_file],
             ['将中文翻译结果导出为OmegaT数据（可用于检查换行）', self.convert_to_omegat_dict, en_file, cn_modified_file, omega_tmx_file],
-            ['处理ActionsBundle_en.properties', self.process_file_for_translation, en_file],
-            ['处理ActionsBundle_cn_split.properties', self.process_file_for_translation, cn_split_file,
-             cn_modified_file],
-            ['删除文件末尾的.或省略号', self.delete_symbol, en_file, 0, 0],
-            ['删除文件中的快捷方式', self.delete_symbol, en_file, 0, 1],
+            ['删除文件末尾的.或省略号', self.delete_symbol, en_add_file, 0, 0],
+            ['删除文件中的快捷方式', self.delete_symbol, en_add_file, 0, 1],
+            ['删除文件中的等号左右的空格', self.delete_symbol, en_add_file, 0, 2],
             ['删除OmegaT翻译记忆文件中的.或省略号（慎用）', self.delete_symbol, omega_saved_file, 1, 0],
             ['删除OmegaT翻译记忆文件中的快捷方式（慎用）', self.delete_symbol, omega_saved_file, 1, 1],
         ]
@@ -221,38 +219,20 @@ class Tools:
         seg2.text = cn
 
     @staticmethod
-    def process_file_for_translation(file, result_file=None):
-        """
-        在翻译前处理文件
-        删除快捷方式
-        删除末尾的.或省略号
-        :param file:
-        :param result_file:
-        :return:
-        """
-        if result_file is None:
-            result_file = filex.get_result_file_name(file, '_modified')
-        print('删除省略号')
-        Tools.delete_symbol(file, 0, 0, result_file)
-        # 后面的将接着用result_fiel
-        print('删除快捷方式')
-        Tools.delete_symbol(result_file, 0, 1, result_file)
-        print('再次删除省略号，防止位于快捷方式之前')
-        Tools.delete_symbol(result_file, 0, 0, result_file)
-
-    @staticmethod
     def delete_symbol(file, file_type=0, delete_type=0, result_file=None):
         """
         删除符号
         :param file:
         :param file_type: 文件类型，0为文件，1为omega，omega的文件要小心处理，只有首次导入时应该处理，后面可能已翻译好了。
-        :param delete_type: 删除类型，0为省略号，1为快捷方式
+        :param delete_type: 删除类型，0为省略号，1为快捷方式,2为省略号前后的空格
         :param result_file:
         :return:
         """
         if result_file is None:
             if delete_type == 1:
                 result_file = filex.get_result_file_name(file, '_delete_shortcut')
+            elif delete_type == 2:
+                result_file = filex.get_result_file_name(file, '_delete_space')
             else:
                 result_file = filex.get_result_file_name(file, '_delete_ellipsis')
         if delete_type == 1:
@@ -260,6 +240,10 @@ class Tools:
             replace_list = [
                 [re.compile(r'(.*?)(\s?\(_\w\))'), r'\1'],
                 [re.compile('_'), '']
+            ]
+        elif delete_type == 2:
+            replace_list = [
+                [re.compile('\s*(=)\s*'), r'\1']
             ]
         else:
             # (.*懒惰)(空白?点一次或多次)
@@ -308,6 +292,31 @@ class Tools:
             seg.text = line
         tree.write(result_file, encoding='utf-8')
         print('输出为' + result_file)
+
+    @staticmethod
+    def get_dict_from_file(file_path, separator='=', delete_value_ellipsis=True, delete_value_underline=True):
+        """
+        从文件中读取字典，
+        :param file_path:文件路径
+        :param separator:分隔符
+        :return: 如果有错返回None
+        :param delete_value_ellipsis:删除省略号
+        :param delete_value_underline: 删除快捷方式
+        """
+        result = filex.get_dict_from_file(file_path, separator)
+        if result is None:
+            return None
+
+        if delete_value_ellipsis or delete_value_underline:
+            # (空白?点一次或多次)
+            p_ellipsis = re.compile(r'(\s?\.+)$')
+            for key, value in result.items():
+                if delete_value_ellipsis:
+                    value = re.sub(p_ellipsis, '', value)
+                if delete_value_underline:
+                    value = value.replace('_', '')
+                result[key] = value
+        return result
 
 
 if __name__ == '__main__':
