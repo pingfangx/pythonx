@@ -170,7 +170,7 @@ class Keymap:
 
         result = []
         p_title = re.compile(r'^\[(#+)\]\s?(.*)')
-        p_title2 = re.compile(r'(\n*)(#*\s)(.*)')
+        p_title2 = re.compile(r'(\n*)(#+\s)(.*)')
         p_desc = re.compile(r'^\[desc\]\s?(.*)')
         p_comment = re.compile(r'^#\[(x+)\](.*)')
         for i in range(len(cn_lines)):
@@ -187,15 +187,17 @@ class Keymap:
                         replace_result = '  \n译注：%s' % (match.group(2))
                     else:
                         # 2星以上为加重注释
-                        last_line = result[-1]
+                        # 向上寻找标题并加重
+                        last_index = -1
+                        while result[last_index] == '' or re.match(p_title2, result[last_index]) is None:
+                            last_index -= 1
+                        last_line = result[last_index]
                         if '★' not in last_line:
-                            last_line_match = re.match(p_title2, last_line)
-                            if last_line_match is not None:
-                                start_replace = '★' * (len(start_number) - 1)
-                                last_line = re.sub(p_title2, r'\1\2*%s\3%s*' % (start_replace, start_replace),
-                                                   last_line)
-                                print('替换【%s】为【%s】' % (result[-1], last_line))
-                                result[-1] = last_line
+                            start_replace = '★' * (len(start_number) - 1)
+                            last_line = re.sub(p_title2, r'\1\2*%s\3%s*' % (start_replace, start_replace),
+                                               last_line)
+                            print('替换标题【%s】为【%s】' % (result[last_index], last_line))
+                            result[last_index] = last_line
                         replace_result = '  \n译注：%s' % (match.group(2))
                     # print('替换【%s】为【%s】' % (line, replace_result))
                     line = '%s' % replace_result

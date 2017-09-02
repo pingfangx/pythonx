@@ -1383,7 +1383,7 @@ Highlight Non-Picked Commits
 Merge Changes
 New Branch
 New Tag
-Pull. .
+Pull
 Rebase
 Remotes
 Reset Current Branch to Here
