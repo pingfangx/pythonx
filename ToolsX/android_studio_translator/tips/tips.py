@@ -146,7 +146,7 @@ class Tips:
                         else:
                             next_file = '%03d.html' % (i + 2)
                         next_page = '<a href=\'%s\'>&gt;&gt;%s</a>' % (next_file, next_name)
-
+                    header = '<p><a href=\'%s\'>homepage</a></p>\n' % 'index.html' + header
                     footer = '<p>&nbsp;</p><p>%s&nbsp;&nbsp;%s</p>\n' % (pre_page, next_page)
                     dir_name, base_name = os.path.split(file_name)
                     name, ext = os.path.splitext(base_name)
