@@ -24,6 +24,10 @@ class KeymapList:
 
         keymap_delete_ellipsis_file = r'data/keymap_delete_ellipsis.txt'
         """删除省略号的文件，选删除省略号，再添加注释"""
+
+        keymap_list_result_file = 'data/keymap_list.md'
+        """结果文件"""
+
         action_list = [
             ['退出', exit],
             ['读取描述字典', self.get_action_desc_dict, en_add_file, True],
@@ -34,7 +38,7 @@ class KeymapList:
             ['处理翻译完的keymap文件', self.process_translated_keymap_file,
              r'D:\workspace\TranslatorX\AndroidStudio\source\keymap_delete_ellipsis_add_desc_and_comment.properties',
              r'D:\workspace\TranslatorX\AndroidStudio\target\keymap_delete_ellipsis_add_desc_and_comment_zh_CN'
-             r'.properties'],
+             r'.properties', keymap_list_result_file],
         ]
         iox.choose_action(action_list)
 

@@ -27,12 +27,14 @@ class ActionsBundle:
 
         en_modified_add_translation_file = ActionsBundle.en_add_modified_translation_file
 
+        result_file = r"data/ActionsBundle_result.properties"
+
         action_list = [
             ['退出', exit],
             ['处理' + en_add_file, self.process_file_for_translation, en_add_file],
             ['处理' + cn_split_file, self.process_file_for_translation, cn_split_file,
              cn_modified_file],
-            ['处理翻译结果', self.add_ellipsis_and_shortcut, en_add_file, en_modified_add_translation_file],
+            ['处理翻译结果', self.add_ellipsis_and_shortcut, en_add_file, en_modified_add_translation_file, result_file],
         ]
         iox.choose_action(action_list)
 
@@ -115,6 +117,7 @@ class ActionsBundle:
                         print('添加%d,key=%s,v=%s,cn=%s,r=%s' % (count, shortcut, v, cn_value, replace_result))
                     cn_dict[k] = replace_result
         result = Tools.translate_file_by_dict(en_file, cn_dict, '')  # 重新翻译
+        result.insert(0, '# from:[AndroidStudio翻译(3)-ActionsBundle中文翻译](http://blog.pingfangx.com/2355.html)\n')
         filex.write_lines(result_file, result)
 
 

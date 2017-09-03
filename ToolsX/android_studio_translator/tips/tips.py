@@ -3,6 +3,7 @@ import re
 import shutil
 from xml.etree import ElementTree as Et
 
+from android_studio_translator.keymap_default.keymap_default import KeymapDefault
 from android_studio_translator.tools import Tools
 from xx import filex
 from xx import iox
@@ -14,15 +15,24 @@ class Tips:
     [AndroidStudio翻译(6)-Tip of the Day每日提示中文翻译](http://blog.pingfangx.com/2358.html)
     """
     RESULT_TYPE_ANDROID_STUDIO = 0
-    RESULT_TYPE_GITHUB_PAGE = 1
+    RESULT_TYPE_GITHUB_PAGES = 1
+
+    VARIABLE_DICT = {
+        'productName': 'AndroidStudio',
+        'majorVersion': '3',
+        'minorVersion': '0',
+    }
+
+    KEYMAP_DICT = KeymapDefault.get_keymap_dict_from_file('../keymap_default/data/keymap_default.xml')
+    KEYMAP_DICT.update(KeymapDefault.get_keymap_dict_from_file('data/keymap_add.xml'))
 
     def main(self):
         # 翻译结果目录
         tips_cn_dir = r'D:\workspace\TranslatorX\AndroidStudio\target\tips'
         # 处理为AndroidStudio的目录
-        tips_processed_dir = tips_cn_dir + '_android_studio'
+        tips_android_studio_dir = tips_cn_dir + '_android_studio'
         # 处理为github page的目录
-        tips_order_dir = tips_cn_dir + '_github_page'
+        tips_github_pages_dir = tips_cn_dir + '_github_pages'
 
         # 清单文件
         tips_manifest_file = r'data/IdeTipsAndTricks.xml'
@@ -36,10 +46,12 @@ class Tips:
             ['处理清单文件，整理tips的名称方便翻译', self.process_tips_manifest_file, tips_manifest_file],
             ['将翻译结果的unicode转为中文件', Tools.change_unicode_to_chinese, tips_manifest_translation_file],
             ['处理tips翻译结果为AndroidStudio用', self.process_tips_translation_result, tips_names_cn_file, tips_cn_dir,
-             Tips.RESULT_TYPE_ANDROID_STUDIO, tips_processed_dir],
-            ['处理tips翻译结果为GitHub Page用', self.process_tips_translation_result, tips_names_cn_file, tips_cn_dir,
-             Tips.RESULT_TYPE_GITHUB_PAGE, tips_order_dir],
-            ['将处理结果排序', self.order_tips_file, tips_names_cn_file, tips_processed_dir, tips_order_dir]
+             Tips.RESULT_TYPE_ANDROID_STUDIO, tips_android_studio_dir],
+            ['处理tips翻译结果为GitHub Pages用（数字命名）', self.process_tips_translation_result, tips_names_cn_file, tips_cn_dir,
+             Tips.RESULT_TYPE_GITHUB_PAGES, tips_github_pages_dir],
+            ['处理tips翻译结果为GitHub Pages用（数字加名字命名）', self.process_tips_translation_result, tips_names_cn_file, tips_cn_dir,
+             Tips.RESULT_TYPE_GITHUB_PAGES, tips_github_pages_dir, 1],
+            ['将处理结果排序', self.order_tips_file, tips_names_cn_file, tips_android_studio_dir, tips_github_pages_dir]
         ]
         iox.choose_action(action_list)
 
@@ -78,17 +90,18 @@ class Tips:
         return result
 
     def process_tips_translation_result(self, tips_names_file, tips_cn_dir, result_type=RESULT_TYPE_ANDROID_STUDIO,
-                                        result_dir=None):
+                                        result_dir=None, result_file_type=0):
         """
         处理OmegaT翻译的tips的结果
         :param tips_cn_dir:
-        :param tips_names_file: 
+        :param tips_names_file:
         :param result_type: 0为AndroidStudio,1为GitHub Page
         :param result_dir:
+        :param result_file_type: 结果文件类型，0为数字，1为数字加名字
         :return:
         """
         if result_dir is None:
-            if result_type == Tips.RESULT_TYPE_GITHUB_PAGE:
+            if result_type == Tips.RESULT_TYPE_GITHUB_PAGES:
                 result_dir = tips_cn_dir + '_github_page'
             else:
                 result_dir = tips_cn_dir + "_android_studio"
@@ -118,19 +131,29 @@ class Tips:
                     pre_page = ''
                     if i > 0:
                         pre_name = lines[i - 1].split('=')[0]
-                        pre_file = '%03d-%s.html' % (i, pre_name)
+                        if result_file_type == 1:
+                            pre_file = '%03d-%s.html' % (i, pre_name)
+                        else:
+                            pre_file = '%03d.html' % i
                         pre_page = '<a href=\'%s\'>&lt;&lt;%s</a>' % (pre_file, pre_name)
 
                     # 后一页
                     next_page = ''
                     if i < length - 1:
                         next_name = lines[i + 1].split('=')[0]
-                        next_file = '%03d-%s.html' % (i + 2, next_name)
+                        if result_file_type == 1:
+                            next_file = '%03d-%s.html' % (i + 2, next_name)
+                        else:
+                            next_file = '%03d.html' % (i + 2)
                         next_page = '<a href=\'%s\'>&gt;&gt;%s</a>' % (next_file, next_name)
 
                     footer = '<p>&nbsp;</p><p>%s&nbsp;&nbsp;%s</p>\n' % (pre_page, next_page)
                     dir_name, base_name = os.path.split(file_name)
-                    result_name = '%s\\%03d-%s' % (result_dir, i + 1, base_name)
+                    name, ext = os.path.splitext(base_name)
+                    if result_file_type == 1:
+                        result_name = '%s\\%03d-%s.html' % (result_dir, i + 1, name)
+                    else:
+                        result_name = '%s\\%03d%s' % (result_dir, i + 1, ext)
                 self.process_tips_translation_file(file_name, result_name, result_type, header, footer)
 
     @staticmethod
@@ -153,17 +176,51 @@ class Tips:
         meta = r'<meta http-equiv="content-type" content="text/html; charset=UTF-8">'
         result = []
         for line in lines:
-            if result_type == Tips.RESULT_TYPE_GITHUB_PAGE or meta not in line:
+            if result_type == Tips.RESULT_TYPE_GITHUB_PAGES or meta not in line:
                 # 添加footer
                 if add_footer is not None and line.lstrip().startswith('</body>'):
                     result.append(add_footer)
                 # 替换并添加
-                line = line.replace('&amp;', '&')
+                line = Tips.parse_line(line, result_type)
                 result.append(line)
                 # 添加header
                 if add_header is not None and line.lstrip().startswith('<body'):
                     result.append(add_header)
-        filex.write_lines(result_file, result)
+        filex.write_lines(result_file, result, print_msg=True)
+
+    @staticmethod
+    def parse_line(line, result_type):
+        """解析每一行中的参数"""
+        result = line
+        result = result.replace('&amp;', '&')
+        if result_type == Tips.RESULT_TYPE_GITHUB_PAGES:
+            # 解析快捷键
+            result = re.sub(r'&shortcut:(\w+);', Tips.replace_shortcut, result)
+            # 解析变量
+            result = re.sub(r'&(?!lt|gt|nbsp)(\w+);', Tips.replace_variable, result)
+        return result
+
+    @staticmethod
+    def replace_shortcut(match):
+        shortcut_id = match.group(1)
+        if shortcut_id in Tips.KEYMAP_DICT.keys():
+            result = Tips.KEYMAP_DICT[shortcut_id]
+            # print('解析%s为%s' % (shortcut_id, result))
+        else:
+            result = shortcut_id
+            print('没有找到快捷键' + shortcut_id)
+        return result
+
+    @staticmethod
+    def replace_variable(match):
+        variable = match.group(1)
+        if variable in Tips.VARIABLE_DICT.keys():
+            result = Tips.VARIABLE_DICT[variable]
+            # print('解析%s为%s' % (variable, result))
+        else:
+            result = variable
+            print('没有找到变量' + variable)
+        return result
 
     @staticmethod
     def order_tips_file(tips_names_file, processed_dir, result_dir):

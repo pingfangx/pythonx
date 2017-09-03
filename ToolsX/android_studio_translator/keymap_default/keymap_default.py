@@ -1,3 +1,4 @@
+import os
 import re
 from xml.etree import ElementTree as Et
 
@@ -23,6 +24,8 @@ class KeymapDefault:
             ['退出', exit],
             ['处理默认快捷键', self.process_default_keymap, keymap_default_file, en_add_file,
              en_add_modified_translation_file],
+            ['读取所有文件中的快捷键', self.get_shortcut_from_dir,
+             r'C:\Users\Administrator\Desktop\翻译整理\包\original\keymaps']
         ]
         iox.choose_action(action_list)
 
@@ -42,7 +45,7 @@ class KeymapDefault:
                 result_file = filex.get_result_file_name(keymap_file, '_parsed_sorted', 'md')
             else:
                 result_file = filex.get_result_file_name(keymap_file, '_parsed', 'md')
-        keymap_dict = KeymapDefault.get_default_keymap(keymap_file)
+        keymap_dict = KeymapDefault.get_keymap_dict_from_file(keymap_file)
         if keymap_dict is None:
             return
         cn_cn_file = filex.get_result_file_name(cn_file, '_cn_result')
@@ -87,7 +90,7 @@ class KeymapDefault:
         return shortcut
 
     @staticmethod
-    def get_default_keymap(keymap_file):
+    def get_keymap_dict_from_file(keymap_file):
         """
         获取快捷键字典
         :param keymap_file:
@@ -124,18 +127,39 @@ class KeymapDefault:
             ['Period', '句点'],
             ['Slash', '/'],
         ]
-        tree = Et.parse(keymap_file)
+        try:
+            tree = Et.parse(keymap_file)
+        except Et.ParseError:
+            print('解析文件失败' + keymap_file)
+            return None
         keymap = tree.getroot()
         keymap_dict = dict()
         for action in keymap.iter('action'):
+            if 'id' not in action.attrib.keys():
+                continue
             action_id = action.attrib['id']
+            if 'use-shortcut-of' in action.attrib.keys():
+                # 标明了使用快捷键
+                keymap_dict[action_id] = 'same with ' + action.attrib['use-shortcut-of']
+                continue
             shortcut_key_list = []
             # 快捷键分为键盘和鼠标，而且可能有多个，所以不查找，直接遍历
             for shortcut in action:
-                # shortcut_type = shortcut.tag
+                tag = shortcut.tag
+                if 'shortcut' not in tag:
+                    # 只处理快捷键
+                    continue
+                if 'keymap' in shortcut.attrib.keys():
+                    keymap_type = shortcut.attrib['keymap']
+                    if keymap_type != '$default':
+                        # 如果不是默认类型的快捷键不处理
+                        continue
                 # 每个快捷键可能有第一键、第二键，所以对属性直接拼接
                 shortcut_key = []
-                for value in shortcut.attrib.values():
+                for key, value in shortcut.attrib.items():
+                    if 'keymap' in key:
+                        # 不处理快捷键这个
+                        continue
                     keys = []
                     for key in value.split(' '):
                         key = key.capitalize()
@@ -151,6 +175,38 @@ class KeymapDefault:
             if shortcut_key_str != '':
                 keymap_dict[action_id] = shortcut_key_str
         return keymap_dict
+
+    @staticmethod
+    def get_shortcut_from_dir(dir_path):
+        """
+        从目录中读取所有文件中的快捷键
+        :param dir_path:
+        :return:
+        """
+        file_list = KeymapDefault.list_file(dir_path, r'\.xml$')
+        for file in file_list:
+            keymap_dict = KeymapDefault.get_keymap_dict_from_file(file)
+            if keymap_dict:
+                print('\n处理' + file)
+                print(keymap_dict)
+
+    @staticmethod
+    def list_file(dir_path, name_pattern=None):
+        """
+        获取目录中的文件，组成以文件名（不带后缀的）为key的字典
+        :param dir_path:
+        :param name_pattern: 文件名的正则匹配
+        :return:
+        """
+        file_list = list()
+        for parent, dirnames, filenames in os.walk(dir_path):
+            for file in filenames:
+                if name_pattern is not None:
+                    if re.search(name_pattern, file) is not None:
+                        file_list.append(parent + '\\' + file)
+                else:
+                    file_list.append(parent + '\\' + file)
+        return file_list
 
 
 if __name__ == '__main__':
