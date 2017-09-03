@@ -23,16 +23,24 @@ class Tips:
         'minorVersion': '0',
     }
 
-    KEYMAP_DICT = KeymapDefault.get_keymap_dict_from_file('../keymap_default/data/keymap_default.xml')
-    KEYMAP_DICT.update(KeymapDefault.get_keymap_dict_from_file('data/keymap_add.xml'))
+    KEYMAP_CN_DICT = KeymapDefault.get_keymap_dict_from_file('../keymap_default/data/keymap_default.xml')
+    KEYMAP_CN_DICT.update(KeymapDefault.get_keymap_dict_from_file('data/keymap_add.xml'))
+    KEYMAP_EN_DICT = KeymapDefault.get_keymap_dict_from_file('../keymap_default/data/keymap_default.xml', False)
+    KEYMAP_EN_DICT.update(KeymapDefault.get_keymap_dict_from_file('data/keymap_add.xml', False))
+
+    KEYMAP_DICT = KEYMAP_CN_DICT
+
+    github_pages_action_list = list()
 
     def main(self):
+        tips_en_dir = r'D:\workspace\TranslatorX\AndroidStudio\source\tips'
         # 翻译结果目录
         tips_cn_dir = r'D:\workspace\TranslatorX\AndroidStudio\target\tips'
         # 处理为AndroidStudio的目录
-        tips_android_studio_dir = tips_cn_dir + '_android_studio'
+        tips_android_studio_dir = tips_cn_dir + r'_android_studio'
         # 处理为github page的目录
-        tips_github_pages_dir = tips_cn_dir + '_github_pages'
+        tips_github_pages_en_dir = r'D:\workspace\github.pingfangx.io\android_studio\tips' + r'\en'
+        tips_github_pages_cn_dir = r'D:\workspace\github.pingfangx.io\android_studio\tips' + r'\cn'
 
         # 清单文件
         tips_manifest_file = r'data/IdeTipsAndTricks.xml'
@@ -41,17 +49,31 @@ class Tips:
 
         # 文件名翻译结果
         tips_names_cn_file = filex.get_result_file_name(tips_manifest_translation_file, '_cn_result')
+
+        Tips.github_pages_action_list = [
+            [tips_names_cn_file, tips_en_dir, tips_github_pages_en_dir, 0, 'en'],
+            [tips_names_cn_file, tips_en_dir, tips_github_pages_en_dir, 1, 'en'],
+            [tips_names_cn_file, tips_cn_dir, tips_github_pages_cn_dir, 0, 'cn'],
+            [tips_names_cn_file, tips_cn_dir, tips_github_pages_cn_dir, 1, 'cn'],
+        ]
+
         action_list = [
             ['退出', exit],
             ['处理清单文件，整理tips的名称方便翻译', self.process_tips_manifest_file, tips_manifest_file],
             ['将翻译结果的unicode转为中文件', Tools.change_unicode_to_chinese, tips_manifest_translation_file],
             ['处理tips翻译结果为AndroidStudio用', self.process_tips_translation_result, tips_names_cn_file, tips_cn_dir,
              Tips.RESULT_TYPE_ANDROID_STUDIO, tips_android_studio_dir],
+            ['处理所有GitHub Pages文件', self.process_all_github_pages],
+            ['处理tips原文为GitHub Pages用（数字命名）', self.process_tips_translation_result, tips_names_cn_file, tips_en_dir,
+             Tips.RESULT_TYPE_GITHUB_PAGES, tips_github_pages_en_dir, 0, 'en'],
+            ['处理tips原文为GitHub Pages用（数字加名字命名）', self.process_tips_translation_result, tips_names_cn_file, tips_en_dir,
+             Tips.RESULT_TYPE_GITHUB_PAGES, tips_github_pages_en_dir, 1, 'en'],
             ['处理tips翻译结果为GitHub Pages用（数字命名）', self.process_tips_translation_result, tips_names_cn_file, tips_cn_dir,
-             Tips.RESULT_TYPE_GITHUB_PAGES, tips_github_pages_dir],
+             Tips.RESULT_TYPE_GITHUB_PAGES, tips_github_pages_cn_dir],
             ['处理tips翻译结果为GitHub Pages用（数字加名字命名）', self.process_tips_translation_result, tips_names_cn_file, tips_cn_dir,
-             Tips.RESULT_TYPE_GITHUB_PAGES, tips_github_pages_dir, 1],
-            ['将处理结果排序', self.order_tips_file, tips_names_cn_file, tips_android_studio_dir, tips_github_pages_dir]
+             Tips.RESULT_TYPE_GITHUB_PAGES, tips_github_pages_cn_dir, 1],
+            ['将目录中的tips按顺序排序', self.order_tips_file, tips_names_cn_file, tips_android_studio_dir,
+             tips_github_pages_cn_dir]
         ]
         iox.choose_action(action_list)
 
@@ -89,8 +111,16 @@ class Tips:
             print('%s无变化' % word)
         return result
 
-    def process_tips_translation_result(self, tips_names_file, tips_cn_dir, result_type=RESULT_TYPE_ANDROID_STUDIO,
-                                        result_dir=None, result_file_type=0):
+    @staticmethod
+    def process_all_github_pages():
+        """处理为github page"""
+        for param in Tips.github_pages_action_list:
+            Tips.process_tips_translation_result(param[0], param[1], Tips.RESULT_TYPE_GITHUB_PAGES,
+                                                 param[2], param[3], param[4])
+
+    @staticmethod
+    def process_tips_translation_result(tips_names_file, tips_cn_dir, result_type=RESULT_TYPE_ANDROID_STUDIO,
+                                        result_dir=None, result_file_type=0, language='cn'):
         """
         处理OmegaT翻译的tips的结果
         :param tips_cn_dir:
@@ -98,6 +128,7 @@ class Tips:
         :param result_type: 0为AndroidStudio,1为GitHub Page
         :param result_dir:
         :param result_file_type: 结果文件类型，0为数字，1为数字加名字
+        :param language: 语言
         :return:
         """
         if result_dir is None:
@@ -105,10 +136,14 @@ class Tips:
                 result_dir = tips_cn_dir + '_github_page'
             else:
                 result_dir = tips_cn_dir + "_android_studio"
+        if language == 'en':
+            Tips.KEYMAP_DICT = Tips.KEYMAP_EN_DICT
+        else:
+            Tips.KEYMAP_DICT = Tips.KEYMAP_CN_DICT
 
         print('处理' + tips_cn_dir)
 
-        file_dict = self.get_file_dict_in_dir(tips_cn_dir)
+        file_dict = Tips.get_file_dict_in_dir(tips_cn_dir)
         if file_dict is None:
             return
 
@@ -122,7 +157,11 @@ class Tips:
             en_name, cn_name = line.split('=')
             if en_name in file_dict.keys():
                 file_name = file_dict[en_name]
-                header = '<h1>[%d/%d] %s(%s)</h1>\n' % (i + 1, length, en_name, cn_name)
+                if language == 'cn':
+                    add_cn_title = '(%s)' % cn_name
+                else:
+                    add_cn_title = ''
+                header = '<h1>[%d/%d] %s%s</h1>\n' % (i + 1, length, en_name, add_cn_title)
                 if result_type == Tips.RESULT_TYPE_ANDROID_STUDIO:
                     footer = None
                     result_name = file_name.replace(tips_cn_dir, result_dir)
@@ -146,18 +185,33 @@ class Tips:
                         else:
                             next_file = '%03d.html' % (i + 2)
                         next_page = '<a href=\'%s\'>&gt;&gt;%s</a>' % (next_file, next_name)
-                    header = '<p><a href=\'%s\'>homepage</a></p>\n' % 'index.html' + header
-                    footer = '<p>&nbsp;</p><p>%s&nbsp;&nbsp;%s</p>\n' % (pre_page, next_page)
+
+                    # 当前文件名和结果名
                     dir_name, base_name = os.path.split(file_name)
                     name, ext = os.path.splitext(base_name)
                     if result_file_type == 1:
-                        result_name = '%s\\%03d-%s.html' % (result_dir, i + 1, name)
+                        current_file = '%03d-%s.html' % (i + 1, name)
                     else:
-                        result_name = '%s\\%03d%s' % (result_dir, i + 1, ext)
-                self.process_tips_translation_file(file_name, result_name, result_type, header, footer)
+                        current_file = '%03d%s' % (i + 1, ext)
+                    result_name = '%s\\%s' % (result_dir, current_file)
+
+                    # 主页
+                    home_page = '<a href=\'%s\'>homepage</a>' % '../index.html'
+                    # 切换页面
+                    if language == 'cn':
+                        to_another_page = '<a href=\'../%s/%s\'>English</a>' % ('en', current_file)
+                    else:
+                        to_another_page = '<a href=\'../%s/%s\'>中文</a>' % ('cn', current_file)
+                    add_homepage = '<p>%s&nbsp;|&nbsp;%s</p>\n' % (home_page, to_another_page)
+
+                    header = add_homepage + header
+                    footer = '<p>%s&nbsp;&nbsp;%s</p>\n<p>&nbsp;</p>' % (pre_page, next_page)
+
+                Tips.process_tips_translation_file(file_name, result_name, result_type, header, footer, language)
 
     @staticmethod
-    def process_tips_translation_file(file_path, result_file, result_type, add_header=None, add_footer=None):
+    def process_tips_translation_file(file_path, result_file, result_type, add_header=None, add_footer=None,
+                                      language='cn'):
         """
         处理翻译的tip文件，将
         <meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -168,6 +222,7 @@ class Tips:
         :param result_type: AndroidStudio中需要删除meta
         :param add_header: 添加header
         :param add_footer: 添加footer
+        :param language: 语言
         :return:
         """
         lines = filex.read_lines(file_path)
@@ -175,17 +230,23 @@ class Tips:
             return
         meta = r'<meta http-equiv="content-type" content="text/html; charset=UTF-8">'
         result = []
+        add_meta = False
         for line in lines:
             if result_type == Tips.RESULT_TYPE_GITHUB_PAGES or meta not in line:
-                # 添加footer
-                if add_footer is not None and line.lstrip().startswith('</body>'):
-                    result.append(add_footer)
+                if not add_meta and language == 'en':
+                    if '<link rel=' in line:
+                        # 添加meta
+                        result.append(meta)
+                        add_meta = True
                 # 替换并添加
                 line = Tips.parse_line(line, result_type)
                 result.append(line)
                 # 添加header
                 if add_header is not None and line.lstrip().startswith('<body'):
                     result.append(add_header)
+                    if add_footer is not None:
+                        # 还是放上面好了
+                        result.append(add_footer)
         filex.write_lines(result_file, result, print_msg=True)
 
     @staticmethod
@@ -193,11 +254,13 @@ class Tips:
         """解析每一行中的参数"""
         result = line
         result = result.replace('&amp;', '&')
+        result = result.replace('"css/tips.css"', '"../css/tips.css"')
+        result = result.replace('"images/', '"../images/')
         if result_type == Tips.RESULT_TYPE_GITHUB_PAGES:
             # 解析快捷键
             result = re.sub(r'&shortcut:(\w+);', Tips.replace_shortcut, result)
             # 解析变量
-            result = re.sub(r'&(?!lt|gt|nbsp)(\w+);', Tips.replace_variable, result)
+            result = re.sub(r'&(?!lt|gt|nbsp|quot)(\w+);', Tips.replace_variable, result)
         return result
 
     @staticmethod

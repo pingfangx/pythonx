@@ -90,10 +90,11 @@ class KeymapDefault:
         return shortcut
 
     @staticmethod
-    def get_keymap_dict_from_file(keymap_file):
+    def get_keymap_dict_from_file(keymap_file, translate_key=True):
         """
         获取快捷键字典
         :param keymap_file:
+        :param translate_key: 是否翻译key
         :return:
         """
         replace_list = [
@@ -163,10 +164,11 @@ class KeymapDefault:
                     keys = []
                     for key in value.split(' '):
                         key = key.capitalize()
-                        for replace in replace_list:
-                            # 不使用replace，直接完整比较
-                            if key == replace[0]:
-                                key = replace[1]
+                        if translate_key:
+                            for replace in replace_list:
+                                # 不使用replace，直接完整比较
+                                if key == replace[0]:
+                                    key = replace[1]
                         keys.append(key)
                     shortcut_key.append('+'.join(keys))
                 shortcut_key_list.append(','.join(shortcut_key))
