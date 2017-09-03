@@ -1,28 +1,33 @@
 import os
+import re
+import shutil
 from xml.etree import ElementTree as Et
 
+from android_studio_translator.keymap.tools import Tools
 from xx import filex
 from xx import iox
-import shutil
 
 
 class Tips:
     def main(self):
         # 翻译结果
-        tips_cn_dir = r'E:\workspace\TranslatorX\AndroidStudio\target\tips'
-        # 翻译结果处理后的目录
-        tips_processed_dir = tips_cn_dir + '_processed'
+        tips_cn_dir = r'D:\workspace\TranslatorX\AndroidStudio\target\tips'
+        # AndroidStudio的目录
+        tips_processed_dir = tips_cn_dir + '_android_studio'
+        # github page的目录
+        tips_order_dir = tips_cn_dir + '_github_page'
 
-        # 排序文件
-        tips_order_file = r'IdeTipsAndTricks.xml'
-        # 排序后的目灵
-        tips_order_dir = tips_cn_dir + '_order'
+        # 清单文件
+        tips_manifest_file = r'IdeTipsAndTricks.xml'
+        tips_manifest_translation_file = r'D:\workspace\TranslatorX\AndroidStudio\target\IdeTipsAndTricks_name_zh_CN' \
+                                         r'.properties '
 
         # 文件名翻译结果
-        tips_names_cn_file = r'IdeTipsAndTricks_name_zh_CN_cn_result.properties'
+        tips_names_cn_file = filex.get_result_file_name(tips_manifest_translation_file, '_cn_result')
         action_list = [
             ['退出', exit],
-            ['处理顺序文件方便翻译', self.process_read_order_file, tips_order_file],
+            ['处理清单文件，整理tips的名称方便翻译', self.process_read_order_file, tips_manifest_file],
+            ['将翻译结果的unicode转为中文件', Tools.change_unicode_to_chinese, tips_manifest_translation_file],
             ['处理tips翻译结果为AndroidStudio用', self.process_tips_translation_result, tips_names_cn_file, tips_cn_dir, 0,
              tips_processed_dir],
             ['处理tips翻译结果为GitHub Page用', self.process_tips_translation_result, tips_names_cn_file, tips_cn_dir, 1,
@@ -52,21 +57,16 @@ class Tips:
     @staticmethod
     def camel_word_to_words(word):
         """
-        驼峰转为多个单词
+        驼峰转为多个单词，如果是大写缩写则不变
         :param word: 
         :return: 
         """
-        result = ""
-        for a in word:
-            # 字母比较，无需判断
-            # noinspection PyTypeChecker
-            if 'A' <= a <= 'Z':
-                if result != '':
-                    result += ' ' + a.lower()
-                else:
-                    result += a.lower()
-            else:
-                result += a
+        result = re.sub('[A-Z][a-z]+', lambda m: m.group().lower() + ' ', word).rstrip()
+        result = result.replace('Ifor', 'I for').replace('movefile', 'move file')
+        if word != result:
+            print('【%s】转为【%s】' % (word, result))
+        else:
+            print('%s无变化' % word)
         return result
 
     def process_tips_translation_result(self, tips_names_file, tips_cn_dir, result_type=0, result_dir=None):
@@ -74,12 +74,15 @@ class Tips:
         处理OmegaT翻译的tips的结果
         :param tips_cn_dir:
         :param tips_names_file: 
-        :param result_type: 
+        :param result_type: 0为AndroidStudio,1为GitHub Page
         :param result_dir:
         :return:
         """
         if result_dir is None:
-            result_dir = tips_cn_dir + "_result"
+            if result_type == 1:
+                result_dir = tips_cn_dir + '_github_page'
+            else:
+                result_dir = tips_cn_dir + "_android_studio"
 
         print('处理' + tips_cn_dir)
 
@@ -119,10 +122,10 @@ class Tips:
                     footer = '<p>&nbsp;</p><p>%s&nbsp;&nbsp;%s</p>\n' % (pre_page, next_page)
                     dir_name, base_name = os.path.split(file_name)
                     result_name = '%s\\%03d-%s' % (result_dir, i + 1, base_name)
-                self.process_tips_translation_file(file_name, result_name, header, footer)
+                self.process_tips_translation_file(file_name, result_name, result_type, header, footer)
 
     @staticmethod
-    def process_tips_translation_file(file_path, result_file, add_header=None, add_footer=None):
+    def process_tips_translation_file(file_path, result_file, result_type, add_header=None, add_footer=None):
         """
         处理翻译的tip文件，将
         <meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -130,6 +133,7 @@ class Tips:
         然后&符号需要转义回去。
         :param file_path:
         :param result_file:
+        :param result_type: 0为AndroidStudio,1为GitHub Page,AndroidStudio中需要删除
         :param add_header: 添加header
         :param add_footer: 添加footer
         :return:
@@ -140,7 +144,7 @@ class Tips:
         meta = r'<meta http-equiv="content-type" content="text/html; charset=UTF-8">'
         result = []
         for line in lines:
-            if meta not in line:
+            if result_type == 1 or meta not in line:
                 # 添加footer
                 if add_footer is not None and line.lstrip().startswith('</body>'):
                     result.append(add_footer)
@@ -157,9 +161,9 @@ class Tips:
         """
         排序tips的翻译文件
         :param tips_names_file:
-        :param processed_dir: 
-        :param result_dir: 
-        :return: 
+        :param processed_dir:
+        :param result_dir:
+        :return:
         """
 
         file_dict = Tips.get_file_dict_in_dir(processed_dir)
@@ -188,14 +192,15 @@ class Tips:
     def get_file_dict_in_dir(dir_path):
         """
         获取目录中的文件，组成以文件名（不带后缀的）为key的字典
-        :param dir_path: 
-        :return: 
+        :param dir_path:
+        :return:
         """
         file_dict = dict()
         for parent, dirnames, filenames in os.walk(dir_path):
             for file in filenames:
-                name = os.path.splitext(file)[0]
-                file_dict[name] = parent + '\\' + file
+                name, ext = os.path.splitext(file)
+                if ext == '.html':
+                    file_dict[name] = parent + '\\' + file
         return file_dict
 
     @staticmethod
@@ -203,7 +208,7 @@ class Tips:
         """
         获取tips的顺序
         :param order_file: 读取的文件，位于lib/resources.jar，/META-INF/IdeTipsAndTricks.xml
-        :return: 
+        :return:
         """
         tree = Et.parse(order_file)
         root = tree.getroot()
