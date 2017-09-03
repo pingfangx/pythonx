@@ -1,22 +1,27 @@
 import re
 from xml.etree import ElementTree as Et
 
-from android_studio_translator.keymap.tools import Tools
+from android_studio_translator.actions_bundle.actions_bundle import ActionsBundle
+from android_studio_translator.tools import Tools
 from xx import filex
 from xx import iox
 
 
-class DefaultKeymap:
-    def main(self):
-        en_add_modified_file = 'bundle/ActionsBundle_en_add_modified.properties'
-        # 翻译结果文件
-        en_add_modified_translation_file = r"D:\workspace\TranslatorX\AndroidStudio\target" \
-                                           r"\ActionsBundle_en_add_modified_zh_CN.properties "
+class KeymapDefault:
+    """
+    AndroidStudio的默认快捷键文件
+    [AndroidStudio翻译(4)-所有默认快捷键整理及翻译](http://blog.pingfangx.com/2356.html)
+    """
 
-        keymap_default_file = 'default/keymap_default.xml'
+    def main(self):
+        file_pre = '../actions_bundle/'
+        en_add_file = file_pre + ActionsBundle.en_add_file
+        en_add_modified_translation_file = ActionsBundle.en_add_modified_translation_file
+
+        keymap_default_file = 'data/keymap_default.xml'
         action_list = [
             ['退出', exit],
-            ['处理默认快捷键', self.process_default_keymap, keymap_default_file, en_add_modified_file,
+            ['处理默认快捷键', self.process_default_keymap, keymap_default_file, en_add_file,
              en_add_modified_translation_file],
         ]
         iox.choose_action(action_list)
@@ -25,7 +30,7 @@ class DefaultKeymap:
     def process_default_keymap(keymap_file, en_file, cn_file, sort=True, result_file=None):
         """
         解析AndroidStudio的快捷键配置文件为文本
-        :param keymap_file: 快捷键文件，位于/lib/resources.jar，之前的版本为idea/Keymap_Default.xml，pre版改为keymaps/$default.xml
+        :param keymap_file: 快捷键文件，位于/lib/resources.jar，之前的版本为idea/Keymap_Default.xml，pre版改为keymaps/$data.xml
         :param en_file: 英文文件,ActionsBundle.properties
         :param cn_file: 英文文件的翻译
         :param sort: 是否需要按快捷键翻译
@@ -37,7 +42,7 @@ class DefaultKeymap:
                 result_file = filex.get_result_file_name(keymap_file, '_parsed_sorted', 'md')
             else:
                 result_file = filex.get_result_file_name(keymap_file, '_parsed', 'md')
-        keymap_dict = DefaultKeymap.get_default_keymap(keymap_file)
+        keymap_dict = KeymapDefault.get_default_keymap(keymap_file)
         if keymap_dict is None:
             return
         cn_cn_file = filex.get_result_file_name(cn_file, '_cn_result')
@@ -50,7 +55,7 @@ class DefaultKeymap:
         for action_id, shortcut in keymap_dict.items():
             shortcut_id_list.append('%s---%s' % (shortcut, action_id))
         if sort:
-            shortcut_id_list = sorted(shortcut_id_list, key=DefaultKeymap.sort_shortcut)
+            shortcut_id_list = sorted(shortcut_id_list, key=KeymapDefault.sort_shortcut)
         for shortcut_id in shortcut_id_list:
             shortcut, action_id = shortcut_id.split('---')
             action_name = 'action.%s.text' % action_id
@@ -149,4 +154,4 @@ class DefaultKeymap:
 
 
 if __name__ == '__main__':
-    DefaultKeymap().main()
+    KeymapDefault().main()

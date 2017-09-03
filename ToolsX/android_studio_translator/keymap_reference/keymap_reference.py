@@ -1,13 +1,14 @@
 import re
 
+from xx import encodex
 from xx import filex
 from xx import iox
-from xx import encodex
 
 
 class KeymapReference:
     """
-    快捷键参考的处理
+    AndroidStudio快捷键参考的处理
+    [AndroidStudio翻译(5)-Keymap Refrence快捷键参考中文翻译](http://blog.pingfangx.com/2357.html)
     来自：https://resources.jetbrains.com/storage/products/intellij-idea/docs/IntelliJIDEA_ReferenceCard.pdf
     保存后将其复制出来，然后用“【”划分快捷键，再进行一次处理
     """
@@ -15,8 +16,9 @@ class KeymapReference:
     def main(self):
 
         # 快捷键参考
-        keymap_reference_file = 'reference/IntelliJIDEA_ReferenceCard.txt'
-        keymap_reference_translation_file = 'reference/IntelliJIDEA_ReferenceCard_modified_zh_CN.properties'
+        keymap_reference_file = 'data/IntelliJIDEA_ReferenceCard.txt'
+        keymap_reference_translation_file = r'D:\workspace\TranslatorX\AndroidStudio\target' \
+                                            r'\IntelliJIDEA_ReferenceCard_modified_zh_CN.properties '
 
         action_list = [
             ['退出', exit],

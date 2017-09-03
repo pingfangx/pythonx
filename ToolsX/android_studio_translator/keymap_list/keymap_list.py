@@ -1,24 +1,35 @@
 import re
 
-import android_studio_translator.translation_tools as tool
+from android_studio_translator.actions_bundle.actions_bundle import ActionsBundle
+from android_studio_translator.tools import Tools
 from xx import encodex
 from xx import filex
 from xx import iox
 
 
-class Keymap:
+class KeymapList:
+    """
+    AndroidStudio设置中的所有keymap
+    [AndroidStudio翻译(2)-keymap中的所有操作的中文翻译](http://blog.pingfangx.com/2354.html)
+    """
+
     def main(self):
-        # 所有keymap的文件
         keymap_file = r'data/keymap.txt'
-        action_en_file = r'data/ActionsBundle_en.properties'
+        """所有keymap的文件"""
+
+        en_add_file = '../actions_bundle/' + ActionsBundle.en_add_file
+
         keymap_comment_file = r'data/keymap_comment.properties'
+        """注释文件，是旧版本时添加的，读取到新版本中"""
+
         keymap_delete_ellipsis_file = r'data/keymap_delete_ellipsis.txt'
+        """删除省略号的文件，选删除省略号，再添加注释"""
         action_list = [
             ['退出', exit],
-            ['读取描述字典', self.get_action_desc_dict, action_en_file, True],
+            ['读取描述字典', self.get_action_desc_dict, en_add_file, True],
             ['读取注释字典', self.get_comment_dict, keymap_comment_file, True],
-            ['删除末尾的省略号', tool.delete_ellipsis, keymap_file],
-            ['增加描述、注释并导出为要翻译的文件', self.handle_keymap_file, action_en_file, keymap_delete_ellipsis_file,
+            ['删除末尾的省略号', Tools.delete_ellipsis, keymap_file],
+            ['增加描述、注释并导出为要翻译的文件', self.handle_keymap_file, en_add_file, keymap_delete_ellipsis_file,
              keymap_comment_file],
             ['处理翻译完的keymap文件', self.process_translated_keymap_file,
              r'D:\workspace\TranslatorX\AndroidStudio\source\keymap_delete_ellipsis_add_desc_and_comment.properties',
@@ -49,8 +60,8 @@ class Keymap:
         if lines is None:
             return
 
-        desc_dict = Keymap.get_action_desc_dict(en_file)
-        comment_dict = Keymap.get_comment_dict(comment_file)
+        desc_dict = KeymapList.get_action_desc_dict(en_file)
+        comment_dict = KeymapList.get_comment_dict(comment_file)
 
         count = 0
         desc_count = 0
@@ -90,7 +101,7 @@ class Keymap:
         :return:
         """
 
-        en_dict = tool.get_dict_from_file(en_file)
+        en_dict = Tools.get_dict_from_file(en_file)
         desc_dict = dict()
         # 重复的处理起来麻烦，索性删除了
         duplicate_value = list()
@@ -229,4 +240,4 @@ class Keymap:
 
 
 if __name__ == '__main__':
-    Keymap().main()
+    KeymapList().main()

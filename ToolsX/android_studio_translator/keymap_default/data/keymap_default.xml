@@ -941,7 +941,7 @@
   <action id="Refresh">
     <keyboard-shortcut first-keystroke="control F5"/>
   </action>
-  <!-- Android Studio: Switch default Rerun action from "Rerun" to "Android.CleanRun" -->
+    <!-- Android Studio: Switch data Rerun action from "Rerun" to "Android.CleanRun" -->
   <action id="Android.CleanRun">
     <keyboard-shortcut first-keystroke="control F5"/>
   </action>

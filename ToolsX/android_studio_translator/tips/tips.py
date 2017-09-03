@@ -3,22 +3,29 @@ import re
 import shutil
 from xml.etree import ElementTree as Et
 
-from android_studio_translator.keymap.tools import Tools
+from android_studio_translator.tools import Tools
 from xx import filex
 from xx import iox
 
 
 class Tips:
+    """
+    AndroidStudio的每日提示文件
+    [AndroidStudio翻译(6)-Tip of the Day每日提示中文翻译](http://blog.pingfangx.com/2358.html)
+    """
+    RESULT_TYPE_ANDROID_STUDIO = 0
+    RESULT_TYPE_GITHUB_PAGE = 1
+
     def main(self):
-        # 翻译结果
+        # 翻译结果目录
         tips_cn_dir = r'D:\workspace\TranslatorX\AndroidStudio\target\tips'
-        # AndroidStudio的目录
+        # 处理为AndroidStudio的目录
         tips_processed_dir = tips_cn_dir + '_android_studio'
-        # github page的目录
+        # 处理为github page的目录
         tips_order_dir = tips_cn_dir + '_github_page'
 
         # 清单文件
-        tips_manifest_file = r'IdeTipsAndTricks.xml'
+        tips_manifest_file = r'data/IdeTipsAndTricks.xml'
         tips_manifest_translation_file = r'D:\workspace\TranslatorX\AndroidStudio\target\IdeTipsAndTricks_name_zh_CN' \
                                          r'.properties '
 
@@ -26,26 +33,26 @@ class Tips:
         tips_names_cn_file = filex.get_result_file_name(tips_manifest_translation_file, '_cn_result')
         action_list = [
             ['退出', exit],
-            ['处理清单文件，整理tips的名称方便翻译', self.process_read_order_file, tips_manifest_file],
+            ['处理清单文件，整理tips的名称方便翻译', self.process_tips_manifest_file, tips_manifest_file],
             ['将翻译结果的unicode转为中文件', Tools.change_unicode_to_chinese, tips_manifest_translation_file],
-            ['处理tips翻译结果为AndroidStudio用', self.process_tips_translation_result, tips_names_cn_file, tips_cn_dir, 0,
-             tips_processed_dir],
-            ['处理tips翻译结果为GitHub Page用', self.process_tips_translation_result, tips_names_cn_file, tips_cn_dir, 1,
-             tips_order_dir],
+            ['处理tips翻译结果为AndroidStudio用', self.process_tips_translation_result, tips_names_cn_file, tips_cn_dir,
+             Tips.RESULT_TYPE_ANDROID_STUDIO, tips_processed_dir],
+            ['处理tips翻译结果为GitHub Page用', self.process_tips_translation_result, tips_names_cn_file, tips_cn_dir,
+             Tips.RESULT_TYPE_GITHUB_PAGE, tips_order_dir],
             ['将处理结果排序', self.order_tips_file, tips_names_cn_file, tips_processed_dir, tips_order_dir]
         ]
         iox.choose_action(action_list)
 
-    def process_read_order_file(self, order_file, result_file=None):
+    def process_tips_manifest_file(self, file_path, result_file=None):
         """
-        处理顺序文件翻便翻译
-        :param order_file: 
+        处理清单文件，整理tips的名称方便翻译
+        :param file_path:
         :param result_file: 
         :return: 
         """
         if result_file is None:
-            result_file = filex.get_result_file_name(order_file, '_name', 'properties')
-        ordered_file_list = self.get_tips_order_files(order_file)
+            result_file = filex.get_result_file_name(file_path, '_name', 'properties')
+        ordered_file_list = self.get_tips_order_files(file_path)
 
         result = []
         for file in ordered_file_list:
@@ -62,6 +69,7 @@ class Tips:
         :return: 
         """
         result = re.sub('[A-Z][a-z]+', lambda m: m.group().lower() + ' ', word).rstrip()
+        # 少数情况，要再处理一次
         result = result.replace('Ifor', 'I for').replace('movefile', 'move file')
         if word != result:
             print('【%s】转为【%s】' % (word, result))
@@ -69,7 +77,8 @@ class Tips:
             print('%s无变化' % word)
         return result
 
-    def process_tips_translation_result(self, tips_names_file, tips_cn_dir, result_type=0, result_dir=None):
+    def process_tips_translation_result(self, tips_names_file, tips_cn_dir, result_type=RESULT_TYPE_ANDROID_STUDIO,
+                                        result_dir=None):
         """
         处理OmegaT翻译的tips的结果
         :param tips_cn_dir:
@@ -79,7 +88,7 @@ class Tips:
         :return:
         """
         if result_dir is None:
-            if result_type == 1:
+            if result_type == Tips.RESULT_TYPE_GITHUB_PAGE:
                 result_dir = tips_cn_dir + '_github_page'
             else:
                 result_dir = tips_cn_dir + "_android_studio"
@@ -101,7 +110,7 @@ class Tips:
             if en_name in file_dict.keys():
                 file_name = file_dict[en_name]
                 header = '<h1>[%d/%d] %s(%s)</h1>\n' % (i + 1, length, en_name, cn_name)
-                if result_type == 0:
+                if result_type == Tips.RESULT_TYPE_ANDROID_STUDIO:
                     footer = None
                     result_name = file_name.replace(tips_cn_dir, result_dir)
                 else:
@@ -133,7 +142,7 @@ class Tips:
         然后&符号需要转义回去。
         :param file_path:
         :param result_file:
-        :param result_type: 0为AndroidStudio,1为GitHub Page,AndroidStudio中需要删除
+        :param result_type: AndroidStudio中需要删除meta
         :param add_header: 添加header
         :param add_footer: 添加footer
         :return:
@@ -144,7 +153,7 @@ class Tips:
         meta = r'<meta http-equiv="content-type" content="text/html; charset=UTF-8">'
         result = []
         for line in lines:
-            if result_type == 1 or meta not in line:
+            if result_type == Tips.RESULT_TYPE_GITHUB_PAGE or meta not in line:
                 # 添加footer
                 if add_footer is not None and line.lstrip().startswith('</body>'):
                     result.append(add_footer)

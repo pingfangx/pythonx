@@ -1,21 +1,32 @@
 import re
 
-from android_studio_translator.keymap.tools import Tools
+from android_studio_translator.tools import Tools
 from xx import filex
 from xx import iox
 
 
-class ActionBundle:
+class ActionsBundle:
+    """
+    AndroidStudio的ActionsBundle
+    [AndroidStudio翻译(3)-ActionsBundle中文翻译](http://blog.pingfangx.com/2355.html)
+    """
+    en_add_file = 'data/ActionsBundle_en_add.properties'
+    """只是添加了几个语句，保留快捷键和省略号"""
+
+    en_add_modified_translation_file = r"D:\workspace\TranslatorX\AndroidStudio\target" \
+                                       r"\ActionsBundle_en_add_modified_zh_CN.properties "
+    """处理完快捷键和省略，翻译结果文件"""
+
     def main(self):
-        # 1补充过的英文文件,并且删除等号左右两边的空格
-        en_add_file = 'bundle/ActionsBundle_en_add.properties'
-        # 4修改断句的文件
-        cn_split_file = 'bundle/ActionsBundle_cn_split.properties'
-        # 中文修改过的文件，删除快捷方式，删除末尾的.或省略号
-        cn_modified_file = 'bundle/ActionsBundle_cn_modified.properties'
-        # 翻译结果文件
-        en_modified_add_translation_file = r"D:\workspace\TranslatorX\AndroidStudio\target" \
-                                           r"\ActionsBundle_en_add_modified_zh_CN.properties "
+        en_add_file = ActionsBundle.en_add_file
+        cn_split_file = 'data/ActionsBundle_cn_split.properties'
+        """修改断句的文件"""
+
+        cn_modified_file = 'data/ActionsBundle_cn_modified.properties'
+        """中文修改过的文件，删除快捷方式，删除末尾的.或省略号"""
+
+        en_modified_add_translation_file = ActionsBundle.en_add_modified_translation_file
+
         action_list = [
             ['退出', exit],
             ['处理' + en_add_file, self.process_file_for_translation, en_add_file],
@@ -108,4 +119,4 @@ class ActionBundle:
 
 
 if __name__ == '__main__':
-    ActionBundle().main()
+    ActionsBundle().main()

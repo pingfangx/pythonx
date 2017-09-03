@@ -1,26 +1,57 @@
 import re
 from xml.etree import ElementTree as Et
 
-from android_studio_translator import translation_tools as tool
 from xx import encodex
 from xx import filex
 from xx import iox
 
 
 class Tools:
-    def main(self):
-        # 1原文件
-        en_file = 'bundle/ActionsBundle_en.properties'
-        # 补充过的英文文件
-        en_add_file = 'bundle/ActionsBundle_en_add.properties'
-        # 2汉化文件
-        unicode_file = 'bundle/ActionsBundle_unicode.properties'
-        # 3转为中文
-        cn_file = 'bundle/ActionsBundle_cn.properties'
-        # 中文修改过的文件，删除快捷方式，删除末尾的.或省略号
-        cn_modified_file = 'bundle/ActionsBundle_cn_modified.properties'
+    """
+    翻译相关的方法集
+    相关文单：[AndroidStudio翻译(1)-总述](http://blog.pingfangx.com/2353.html)
+    """
+    FILE_TYPE_FILE = 0
+    """
+    文件
+    """
 
-        omega_tmx_file = 'bundle/project_save.tmx.xml'
+    FILE_TYPE_OMEGAT = 1
+    """
+    OmegaT的记忆文件
+    """
+
+    DELETE_TYPE_ELLIPSIS = 0
+    """
+    删除省略号
+    """
+
+    DELETE_TYPE_SHORTCUT = 1
+    """
+    删除快捷方式
+    """
+    DELETE_TYPE_SPACE = 2
+    """
+    删除等号前后的空格
+    """
+
+    def main(self):
+        en_file = 'actions_bundle/data/ActionsBundle_en.properties'
+        """原文件"""
+
+        en_add_file = 'actions_bundle/data/ActionsBundle_en_add.properties'
+        """补充过的英文文件"""
+
+        unicode_file = 'actions_bundle/data/ActionsBundle_unicode.properties'
+        """汉化文件"""
+
+        cn_file = 'actions_bundle/data/ActionsBundle_cn.properties'
+        """转为中文"""
+
+        cn_modified_file = 'actions_bundle/data/ActionsBundle_cn_modified.properties'
+        """中文修改过的文件，删除快捷方式，删除末尾的.或省略号"""
+
+        omega_tmx_file = 'actions_bundle/data/project_save.tmx.xml'
         omega_saved_file = r"D:\workspace\TranslatorX\AndroidStudio\omegat\project_save.tmx"
         action_list = [
             ['退出', exit],
@@ -29,11 +60,13 @@ class Tools:
             ['将文件的unicode转为中文', self.change_unicode_to_chinese, unicode_file],
             ['将文件的中文转为unicode', self.change_chinese_to_unicode, cn_file],
             ['将中文翻译结果导出为OmegaT数据（可用于检查换行）', self.convert_to_omegat_dict, en_file, cn_modified_file, omega_tmx_file],
-            ['删除文件末尾的.或省略号', self.delete_symbol, en_add_file, 0, 0],
-            ['删除文件中的快捷方式', self.delete_symbol, en_add_file, 0, 1],
-            ['删除文件中的等号左右的空格', self.delete_symbol, en_add_file, 0, 2],
-            ['删除OmegaT翻译记忆文件中的.或省略号（慎用）', self.delete_symbol, omega_saved_file, 1, 0],
-            ['删除OmegaT翻译记忆文件中的快捷方式（慎用）', self.delete_symbol, omega_saved_file, 1, 1],
+            ['删除文件末尾的.或省略号', self.delete_symbol, en_add_file, Tools.FILE_TYPE_FILE, Tools.DELETE_TYPE_ELLIPSIS],
+            ['删除文件中的快捷方式', self.delete_symbol, en_add_file, Tools.FILE_TYPE_FILE, Tools.DELETE_TYPE_SHORTCUT],
+            ['删除文件中的等号左右的空格', self.delete_symbol, en_add_file, Tools.FILE_TYPE_FILE, Tools.DELETE_TYPE_SPACE],
+            ['删除OmegaT翻译记忆文件中的.或省略号（慎用）', self.delete_symbol, omega_saved_file, Tools.FILE_TYPE_OMEGAT,
+             Tools.DELETE_TYPE_ELLIPSIS],
+            ['删除OmegaT翻译记忆文件中的快捷方式（慎用）', self.delete_symbol, omega_saved_file, Tools.FILE_TYPE_OMEGAT,
+             Tools.DELETE_TYPE_SHORTCUT],
         ]
         iox.choose_action(action_list)
 
@@ -49,7 +82,7 @@ class Tools:
         if result_file is None:
             result_file = filex.get_result_file_name(en_file, '_translation_result')
 
-        translation_dict = tool.get_dict_from_file(cn_file)
+        translation_dict = Tools.get_dict_from_file(cn_file)
         result = self.translate_file_by_dict(en_file, translation_dict, untranslated_replace)
 
         filex.write_lines(result_file, result)
@@ -153,8 +186,8 @@ class Tools:
         if output_file is None:
             output_file = filex.get_result_file_name(cn_file, '_omegat_result', 'xml')
 
-        en_dict = tool.get_dict_from_file(en_file)
-        cn_dict = tool.get_dict_from_file(cn_file)
+        en_dict = Tools.get_dict_from_file(en_file)
+        cn_dict = Tools.get_dict_from_file(cn_file)
 
         tmx = Et.Element('tmx')
         tmx.attrib['version'] = '1.1'
@@ -219,7 +252,15 @@ class Tools:
         seg2.text = cn
 
     @staticmethod
-    def delete_symbol(file, file_type=0, delete_type=0, result_file=None):
+    def delete_ellipsis(file, file_type=FILE_TYPE_FILE, result_file=None):
+        Tools.delete_symbol(file, file_type, Tools.DELETE_TYPE_ELLIPSIS, result_file)
+
+    @staticmethod
+    def delete_shortcut(file, file_type=FILE_TYPE_FILE, result_file=None):
+        Tools.delete_symbol(file, file_type, Tools.DELETE_TYPE_SHORTCUT, result_file)
+
+    @staticmethod
+    def delete_symbol(file, file_type=FILE_TYPE_FILE, delete_type=DELETE_TYPE_ELLIPSIS, result_file=None):
         """
         删除符号
         :param file:
@@ -229,19 +270,19 @@ class Tools:
         :return:
         """
         if result_file is None:
-            if delete_type == 1:
+            if delete_type == Tools.DELETE_TYPE_SHORTCUT:
                 result_file = filex.get_result_file_name(file, '_delete_shortcut')
-            elif delete_type == 2:
+            elif delete_type == Tools.DELETE_TYPE_SPACE:
                 result_file = filex.get_result_file_name(file, '_delete_space')
             else:
                 result_file = filex.get_result_file_name(file, '_delete_ellipsis')
-        if delete_type == 1:
+        if delete_type == Tools.DELETE_TYPE_SHORTCUT:
             # (.*懒惰)(空白?点一次或多次)
             replace_list = [
                 [re.compile(r'(.*?)(\s?\(_\w\))'), r'\1'],
                 [re.compile('_'), '']
             ]
-        elif delete_type == 2:
+        elif delete_type == Tools.DELETE_TYPE_SPACE:
             replace_list = [
                 [re.compile('\s*(=)\s*'), r'\1']
             ]
@@ -251,7 +292,7 @@ class Tools:
                 [re.compile(r'(.*?)(\s?(\.|。|…)+)$'), r'\1']
             ]
 
-        if file_type == 1:
+        if file_type == Tools.FILE_TYPE_OMEGAT:
             Tools.delete_symbol_of_omegat(file, result_file, replace_list)
         else:
             Tools.delete_symbol_of_file(file, result_file, replace_list)
