@@ -1,0 +1,2568 @@
+Start CPU Usage Profiling=启动CPU使用情况分析
+启动CPU的使用情况分析
+
+Capture CPU usage data=捕获CPU使用数据
+捕获CPU使用率数据
+
+Stop CPU Usage Profiling=停止CPU使用情况分析
+停止CPU的使用情况分析
+
+Capture Allocations=捕获分配
+捕捉分配
+
+Show context help=显示上下文帮助
+显示即时帮助
+
+Show Intention Actions=显示意向（推荐）操作
+显示行动意向
+
+Toggle read-only attribute of current file=切换当前文件的只读属性
+当前文件的切换只读属性
+
+Toggle Popup Hints for Current File=切换当前文件的弹出提示
+切换弹出提示为当前文件
+
+Run Garbage Collector=运行垃圾回收器
+运行垃圾收集器
+
+Show History for Selection=显示选中历史
+显示历史选择
+
+Show history for editor selection=显示编辑器选中历史
+显示历史编辑选择
+
+Show history for selected file revision=显示选中文件的修订历史
+显示所选文件的修订历史
+
+Show History=显示历史
+显示历史记录
+
+Show history of file=显示文件历史
+显示文件的历史
+
+Add to Favorites=添加到收藏
+添加到收藏夹
+
+Add selected node to favorites=将选中节点添加到收藏
+添加选择的节点到收藏夹
+
+Add All To Favorites=全部收藏
+全部添加到收藏夹
+
+Add New Favorites List=添加到新收藏夹列表
+添加新收藏夹列表
+
+Delete all favorites the selected node belongs to=删除选中节点所属的所有收藏夹
+删除选定的节点所属的所有收藏到
+
+Delete All Favorites List But This=删除除此之外的所有收藏
+删除所有收藏列表中，但此
+
+Delete all favorites except these=删除除了这些以外的所有收藏
+删除所有收藏这些除外
+
+Create run configuration from context=根据当前文本创建运行配置
+从上下文中创建运行配置
+
+Choose Lookup Item=选择查询项
+选择查找项目
+
+Choose Lookup Item Replace=选择查询项替换
+选择查找项目替换
+
+Choose Lookup Item and Invoke Complete Statement=选择查询项并将语句补充完整
+选择查找项目，并调用完整的陈述
+
+Choose Lookup Item and Insert Dot=选择查询项并插入点
+选择查找项目，并插入点
+
+Page Up=上一页
+向上翻页
+
+Page Down=下一页
+向下翻页
+
+Page Up with Selection=上翻页并选择
+Page Up键选择
+
+Page Down with Selection=下翻页并选择
+Page Down键选择
+
+Paste without formatting, autoimport, literal escaping etc=粘贴，但不带格式化，自动导入，文字转义等
+粘贴不进行格式化，自动导入，字符转换等。
+
+Paste from X clipboard=从X剪贴板粘贴
+从 X 剪贴板粘贴
+
+Hungry Backspace=饥饿退格
+疯狂退格
+
+Acts as the Backspace except that removes all whitespace symbols before the caret (if any)=退格并自动删除尽可能多的空白和空行
+删除光标前所有的空格符号（如果有的话）
+
+Move Caret to Page Top=移动插入符号到页的顶部
+插入符移动到页面顶部
+
+Move Caret to Page Bottom=移动插入符号到页的底部
+插入符移动到页面底部
+
+Move Caret to Page Top with Selection=移动插入符号到页的顶部并选择
+插入符移动到页面顶部与选择
+
+Move Caret to Page Bottom with Selection=移动插入符号到页的底部并选择
+移动插入符与选择页面底部
+
+Right=右
+靠右
+
+Up with Selection=向上选中
+向上选择
+
+Down with Selection=向下选中
+向下选择
+
+Left with Selection=向左选中
+向左选择
+
+Right with Selection=向右选中
+向右选择
+
+Indent Selection=缩进选中内容
+行缩进
+
+Unindent Line or Selection=取消选中行或选中内容的缩进
+取消行缩进
+
+Indent Line or Selection=缩进行或选中区域
+选择行缩进
+
+Reset Font Size=重置字体大小
+重设字体大小
+
+Emacs Tab=Emacs 选项卡
+Emacs标签
+
+Scroll Up and Move if Necessary=向上滚动并移动，如果需要
+必要时向上滚动和移动
+
+Scroll Down and Move if Necessary=向下滚动并移动，如果需要
+必要时向下滚动并移动
+
+Scroll to Top=滚动到顶部
+滚动到页首
+
+Scroll to Bottom=滚动至底部
+滚动到底部
+
+Move Up and Scroll with Selection=向上滚动并选择
+向上移动并选择
+
+Move Down and Scroll with Selection=向下滚动并选择
+向下移动并选择
+
+Add or Remove Caret=添加或移除插入符号
+添加或删除插入符号
+
+Set multiple cursors in the current file to edit multiple lines of code simultaneously=在当前文件中设置多个光标，以同时编辑多行代码
+设置当前文件中的多个光标同时编辑多行代码。
+
+Add Rectangular Selection on Mouse Drag=拖动鼠标添加矩形选区
+添加鼠标拖动矩形选择
+
+Clone Caret Below=在下方克隆插入符号
+克隆插入符号下面
+
+Insert a secondary cursor in the line below to edit multiple lines of code simultaneously=在下面的行中插入一个辅助光标，以同时编辑多行代码
+在下面的行中插入辅助光标，同时编辑多行代码。
+
+Clone Caret Above=在上方克隆插入符号
+克隆插入符号上面
+
+Insert a secondary cursor in the line above to edit multiple lines of code simultaneously=在上面的行中插入一个辅助光标，以同时编辑多行代码
+在上面的行中插入辅助光标，同时编辑多行代码。
+
+Add Selection for Next Occurrence=将下一个出现添加到选择
+添加下一个匹配项的选择
+
+Select All Occurrences=选择所有出现
+选择所有匹配项
+
+Unselect Occurrence=取消选择出现
+取消选择匹配项
+
+Remove the current occurrence of the word from the selection=从选择中删除当前单词的出现。
+从选择中删除当前单词。
+
+Toggle Sticky Selection=启用/关闭粘滞选择
+切换粘性选择
+
+Swap selection boundaries=交换选择的边界
+交换选择边界
+
+Move Caret to Line Start=移动插入符号到行首
+移动光标到行首
+
+Move Caret to Line End=移动插入符号到行尾
+移动光标到行尾
+
+Cut Line Backward=反向剪切行
+向后剪切
+
+Move Caret to Text Start=移动插入符号到文本的开始处
+移动光标到文本开始
+
+Move Caret to Text End=移动插入符号到文本的末尾处
+移动光标到文本结束
+
+Move Caret to Line Start with Selection=移动插入符号到行首并选择
+移动光标到选择行开始
+
+Move Caret to Line End with Selection=移动插入符号到行尾并选择
+移动光标到选区行尾
+
+Move Caret to Text Start with Selection=移动插入符号到文本的开始并选择
+移动光标到文本开始选择
+
+Move Caret to Text End with Selection=移动插入符号到文本的末尾并选择
+移动光标到文本结尾的选择
+
+Move Caret to Next Word=移动插入符号到下个单词
+移动光标到下一个字
+
+Move Caret to Next Word in Different "CamelHumps" Mode=在驼峰匹配模式中自动移动插入符号到下个单词
+移动光标到下一个词在不同的“CamelHumps”模式
+
+Move Caret to Previous Word=移动插入符号到上个单词
+移动光标到前一个字
+
+Move Caret to Previous Word in Different "CamelHumps" Mode=在驼峰匹配模式中自动移动插入符号到上个单词
+移动光标到前一个字在不同的“CamelHumps”模式
+
+Move Caret to Next Word with Selection=移动插入符号到下个单词并选择
+移动光标到下一个字与选型
+
+Move Caret to Next Word with Selection in Different "CamelHumps" Mode=在驼峰匹配模式中自动移动插入符号到下个单词并选择
+移动光标到下一个词的选择与不同“CamelHumps”模式
+
+Move Caret to Previous Word with Selection=移动插入符号到上个单词并选择
+移动光标到前一个字与选择
+
+Move Caret to Previous Word with Selection in Different "CamelHumps" Mode=在驼峰匹配模式中自动移动插入符号到上个单词并选择
+移动光标到前一个字的选择与不同“CamelHumps”模式
+
+Move Caret to Code Block Start=移动插入符号到代码块开始处
+移动光标到代码块开始
+
+Move Caret to Code Block End=移动插入符号到代码块结尾处
+移动光标到代码块结束
+
+Move Caret to Code Block Start with Selection=移动插入符号到代码块开始处并选择
+移动光标到代码块开始选择
+
+Move Caret to Code Block End with Selection=移动插入符号到代码块结尾处并选择
+移动光标到选区代码块结束
+
+Move Caret to Matching Brace=移动插入符号到匹配的小括号
+移动插入符到对应的括号
+
+Delete to Word Start=删除到词首
+删除至单词开始
+
+Delete to Word Start in Different "CamelHumps" Mode=在驼峰匹配模式中删除到词首
+在不同的“CamelHumps”模式删除到Word开始
+
+Delete to Word End=删除到词尾
+删除至单词结束
+
+Delete to Word End in Different "CamelHumps" Mode=在驼峰匹配模式中删除到词尾
+在不同的“CamelHumps”模式删除到单词结束
+
+Kill to Word Start=删除至词首
+删除至单词开始
+
+Kill to Word End=删除至词尾
+删除至单词结束
+
+Kill Selected Region=删除选中区域
+干掉选定区域
+
+Save to Kill Ring=保存至删除列表
+保存到撤销区
+
+Duplicate Line or Selection=复制行或选中区域
+复制行或选区
+
+Direction is determined by initial character(s)=方向由初始字符确定
+Direction is determined by initial character
+
+Toggle Insert/Overwrite=切换插入/覆盖
+切换插入/改写
+
+Toggle column selection mode in current editor=在当前编辑窗口切换列选择模式
+在当前编辑器切换列选择模式
+
+Show Whitespaces=显示空格
+显示空白字符
+
+Toggle display whitespaces in current editor=显示/隐藏当前编辑器的空格
+在当前编辑器切换显示空格
+
+Show Indent Guides=显示缩进向导
+显示缩进指南
+
+Toggle display indent guides in current editor=显示/隐藏当前编辑器的缩进
+在当前编辑器切换显示缩进向导
+
+Toggle display line numbers in current editor=当前编辑窗口中切换行号显示
+在当前编辑器切换显示行号
+
+Show Gutter Icons=显示Gutter图标
+显示装订线图标
+
+Toggle display gutter icons in current editor=在当前编辑器中切换显示Gutter图标
+在当前编辑器中切换显示装订线图标
+
+Use Soft Wraps=启用自动换行
+使用自动换行
+
+Use Soft Wraps in Preview Editor=在编辑器预览中使用自动换行
+在预览编辑器里使用自动换行
+
+Toggle using soft wraps in preview editors=切换在编辑器预览中使用自动换行
+在预览编辑器使用自动换行切换
+
+Scroll to the end=滚动到结尾
+滚动到末尾
+
+Increase Font Size=增大字体大小
+增加字体大小
+
+Decrease Font Size=减小字体大小
+缩小字体
+
+Show Import Popups=显示导入弹窗
+显示导入弹出窗口
+
+Toggle display import popups in current file=在当前文件中切换显示导入弹窗
+切换显示输入弹出窗口的当前文件
+
+Toggle Case=切换大小写
+切换案例
+
+Join Lines=连接行
+联接行
+
+Select Line at Caret=选择插入符号所在行
+选中当前行
+
+Start New Line Before Current=在当前位置之前开始新行
+当前位置开始新行
+
+Complete Current Statement=完成当前语句
+完整的当前声明
+
+SetUp Method=SetUp方法
+设置方法
+
+TearDown Method=TearDown方法
+拆卸方法
+
+Override base class methods in the current class=在当前类中重写基类方法
+在当前类中重写基础类方法
+
+Generate delegate method to a field/getter=创建委派方法到field/getter
+生成委托方法 field/getter
+
+Super Method Call=调用Super方法
+超级方法调用
+
+Next Difference=移动到下一个差异
+下一个差异
+
+Previous Difference=移动到上一个差异
+上一个差异
+
+Go To Changed File=转到更改的文件
+打开修改过的文件
+
+Quickly navigate to changed file by name=快速导航到更改的文件
+快速导航到更名过的文件
+
+Show information about last modification date and author for each line=显示每行的最后修改日期和作者信息
+显示有关最后修改日期和作者的每一行信息
+
+Compare with the Same Repository Version=与同一个版本库比较
+比较相同存储库的版本
+
+Compare with Latest Repository Version=与最新的一个版本库比较
+用最新的版本库比较
+
+Compare with=与...比较
+比较
+
+Directory/Package=目录/包
+目录/包装
+
+From Template=从模板
+来自模板
+
+Compare Files=比较两个文件
+比较文件
+
+Compare two selected files or folders=比较两个选中文件
+比较两个选中的文件或文件夹
+
+Compare selected file with editor=将选中文件和编辑窗口进行比较
+用编辑器比较所选文件
+
+Full documentation in a pinned window=显示完整文档到固定窗口
+在一个固定的窗口完整的文档
+
+Show full documentation in a pinned window=在一个固定窗口显示完整文档
+显示在一个固定的窗口完整的文档
+
+Jump to Colors and Fonts=跳转到颜色和字体
+跳转到颜色和字体选项
+
+Jump to Colors and Fonts option at caret=跳转到插入符号处的颜色和字体选项
+跳转到颜色和字体选项
+
+Put Label=放置标签
+按标签
+
+Show version control related information for all local files=显示本地文件的版本控制信息
+显示版本控制相关的信息对所有本地文件
+
+Create new module from scratch and add it to the project=添加新模块到该项目
+从头开始创建新的模块，并将其添加到项目
+
+Create project structure for directory with existing sources or convert existing project model=创建项目目录结构(现有的来源或转换现有的项目模型)
+创建项目结构与现有的源目录或转换现有的项目模型
+
+Import module from directory with existing sources or from existing project model=导入模块目录(现有的来源或现有项目模型)
+从现有源目录或从现有的项目模型导入模块
+
+Open a project or a file in editor=在编辑窗口中打开项目或文件
+打开编辑器中的项目或文件
+
+List of recently opened projects=最近打开项目的列表
+最近打开的项目列表
+
+Configure default settings for all new projects=配置所有新项目的默认设置
+配置所有新建项目的默认设置
+
+Default Project Structure=默认项目结构
+默认的项目结构
+
+Configure default structure for all new projects=配置所有新项目的默认结构
+配置所有新建项目的默认结构
+
+Save All=保存所有
+全部保存
+
+Create project from Eclipse projects=从Eclipse项目来创建项目
+从Eclipse项目创建项目
+
+Create Eclipse projects for each module=为所有模块创建Eclipse项目
+创建Eclipse项目为每个模块
+
+Detect all externally changed files and reload them from disk=检测所有外部更改的文件，并从磁盘重新加载
+检测所有外部更改文件，并从磁盘重新加载它们
+
+Reload from Disk=重新从磁盘加载
+从磁盘重新加载
+
+Reload current file from disk and lose all changes=从磁盘重新加载当前文件并放弃所有更改
+从硬盘重新载入当前文件并丢失所有的改变
+
+Checkout from Version Control=从版本控制中检出
+从版本控制系统Checkout
+
+Save file content in HTML format with syntax coloring=保存文件内容为HTML语法格式
+以HTML格式保存文件内容与语法着色
+
+Undo {0}=撤销{0}
+撤消{0}
+
+last undone operation=最后撤销操作
+上次撤消的操作
+
+Cut to clipboard=剪切到剪贴板
+切到剪贴板
+
+Search with Google=用Google搜索
+使用Google查找
+
+Search selection with Google=用Google搜索选中内容
+搜索选择与谷歌
+
+Copy URL=复制 URL
+复制URL
+
+Copy the URL under caret to clipboard=将插入符号下的URL复制到剪贴板
+复制当前URL到剪贴板
+
+Copy paths corresponding to selected files or directories to clipboard=复制选中文件或目录的路径到剪贴板
+对应于选定的文件或目录到剪贴板拷贝路径
+
+Copy Reference=复制引用
+复制参考
+
+Copy reference to selected class, method or function=复制对选中类、方法或函数的引用
+复制引用选定的类，方法或函数
+
+Copy as Rich Text=复制为富文本
+复制为富文本格式
+
+Copy selection to clipboard as rich text (in RTF and HTML formats)=将选中复制到剪贴板作为富文本（以RTF和HTML格式）
+复制选区到剪贴板为富文本(RTF和HTML格式)
+
+Copy selection to clipboard as plain text=将选择复制到剪贴板作为纯文本
+复制选区到剪贴板为纯文本
+
+Select all=全选
+选择所有
+
+Create new class, interface, file or directory=创建新的类, 接口, 文件或目录
+创建新的类，接口，文件或目录
+
+Delete selected item=删除选中项
+删除所选项目
+
+Toggle bookmark at the current location=在当前位置切换书签
+切换书签在当前位置
+
+Show list of all bookmarks=显示书签列表
+所有书签的显示列表
+
+Find a string in active editor=在当前编辑窗口中查找字符串
+在当前编辑器查找字符串
+
+Find a string in active editor, shows modal dialog=在活动编辑器查找一个字符串，并显示模式对话框
+当前编辑器中查找字符串，显示模式对话框
+
+Replace a string in active editor with another string=用另一个字符串替换当前编辑窗口中的字符串
+用另一个字符串替换当前编辑器中的字符串
+
+Find Next / Move to Next Occurrence=查找下一个
+查找下一个匹配项
+
+Repeat the last Find/Replace operation, or moving to next occurrence of selected text=重复上一次查找/替换操作，或移动到选中文本的下一个出现
+重复上一次查找/替换操作，并移到下一个匹配项
+
+Find Previous / Move to Previous Occurrence=查找上一个/移动到上一个出现
+查找上一个匹配项
+
+Repeat the last Find/Replace operation in reverse direction, or moving to previous occurrence of selected text=反方向重复上一次查找/替换操作，或移动到选中文本的上一个出现
+向上执行上一次的查找/替换操作，并移到下一个匹配项
+
+Find Word at Caret=查找插入符号处的字
+查找光标位置的单词
+
+Find next occurrence of the word at caret=找到插入符号处的字的下一个出现
+查找单词在光标的下一个出现
+
+Start incremental search (searches string as you type), IntelliJ IDEA 6.0 implementation=启动增量搜索（搜索字符串时输入），IntelliJ IDEA 6.0实现
+开始增量搜索（当您输入搜索字符串），IntelliJ IDEA 6.0实现。
+
+Find usages of the symbol at caret=找到插入符号处符号的使用
+查找符号的用法在插入符号
+
+Show Usages=显示使用
+显示用法实例
+
+Show usages of the symbol at caret=显示插入符号处符号的使用
+显示用法在插入符号的符号
+
+Find Usages Settings=查找使用设置
+查找使用实例设置
+
+Choose scope and edit options for the Find Usages action=为查找使用操作选择范围和编辑选项
+选择用于查找用法行动范围并修改选项
+
+Find Usages in File=在文件中查找使用
+在文件中查找使用实例
+
+Find usages of the symbol at caret in active editor=在活动编辑器中查找插入符号处符号的使用
+查找符号的用法在插入符在当前编辑器
+
+Highlight Usages in File=在文件中高亮显示使用
+在文件中高亮显示用法实例
+
+Highlight usages of the symbol at caret in active editor=在活动编辑器中高亮显示插入符号处符号的使用
+突出显示在当前编辑器中的插入符号
+
+This usage search requires indices and cannot be performed until they are built=该使用搜索需要索引，并且在索引被建立之前不能被执行
+这种搜索用法需要索引，否则无法执行
+
+Find Join Point Identified by Pointcut=查找Pointcut识别的加入点
+找到连接点确定切入点
+
+Find join point identified by pointcut=查找Pointcut识别的加入点
+找到连接点确定切入点
+
+Find a string in multiple files=在多个文件中查找字符串
+找到的字符串中的多个文件
+
+Replace a string in multiple files with another string=在多个文件中用一个字符串替换另一个字符串
+替换字符串中的多个文件用另一个字符串
+
+Popup structure of the current file for quick navigation=弹出当前文件的结构，用于快速导航
+对当前文件进行快速导航弹出式结构
+
+Popup path of the current file for opening in external file manager=弹出当前文件路径以便外部文件管理器打开
+在外部文件管理器当前的文件打开的弹出路径
+
+Select the current class or method in any view=选择当前的类或方法在任意视图
+选择在任意视图当前类或方法
+
+Generate or fix doc comment for the current context=生成或修复当前上下文的文档注释
+产生或修复文档注释为当前上下文
+
+Quick Documentation=快捷文档
+快速文档
+
+Show a popup window with documentation for the symbol at caret=为插入符号处的符号弹窗显示一个文档
+显示一个弹出窗口，用于在插入符号的符号文件
+
+Quick Definition=快速定义
+快捷键定义
+
+Show a popup window with the symbol (and its implementations) content=显示一个弹出窗口显示符号(以及它的实现)的内容
+显示一个弹出窗口，用符号（及其实现）含量
+
+Show Siblings=显示同级
+显示同级的
+
+Show a popup window with the symbol siblings content=显示一个弹出窗口显示符号的同级内容
+显示一个弹出式窗口与符号的兄弟姐妹内容
+
+Show parameters of the method call at caret=显示插入符号处的方法的参数
+该方法在调用插入符号显示参数
+
+Expression Type=表达式类型
+表达式的类型
+
+Show type of the selected expression=显示选中表达式的类型
+显示选定的表达式的类型
+
+Show the current method or class declaration when it is not visible=显示当前方法或类声明，当它不可见时
+显示当前的方法或类声明时，它是不可见的
+
+Error Description=错误描述
+错误说明
+
+Show description of error or warning at caret=显示插入符号处的错误或警告说明
+错误或警告在插入符号的显示说明
+
+Choose Project, Sourcepath or Classpath tree in the Project View window=在项目视图窗口中选择项目，源路径或类路径树
+选择项目，源路径和类路径,项目树视图窗口
+
+Jump to Source=跳转到源码
+跳转到源
+
+Open editor for the selected item and give focus to it=打开选中项目的编辑器并放置焦点
+打开编辑所选项目并将其提供焦点
+
+Open source in new window=在新窗口中打开源码
+在新窗口中打开源
+
+Open editor for the selected item in new window and give focus to it=在新窗口打开选中项目的编辑器并放置焦点
+打开编辑器在新窗口中选择的项目，并给它提供焦点
+
+Show Source=显示源码
+显示源代码
+
+Open editor for the selected item=打开选中项目的编辑器
+打开编辑所选项目
+
+Open browser with documentation for the selected item=为选中项目文件打开浏览器
+与所选项目的文档打开的浏览器
+
+Show list of recently viewed files=显示最近查看的文件列表
+最近查看过的文件显示列表
+
+Show list of recently changed files=显示最近更改的文件列表
+最近更改的文件显示列表
+
+Method Hierarchy=方法层次结构
+方法的层次结构
+
+Browse method hierarchy for the selected method=浏览选中方法的层次结构
+浏览选定方法的层次结构
+
+Call Hierarchy=调用层次结构
+调用的层次结构
+
+Browse call hierarchy for the selected method=浏览选中方法的调用层次结构
+浏览调用的层次结构
+
+Expand folding region at caret=在插入符号处展开可折叠区域
+展开折叠区域的插入符号
+
+Expand Recursively=递归展开
+以递归方式展开
+
+Expand block at caret recursively=在插入符号处递归展开块
+在插入符号以递归方式展开
+
+Collapse folding region at caret=在插入符号处折叠可折叠区
+收起折叠区域的插入符号
+
+Collapse Recursively=递归折叠
+以递归方式折叠
+
+Collapse block at caret recursively=在插入符号处递归折叠块
+在插入符号以递归方式折叠
+
+Expand all folding regions (in selection)=全部展开可折叠区域（选中部分的）
+展开全部折叠区域（选区）
+
+Collapse all folding regions (in selection)=全部折叠可折叠区域（选中部分）
+关闭全部折叠区域（选区）
+
+Expand doc comments=展开doc注释
+展开文档注释
+
+Expand all documentation comments=展开所有的文档注释
+展开全部文档注释
+
+Collapse doc comments=折叠doc注释
+关闭文档注释
+
+Collapse all documentation comments=折叠所有的文档注释
+关闭全部文档注释
+
+Fold Selection / Remove region=折叠选中/删除区域
+折叠选区 / 删除区域
+
+Fold selected block=折叠选择块
+折叠选定的块
+
+Recent Changes=最近的更改
+最近的修改
+
+Search Everywhere=全局搜索
+搜索任何地方
+
+Searches for classes, files, tool windows, action and preferences=搜索类，文件，工具窗口，操作和首选项
+搜索类，文件，工具窗口，动作和喜好
+
+Quickly navigate to a class by name=通过名字快速导航到一个类
+快速导航到一个类的名字
+
+Quickly navigate to a file by name=通过名字快速导航到一个文件
+快速导航到一个文件名
+
+Symbol=符号
+标记
+
+Quickly navigate to any symbol by name=通过名字快速导航到某个符号
+快速导航到名称的任何符号
+
+Find Action=查找操作
+查找动作
+
+Quickly navigate to action by name=通过名字快速导航到操作
+快速导航到通过名称操作
+
+Navigate to a line (and/or column) in editor by its number=通过数字在编辑器中导航到某一行（和/或列）
+导航到编辑器中的行（或列）
+
+Navigate to the declaration of the symbol at caret=导航到插入符号处的符号的声明
+导航到该符号在插入符的声明
+
+Navigate to the implementation(s) of the selected class or method=导航到选中类或方法的实现
+导航到选定的类或方法的实现
+
+Navigate to the declaration of the symbol's type at caret=导航插入符号处到的符号类型的声明
+导航到该符号的类型在插入符的声明
+
+Super Class=超类
+超级类
+
+Navigate to the declaration of a class that the current class extends or implements=导航到当前类扩展或实现的类声明
+导航到当前类扩展或实现类的声明
+
+Navigate to the test of the selected class=导航到选中类的测试
+导航到选定类的测试
+
+Navigate to the subject of the selected test=导航到选中测试的主题
+导航到所选择的测试对象
+
+Aspect=Aspect
+外观
+
+Navigate to the declaration of the advice, error or warning declaration that affects a join point at caret=导航到在插入符号处影响连接点的建议，错误或警告声明的声明
+导航到光标位置影响的错误或警告的建议报告
+
+Next Highlighted Error=下一个高亮错误
+下一个高亮显示的错误
+
+Navigate to the next highlighted error in the active editor=在活动编辑器导航到下一个突出显示的错误
+导航到当前编辑器的下一个高亮错误
+
+Previous Highlighted Error=上一个高亮错误
+上一个高亮显示的错误
+
+Navigate to the previous highlighted error in the active editor=在活动编辑器导航到上一个突出显示的错误
+导航到当前编辑器的上一个高亮错误
+
+Related Symbol=相关文件
+相关符号
+
+Navigate to one of the related or linked symbols=导航到一个相关或链接的文件
+导航到相关或链接的符号之一
+
+Next Method=下一方法
+下一个方法
+
+Navigate to the next method in the active editor=在活动编辑器中导航到下一个方法
+导航到当前编辑器下一个方法
+
+Previous Method=上一方法
+上一个方法
+
+Navigate to the previous method in the active editor=在活动编辑器中导航到上一个方法
+导航到当前编辑器上一个方法
+
+Navigate to the next bookmark in the active editor=在活动编辑器中导航到下一个书签
+导航到当前编辑器的下一个书签
+
+Navigate to the previous bookmark in the active editor=在活动编辑器中导航到上一个书签
+切换到当前编辑器的上一个书签
+
+Undo last navigation operation=撤消上次导航操作
+撤消最后一个导航操作
+
+Forward=向前
+前进
+
+Redo last undone navigation operation=恢复上次撤消的导航操作
+重做上次撤消导航操作
+
+Move through the most recent change points=在最近的变化点中移动
+移到最近的修改点
+
+Navigate to the previous occurrence=导航到上一次出现
+导航到上一个事件
+
+Navigate to the next occurrence=导航到下一次出现
+导航到下一个事件
+
+Change under caret=修改插入符号处
+改变插入符号
+
+Show popup for currently selected change=当前选择的更改弹窗
+弹出显示当前选择的更改
+
+Next Change=下一个更改
+下一处修改
+
+Go to next change=转到下一个更改
+转到下一个修改位置
+
+Previous Change=上一个更改
+上一处修改
+
+Go to previous change=转到上一个更改
+跳到上一处修改位置
+
+Surround selected code fragment with if, while, try/catch or other construct=用if/while/try-catch或其他结构环绕选中代码片段
+使用 if, while, try/catch or other construct包裹住选定的代码片段
+
+Generate constructor, getter or setter method, etc=生成的构造函数,getter或setter方法等
+生成的构造函数，getter或setter方法等
+
+Unwrap/Remove=解除包裹/删除
+解除/删除
+
+Safely unwraps or removes the selected scope=对选中范围安全地解除包裹或删除
+安全地解除或删除选择的包裹
+
+Active Editor=活动编辑器
+当前编辑器
+
+Complete code=完成代码
+完整代码
+
+Cyclic Expand Word=循环扩展词
+循环展开字
+
+Cyclic Expand word=循环扩展词
+循环展开字
+
+Cyclic Expand Word (Backward)=循环扩展词(向后)
+循环展开字（向后）
+
+Cyclic Expand word (Backward)=循环扩展词(向后)
+循环展开字（向后）
+
+Complete code basing on expected type=完整的代码基于预期的类型
+基于预期类型完成代码
+
+Complete class name and add import for it=完成类名称并为其添加导入
+完成类名，并添加import
+
+Insert Live Template=插入代码模板
+插入模板
+
+Show popup list of live templates starting with the specified prefix=弹出以指定前缀开头的代码模板列表
+用弹出式列表显示以指定前缀开头的模板
+
+Expand Live Template by Tab=按Tab展开代码模板
+建立在线模板标签
+
+Expand Live Template / Emmet Abbreviation=展开代码模板/Emmet缩写
+展开线上模板 / Emmet缩写
+
+Surround with Live Template=用代码模板环绕
+用模板包围
+
+Surrounds the selection with one of the template=使用其中一个模板环绕选择
+使用选择的模板做外围代码
+
+Comment/uncomment current line or selected block with line comments=注释/取消注释当前行或选中块
+注释/取消当前行或选定块的行注释
+
+Comment with Block Comment=块注释
+使用块注释
+
+Comment/uncomment code with block comments=用块注释注释/取消代码
+注释/取消代码的块注释
+
+Reformat code=重格式化代码
+格式化代码
+
+Auto-Indent Lines=自动缩进排版
+行自动缩进
+
+Indent current line or selected block according to the code style settings=根据代码风格设置缩进当前行或者选中块
+根据代码样式设置缩进当前行或选定的块
+
+Remove unused imports and reorder/reorganize imports=删除未使用的导入并重新排序/重新组织导入
+删除未使用的imports和重新排序/组织imports
+
+Show Reformat File Dialog=显示重新格式化文件对话框
+显示格式化文件对话框
+
+Move selected statements one line down=把选中语句向下移动一行
+向下移动选定的语句一行
+
+Move selected statements one line up=把选中语句向上移动一行
+向上移动选定的语句一行
+
+Move Element Left=向左移动元素
+元素向前移动
+
+Move current element(s) to the previous position in containing list of elements=将当前元素（多个）移动到包含元素列表中的前一位置
+将当前元素移动到包含元素列表的上一个位置
+
+Move Element Right=向右移动元素
+元素向后移动
+
+Move current element(s) to the next position in containing list of elements=将当前元素（多个）移动到包含元素列表中的下一个位置
+将当前元素移动到包含元素列表的下一个位置
+
+Move Line Down=下移行
+行向下移动
+
+Move selected lines one line down=把选中行向下移动一行
+选中的行下移一行
+
+Move Line Up=上移行
+行向上移动
+
+Move selected lines one line up=把选中行向上移动一行
+选中的行上移一行
+
+Infer Nullity=推断Null
+推断无效
+
+Infer nullity=推断Null
+推断无效
+
+View Offline Inspection Results=查看离线检查结果
+查看离线检验结果
+
+Load offline inspection results=加载离线检查结果
+加载离线检测结果
+
+Analyze Dependencies=分析依赖
+分析依赖关系
+
+Browse code chosen analysis item depends on=浏览选中代码分析依赖的项目
+浏览选择代码分析项目依赖于
+
+Analyze Backward Dependencies=分析反向依赖
+反向分析依赖关系
+
+Browse code chosen analysis item used in=浏览选中代码分析用于的项目
+浏览中使用选定的代码分析项目
+
+Browse code chosen analysis item used in cycles=浏览选中代码分析循环依赖的项目
+浏览在循环使用选定的代码分析项目
+
+Analyze Module Dependencies=分析模块依赖
+分析模块依赖关系
+
+Show dependencies between modules in project=显示项目中的模块之间的依赖关系
+在项目模块之间的依赖关系显示
+
+Open console with the navigatable stacktrace=打开有导航堆栈跟踪的控制台
+打开控制台的堆栈跟踪导航
+
+IDE Scripting Console=IDE脚本控制台
+IDE 脚本控制台
+
+Open IDE scripting console=打开IDE脚本控制台
+打开 IDE 脚本控制台
+
+Scratch File=新建Scratch文件
+临时文件
+
+Creates new scratch file with chosen language=用选中语言创建新的scratch文件
+创建所选语言的新临时文件
+
+Rename the selected symbol and correct all references=重命名选中符号并更正所有引用
+重命名选定的符号并纠正所有引用
+
+Change signature of the selected method or class and correct all references=更改选中方法或类的签名，并更正所有引用
+改变选择的方法或类的签名，并更正所有引用
+
+Move parameter left=参数左移
+左移参数
+
+Move parameter right=参数右移
+右移参数
+
+Change type of the return type of the method, field, parameter, variable or class type arguments and correct all references=更改方法，字段，参数，变量或类类型参数的返回类型的类型，并更正所有引用
+方法的返回类型、字段、参数、变量或类类型参数变化时纠正所有引用
+
+Make Static=创建静态
+标记静态化
+
+Convert method or inner class to static and correct all references=转换方法或内部类为静态并修正所有引用
+转换方法或内部类的静态和纠正所有引用
+
+Convert static method to instance method and correct all references=转换静态方法为实例方法并修正所有引用
+转换静态方法来实例方法并纠正所有引用
+
+Move the selected class, method, package or static member to another package or class and correct all references=将选中类，方法，包或静态成员移动到另一个包或类，并更正所有引用
+移动选定的类，方法，包装或静态成员到另一个包或类，并更正所有引用
+
+Create a copy of the selected class, file(s) or directory(es)=创建选中类、文件或目录的副本
+创建所选类别中，文件的副本（S）或目录（ES）
+
+Delete the selected class, method or field, checking for usages=删除选中类、方法或字段，并检查使用
+删除选定的类，方法或字段，检查用法
+
+Turn the selected code fragment into a method=把选中代码片段转换为一个方法
+打开所选的代码片段插入的方法
+
+Remove Middleman=移除中间者
+删除Middleman
+
+Inline delegate to the selected field methods=内联委托给选中字段的方法
+内联代表对所选字段的方法
+
+Find and Replace Code Duplicates=查找和替换代码副本
+查找和替换重复代码
+
+Finds code in selected scope that can be transformed into a call of selected method/constant=查找选中范围内的代码，可以转换为选中方法的调用/常量
+在选定的范围内，可以转化成选定的方法/恒压呼叫认定代码
+
+Invert Boolean=反转布尔值
+反转Boolean
+
+Makes the method return or variable contain the opposite value and corrects the references=使方法返回或变量包含相反的值并更正引用
+使得该方法返回或变量包含的相反值和修正的参考
+
+Replaces method parameters list with object=用对象替换方法参数列表
+替代方法的参数列表与对象
+
+Extract Delegate=提取委托
+委托提取
+
+Put a result of the selected expression into a variable=将选中表达式的结果放入变量中
+把所选的表达式的结果到一个变量
+
+Put a result of the selected expression into a field=将选中表达式的结果放入字段中
+把所选的表达式的结果为一个字段
+
+Replace selected expression with a constant (static final field)=用常量（static final字段）替换选中表达式
+更换一个常数（静态final字段）选定的表达
+
+Turn the selected expression into method parameter=将选中表达式转换为方法参数
+打开所选的表达式为方法参数
+
+Extract interface from the selected class=从选中类提取接口
+从选定的类别中提取接口
+
+Extract module from the selected class=从选中类中提取模块
+从所选择的类中提取模块
+
+Extract superclass from the selected class=从选中类提取超类
+从选定的类别中提取超
+
+Change usages of a class to those of its superclass or interface=将类的用法改为超类或接口的用法
+改变一个类的用法对那些其超类或接口的
+
+Pull Members Up=向父类移动成员
+拉(Pull)类成员
+
+Pull class members to superclass or implemented interface=将类成员拉到超类或实现接口
+拉(Pull)类成员到超类或实现接口
+
+Push Members Down=向子类移动成员
+推(Push)类成员
+
+Push class members down to directly inheriting subclasses=将类成员推送到直接继承子类
+推(Push)类成员直接继承子类
+
+Replace Inheritance with Delegation=用委托代替继承
+更换Inheritance与代表团
+
+Replace inheritance with delegation=用委托代替继承
+与代表团替换继承
+
+Rename selected file=重命名选中文件
+重命名选择的文件
+
+Inline the selected method or variable=内联选中方法或变量
+内联选定的方法或变量
+
+Convert Anonymous to Inner=将匿名转换成内部
+匿名转换为内部
+
+Convert anonymous class into an inner class=将匿名类转换为内部类
+匿名类转换成一个内部类
+
+Encapsulate Fields=封装字段
+封装域
+
+Replace direct access to fields in the selected class with use of accessor methods=使用访问器方法替换选中类中的字段的直接访问
+在选定的类直接访问字段替换使用访问方法
+
+Replace Temp with Query=用查询代替Temp
+临时替换查询
+
+Turn the selected variable into a method=将选中变量转换为方法
+打开选定的变量转换成一个方法
+
+Replace Constructor with Factory Method=用工厂方法替换构造函数
+用工厂方法代替构造函数
+
+Create a static factory method and use it instead of a constructor=创建一个静态工厂方法并用它代替一个构造函数
+创建一个静态工厂方法，并使用构造函数来代替它
+
+Turn the method into its own object so that all the parameters become fields on that object=将该方法转换为自己的对象，以便所有参数都成为该对象上的字段
+把方法变成自己的对象，以使所有的参数成为该对象上的字段
+
+Convert your code to use generic types=将代码转换为使用通用类型
+将您的代码中使用泛型类型
+
+Open migration dialog=打开迁移对话框
+打开对话框迁移
+
+Migrate one type to another=迁移到另一个类型
+迁移一种类型到另
+
+Include File=包含文件
+包括文件
+
+Turn the selected code fragment into included file=将选中代码片段转换为包含的文件
+打开所选的代码片段插入包含的文件
+
+Compile all modified and dependent files in the project=编译项目中的所有修改和依赖文件
+编译项目中的所有修改和相关文件
+
+Build Module=构建模块
+构建方法
+
+Compile all modified and dependent files in the module=编译模块中的所有修改和依赖文件
+编译该模块中的所有修改和相关文件
+
+Rebuild=重建
+重新构建
+
+Force recompilation for selected module, file or package=强制重新编译选中模块，文件或软件包
+强制重新编译选定的模块，文件或程序包
+
+Process Annotations=处理注释
+过程的注释
+
+Process {0} Annotations=处理 {0} 注释
+过程{0} 注释
+
+Run Annotation Processors on the selected scope=在选中范围内运行注释处理器
+在选定的范围内运行的标注处理程序
+
+Generate Ant Build=生成 Ant Build
+生成Ant构建
+
+Generate Ant Build File from the Project=从项目中生成Ant构建文件
+从项目生成Ant构建文件
+
+Build All Artifacts=构建所有Artifacts
+手工构建所有的
+
+If enabled build process will wait for debug connections when started=如果启用构建过程将在启动时等待调试连接
+如果启用了构建过程开始时将等待调试连接
+
+Build Artifact=构建Artifacts
+手工构建
+
+Reload Changed Classes=重新加载已更改的类
+重新加载改动的类
+
+Reload all changed classes into application being debugged (HotSwap)=将所有更改的类重新加载到被调试的应用程序（HotSwap）
+所有改变类重新加载到应用程序正在调试（热插拔）
+
+Step Over=步过
+单步执行(跳过过程)
+
+Step to the next line in this file=步至这个文件的下一行
+步骤到下一行中该文件
+
+Step Into=步入
+单步执行
+
+Step to the next line executed=步入到已执行的下一行
+步骤要执行的下一行
+
+Smart Step Into=智能步入
+智能单步进入
+
+Step into the particular method=步入特定的方法
+单步执行特定方法
+
+Step Out=步出
+单步跳出
+
+Step to the first line executed after returning from this method=步至从这个方法返回后执行的第一行
+步骤从该方法返回后执行的第一行
+
+Force Step Over=强制步过
+强制跳跃执行
+
+Step over, disable all breakpoints before stepping=跨过，禁用所有断点
+跳跃执行，禁用所有断点之前内容。
+
+Force Step Into=强制步入
+强制单步执行
+
+Step into, ignore stepping filters for libraries, constructors, etc=进入，忽略库，构造器等的步进过滤器
+单步执行，忽略步进过滤器库，构造函数等。
+
+Run to Cursor=运行至光标位置
+运行到光标处
+
+Run to the line where the caret is=强制运行到插入符号所在行
+运行到该行的插入符位置
+
+Run to the line where the caret is, ignoring any breakpoints=运行到插入符号的行，忽略任何断点
+运行到该行插入符的地方，忽略任何断点
+
+Drop Frame=丢帧
+降帧
+
+Moves execution point back to the method call dropping current method frames from the stack=将执行点移回方法调用，从堆栈中丢弃当前方法的帧
+移动执行点返回到方法调用从堆栈丢弃当前帧的方法
+
+Force a method to return before it reaches a return statement=强制一个方法在到达返回语句之前返回
+强制一个方法返回一个 return 语句之前
+
+Suspend program execution and enable debugging=暂停程序执行并启用调试
+暂停程序执行，并启用调试
+
+Resume program execution=恢复程序执行
+恢复执行程序
+
+Quick Evaluate Expression=快速计算表达式
+快速评估表达式
+
+Evaluate selected expression=计算选中表达式
+评估选择的表达
+
+Show the current program execution point=显示当前程序执行点
+显示当前程序的执行点
+
+Toggle line breakpoint at caret=在插入符号入切换线断点
+切换行断点状态
+
+Toggle Method Breakpoint=切换方法断点
+切换方法的断点
+
+Toggle method breakpoint for the method at caret=为插入符号处的方法切换方法断点
+切换光标位置方法的断点
+
+Toggle Field Watchpoint=切换字段断点
+切换观察点
+
+Toggle field watchpoint for the field at caret=为插入符号处的字段切换观察点
+在光标位置切换为观察点
+
+Toggle Breakpoint Enabled=切换断点可用性
+切换断点启用
+
+Enable/disable breakpoint at the current line=启用/禁用当前行的断点
+在当前行启用/禁用断点
+
+Toggle Temporary Line Breakpoint=临时切换行断点
+切换临时行断点
+
+Toggle temporary line breakpoint at caret=在插入符号入临时切换线断点
+在光标位置切换临时行断点
+
+Export Threads=导出线程
+导出线程信息
+
+Save all threads information to a text file or clipboard=将所有线程信息保存到文本文件或剪贴板
+保存所有线程的信息到一个文本文件或剪贴板
+
+Restore visual elements of debugger session to default state=将调试器会话的可视元素恢复为默认状态
+恢复调试器会话的视觉元素到默认状态
+
+Toggles horizontal/vertical toolbar orientation=切换水平/垂直工具栏方向
+切换水平/垂直方向的工具栏
+
+Close all views=关闭所有视图
+关闭所有意见
+
+Close All but Pinned=关闭所有未固定的
+关闭所有非寄存状态的
+
+Close all tabs which are not pinned=关闭所有未固定的视图
+关闭这是不固定的所有选项卡
+
+Move To Grid=移动到网格
+移动网格
+
+Move view to the debugger grid container=将视图移动到调试器网格容器
+移动视图到调试器网格容器
+
+Move To Tab=移动到选项卡
+移动到标签
+
+Move view to the debugger tab container=将视图移动到调试器选项卡容器
+移动以调试器选项卡容器
+
+Detach selected views to a separate window=分离当前视图至一个单独的窗口
+分离所选视图到一个单独的窗口
+
+Attach=停靠
+附加
+
+Attach {0} Views=停靠{0}视图
+附加{0}视图
+
+Attach selected views to the debugger tool window=将选中视图附加到调试器工具窗口
+将选择视图附加到调试器工具窗口
+
+Restore ''{0}'' View=恢复''{0}''视图
+恢复 ''{0}'' 视图
+
+Restore view in the debugger grid=在调试器中恢复视图网格
+恢复调试器网格中的视图
+
+Focus On Startup=在启动时获取焦点
+专注启动
+
+Focus this view by default when UI is shown=当UI显示时默认切换到该视图
+默认情况下，这个焦点视图时的UI显示
+
+Focus On Breakpoint=切换到断点
+专注于断点
+
+Focus this view by default when breakpoint is reached=当到达断点时默认切换到该视图
+默认情况下，专注这一观点，当达到断点
+
+Save as Live Template=保存为代码模板
+保存为现有模板
+
+Save the selected text as live template=将选中文本保存为代码模板
+保存选定的文本为现有模板
+
+Save current file as template=将当前文件保存为模板
+保存当前的文件作为模板
+
+Run the JavaDoc tool=运行JavaDoc工具
+运行Javadoc工具
+
+View, Change, Record, Play Macros=查看, 编辑, 录制, 播放宏
+查看，更改，录制，播放宏
+
+Standard Macro Actions=标准宏操作
+标准的宏操作
+
+Play Back Last Macro=回放上一个宏
+回放最后的宏
+
+Play Back last used macro=播放上次使用的宏
+回放最后一次使用的宏
+
+Start/Stop Macro Recording=启动/停止录制宏
+启动/停止宏录制
+
+Start/Stop recording of a new macro=启动/停止录制一个新的宏
+启动/停止录制新的宏
+
+View PSI Structure=查看PSI结构
+查看 PSI结构
+
+Dump what is cached in PSI=转储PSI缓存
+转储什么是缓存在PSI
+
+Decode Bytes=解码字节
+字节解码
+
+Repository History=库历史记录
+版本库历史
+
+Show Activities=展示活动
+显示活动的
+
+Click to show/hide background tasks window=单击以显示/隐藏后台任务窗口
+点击显示/隐藏后台任务窗口
+
+Show background tasks window on starting of any progress=启动任何进程时显示后台任务窗口
+显示后台任务窗口上的任何进展起点
+
+Store Current Layout as Default=将当前布局存储为默认布局
+存储当前的布局为默认
+
+Store current layout as default=存储当前布局为默认布局
+存储当前的布局为默认
+
+Zoom=放大
+缩放
+
+Zoom current window=放大当前窗口
+缩放当前窗口
+
+Restore default layout=还原默认的布局
+恢复默认布局
+
+Hide Active Tool Window=隐藏活动工具窗口
+隐藏活动的工具窗口
+
+Hide Side Tool Windows=隐藏本侧工具窗口
+隐藏侧边工具窗口
+
+Hide all windows on this side=隐藏本侧所有窗口
+隐藏所有的侧边工具窗口
+
+Hide All Tool Windows=隐藏所有工具窗口
+隐藏所有的工具窗口
+
+Hide all tool windows=隐藏所有工具窗口
+隐藏所有的工具窗口
+
+Pin Active Tool Window Tab=固定活动工具窗口选项卡
+锁定当前工具窗口选项卡
+
+Pin active tool window tab=固定活动工具窗口选项卡
+锁定当前工具窗口选项卡
+
+Jump to Last Tool Window=跳转到上一次工具窗口
+跳到最后工具窗口
+
+Activate last focused tool window=激活最近选中的工具窗口
+激活最后焦点的工具窗口
+
+Active Tool Window=活动工具窗口
+激活工具窗口
+
+Pinned Mode=固定模式
+锁定模式
+
+Pin/unpin active tool window=固定/释放活动工具窗口
+锁定/解锁激活工具窗口
+
+Dock/undock active tool window=停靠/分离活动工具窗口
+停靠/不停靠活动的工具窗口
+
+Float/unfloat active tool window=浮动/固定活动工具窗口
+浮动/不浮动活动的工具窗口
+
+Tool windows split mode on/off=工具窗口拆分模式开/关
+工具窗口开/关拆分模式
+
+Toggle between tabbed/combo presentation of contents=切换内容以选项卡/组合框显示
+内容标签式/组合呈现之间切换
+
+Remove from Sidebar=从侧栏中删除
+侧边栏移除
+
+Show List of Tabs=显示选项卡列表
+标签的显示列表
+
+Show a popup with the list of toolwindow tabs=显示一个包含工具窗口选项卡列表的弹出窗口
+显示弹出与工具视窗选项卡列表
+
+Stretch to Left=延伸至左
+伸展到左边
+
+Resize active tool window to the left=向左延伸活动工具窗口
+重置工具窗口到左边
+
+Stretch to Right=延伸至右
+延伸到右边
+
+Resize active tool window to the right=向右延伸活动工具窗口
+重置工具窗口到右边
+
+Stretch to Top=延伸至顶
+延伸到顶部
+
+Resize active tool window to the top=向顶延伸活动工具窗口
+重置工具窗口到顶端
+
+Stretch to Bottom=延伸至底
+伸展至底部
+
+Resize active tool window to the bottom=向底延伸活动工具窗口
+重置工具窗口到底部
+
+Maximize Tool Window=最大化工具窗口
+工具窗口最大化
+
+Increment Width=增加宽度
+增量宽度
+
+Decrement Width=减少宽度
+宽度递减
+
+Increment Height=增加高度
+递增高度
+
+Decrement Height=减少高度
+高度递减
+
+Select Next Tab=选择下一个选项卡
+选择下一个标签
+
+Activate next tab=激活下一个选项卡
+激活下一个标签
+
+Select Previous Tab=选择上一个选项卡
+选择上一个标签
+
+Activate previous tab=激活上一个选项卡
+激活上一个标签
+
+Select Next Tab in multi-editor file=在多编辑器文件中选择下一个选项卡
+在多文件编辑器选择下一个标签
+
+Select Previous Tab in multi-editor file=在多编辑器文件中选择上一个选项卡
+在多文件编辑器选择上一个标签
+
+Close Active Tab=关闭活动选项卡
+关闭活动标签
+
+Close active tool window tab=关闭活动工具窗口选项卡
+关闭活动工具窗口标签
+
+Pin Active Tab=固定活动选项卡
+固定活动标签
+
+Pin active editor or tool window tab=固定活动工具窗口或编辑器选项卡
+固定当前工具窗口或编辑器选项卡
+
+Pin active editor tab=固定活动编辑器选项卡
+固定当前编辑器标签
+
+Close Active Editor=关闭活动编辑窗口
+关闭当前编辑器
+
+Close active editor=关闭当前编辑窗口
+关闭当前编辑器
+
+Close all editors in active tab group=在活动选项卡组中关闭所有编辑窗口
+在关闭当前标签组中的所有编辑器
+
+Close all open editors except the active one=除活动编辑窗口外关闭其他窗口
+关闭其他所有打开的编辑器
+
+Close all non-modified editors=关闭所有未修改的编辑窗口
+关闭所有未改动的编辑器
+
+Close all editors which are not pinned=关闭所有未固定的编辑窗口
+关闭这些不固定所有编辑器
+
+Close currently focused content=关闭当前焦点的内容
+关闭当前焦点内容
+
+Split editor area into 2 tab groups and move the current tab to the right group=分割编辑器区域为2选项卡组，并移动当前选项卡到右边组
+拆分编辑器区域分为2组选项卡，然后移动当前标签到右边的组
+
+Split editor area into 2 tab groups and move the current tab to the bottom group=分割编辑器区域为2选项卡组，并移动当前选项卡到底部组
+拆分编辑器区域分为2组选项卡，然后移动当前标签页底部的组
+
+Split editor area into 2 tab groups and move the current tab to the right group and close the left editor=分割编辑器区域为2个选项卡组，并移动当前选项卡到右边组，并关闭左边组
+编辑器区域 的 2 个选项卡组，将当前选项卡移动到右边
+
+Split editor area into 2 tab groups and move the current tab to the bottom group and close the top editor=分割编辑器区域为2个选项卡组，并移动当前选项卡到底部组，并关闭上边组
+编辑器区域 的 2 个选项卡组，将当前选项卡移动到下边
+
+Change Splitter Orientation=改变分割方向
+更改拆分方向
+
+Changes orientation of splitter=改变分割方向
+更改拆分格局的方向
+
+Unsplit=取消分割
+不可分割的
+
+Unsplit Window=不分割窗口
+不可分割的窗口
+
+Unsplit All=取消所有分割
+不可分割的所有
+
+Remove all splitters=移除所有分割
+移出所有分割区
+
+Goto Next Splitter=转到下一个分割
+转到下一个分割区
+
+Goto Previous Splitter=转到上一个分割
+转到上一个分割区
+
+Open Project Windows=打开项目窗口
+打开项目视窗
+
+Getting Started=入门
+入门指南
+
+Show online documentation=显示在线文档
+查看在线文档
+
+What's New=更新说明
+新特性
+
+Find out about the new features in this version of the IDE=了解此版本IDE中的新功能
+了解这个版本的IDE有关的新功能
+
+Open PDF file with the default keymap reference card=打开带有默认快捷键参考卡的PDF文件
+打开默认快捷键参考卡的PDF文件
+
+Demos and Screencasts=演示和截屏
+观看演示和视频
+
+View short live demos introducing features of JetBrains products=查看关于JetBrains产品特点的简短现场演示
+查看JetBrains公司的产品特点现场演示介绍。
+
+Show information about the IDE=显示有关IDE的信息
+显示有关IDE信息
+
+Other=其他
+其它
+
+Actions that are not properly registered=操作未正确注册
+这是不正确的注册行为
+
+Set Value=设置值
+设定值
+
+Modify value of selected node=修改选中节点的值
+修改所选节点的值
+
+Copy value of selected node to clipboard=将选中节点的值复制到剪贴板
+所选节点到剪贴板的复制值
+
+Compare Value with Clipboard=与剪贴板比较值
+比较值与剪贴板
+
+Copy Name=复制名称
+副本名称
+
+Copy name of selected node to clipboard=将选中节点的名称复制到剪贴板
+所选节点到剪贴板的副本名称
+
+Jump To Source=跳转到源码
+跳转到源
+
+Open source of the selected item=打开选中项的源码
+所选项目的开放源码
+
+Jump To Type Source=跳到类型源码
+跳转到输入源
+
+Open source of the selected value's type=打开选中值类型的源码
+选定值的类型的开源
+
+Evaluate In Console=在控制台计算
+在控制台中评价
+
+New Watch=新建观察点
+新建监视
+
+Value auto tooltip=自动提示值
+值自动提示
+
+Toggles if value tooltip is shown automatically on mouse over=切换当鼠标悬停时，是否自动显示值提示
+如果切换值时在鼠标悬停位置自动显示工具提示
+
+Show available debugger session values inside editor=在编辑器中显示可用的调试器会话值
+编辑器中显示可用的调试器会话值
+
+Show value on selection change=显示选择的变化值
+显示所选项的修改
+
+Toggles if value tooltip is shown automatically on selection change in editor=切换在编辑器中的选择更改时，是否自动显示值提示
+切换在编辑器中，更改选择时自动显示的值工具提示
+
+Sort values alphabetically in debugger views=在调试器视图中按字母顺序排序值
+排序调试器中按字母顺序排列的意见值
+
+View Text=查看文本
+查看全文
+
+View text value of selected node in a separate pane=在单独的窗格中查看选中节点的文本值
+在一个单独的面板查看所选节点的文本值
+
+Customize Data Views=定制数据视图
+自定义数据视图
+
+Customize Threads View=定制线程视图
+自定义主题查看
+
+Edit Watch=编辑观察点
+编辑监视点
+
+Jump to Object Source=跳转到源对象
+跳转到对象来源
+
+View as=作为...查看
+查看
+
+Resume=继续
+恢复
+
+Mute/unmute all breakpoints in a debug session=在调试会话中启用/禁用所有断点。
+开启/取消在调试会话中的所有沉默断点。
+
+Mark/unmark the object so that it can be visually distinguished in in debugger views=标记/取消标记对象，使其可以在调试器视图中进行视觉区分
+标记/取消标记的对象，以便它可以在视觉上区别在调试程序的意见
+
+Evaluate in Console=在控制台计算
+在控制台中评价
+
+Unmute Breakpoints on Session Finish=在会话完成时取消断点
+取消断点会话结束
+
+Editor Popup Menu=编辑窗口弹出菜单
+编辑弹出菜单
+
+Add to migration roots=添加到迁移根
+添加到分支根
+
+Add selected element to migration roots=添加选中元素到迁移根
+将选定的元素添加到分支根
+
+Go To Editor Popup Menu Group=转到编辑窗弹出菜单组
+转到编辑器弹出菜单组
+
+Compare current selection with clipboard=将剪贴板中与当前选中内容进行比较
+比较目前的选择与剪贴板
+
+Color Scheme=切换配色方案
+配色方案
+
+Change current color scheme=更改当前的配色方案
+改变当前的配色方案
+
+Code Style Scheme=切换代码风格计划
+代码风格方案
+
+Change current code style scheme=改变目前的代码风格方案
+改变当前的代码样式方案
+
+Change current keymap=更改当前快捷键映射
+改变当前键盘快捷键
+
+Change view mode=改变视图模式
+变更视图模式
+
+Switch Customization Scheme=切换定制方案
+切换自定义计划
+
+Change Current Customization Scheme=改变当前的定制方案
+改变当前定制计划
+
+Move To Opposite Group=移动到相对的组
+移动到相反的组
+
+Move editor to opposite tab group=编辑选项卡组移动到对面
+移动编辑器相反的选项卡组
+
+Open In Opposite Group=在相对的组打开
+在对面组中打开
+
+Open a copy of this editor in the opposite tab group=在相对的选项卡组中打开此编辑器的副本
+对面的选项卡组中打开这个编辑器的一个副本
+
+Open settings dialog for selected module=为选中模块打开设置对话框
+打开设置选中的模块对话框
+
+Associate with File Type=关联文件类型
+与文件类型相关联
+
+Associate selected file with one of file types=将选中文件与文件类型之一相关联
+与文件类型之一间联营公司选定的文件
+
+Synchronize selected file=同步选中文件
+选定的文件同步
+
+Base On This Type=基于该类型
+在此基础上类型
+
+Subtypes Hierarchy=子类层次结构
+子类型层次结构
+
+Supertypes Hierarchy=父类层次结构
+超类型层次结构
+
+Implement Method (from Method Hierarchy)=实现方法（从方法层次结构）
+实施方法（从方法体系）
+
+Override Method=重写方法
+覆盖方法
+
+Override Method (from Method Hierarchy)=覆盖方法（从方法层次结构）
+覆盖方法（从方法体系）
+
+Show hierarchy for method of selected class/interface=显示选中类/接口的方法的层次结构
+层次结构显示所选类/接口的方法
+
+Base On This Method=基于此方法
+在此基础上的方法
+
+Show call hierarchy for selected method=显示选中方法的调用层次结构
+对于选定的方法显示调用层次
+
+Rollback changes in selected lines=回滚更改选中行
+在选定的行回滚更改
+
+Edit Source=编辑源码
+编辑源代码
+
+Edit source=编辑源码
+编辑源代码
+
+Exclude from Commit=从提交中排除
+从 Commit 排除
+
+Exclude from commit=从提交中排除
+从 Commit 排除
+
+Include into Commit=包含到提交里
+包含到 Commit
+
+Include into commit=包含到提交里
+包含到 Commit
+
+Rerun search=重新运行搜索
+重新搜索
+
+Include this usage(s) into processing=将这些用法包含进来
+包括这种用法为处理
+
+Exclude this usage(s) from processing=将这些用法排除出去
+从处理中排除该用法
+
+Remove this usage(s) from processing=将这些用法移除进来
+从进程中移除此用法
+
+Choose and re-run recent find usages=选择和重新运行最近的查找使用
+选择与重新执行最近的查找实例
+
+Integrate selected files or directories=整合选中文件或目录
+整合选定的文件或目录
+
+Refresh VCS status for all files in project=刷新所有项目文件的VCS状态
+刷新在项目中所有文件的VCS状态
+
+Circular Layout=环形布局
+圆形布局
+
+Directed Orthogonal Layout=定向正交布局
+导演正交布局
+
+Hierarchic Group Layout=分层的组织布局
+分层组布局
+
+Apply current layout=应用当前的布局
+适用于当前布局
+
+Fit Content After Layout=布局后适合内容
+适应内容的布局
+
+Actual size=实际尺寸
+实际大小
+
+Show Edge Labels=显示边标签
+显示边缘标签
+
+Show selected nodes with dependencies=显示选中节点的依赖
+显示选中的节点具有相关性
+
+Submit feedback to the JetBrains Web site=提交反馈到JetBrains Web站点
+提交反馈到JetBrains公司网站
+
+Show Log in File Manager=在文件管理器中打开日志文件
+打开日志文件
+
+Opens folder with log file=打开带日志文件的文件夹
+打开文件夹中的日志文件
+
+Opens an editor tab with a custom properties file=打开带有自定义属性文件的编辑器选项卡
+编辑器中打开一个定制的属性文件
+
+Debug Log Settings=调试日志设置
+配置调试日志设置
+
+Support Center=支持中心
+联系支持团队
+
+Access technical support on JetBrains Web site=访问JetBrains网站的技术支持
+在JetBrains公司网站的访问技术支持
+
+Clear text=清除文本
+清晰的文本
+
+Clear text in text components=在文本组件中清除文本
+在文本组件清除文本
+
+Refresh VCS changes=刷新VCS更改
+刷新VCS修改
+
+Create new changelist=创建新的更改列表
+创建新的修改
+
+Revert selected changes=还原选中更改
+还原选区的修改
+
+Set changelist to which new changes are placed by default=设置默认情况下新的更改放置的更改列
+设置变更列表为默认放置哪些新修改
+
+Move selected changes to another changelist=将选中更改移动到另一个更改列表
+移动选定的改变到另一个修改列表
+
+Schedule selected files to be added to VCS=将文件添加到VCS
+附表选定的文件添加到VCS
+
+Remove from VCS=从VCS移除
+从VCS中删除
+
+Schedule selected files to be removed from VCS=将选中文件从VCS移除
+附表选定的文件从VCS中删除
+
+Edit name and description of selected changelist=编辑选中更改列表的名称和描述
+修改姓名和所选变更表说明
+
+Apply a patch to the sources of the project=应用补丁到项目的源代码
+应用修补程序的项目的源代码
+
+Save changes to an external patch file and remove them from the code=将更改保存到外部补丁文件，并将其从代码中删除
+将更改保存到一个外部的补丁文件，并从代码中删除
+
+Apply saved changes to current codebase=将保存的更改应用于当前代码库
+应用保存更改当前的代码库
+
+Rename shelved changelist=重命名搁置更改列表
+重命名搁置变更列表
+
+View history of committed changes=查看提交更改的历史记录
+中提交的更改查看历史记录
+
+Check Out=检出
+签出
+
+Check out selected files for editing=检出选中文件进行编辑
+退房选定的文件进行编辑
+
+Do not show selected files as unversioned=不将选中文件显示为未加入版本控制
+如无版本不显示选定的文件
+
+Refresh the list of committed changes=刷新提交的更改列表
+刷新已提交的更改列表
+
+Change filtering criteria=更改筛选条件
+改变过滤条件
+
+Show Details=显示详细
+显示详细信息
+
+View complete information about the selected changelist=查看选中更改列表的完整信息
+查看所选变更表的完整信息
+
+Refresh the list of incoming changes=刷新改变的列表
+刷新传入更改列表
+
+Get Changelist=获得更改列表
+获取变更列表
+
+Get latest version of files modified in selected changelist=获取在选中更改列表中文件的最新版本的修改
+如何修改选定的文件修改列表的最新版本
+
+Configure default encoding for files, files in directories or in the whole project=配置文件、 目录或整个项目中的文件的默认编码
+在目录或整个项目配置默认编码的文件，文件
+
+Show all changes made in the chosen revision=显示选中修订中所做的所有更改
+显示在所选择的版本所做的所有更改
+
+Add Framework Support=添加框架的支持
+添加框架支持
+
+Select opposite pane in diff view=在差异视图中选择相对的窗格
+选择相反面板的差异视图
+
+Select Position In Opposite Diff Pane=选择相对差异窗格中的位置
+选择位置相反的差异面板
+
+Select the same position in opposite pane in diff view=在差异视图中的相对窗格中选择相同的位置
+选择差异鉴于相反面板中同一位置
+
+Choose File To Compare=选择文件来比较
+选择文件要比较
+
+Accept Left Side=接受左侧
+确认左侧
+
+Accept Right Side=接受右侧
+确认右侧
+
+Go to Desktop directory=去桌面目录目录
+去桌面目录
+
+Get started developing plugins for {0}=开始开发{0}的插件。
+开始开发插件{0}。
+
+Check out from Version Control=从版本控制检出
+从版本库检出
+
+Start the \"New Project\" Wizard that will guide you through the steps necessary for creating a new project=启动“新项目”向导，它将引导你创建一个新的项目或者导入一个已存在的项目。
+启动“新建项目”向导将引导您通过必要的步骤来创建一个新的项目。
+
+Create {0} project structure for directory with existing sources or convert existing project model=创建{0}项目目录结构（现有的来源或转换现有的项目模型）
+创建目录{0}的项目结构与现有的源或转换现有的项目模型。
+
+Manage installed plugins and download new ones from repository=管理已安装的插件，以及从存储库下载新的插件
+管理已安装的插件，并从库中下载新的
+
+Create a desktop entry for integration with system application menu=创建与系统应用程序菜单集成的桌面快捷方式
+与系统应用程序菜单中集成创建一个桌面项
+
+Apply the reverse of the selected changes to the working copy=将选中更改的反向应用于工作副本
+反向选择修改的工作副本
+
+Open Directory=打开目录
+开放目录
+
+Start editing code in the specified directory=开始编辑指定目录中的代码
+开始编辑代码在指定的目录
+
+Start editing code in the specified file or directory=开始在指定的文件或目录中编辑代码
+开始编辑指定文件或目录的代码。
+
+Analyze Data Flow to Here=分析流入这里的数据
+分析数据流到这里
+
+Search for values which can be assigned to selected expression=搜索可以分配给选中表达式的值
+搜索可分配给选定的表达式的值
+
+Analyze Data Flow from Here=分析流出这里的数据
+从这里分析数据流
+
+Search for values escaped from this location=搜索从此位置逃离的值
+搜索时避开该路径
+
+Editor Select Actions=编辑选择的操作
+编辑选择操作
+
+Editor Create/Delete Actions=编辑创建/删除操作
+编辑器创建/删除操作
+
+Select Word Actions=选择单词操作
+选择Word操作
+
+Hierarchy Actions=层级结构操作
+层次操作
+
+Goto by Name Actions=通过名称跳转的操作
+跳转到名称操作
+
+Goto Error/Bookmark Actions=转到错误/书签的操作
+跳转到错误/书签操作
+
+Goto by Reference Actions=通过引用跳转的操作
+跳转到参考操作
+
+Change Navigation Actions=改变导航操作
+更改导航操作
+
+Code Coverage Actions=代码覆盖率的操作
+代码覆盖率操作
+
+XML Generate Actions=XML生成操作
+XML的生成操作
+
+VCS/LVCS Actions=VCS/LVCS 操作
+VCS / LVCS操作
+
+Actions on Pairs of Files=两个文件的操作
+成对文件操作
+
+Refactoring Actions (1)=重构操作(1)
+重构操作
+
+Refactoring Actions (2)=重构操作(2)
+重构操作
+
+Refactoring Actions (3)=重构操作(3)
+重构操作
+
+Toolbar Make Actions=工具栏创建操作
+工具栏进行操作
+
+Editor Popup Menu Actions (1)=编辑器弹出菜单操作(1)
+编辑器弹出菜单操作
+
+Editor Popup Menu Actions (2)=编辑器弹出菜单操作(2)
+编辑器弹出菜单操作
+
+Editor Close Actions=编辑器关闭操作
+编辑关闭操作
+
+Editor Tab Popup Menu Actions (1)=编辑选项卡弹出菜单操作(1)
+编辑器标签弹出式菜单操作
+
+Project View Popup Menu Modify Group=项目视图弹出菜单修改组
+项目视图弹出修改组菜单
+
+Project View Popup Menu Run Group=项目视图弹出菜单运行组
+项目视图弹出运行组菜单
+
+Project View Popup Menu Settings Group=项目视图弹出菜单设置组
+项目视图弹出设置组菜单
+
+View Recent Actions Group=查看最近的操作组
+查看最近激活的组
+
+New Group (1)=新组(1)
+新建组
+
+New Group (2)=新组(2)
+新建组
+
+Wrap return value of the specified method with object=包装指定方法的返回值为对象
+包装指定的方法与对象的返回值
+
+Replace Constructor with Builder=用Builder代替构造函数
+用生成器替换构造函数
+
+Replace current class constructors calls with chained calls to the builder=用builder的链式调用替换当前类的构造函数调用
+用的构建工具的链接调用替换当前类的构造函数调用
+
+Show/Hide Applied Shelved Changes=显示/隐藏已应用的搁置更改
+显示/隐藏应用搁置的更改
+
+Delete Applied Shelved Changes=删除已应用的搁置的更改
+删除应用搁置的更改
+
+Toggle Diff Ignore Whitespace=切换差异忽略空格
+切换差异忽略空白
+
+Toggle Diff Highlight Mode=切换差异高亮模式
+开关 Diff 高亮模式
+
+Restore Applied Shelved Change=恢复已应用的搁置更改
+恢复应用搁置更改
+
+Run a wizard for selecting the set of enabled plugins=运行一个向导来选择一组可用的插件
+运行一个向导，选择启用的插件集
+
+Configure Current File Analysis=配置当前文件分析
+当前配置文件分析
+
+Show panel to configure highlighting mode for the current file=对当前文件显示面板配置高亮模式
+显示面板为当前配置文件的高亮模式
+
+Editor Tab Popup Menu=编辑器选项卡弹出菜单
+编辑器标签弹出菜单
+
+Commander View Popup Menu=命令视图弹出菜单
+命令视图下拉菜单
+
+What's new in IDEA 9=IDEA 9的新功能
+IDEA 9 的新特性
+
+Show inspections new in IDEA 9=在IDEA 9中展示新的检查
+显示 IDEA 9 的新特性
+
+Run only tests that failed/crashed after last run=只运行最后一次运行后失败的测试/崩溃
+只运行失败/最后一次崩溃的测试
+
+Invalidate Caches / Restart=使缓存无效/重启
+无效缓存
+
+Force rebuild of all caches and indices on next startup=在下次启动时强制重建所有缓存和索引
+下次启动强制重建所有的缓存和索引
+
+Switch IDE boot JDK=切换IDE 启动 JDK
+开关 IDE 的启动JDK
+
+Export test results to the file=将测试结果导出到文件
+导出测试结果文件
+
+Power Save Mode=省电模式
+节能模式
+
+Power save mode disables background code analysis and other background operations=省电模式禁用后台码分析和其他后台操作
+节能模式下会禁用代码分析和其它后台操作
+
+To Spaces=转换缩进为空格
+使用空格
+
+Convert the indentation in the file or selected block to use spaces instead of tabs=转换文件中或选中块的缩进，用空格代替制表符
+将文件中的缩进或选定的块使用空格,而不是制表符
+
+To Tabs=转换缩进为制表符
+使用制表符
+
+Convert the indentation in the file or selected block to use tabs instead of spaces=转换文件中或选的的缩进块，用制表符代替空格
+将文件中的缩进或选定的块使用制表符,而不是制表符
+
+Browse VCS Repository=浏览VCS版本库
+浏览VCS资源库
+
+Excluded=排除
+已排除
+
+Unmark Root=取消根标记
+取消标记根
+
+Add as Library=添加为库
+添加到库
+
+Import Module=导入Module
+导入模块
+
+Import iml file as a module to the project=导入iml文件作为一个模块到项目
+导入IML文件作为一个项目模块
+
+Mark Directory as=标记目录为
+目录标记为
+
+Create Command-line Launcher=创建命令行启动器
+创建命令行启动
+
+Create a script for opening files and projects from the command line=创建一个命令行脚本，用于打开文件和项目
+对于命令行打开文件和项目创建一个脚本
+
+Editor Gutter Popup Menu=编辑器Gutter弹出菜单
+编辑左边空隙弹出菜单
+
+Soft-Wrap All Files=自动换行所有文件
+所有文件自动换行
+
+Soft-Wrap Current File=自动换行当前文件
+当前文件自动换行
+
+Open Console=打开控制台
+开启控制台
+
+Open console for selected entity=打开选中实体的控制台
+选定实体打开控制台
+
+Execute Current Statement in Multiline Console=在多行控制台执行当前语句
+在多行控制台中执行当前语句
+
+Execute current statement in multiline console=在多行控制台执行当前语句
+在多行控制台中执行当前语句
+
+Browse Console History=浏览控制台历史记录
+浏览控制台历史
+
+Highlights the file in platform's file manager=在平台的文件管理器中突出显示文件
+文件管理器中高亮显示该文件
+
+Go to Link Target=转到链接目标
+去链接目标
+
+Opens a target of this symlink in the Project View=在项目视图中打开此符号链接的目标
+在项目视图中打开这个符号链接的目标
+
+Open image in external editor=在外部编辑器打开图像
+在外部编辑器中打开图像
+
+Toggle transparency chessboard under image=在图像下切换透明度棋盘
+切换下图像的透明度棋盘
+
+Toggle grid lines over image=切换图像上的网格线
+在图像切换网格线
+
+Increase image view=放大图像视图
+增加图像视图
+
+Reduce image view=减小图像视图
+缩小图像视图
+
+Resize image to actual size=调整图片为实际尺寸
+调整图像大小以实际尺寸
+
+Level up=升级
+水平对齐
+
+Show Image Thumbnails=显示缩略图
+显示图片缩略图
+
+Show thumbnails view for current directory=显示当前目录的缩略图视图
+显示缩略图查看当前目录
+
+Show Hidden Tabs=显示隐藏的选项卡
+显示所有标签页
+
+Show dropdown with the list of tabs that don't fit on the screen in single-row tab layout=使用下拉列表来展示在单行的选项卡布局中容纳不下的选项卡。
+在单行显示下拉列表的选项卡标签布局
+
+Reformat string literal or comment to fit maximum width (usually 80)=重新格式化字符串文字或注释以适应最大宽度（通常为80）
+格式化字符串文字或评论，以适应最大宽度（通常为80）
+
+Save Document=保存文档
+保存文件
+
+Saves only the file opened in the current editor=只保存当前编辑器打开的文件
+只保存在当前编辑器中打开文件
+
+Tabs Placement=选项卡放置
+标签布置
+
+Enter Distraction Free Mode=进入免打扰模式
+无干扰模式
+
+Exit Distraction Free Mode=退出免打扰模式
+退出无干扰模式
+
+Enter Presentation Mode=进入演示模式
+演示模式
+
+Edit rule=编辑规则
+修改规则
+
+Move up=向上移
+向上移动
+
+Configure matching rules aliases=配置匹配规则的别名
+配置匹配规则别名
+
+Show Settings=显示设置
+查看设置
+
+Top=顶
+顶部
+
+Enter=回车
+确定
+
+Live Templates=代码模板
+模版
+
+Designer=Designer
+设计师
+
+Apply Changes=应用更改
+应用修改
+
+Clear All=清除所有
+清除全部
+
+Disconnect=断开连接
+断开
+
+Go to class=转到类
+去上课
+
+File structure popup=文件结构弹窗
+文件结构弹出
+
+Recent files popup=最近文件弹窗
+最近的文件弹出
+
+Basic code completion=基本代码补全
+基本代码完成
+
+Show usages=显示使用
+显示用法
+
+Project=新建项目
+项目
+
+Toggle Bookmark with Mnemonic=使用助记符切换书签
+切换书签助记符
+
+Favorites=收藏
+收藏夹
+
+New Module=新建Module
+新建模块
+
+Edit Settings=编辑设置
+修改设置
+
+Disable inspection=禁止检查
+禁用检查
+
+Lock=锁
+锁定
+
+Extract Variable=提取变量
+引入类（全修饰名）：
+
+Extract Field=提取字段
+引入常量
+
+Bottom=底
+底部
+
+Delete Changelist=删除更改列表
+删除变更列表
+
+Commit Changes=提交更改
+提交修改
+
+Attach to Local Process=附加到本地进程
+连接到本地流程
+
+Replace selected statements with a call to new functional method parameter=通过调用新的功能方法参数来替换选中语句
+替换选定的语句，调用新的函数方法参数
+
+Check for available update=检查可用更新
+检查是否有可用的更新
+
+Commit the changes in selected changelist=提交选中更改列表中的更改
+提交选定的变更列表
+
+Remove changelist and move all changes to default=删除更改列表并将所有更改移动到默认
+删除修改，并将所有更改默认
+
+Show diff with version before update=显示与更新前版本的差异
+显示与之前版本更新的差异
+
+Open Recent=打开最近
+打开最近的
+
+Close All=关闭所有
+全部关闭
+
+Compare value of selected node with clipboard text=将选中节点的值与剪贴板文本进行比较
+用剪贴板中的文本与选中的节点的值进行比较
+
+Remove All Watches=移除所有观察点
+删除所有观察
+
+Remove Watch=删除观察点
+删除观察
+
+Show changes=显示更改
+显示所有更改
+
+Recent Find Usages=最近查找的使用
+最近查找用法
+
+Compare files or revisions=比较文件或修订
+比较文件或修改
+
+Create a patch from the selected changes=从选中更改中创建一个补丁
+创建所选修改的补丁
+
+Filter=过滤
+筛选器
+
+Mute Breakpoints=启用断点
+沉默断点
+
+Split Line=拆分行
+分割行
+
+Create Desktop Entry=创建桌面快捷方式
+创建桌面入口
+
+Surround With=环绕
+包裹
+
+Tab=Tab
+选项卡
+
+Compare File with Editor=用编辑器比较
+和编辑器里文件比较
+
+Create new folder=创建新文件夹
+创建新的文件夹
+
+Find Usages=查找使用
+查找用法
+
+New Project=新建项目
+新项目
+
+New File=新建文件
+新文件
+
+Favorites View Popup Menu=收藏视图弹出菜单
+收藏查看弹出菜单
+
+Keymap=切换快捷键映射
+快捷键
+
+Tag=选项卡
+标签
+
+Look and Feel=切换界面外观
+界面外观
+
+Next Occurrence=下一次出现
+下一个出现位置
+
+Previous Occurrence=上一次出现
+上一个出现位置
+
+Commit Message History=提交信息历史
+提交消息历史
+
+New Changelist=新更改列表
+新建变更列表
+
+Edit Changelist=编辑更改列表
+编辑变更列表
+
+Set Active Changelist=设置活动的更改列表
+设为当前变更列表
+
+Shelve Changes=搁置更改
+搁置的更改
+
+Annotate=注释
+注解
+
+Unshelve Changes=取消更改
+取消搁置修改
+
+Toggle using soft wraps in current editor=当前编辑窗口中切换自动换行
+在当前编辑器使用自动换行切换
+
+Enter Full Screen=进入全屏
+进入全屏模式
+
+Exit Full Screen=退出全屏
+退出全屏模式
+
+Add to Watches=添加到观察点
+添加到观察清单
+
+Show diff for selected change=显示选中更改的差异
+差异显示所选项的修改
+

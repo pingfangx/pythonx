@@ -231,6 +231,21 @@ class Tools:
         print('输出为' + output_file)
 
     @staticmethod
+    def save_omegat_dict(omega_dict, output_file):
+        """保存
+        """
+        tmx = Et.Element('tmx')
+        tmx.attrib['version'] = '1.1'
+        Et.SubElement(tmx, 'header')
+        body = Et.SubElement(tmx, 'body')
+        for (k, v) in omega_dict.items():
+            Tools.add_translate_element(body, k, v)
+
+        tree = Et.ElementTree(tmx)
+        tree.write(output_file, encoding='utf-8')
+        print('输出为' + output_file)
+
+    @staticmethod
     def add_translate_element(element, en, cn):
         """
         向element中添加一个翻译
@@ -290,7 +305,7 @@ class Tools:
         else:
             # (.*懒惰)(空白?点一次或多次)
             replace_list = [
-                [re.compile(r'(.*?)(\s?(\.|。|…)+)$'), r'\1']
+                [re.compile(r'(.*?)(\s?([.。…])+)$'), r'\1']
             ]
 
         if file_type == Tools.FILE_TYPE_OMEGAT:

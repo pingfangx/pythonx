@@ -29,14 +29,44 @@ class ActionsBundle:
 
         result_file = r"data/ActionsBundle_result.properties"
 
+        source_dir = r'D:\workspace\TranslatorX\AndroidStudio\source\AndroidStudio\resources_en\messages'
+        target_dir = r'D:\workspace\TranslatorX\AndroidStudio\target\AndroidStudio\resources_en\messages'
         action_list = [
             ['退出', exit],
             ['处理' + en_add_file, self.process_file_for_translation, en_add_file],
             ['处理' + cn_split_file, self.process_file_for_translation, cn_split_file,
              cn_modified_file],
             ['处理翻译结果', self.add_ellipsis_and_shortcut, en_add_file, en_modified_add_translation_file, result_file],
+            ['处理所有文件' + source_dir, self.process_dir_for_translation, source_dir, source_dir],
+            ['处理所有文件的翻译结果' + target_dir, self.process_dir_translation_result, target_dir, target_dir],
         ]
         iox.choose_action(action_list)
+
+    @staticmethod
+    def process_dir_for_translation(process_dir, result_dir=None):
+        """处理文件夹中的所有文件"""
+        if result_dir is None:
+            result_dir = process_dir + '_delete'
+        file_list = Tools.list_file(process_dir)
+        length = len(file_list)
+        for i in range(length):
+            file = file_list[i]
+            print('process %d/%d' % (i + 1, length))
+            result_file = file.replace(process_dir, result_dir)
+            ActionsBundle.process_file_for_translation(file, result_file)
+
+    @staticmethod
+    def process_dir_translation_result(process_dir, result_dir):
+        """处理文件夹中的所有文件"""
+        if result_dir is None:
+            result_dir = process_dir + '_add'
+        file_list = Tools.list_file(process_dir)
+        length = len(file_list)
+        for i in range(length):
+            file = file_list[i]
+            print('process %d/%d' % (i + 1, length))
+            result_file = file.replace(process_dir, result_dir)
+            ActionsBundle.add_ellipsis_and_shortcut(file, result_file)
 
     @staticmethod
     def process_file_for_translation(file, result_file=None):

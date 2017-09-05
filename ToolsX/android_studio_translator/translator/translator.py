@@ -4,6 +4,8 @@ from xx import netx
 from android_studio_translator.tools import Tools
 import os
 import math
+import re
+from xml.etree import ElementTree as Et
 
 
 class Translator:
@@ -17,6 +19,11 @@ class Translator:
         need_translation_dir = r'C:\Users\Admin\Desktop\汉化\android studio\resources_en\messages'
         need_translation_result_dir = 'data/need_translation'
 
+        all_dict_file = r'data/all_dict.txt'
+        omegat_dict_file = r'D:\workspace\TranslatorX\AndroidStudio\omegat\project_save.tmx'
+
+        omegat_result_dict_file = 'data/omega_dict.tmx.xml'
+
         action_list = [
             ['退出', exit],
             ['检查key相同时，value是否有不一致', self.check_same_key_difference_value, en_dir],
@@ -27,6 +34,7 @@ class Translator:
              need_translation_result_dir],
             ['检查文件夹,生成需要翻译的单个文件', self.generate_need_translation_file2, need_translation_dir,
              need_translation_result_dir + '.properties'],
+            ['使用字典更新OmegaT的记忆文件', self.update_omegat_dict, all_dict_file, omegat_dict_file, omegat_result_dict_file]
         ]
         iox.choose_action(action_list)
 
@@ -186,6 +194,43 @@ class Translator:
         for key, value in all_translation.items():
             result.append('%s=%s\n' % (key, value))
         filex.write_lines(result_file, result)
+
+    @staticmethod
+    def update_omegat_dict(dict_file, omegat_dict_file, result_dict_file):
+        """更新omegat的记忆文件"""
+
+        pre_dict = Tools.get_dict_from_file(dict_file)
+        print('pre size is %d' % len(sorted(pre_dict.keys())))
+        omegat_dict = Translator.get_omegat_dict(omegat_dict_file)
+        print('omegat size is %d' % len(sorted(omegat_dict.keys())))
+
+        # 更新，以omegat为准
+        pre_dict.update(omegat_dict)
+
+        print('result size is %d' % len(sorted(pre_dict.keys())))
+        Tools.save_omegat_dict(pre_dict, result_dict_file)
+
+    @staticmethod
+    def get_omegat_dict(file_path):
+        """读取omegat的记忆文件"""
+        tree = Et.parse(file_path)
+        tmx = tree.getroot()
+        body = tmx.find('body')
+        result = dict()
+        for tu in body.iter('tu'):
+            cn = None
+            en = None
+            for tuv in tu.iter('tuv'):
+                if tuv.attrib['lang'] == 'EN-US':
+                    en = tuv.find('seg').text
+                    # 转换一下
+                    if en:
+                        en = re.sub(r'&(\w)', '', en)
+                elif tuv.attrib['lang'] == 'ZH-CN':
+                    cn = tuv.find('seg').text
+            if cn and en:
+                result[en] = cn
+        return result
 
 
 if __name__ == '__main__':
