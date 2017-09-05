@@ -6,12 +6,11 @@ from xx import iox
 
 
 class BlogXTools:
-    SOURCE_URL = '地址'
-    SOURCE_CLIPBOARD = '剪贴板'
-
     DESTINATION_COPYRIGHT = '转载申明'
     DESTINATION_COPYRIGHT_AND_TITLE = '转载申明加标题'
     DESTINATION_URL = '网址'
+    DESTINATION_QUOTE = '引用'
+    DESTINATION_REFERENCE_AND_QUOTE = '参考文献和引用'
 
     PATTERN_CLIPBOARD = r'tid=(\d+)'
     PATTERN_URL = r'thread-(\d+)'
@@ -20,77 +19,75 @@ class BlogXTools:
         action_list = [
             ['退出', exit],
         ]
-        parse_action = [
-            [BlogXTools.SOURCE_CLIPBOARD, BlogXTools.DESTINATION_COPYRIGHT],
-            [BlogXTools.SOURCE_CLIPBOARD, BlogXTools.DESTINATION_COPYRIGHT_AND_TITLE],
-            [BlogXTools.SOURCE_CLIPBOARD, BlogXTools.DESTINATION_URL],
-            [BlogXTools.SOURCE_URL, BlogXTools.DESTINATION_COPYRIGHT],
+        destination_list = [
+            BlogXTools.DESTINATION_COPYRIGHT,
+            BlogXTools.DESTINATION_COPYRIGHT_AND_TITLE,
+            BlogXTools.DESTINATION_URL,
+            BlogXTools.DESTINATION_QUOTE,
+            BlogXTools.DESTINATION_REFERENCE_AND_QUOTE,
         ]
-        for source, destination in parse_action:
-            action = '%s→%s' % (source, destination)
-            action_list.append([action, self.parse_text, source, destination])
+        for destination in destination_list:
+            action = '→%s' % destination
+            action_list.append([action, self.parse_text, destination])
         while True:
             iox.choose_action(action_list)
 
     @staticmethod
-    def parse_text(source, destination, text=None):
+    def parse_text(destination, text=None):
+        result = None
         if text is None:
             text = pyperclip.paste()
         if text is None or text == '':
             print('请输入:\n')
             text = input()
-        if source == BlogXTools.SOURCE_CLIPBOARD:
-            pattern = BlogXTools.PATTERN_CLIPBOARD
-        elif source == BlogXTools.SOURCE_URL:
-            pattern = BlogXTools.PATTERN_URL
-        else:
-            pattern = ''
-        if destination == BlogXTools.DESTINATION_COPYRIGHT or destination == BlogXTools.DESTINATION_COPYRIGHT_AND_TITLE:
-            if source == BlogXTools.SOURCE_CLIPBOARD:
-                lines = text.split('\n')
-                for i in range(len(lines)):
-                    line = lines[i]
-                    match = re.search(pattern, line)
-                    if match is not None:
-                        if destination == BlogXTools.DESTINATION_COPYRIGHT:
-                            BlogXTools.parse_text_to_copyright(pattern, line)
-                        elif destination == BlogXTools.DESTINATION_COPYRIGHT_AND_TITLE:
-                            title = lines[i - 1]
-                            tid = match.group(1)
-                            url = 'http://blog.pingfangx.com/%s.html' % tid
-                            result = '# %s\n>本文由平方X发表于平方X网，转载请注明出处。[%s](%s)\n\n' % (title, url, url)
-                            pyperclip.copy(result)
-                            print('已复制：\n\n' + result)
-                        break
-            else:
-                BlogXTools.parse_text_to_copyright(pattern, text)
-        elif destination == BlogXTools.DESTINATION_URL:
-            BlogXTools.parse_text_to_url(pattern, text)
+
+        title, tid = BlogXTools.get_title_and_tid(text)
+        if tid is not None:
+            url = 'http://blog.pingfangx.com/%s.html' % tid
+            if destination == BlogXTools.DESTINATION_COPYRIGHT:
+                result = '>本文由平方X发表于平方X网，转载请注明出处。[%s](%s)\n\n' % (url, url)
+            elif destination == BlogXTools.DESTINATION_COPYRIGHT_AND_TITLE:
+                result = '# %s\n>本文由平方X发表于平方X网，转载请注明出处。[%s](%s)\n\n' % (title, url, url)
+            elif destination == BlogXTools.DESTINATION_URL:
+                result = '[%s](%s)' % (title, url)
+            elif destination == BlogXTools.DESTINATION_QUOTE:
+                result = '[1]:%s "%s"' % (url, title)
+            elif destination == BlogXTools.DESTINATION_REFERENCE_AND_QUOTE:
+                result = '[[1]].[%s](%s)  \n[1]:%s "%s"' % (title, url, url, title)
+
+        if result is not None:
+            BlogXTools.copy_text(result)
 
     @staticmethod
-    def parse_text_to_url(pattern, text):
+    def get_title_and_tid(text):
+        title = None
+        tid = None
         lines = text.split('\n')
         for i in range(len(lines)):
             line = lines[i]
-            match = re.search(pattern, line)
-            if match is not None:
-                title = lines[i - 1].strip()
-                tid = match.group(1)
-                url = 'http://blog.pingfangx.com/%s.html' % tid
-                result = '[%s](%s)' % (title, url)
-                pyperclip.copy(result)
-                print('已复制：\n\n' + result)
+            tid = BlogXTools.get_tid(line)
+            if tid is not None:
+                if i > 0:
+                    title = lines[i - 1].strip()
                 break
+        return title, tid
 
     @staticmethod
-    def parse_text_to_copyright(pattern, text):
-        match = re.search(pattern, text)
+    def get_tid(text):
+        """获取网址中的tid"""
+        match = re.search(BlogXTools.PATTERN_URL, text)
+        if match is None:
+            match = re.search(BlogXTools.PATTERN_CLIPBOARD, text)
         if match is not None:
-            tid = match.group(1)
-            url = 'http://blog.pingfangx.com/%s.html' % tid
-            result = '>本文由平方X发表于平方X网，转载请注明出处。[%s](%s)\n\n' % (url, url)
-            pyperclip.copy(result)
-            print('已复制：\n\n' + result)
+            return match.group(1)
+        return None
+
+    @staticmethod
+    def copy_text(text, print_msg=True):
+        """复制文本"""
+        pyperclip.copy(text)
+        if print_msg:
+            print('已复制：\n' + text)
 
 
 if __name__ == '__main__':
