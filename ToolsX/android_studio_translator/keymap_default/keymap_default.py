@@ -185,30 +185,12 @@ class KeymapDefault:
         :param dir_path:
         :return:
         """
-        file_list = KeymapDefault.list_file(dir_path, r'\.xml$')
+        file_list = Tools.list_file(dir_path, r'\.xml$')
         for file in file_list:
             keymap_dict = KeymapDefault.get_keymap_dict_from_file(file)
             if keymap_dict:
                 print('\n处理' + file)
                 print(keymap_dict)
-
-    @staticmethod
-    def list_file(dir_path, name_pattern=None):
-        """
-        获取目录中的文件，组成以文件名（不带后缀的）为key的字典
-        :param dir_path:
-        :param name_pattern: 文件名的正则匹配
-        :return:
-        """
-        file_list = list()
-        for parent, dirnames, filenames in os.walk(dir_path):
-            for file in filenames:
-                if name_pattern is not None:
-                    if re.search(name_pattern, file) is not None:
-                        file_list.append(parent + '\\' + file)
-                else:
-                    file_list.append(parent + '\\' + file)
-        return file_list
 
 
 if __name__ == '__main__':

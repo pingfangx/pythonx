@@ -1,3 +1,4 @@
+import os
 import re
 from xml.etree import ElementTree as Et
 
@@ -335,7 +336,8 @@ class Tools:
         print('输出为' + result_file)
 
     @staticmethod
-    def get_dict_from_file(file_path, separator='=', delete_value_ellipsis=True, delete_value_underline=True):
+    def get_dict_from_file(file_path, separator='=', delete_value_ellipsis=True, delete_value_underline=True,
+                           delete_value_and_symbol=False, delete_cn_shortcut=False, trans_unicode=False):
         """
         从文件中读取字典，
         :param file_path:文件路径
@@ -343,21 +345,52 @@ class Tools:
         :return: 如果有错返回None
         :param delete_value_ellipsis:删除省略号
         :param delete_value_underline: 删除快捷方式
+        :param delete_value_and_symbol: 是否删降&符号
+        :param delete_cn_shortcut: 是否删除中文翻译中的快捷方式
+        :param trans_unicode: 将unicode转为中文
         """
         result = filex.get_dict_from_file(file_path, separator)
         if result is None:
             return None
 
-        if delete_value_ellipsis or delete_value_underline:
+        if delete_value_ellipsis or delete_value_underline or trans_unicode:
             # (空白?点一次或多次)
-            p_ellipsis = re.compile(r'(\s?\.+)$')
+            p_ellipsis = r'(\s?\.+)$'
+            # 空白?，左括号，&?，字母，右括号
+            p_shortcut = r'\s?\(&?\w\)$'
+            # &后跟一字母
+            p_add_symbol = r'&(\w)'
             for key, value in result.items():
                 if delete_value_ellipsis:
                     value = re.sub(p_ellipsis, '', value)
                 if delete_value_underline:
                     value = value.replace('_', '')
+                if delete_value_and_symbol:
+                    value = re.sub(p_add_symbol, r'\1', value)
+                if delete_cn_shortcut:
+                    value = re.sub(p_shortcut, '', value)
+                if trans_unicode:
+                    value = encodex.unicode_str_to_chinese(value)
                 result[key] = value
         return result
+
+    @staticmethod
+    def list_file(dir_path, name_pattern=None):
+        """
+        获取目录中的文件，组成以文件名（不带后缀的）为key的字典
+        :param dir_path:
+        :param name_pattern: 文件名的正则匹配
+        :return:
+        """
+        file_list = list()
+        for parent, dirnames, filenames in os.walk(dir_path):
+            for file in filenames:
+                if name_pattern is not None:
+                    if re.search(name_pattern, file) is not None:
+                        file_list.append(parent + '\\' + file)
+                else:
+                    file_list.append(parent + '\\' + file)
+        return file_list
 
 
 if __name__ == '__main__':
