@@ -323,9 +323,9 @@ class Translator:
                             if key in diff_translation.keys():
                                 pre_translation = diff_translation[key]
                                 if j_value not in pre_translation.split('|'):
-                                    diff_translation[key] = pre_translation + '|' + j_value
+                                    diff_translation[key] = pre_translation + '|' + j_value.replace('\n', '')
                             else:
-                                diff_translation[key] = i_value + '|' + j_value
+                                diff_translation[key] = (i_value + '|' + j_value).replace('\n', '')
                             if print_i:
                                 print('词典%d中是%s' % (j, j_value))
                         # 处理后移除
