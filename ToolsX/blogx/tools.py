@@ -25,10 +25,15 @@ class BlogXTools:
             BlogXTools.DESTINATION_URL,
             BlogXTools.DESTINATION_QUOTE,
             BlogXTools.DESTINATION_REFERENCE_AND_QUOTE,
+            ['外部链接转为参考文献和引用', self.parse_reference_and_quote]
         ]
         for destination in destination_list:
-            action = '→%s' % destination
-            action_list.append([action, self.parse_text, destination])
+            if isinstance(destination, str):
+                action = '→%s' % destination
+                action_list.append([action, self.parse_text, destination])
+            elif isinstance(destination, list):
+                action = '→%s' % destination[0]
+                action_list.append([action, self.parse_text, destination[1]])
         while True:
             iox.choose_action(action_list)
 
@@ -41,19 +46,22 @@ class BlogXTools:
             print('请输入:\n')
             text = input()
 
-        title, tid = BlogXTools.get_title_and_tid(text)
-        if tid is not None:
-            url = 'http://blog.pingfangx.com/%s.html' % tid
-            if destination == BlogXTools.DESTINATION_COPYRIGHT:
-                result = '>本文由平方X发表于平方X网，转载请注明出处。[%s](%s)\n\n' % (url, url)
-            elif destination == BlogXTools.DESTINATION_COPYRIGHT_AND_TITLE:
-                result = '# %s\n>本文由平方X发表于平方X网，转载请注明出处。[%s](%s)\n\n' % (title, url, url)
-            elif destination == BlogXTools.DESTINATION_URL:
-                result = '[%s](%s)' % (title, url)
-            elif destination == BlogXTools.DESTINATION_QUOTE:
-                result = '[1]:%s "%s"' % (url, title)
-            elif destination == BlogXTools.DESTINATION_REFERENCE_AND_QUOTE:
-                result = '[[1]].[%s](%s)  \n[1]:%s "%s"' % (title, url, url, title)
+        if callable(destination):
+            result = destination(text)
+        elif isinstance(destination, str):
+            title, tid = BlogXTools.get_title_and_tid(text)
+            if tid is not None:
+                url = 'http://blog.pingfangx.com/%s.html' % tid
+                if destination == BlogXTools.DESTINATION_COPYRIGHT:
+                    result = '>本文由平方X发表于平方X网，转载请注明出处。[%s](%s)\n\n' % (url, url)
+                elif destination == BlogXTools.DESTINATION_COPYRIGHT_AND_TITLE:
+                    result = '# %s\n>本文由平方X发表于平方X网，转载请注明出处。[%s](%s)\n\n' % (title, url, url)
+                elif destination == BlogXTools.DESTINATION_URL:
+                    result = '[%s](%s)' % (title, url)
+                elif destination == BlogXTools.DESTINATION_QUOTE:
+                    result = '[1]:%s "%s"' % (url, title)
+                elif destination == BlogXTools.DESTINATION_REFERENCE_AND_QUOTE:
+                    result = '[[1]].[%s](%s)  \n[1]:%s "%s"' % (title, url, url, title)
 
         if result is not None:
             BlogXTools.copy_text(result)
@@ -88,6 +96,31 @@ class BlogXTools:
         pyperclip.copy(text)
         if print_msg:
             print('已复制：\n' + text)
+
+    @staticmethod
+    def parse_reference_and_quote(text):
+        """
+        解析为参考文献和引用
+        格式为：
+        序号
+        作者
+        标题
+        地址
+        """
+        lines = text.split('\n')
+        lines = [line.replace('\r', '') for line in lines]
+        reference = ''
+        quote = ''
+        for i in range(len(lines)):
+            line = lines[i]
+            if re.match('\d', line):
+                # 是序号
+                if i + 3 < len(lines):
+                    index, author, title, url = lines[i:i + 4]
+                    reference += '\n[[%s]].[%s.《%s》](%s)  ' % (index, author, title, url)
+                    quote += '\n[%s]:%s (%s.《%s》)' % (index, url, author, title)
+                    i += 3
+        return reference + '\n' + quote
 
 
 if __name__ == '__main__':
