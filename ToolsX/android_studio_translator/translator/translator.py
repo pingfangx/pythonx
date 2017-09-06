@@ -24,6 +24,10 @@ class Translator:
 
         omegat_result_dict_file = 'data/omega_dict.tmx.xml'
 
+        source_dir = r'D:\workspace\TranslatorX\AndroidStudio\source\AndroidStudio\resources_en\messages'
+        target_dir = r'D:\workspace\TranslatorX\AndroidStudio\target\AndroidStudio\resources_en\messages'
+
+        incomplete_file = 'data/incomplete.properties'
         action_list = [
             ['退出', exit],
             ['检查key相同时，value是否有不一致', self.check_same_key_difference_value, en_dir],
@@ -34,7 +38,8 @@ class Translator:
              need_translation_result_dir],
             ['检查文件夹,生成需要翻译的单个文件', self.generate_need_translation_file2, need_translation_dir,
              need_translation_result_dir + '.properties'],
-            ['使用字典更新OmegaT的记忆文件', self.update_omegat_dict, all_dict_file, omegat_dict_file, omegat_result_dict_file]
+            ['使用字典更新OmegaT的记忆文件', self.update_omegat_dict, all_dict_file, omegat_dict_file, omegat_result_dict_file],
+            ['检查输出目录是否翻译完整' + target_dir, self.check_translation_complete, source_dir, target_dir, incomplete_file],
         ]
         iox.choose_action(action_list)
 
@@ -100,11 +105,13 @@ class Translator:
         return all_translation, diff_translation
 
     @staticmethod
-    def check_translation_complete(en_dir, cn_dir):
+    def check_translation_complete(en_dir, cn_dir, out_put=None):
         """翻译是否完整"""
+        incomplete_dict = dict()
         en_file_list = Tools.list_file(en_dir)
         not_complete_file = []
         miss_file = []
+        complete_count = 0
         for en_file in en_file_list:
             print('\ncheck ' + en_file)
             cn_file = Translator.get_cn_file_name(en_dir, cn_dir, en_file)
@@ -118,17 +125,28 @@ class Translator:
             for key, en_value in en_dict.items():
                 if key not in cn_dict.keys():
                     is_complete = False
+                    incomplete_dict[key] = en_value
                     print('没有翻译%s对应的%s' % (key, en_value))
                 else:
                     cn_value = cn_dict[key]
                     if en_value == cn_value:
                         is_complete = False
-                    print('%s对应的翻译仍然是%s，未翻译' % (key, en_value))
+                        incomplete_dict[key] = en_value
+                        print('%s对应的翻译仍然是%s，未翻译' % (key, en_value))
+                    else:
+                        complete_count += 1
             if not is_complete:
                 print('文件未完全翻译' + en_file)
                 not_complete_file.append(en_file)
         print('缺少%d个文件' % len(miss_file))
         print('有%d个文件未翻译完整' % len(not_complete_file))
+        print('complete size is %d' % complete_count)
+        if out_put is not None:
+            result = list()
+            for key, value in incomplete_dict.items():
+                result.append('%s=%s\n\n' % (key, value))
+            print('incomplete size is %d' % len(sorted(incomplete_dict.keys())))
+            filex.write_lines(out_put, result)
 
     @staticmethod
     def get_cn_file_name(en_dir, cn_dir, en_file):
