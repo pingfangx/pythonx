@@ -31,8 +31,8 @@ class Translator:
 
         incomplete_file = 'data/incomplete.properties'
         compare_dirs = [
-            r'C:\Users\Admin\Desktop\AndroidStudio汉化\汉化包\1',
             r'C:\Users\Admin\Desktop\AndroidStudio汉化\汉化包\2',
+            r'C:\Users\Admin\Desktop\AndroidStudio汉化\汉化包\1',
             r'C:\Users\Admin\Desktop\AndroidStudio汉化\汉化包\3',
             r'C:\Users\Admin\Desktop\AndroidStudio汉化\汉化包\4',
         ]
@@ -300,7 +300,7 @@ class Translator:
 
         all_translation = dict()
         diff_translation = dict()
-        print_i = False
+        print_i = True
         for i in range(len(dict_list)):
             i_dict = dict_list[i]
             index = 0
