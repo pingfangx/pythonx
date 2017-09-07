@@ -31,9 +31,10 @@ class Translator:
 
         incomplete_file = 'data/incomplete.properties'
         compare_dirs = [
+            r'C:\Users\Admin\Desktop\AndroidStudio汉化\汉化包\整理',
             r'C:\Users\Admin\Desktop\AndroidStudio汉化\汉化包\2',
-            r'C:\Users\Admin\Desktop\AndroidStudio汉化\汉化包\1',
             r'C:\Users\Admin\Desktop\AndroidStudio汉化\汉化包\3',
+            r'C:\Users\Admin\Desktop\AndroidStudio汉化\汉化包\1',
             r'C:\Users\Admin\Desktop\AndroidStudio汉化\汉化包\4',
         ]
         action_list = [
@@ -48,7 +49,9 @@ class Translator:
              need_translation_result_dir + '.properties'],
             ['使用词典更新OmegaT的记忆文件', self.update_omegat_dict, all_dict_file, omegat_dict_file, omegat_result_dict_file],
             ['检查输出目录是否翻译完整' + target_dir, self.check_translation_complete, source_dir, target_dir, incomplete_file],
-            ['比较几个文件夹的翻译结果并输出词典', self.compare_translation, en_dir, compare_dirs, omegat_dict_file]
+            ['比较几个文件夹的翻译结果并输出词典', self.compare_translation, en_dir, compare_dirs, omegat_dict_file],
+            ['比较几个文件夹的翻译结果并输出词典（顺序）', self.compare_translation_by_index, en_dir, compare_dirs],
+            ['将%s导出为OmegaT记忆库' % all_dict_file, self.export_to_omegat, all_dict_file]
         ]
         iox.choose_action(action_list)
 
@@ -283,13 +286,25 @@ class Translator:
         return result
 
     @staticmethod
-    def compare_translation(en_dir, compare_dir_list, omegat_dict_file=None, dict_file=None, dict_diff_file=None):
+    def compare_translation_by_index(en_dir, compare_dir_list):
+        """读取每个文件夹中的翻译 ，按优先组输出"""
+        Translator.compare_translation(en_dir, compare_dir_list, by_index=True)
+
+    @staticmethod
+    def compare_translation(en_dir, compare_dir_list, omegat_dict_file=None, dict_file=None, dict_diff_file=None,
+                            by_index=False):
         if dict_file is None:
             dict_file = 'data/dict.txt'
         if dict_diff_file is None:
             dict_diff_file = filex.get_result_file_name(dict_file, '_diff')
         dict_list = list()
         for i in compare_dir_list:
+            if i == r'C:\Users\Admin\Desktop\AndroidStudio汉化\汉化包\整理':
+                t_dict = dict()
+                for i_file in Tools.list_file(i):
+                    t_dict.update(filex.get_dict_from_file(i_file))
+                dict_list.append(t_dict)
+                continue
             i_all_translation, i_diff_translation = Translator.check_same_en_difference_cn(en_dir, i, False)
             dict_list.append(i_all_translation)
         if omegat_dict_file is not None:
@@ -301,45 +316,51 @@ class Translator:
         all_translation = dict()
         diff_translation = dict()
         print_i = True
-        for i in range(len(dict_list)):
-            i_dict = dict_list[i]
-            index = 0
-            length = len(sorted(i_dict.keys()))
-            for key, i_value in i_dict.items():
-                index += 1
-                if print_i:
-                    print('\n检查%d/%d,%s' % (index, length, key))
-                    print('词典%d中是%s' % (i, i_value))
-                has_diff = False
-                for j in range(i + 1, len(dict_list)):
-                    j_dict = dict_list[j]
-                    if key in j_dict:
-                        j_value = j_dict[key]
-                        if i_value == j_value:
-                            if print_i:
-                                print('词典%d中相同' % j)
-                        else:
-                            has_diff = True
-                            if key in diff_translation.keys():
-                                pre_translation = diff_translation[key]
-                                if j_value not in pre_translation.split('|'):
-                                    diff_translation[key] = pre_translation + '|' + j_value.replace('\n', '')
-                            else:
-                                diff_translation[key] = (i_value + '|' + j_value).replace('\n', '')
-                            if print_i:
-                                print('词典%d中是%s' % (j, j_value))
-                        # 处理后移除
-                        j_dict.pop(key)
-                    else:
-                        if print_i:
-                            print('词典%d中缺少' % j)
-                if not has_diff:
+        if by_index:
+            # 按倒序更新，得到结果
+            for i in range(len(dict_list) - 1, -1, -1):
+                all_translation.update(dict_list[i])
+                print('更新%d后，size是%d' % (i + 1, len(sorted(all_translation.keys()))))
+        else:
+            for i in range(len(dict_list)):
+                i_dict = dict_list[i]
+                index = 0
+                length = len(sorted(i_dict.keys()))
+                for key, i_value in i_dict.items():
+                    index += 1
                     if print_i:
-                        print('统一翻译')
-                    all_translation[key] = i_value
-            print('%d中处理%d条，其中%d条翻译相同,%d条不同' % (
-                i, len(sorted(i_dict.keys())), len(sorted(all_translation.keys())),
-                len(sorted(diff_translation.keys()))))
+                        print('\n检查%d/%d,%s' % (index, length, key))
+                        print('词典%d中是%s' % (i, i_value))
+                    has_diff = False
+                    for j in range(i + 1, len(dict_list)):
+                        j_dict = dict_list[j]
+                        if key in j_dict:
+                            j_value = j_dict[key]
+                            if i_value == j_value:
+                                if print_i:
+                                    print('词典%d中相同' % j)
+                            else:
+                                has_diff = True
+                                if key in diff_translation.keys():
+                                    pre_translation = diff_translation[key]
+                                    if j_value not in pre_translation.split('|'):
+                                        diff_translation[key] = pre_translation + '|' + j_value.replace('\n', '')
+                                else:
+                                    diff_translation[key] = (i_value + '|' + j_value).replace('\n', '')
+                                if print_i:
+                                    print('词典%d中是%s' % (j, j_value))
+                            # 处理后移除
+                            j_dict.pop(key)
+                        else:
+                            if print_i:
+                                print('词典%d中缺少' % j)
+                    if not has_diff:
+                        if print_i:
+                            print('统一翻译')
+                        all_translation[key] = i_value
+                print('%d中处理%d条，其中%d条翻译相同,%d条不同' % (
+                    i, len(sorted(i_dict.keys())), len(sorted(all_translation.keys())),
+                    len(sorted(diff_translation.keys()))))
 
         result = list()
         for key, value in all_translation.items():
@@ -352,6 +373,18 @@ class Translator:
             result.append('%s=%s\n' % (key, value))
         print('size is %d' % len(sorted(diff_translation.keys())))
         filex.write_lines(dict_diff_file, result)
+
+    @staticmethod
+    def export_to_omegat(file_path, result_file=None):
+        """导出为OmegaT的记忆文件"""
+        if result_file is None:
+            result_file = filex.get_result_file_name(file_path, '', '.tmx.xml')
+        translation_dict = filex.get_dict_from_file(file_path)
+        output_dict = dict()
+        for key, value in translation_dict.items():
+            if value:
+                output_dict[key] = value
+        Tools.save_omegat_dict(output_dict, result_file)
 
 
 if __name__ == '__main__':
