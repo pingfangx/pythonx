@@ -3,6 +3,7 @@ import re
 from android_studio_translator.tools import Tools
 from xx import filex
 from xx import iox
+from android_studio_translator.tips.tips import Tips
 
 
 class ActionsBundle:
@@ -29,25 +30,34 @@ class ActionsBundle:
 
         result_file = r"data/ActionsBundle_result.properties"
 
-        source_dir = r'D:\workspace\TranslatorX\AndroidStudio\source\AndroidStudio\resources_en\messages'
-        target_dir = r'D:\workspace\TranslatorX\AndroidStudio\target\AndroidStudio\resources_en\messages'
+        original_dir = r'D:\workspace\TranslatorX\AndroidStudio\target\original\AndroidStudio'
+        source_dir = r'D:\workspace\TranslatorX\AndroidStudio\source\AndroidStudio'
+        target_dir = r'D:\workspace\TranslatorX\AndroidStudio\target\AndroidStudio'
+        name_pattern = r'.properties'
+
+        android_studio_tips_translation_dir = r'D:\workspace\TranslatorX\AndroidStudio\target\AndroidStudio\resources_en\tips'
+        """tips的路径"""
+        tips_names_cn_file = ''
         action_list = [
             ['退出', exit],
             ['处理' + en_add_file, self.process_file_for_translation, en_add_file],
             ['处理' + cn_split_file, self.process_file_for_translation, cn_split_file,
              cn_modified_file],
             ['处理翻译结果', self.add_ellipsis_and_shortcut, en_add_file, en_modified_add_translation_file, result_file],
-            ['处理所有文件' + source_dir, self.process_dir_for_translation, source_dir, source_dir],
-            ['处理所有文件的翻译结果' + target_dir, self.process_dir_translation_result, target_dir, target_dir],
+            ['处理所有文件' + source_dir, self.process_dir_for_translation, source_dir, source_dir, name_pattern],
+            ['处理所有文件的翻译结果' + target_dir, self.process_dir_translation_result, original_dir, target_dir, None,
+             name_pattern],
+            ['处理AndroidStudio翻译中的tips翻译结果', Tips.process_tips_translation_result, tips_names_cn_file,
+             android_studio_tips_translation_dir, Tips.RESULT_TYPE_ANDROID_STUDIO, android_studio_tips_translation_dir],
         ]
         iox.choose_action(action_list)
 
     @staticmethod
-    def process_dir_for_translation(process_dir, result_dir=None):
+    def process_dir_for_translation(process_dir, result_dir=None, name_pattern=None):
         """处理文件夹中的所有文件"""
         if result_dir is None:
             result_dir = process_dir + '_delete'
-        file_list = Tools.list_file(process_dir)
+        file_list = Tools.list_file(process_dir, name_pattern)
         length = len(file_list)
         for i in range(length):
             file = file_list[i]
@@ -56,17 +66,20 @@ class ActionsBundle:
             ActionsBundle.process_file_for_translation(file, result_file)
 
     @staticmethod
-    def process_dir_translation_result(process_dir, result_dir):
+    def process_dir_translation_result(en_dir, cn_dir, result_dir=None, name_pattern=None):
         """处理文件夹中的所有文件"""
         if result_dir is None:
-            result_dir = process_dir + '_add'
-        file_list = Tools.list_file(process_dir)
-        length = len(file_list)
+            result_dir = cn_dir + '_add'
+
+        en_file_list = Tools.list_file(en_dir, name_pattern)
+        length = len(en_file_list)
         for i in range(length):
-            file = file_list[i]
+            en_file = en_file_list[i]
             print('process %d/%d' % (i + 1, length))
-            result_file = file.replace(process_dir, result_dir)
-            ActionsBundle.add_ellipsis_and_shortcut(file, result_file)
+            cn_file = en_file.replace(en_dir, cn_dir)
+            cn_file = filex.get_result_file_name(cn_file, '_zh_CN')
+            result_file = en_file.replace(en_dir, result_dir)
+            ActionsBundle.add_ellipsis_and_shortcut(en_file, cn_file, result_file)
 
     @staticmethod
     def process_file_for_translation(file, result_file=None):

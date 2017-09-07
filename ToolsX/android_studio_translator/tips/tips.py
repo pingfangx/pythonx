@@ -43,7 +43,8 @@ class Tips:
         tips_github_pages_cn_dir = r'D:\workspace\github.pingfangx.io\android_studio\tips' + r'\cn'
 
         # 清单文件
-        tips_manifest_file = r'data/IdeTipsAndTricks.xml'
+        tips_manifest_file = r'D:\workspace\TranslatorX\AndroidStudio\source\AndroidStudio\resources\META-INF' \
+                             r'\IdeTipsAndTricks.xml '
         tips_manifest_translation_file = r'D:\workspace\TranslatorX\AndroidStudio\target\IdeTipsAndTricks_name_zh_CN' \
                                          r'.properties '
 
@@ -56,7 +57,6 @@ class Tips:
             [tips_names_cn_file, tips_cn_dir, tips_github_pages_cn_dir, 0, 'cn'],
             [tips_names_cn_file, tips_cn_dir, tips_github_pages_cn_dir, 1, 'cn'],
         ]
-
         action_list = [
             ['退出', exit],
             ['处理清单文件，整理tips的名称方便翻译', self.process_tips_manifest_file, tips_manifest_file],
@@ -73,7 +73,7 @@ class Tips:
             ['处理tips翻译结果为GitHub Pages用（数字加名字命名）', self.process_tips_translation_result, tips_names_cn_file, tips_cn_dir,
              Tips.RESULT_TYPE_GITHUB_PAGES, tips_github_pages_cn_dir, 1],
             ['将目录中的tips按顺序排序', self.order_tips_file, tips_names_cn_file, tips_android_studio_dir,
-             tips_github_pages_cn_dir]
+             tips_github_pages_cn_dir],
         ]
         iox.choose_action(action_list)
 
@@ -254,9 +254,9 @@ class Tips:
         """解析每一行中的参数"""
         result = line
         result = result.replace('&amp;', '&')
-        result = result.replace('"css/tips.css"', '"../css/tips.css"')
-        result = result.replace('"images/', '"../images/')
         if result_type == Tips.RESULT_TYPE_GITHUB_PAGES:
+            result = result.replace('"css/tips.css"', '"../css/tips.css"')
+            result = result.replace('"images/', '"../images/')
             # 解析快捷键
             result = re.sub(r'&shortcut:(\w+);', Tips.replace_shortcut, result)
             # 解析变量

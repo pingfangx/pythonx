@@ -383,7 +383,10 @@ class Translator:
         output_dict = dict()
         for key, value in translation_dict.items():
             if value:
-                output_dict[key] = value
+                if '【】' in value:
+                    output_dict[key] = value.split('【】')[0]
+                else:
+                    output_dict[key] = value
         Tools.save_omegat_dict(output_dict, result_file)
 
 

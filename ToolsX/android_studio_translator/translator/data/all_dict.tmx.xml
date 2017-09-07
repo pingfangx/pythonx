@@ -24310,7 +24310,7 @@
         <seg>&lt;html&gt;&lt;a href</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>"#"&gt;Set up HTTP proxy settings&lt;/a&gt;&lt;/html&gt;=&lt;html&gt;&lt;a href="#"&gt;设置http代理设置【】Set up HTTP proxy settings&lt;/a&gt;&lt;/html&gt;</seg>
+        <seg>"#"&gt;Set up HTTP proxy settings&lt;/a&gt;&lt;/html&gt;=&lt;html&gt;&lt;a href="#"&gt;设置http代理设置</seg>
       </tuv>
     </tu>
     <tu>
@@ -34158,7 +34158,7 @@
         <seg>This IDE is running on a Java JRE instead of a full Java JDK.&lt;br&gt;\ This does not work; debugging (among other features) will not work.&lt;br&gt;\ You must configure the boot JDK (via Help &gt; Find Action... &gt; Switch IDE boot JDK.)&lt;br&gt;\ &lt;a href</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>"http://tools.android.com/knownissues"&gt;More Info&lt;/a&gt;=这个IDE运行在Java JRE上，而不是一个完整的Java JDK。【】This IDE is running on a Java JRE instead of a full Java JDK.&lt;br&gt;\ 这并不工作;调试(在其他特性中)将无法工作。【】 This does not work; debugging (among other features) will not work.&lt;br&gt;\ 您必须配置引导JDK【】 You must configure the boot JDK (via Help &gt; Find Action... &gt; Switch IDE boot JDK.)&lt;br&gt;\&lt;a href="http://tools.android.com/knownissues"&gt;More Info&lt;/a&gt;</seg>
+        <seg>"http://tools.android.com/knownissues"&gt;More Info&lt;/a&gt;=这个IDE运行在Java JRE上，而不是一个完整的Java JDK。</seg>
       </tuv>
     </tu>
     <tu>
@@ -55822,7 +55822,7 @@
         <seg>&lt;html&gt;The JRE you are running {0} with might have&lt;br&gt;functional and performance issues related to ligatures support.&lt;br&gt;To avoid such issues, run {0} with &lt;a href</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>"https://confluence.jetbrains.com/display/IDEADEV/JetBrains+Runtime+Environment"&gt;JetBrains Runtime&lt;/a&gt;=&lt;html&gt;您正在运行的JRE可能具有与连接支持相关的功能和性能问题，以避免此类问题，使用JetBrains运行时运行{0}【】The JRE you are running {0} with might have&lt;br&gt;functional and performance issues related to ligatures support.&lt;br&gt;To avoid such issues, run {0} with &lt;a href="https://confluence.jetbrains.com/display/IDEADEV/JetBrains+Runtime+Environment"&gt;JetBrains Runtime&lt;/a&gt;</seg>
+        <seg>"https://confluence.jetbrains.com/display/IDEADEV/JetBrains+Runtime+Environment"&gt;JetBrains Runtime&lt;/a&gt;=&lt;html&gt;您正在运行的JRE可能具有与连接支持相关的功能和性能问题，以避免此类问题，使用JetBrains运行时运行{0}</seg>
       </tuv>
     </tu>
     <tu>
@@ -55998,7 +55998,7 @@
         <seg>Memory Dump</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>内存垃圾场【】Memory Dump</seg>
+        <seg>内存垃圾场</seg>
       </tuv>
     </tu>
     <tu>
@@ -56022,7 +56022,7 @@
         <seg>Differences ignored</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>差异忽略【】Differences ignored</seg>
+        <seg>差异忽略</seg>
       </tuv>
     </tu>
     <tu>
@@ -56030,7 +56030,7 @@
         <seg>Differences highlighting is off</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>差异突出是关闭的【】Differences highlighting is off</seg>
+        <seg>差异突出是关闭的</seg>
       </tuv>
     </tu>
     <tu>
@@ -56062,7 +56062,7 @@
         <seg>Done: {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>完成: {0}【】Done: {0}</seg>
+        <seg>完成: {0}</seg>
       </tuv>
     </tu>
     <tu>
@@ -56070,7 +56070,7 @@
         <seg>Terminated: {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>终止: {0}【】Terminated: {0}</seg>
+        <seg>终止: {0}</seg>
       </tuv>
     </tu>
     <tu>
@@ -56230,7 +56230,7 @@
         <seg>Already assigned to:</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>已经分配给:【】Already assigned to:</seg>
+        <seg>已经分配给:</seg>
       </tuv>
     </tu>
     <tu>
@@ -56390,7 +56390,7 @@
         <seg>Deuteranopia (green)</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>绿色盲【】Deuteranopia (green)</seg>
+        <seg>绿色盲</seg>
       </tuv>
     </tu>
     <tu>
@@ -56454,7 +56454,7 @@
         <seg>Result</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>结果【】Result</seg>
+        <seg>结果</seg>
       </tuv>
     </tu>
     <tu>
@@ -56470,7 +56470,7 @@
         <seg>Shelving Changes</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>搁置的变化……【】Shelving Changes</seg>
+        <seg>搁置的变化……</seg>
       </tuv>
     </tu>
     <tu>
@@ -56614,7 +56614,7 @@
         <seg>Class name's element separator:</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>类名称的元素分隔符:【】Class name's element separator:</seg>
+        <seg>类名称的元素分隔符:</seg>
       </tuv>
     </tu>
     <tu>
@@ -56622,7 +56622,7 @@
         <seg>Class name's modifier separator:</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>类名的修饰符分隔符:【】Class name's modifier separator:</seg>
+        <seg>类名的修饰符分隔符:</seg>
       </tuv>
     </tu>
     <tu>
@@ -56630,7 +56630,7 @@
         <seg>Short element prefix:</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>短元素前缀:【】Short element prefix:</seg>
+        <seg>短元素前缀:</seg>
       </tuv>
     </tu>
     <tu>
@@ -56638,7 +56638,7 @@
         <seg>Scale to Screen DPI</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>缩放到屏幕DPI(每英寸点)【】Scale to Screen DPI</seg>
+        <seg>缩放到屏幕DPI(每英寸点)</seg>
       </tuv>
     </tu>
     <tu>
@@ -56646,7 +56646,7 @@
         <seg>Scale the active window to match its current screen DPI (dots per inch)</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>将活动窗口缩放到匹配当前屏幕DPI(每英寸点)【】Scale the active window to match its current screen DPI (dots per inch)</seg>
+        <seg>将活动窗口缩放到匹配当前屏幕DPI(每英寸点)</seg>
       </tuv>
     </tu>
     <tu>
@@ -57854,7 +57854,7 @@
         <seg>Specify config folder or installation home of the previous version of {0}:</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>指定之前版本{0}的配置文件夹或安装:【】Specify config folder or installation home of the previous version of {0}:</seg>
+        <seg>指定之前版本{0}的配置文件夹或安装:</seg>
       </tuv>
     </tu>
     <tu>
@@ -57862,7 +57862,7 @@
         <seg>Add '@Override' annotation</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>添加@Override注解【】Add '@Override' annotation</seg>
+        <seg>添加@Override注解</seg>
       </tuv>
     </tu>
     <tu>
@@ -57870,7 +57870,7 @@
         <seg>Add Override Annotation</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>添加覆盖注解【】Add Override Annotation</seg>
+        <seg>添加覆盖注解</seg>
       </tuv>
     </tu>
     <tu>
@@ -57878,7 +57878,7 @@
         <seg>Make Type Generic</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>使得类型通用【】Make Type Generic</seg>
+        <seg>使得类型通用</seg>
       </tuv>
     </tu>
     <tu>
@@ -57886,7 +57886,7 @@
         <seg>Change type of {0} to {1}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>改变 {0} 的类型为o {1}【】Change type of {0} to {1}</seg>
+        <seg>改变 {0} 的类型为o {1}</seg>
       </tuv>
     </tu>
     <tu>
@@ -58078,7 +58078,7 @@
         <seg>Uncomment the following property if no tests compilation is needed</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>如果不需要测试编译，则取消以下属性【】Uncomment the following property if no tests compilation is needed</seg>
+        <seg>如果不需要测试编译，则取消以下属性</seg>
       </tuv>
     </tu>
     <tu>
@@ -58262,7 +58262,7 @@
         <seg>Compilation completed successfully with {0} {0,choice, 0#warnings|1#warning|2#warnings}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>编译成功地完成了{0}【】Compilation completed successfully with {0} {0,choice, 0#warnings|1#warning|2#warnings}</seg>
+        <seg>编译成功地完成了{0}</seg>
       </tuv>
     </tu>
     <tu>
@@ -58278,7 +58278,7 @@
         <seg>Compilation completed with {0} {0,choice, 0#errors|1#error|2#errors} and {1} {1,choice, 0#warnings|1#warning|2#warnings}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>编译完成了{0}and {1} 【】Compilation completed with {0} {0,choice, 0#errors|1#error|2#errors} and {1} {1,choice, 0#warnings|1#warning|2#warnings}</seg>
+        <seg>编译完成了{0}and {1}</seg>
       </tuv>
     </tu>
     <tu>
@@ -59038,7 +59038,7 @@
         <seg>Internal error loading debug information from ''{0}''. Breakpoints will be unavailable in this class</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>内部错误从''{0}''加载调试信息。在这个类中，断点是不可用的。【】Internal error loading debug information from ''{0}''. Breakpoints will be unavailable in this class</seg>
+        <seg>内部错误从''{0}''加载调试信息。在这个类中，断点是不可用的。</seg>
       </tuv>
     </tu>
     <tu>
@@ -59046,7 +59046,7 @@
         <seg>Debug information is inconsistent</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>调试信息是不一致的【】Debug information is inconsistent</seg>
+        <seg>调试信息是不一致的</seg>
       </tuv>
     </tu>
     <tu>
@@ -59054,7 +59054,7 @@
         <seg>'boolean' value expected in condition</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>布尔值是被期待的在条件中【】'boolean' value expected in condition</seg>
+        <seg>布尔值是被期待的在条件中</seg>
       </tuv>
     </tu>
     <tu>
@@ -59062,7 +59062,7 @@
         <seg>''boolean'' value expected in condition</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>布尔值是被期待的在条件中【】''boolean'' value expected in condition</seg>
+        <seg>布尔值是被期待的在条件中</seg>
       </tuv>
     </tu>
     <tu>
@@ -59070,7 +59070,7 @@
         <seg>Cannot evaluate: process exited</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不能解析：进程退出了【】Cannot evaluate: process exited</seg>
+        <seg>不能解析：进程退出了</seg>
       </tuv>
     </tu>
     <tu>
@@ -59078,7 +59078,7 @@
         <seg>Stack frame unavailable</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>堆栈框架不可用【】Stack frame unavailable</seg>
+        <seg>堆栈框架不可用</seg>
       </tuv>
     </tu>
     <tu>
@@ -59086,7 +59086,7 @@
         <seg>Evaluation is not supported during another method''s evaluation</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>解析是不支持的在另一个方法的解析中【】Evaluation is not supported during another method''s evaluation</seg>
+        <seg>解析是不支持的在另一个方法的解析中</seg>
       </tuv>
     </tu>
     <tu>
@@ -59094,7 +59094,7 @@
         <seg>Sources do not correspond to code being executed</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>源代码不对应于正在执行的代码【】Sources do not correspond to code being executed</seg>
+        <seg>源代码不对应于正在执行的代码</seg>
       </tuv>
     </tu>
     <tu>
@@ -59102,7 +59102,7 @@
         <seg>Cannot find source class for current stack frame</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不能找到当前堆栈框架的源类【】Cannot find source class for current stack frame</seg>
+        <seg>不能找到当前堆栈框架的源类</seg>
       </tuv>
     </tu>
     <tu>
@@ -59110,7 +59110,7 @@
         <seg>Object has been collected</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>对象已经被回收【】Object has been collected</seg>
+        <seg>对象已经被回收</seg>
       </tuv>
     </tu>
     <tu>
@@ -59118,7 +59118,7 @@
         <seg>Thread has been collected</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>线程已经被回收【】Thread has been collected</seg>
+        <seg>线程已经被回收</seg>
       </tuv>
     </tu>
     <tu>
@@ -59126,7 +59126,7 @@
         <seg>Array has been collected</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>数组已经被回收【】Array has been collected</seg>
+        <seg>数组已经被回收</seg>
       </tuv>
     </tu>
     <tu>
@@ -59134,7 +59134,7 @@
         <seg>Thread has been resumed</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>线程已经被恢复【】Thread has been resumed</seg>
+        <seg>线程已经被恢复</seg>
       </tuv>
     </tu>
     <tu>
@@ -59142,7 +59142,7 @@
         <seg>Debug info unavailable</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>调试信息不可用【】Debug info unavailable</seg>
+        <seg>调试信息不可用</seg>
       </tuv>
     </tu>
     <tu>
@@ -59150,7 +59150,7 @@
         <seg>Invalid expression : {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>无效表达式【】Invalid expression : {0}</seg>
+        <seg>无效表达式</seg>
       </tuv>
     </tu>
     <tu>
@@ -59158,7 +59158,7 @@
         <seg>Expression type unknown: {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>表达式类型未知【】Expression type unknown: {0}</seg>
+        <seg>表达式类型未知</seg>
       </tuv>
     </tu>
     <tu>
@@ -59166,7 +59166,7 @@
         <seg>Expression operand unknown: {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>表达式操作数未知【】Expression operand unknown: {0}</seg>
+        <seg>表达式操作数未知</seg>
       </tuv>
     </tu>
     <tu>
@@ -59182,7 +59182,7 @@
         <seg>Class ''{0}'' is not loaded</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>类''{0}''没有加载【】Class ''{0}'' is not loaded</seg>
+        <seg>类''{0}''没有加载</seg>
       </tuv>
     </tu>
     <tu>
@@ -59190,7 +59190,7 @@
         <seg>Cannot evaluate: thread is not paused at breakpoint</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>无法评估:线程不是在断点处暂停的【】Cannot evaluate: thread is not paused at breakpoint</seg>
+        <seg>无法评估:线程不是在断点处暂停的</seg>
       </tuv>
     </tu>
     <tu>
@@ -59198,7 +59198,7 @@
         <seg>Method threw ''{0}'' exception</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>方法抛出''{0}'' 异常。【】Method threw ''{0}'' exception</seg>
+        <seg>方法抛出''{0}'' 异常。</seg>
       </tuv>
     </tu>
     <tu>
@@ -59206,7 +59206,7 @@
         <seg>Surrounded expression is null</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>包围表达式是零【】Surrounded expression is null</seg>
+        <seg>包围表达式是零</seg>
       </tuv>
     </tu>
     <tu>
@@ -59214,7 +59214,7 @@
         <seg>Evaluating</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>解析……【】Evaluating</seg>
+        <seg>解析……</seg>
       </tuv>
     </tu>
     <tu>
@@ -59222,7 +59222,7 @@
         <seg>Target VM does not support modification watchpoints</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>目标VM不支持修改监视点【】Target VM does not support modification watchpoints</seg>
+        <seg>目标VM不支持修改监视点</seg>
       </tuv>
     </tu>
     <tu>
@@ -59230,7 +59230,7 @@
         <seg>None of the frames through and including frame may be native</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>帧的帧和帧都不是本地的【】None of the frames through and including frame may be native</seg>
+        <seg>帧的帧和帧都不是本地的</seg>
       </tuv>
     </tu>
     <tu>
@@ -59238,7 +59238,7 @@
         <seg>Error while executing finally blocks: {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>当执行最终阻塞时错误: {0}【】Error while executing finally blocks: {0}</seg>
+        <seg>当执行最终阻塞时错误: {0}</seg>
       </tuv>
     </tu>
     <tu>
@@ -59246,7 +59246,7 @@
         <seg>Error while doing early return: {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>在早期返回时出错:{0}【】Error while doing early return: {0}</seg>
+        <seg>在早期返回时出错:{0}</seg>
       </tuv>
     </tu>
     <tu>
@@ -59254,7 +59254,7 @@
         <seg>Non-empty finally blocks detected:</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>非空最后块检测:【】Non-empty finally blocks detected:</seg>
+        <seg>非空最后块检测:</seg>
       </tuv>
     </tu>
     <tu>
@@ -59262,7 +59262,7 @@
         <seg>Do Not Execute</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不执行【】Do Not Execute</seg>
+        <seg>不执行</seg>
       </tuv>
     </tu>
     <tu>
@@ -59270,7 +59270,7 @@
         <seg>Execute Finally Blocks</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>执行最后一块【】Execute Finally Blocks</seg>
+        <seg>执行最后一块</seg>
       </tuv>
     </tu>
     <tu>
@@ -59278,7 +59278,7 @@
         <seg>Information about the frame is not available</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>关于框架的信息是不可用的【】Information about the frame is not available</seg>
+        <seg>关于框架的信息是不可用的</seg>
       </tuv>
     </tu>
     <tu>
@@ -59286,7 +59286,7 @@
         <seg>Evaluating {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>解析{0}【】Evaluating {0}</seg>
+        <seg>解析{0}</seg>
       </tuv>
     </tu>
     <tu>
@@ -59294,7 +59294,7 @@
         <seg>Unfreeze</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>解冻【】Unfreeze</seg>
+        <seg>解冻</seg>
       </tuv>
     </tu>
     <tu>
@@ -59302,7 +59302,7 @@
         <seg>The value will be recalculated</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>值将被重新计算【】The value will be recalculated</seg>
+        <seg>值将被重新计算</seg>
       </tuv>
     </tu>
     <tu>
@@ -59310,7 +59310,7 @@
         <seg>Setting value</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>设置值【】Setting value</seg>
+        <seg>设置值</seg>
       </tuv>
     </tu>
     <tu>
@@ -59318,7 +59318,7 @@
         <seg>Process started</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>进程启动【】Process started</seg>
+        <seg>进程启动</seg>
       </tuv>
     </tu>
     <tu>
@@ -59326,7 +59326,7 @@
         <seg>Process terminated</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>进程终止【】Process terminated</seg>
+        <seg>进程终止</seg>
       </tuv>
     </tu>
     <tu>
@@ -59334,7 +59334,7 @@
         <seg>Disconnected from the target VM, address: ''{0}'', transport: ''{1}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>断开连接从目标虚拟机，地址：''{0}''，运输： ''{1}''【】Disconnected from the target VM, address: ''{0}'', transport: ''{1}''</seg>
+        <seg>断开连接从目标虚拟机，地址：''{0}''，运输： ''{1}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -59342,7 +59342,7 @@
         <seg>Stopped at cursor</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>停止在光标位置【】Stopped at cursor</seg>
+        <seg>停止在光标位置</seg>
       </tuv>
     </tu>
     <tu>
@@ -59350,7 +59350,7 @@
         <seg>Breakpoint reached at {0}({1}:{2,number,#})</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>断点到达在【】Breakpoint reached at {0}({1}:{2,number,#})</seg>
+        <seg>断点到达在</seg>
       </tuv>
     </tu>
     <tu>
@@ -59358,7 +59358,7 @@
         <seg>Breakpoint reached at {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>断点到达在【】Breakpoint reached at {0}</seg>
+        <seg>断点到达在</seg>
       </tuv>
     </tu>
     <tu>
@@ -59366,7 +59366,7 @@
         <seg>Breakpoint reached</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>断点到达【】Breakpoint reached</seg>
+        <seg>断点到达</seg>
       </tuv>
     </tu>
     <tu>
@@ -59374,7 +59374,7 @@
         <seg>Stepping in thread {0} is blocked by thread {1}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>加入线程 {0}中 ，它被线程{1}阻塞【】Stepping in thread {0} is blocked by thread {1}</seg>
+        <seg>加入线程 {0}中 ，它被线程{1}阻塞</seg>
       </tuv>
     </tu>
     <tu>
@@ -59382,7 +59382,7 @@
         <seg>Breakpoint reached in thread {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>断点到达在线程 {0}中【】Breakpoint reached in thread {0}</seg>
+        <seg>断点到达在线程 {0}中</seg>
       </tuv>
     </tu>
     <tu>
@@ -59390,7 +59390,7 @@
         <seg>Method ''{0}'' entered at {1}({2}:{3,number,#})</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>方法''{0}''进入在 {1}({2}:{3,number,#})【】Method ''{0}'' entered at {1}({2}:{3,number,#})</seg>
+        <seg>方法''{0}''进入在 {1}({2}:{3,number,#})</seg>
       </tuv>
     </tu>
     <tu>
@@ -59398,7 +59398,7 @@
         <seg>Method breakpoint reached. Method ''{0}'' is about to exit at {1}({2}:{3,number,#})</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>方法断点到达。方法''{0}''即将退出在{1}({2}:{3,number,#})【】Method breakpoint reached. Method ''{0}'' is about to exit at {1}({2}:{3,number,#})</seg>
+        <seg>方法断点到达。方法''{0}''即将退出在{1}({2}:{3,number,#})</seg>
       </tuv>
     </tu>
     <tu>
@@ -59406,7 +59406,7 @@
         <seg>Exception breakpoint reached</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>异常断点达到【】Exception breakpoint reached</seg>
+        <seg>异常断点达到</seg>
       </tuv>
     </tu>
     <tu>
@@ -59414,7 +59414,7 @@
         <seg>Exception ''{0}'' in thread ''{1}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>【】Exception ''{0}'' in thread ''{1}''</seg>
+        <seg/>
       </tuv>
     </tu>
     <tu>
@@ -59422,7 +59422,7 @@
         <seg>Field watchpoint reached</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>字段检查点将到达【】Field watchpoint reached</seg>
+        <seg>字段检查点将到达</seg>
       </tuv>
     </tu>
     <tu>
@@ -59430,7 +59430,7 @@
         <seg>'{'{0}@{5}'}'.{1} will be accessed at {2}({3}:{4,number,#})</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>【】'{'{0}@{5}'}'.{1} will be accessed at {2}({3}:{4,number,#})</seg>
+        <seg/>
       </tuv>
     </tu>
     <tu>
@@ -59438,7 +59438,7 @@
         <seg>{0}.{1} will be accessed at {2}({3}:{4,number,#})</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>{0}.{1} 将被访问 在{2}({3}:{4,number,#})【】{0}.{1} will be accessed at {2}({3}:{4,number,#})</seg>
+        <seg>{0}.{1} 将被访问 在{2}({3}:{4,number,#})</seg>
       </tuv>
     </tu>
     <tu>
@@ -59446,7 +59446,7 @@
         <seg>{0}.{1} will be modified at {4}({5}:{6,number,#}). Current value</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>''{2}''. New value = ''{3}''=【】{0}.{1} will be modified at {4}({5}:{6,number,#}). Current value = ''{2}''. New value = ''{3}''</seg>
+        <seg>''{2}''. New value = ''{3}''=</seg>
       </tuv>
     </tu>
     <tu>
@@ -59454,7 +59454,7 @@
         <seg>Connected to the target VM, address: ''{0}'', transport: ''{1}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>连接到目标VM，地址:''{0}''，传输:''{1}''【】Connected to the target VM, address: ''{0}'', transport: ''{1}''</seg>
+        <seg>连接到目标VM，地址:''{0}''，传输:''{1}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -59462,7 +59462,7 @@
         <seg>Failed to establish connection to the target VM, address: ''{0}'', transport: ''{1}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>没有建立到目标VM的连接，地址:''{0}''，传输:''{1}''【】Failed to establish connection to the target VM, address: ''{0}'', transport: ''{1}''</seg>
+        <seg>没有建立到目标VM的连接，地址:''{0}''，传输:''{1}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -59470,7 +59470,7 @@
         <seg>Debugger is already listening</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>调试器已经听【】Debugger is already listening</seg>
+        <seg>调试器已经听</seg>
       </tuv>
     </tu>
     <tu>
@@ -59478,7 +59478,7 @@
         <seg>shared memory</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>共享内存【】shared memory</seg>
+        <seg>共享内存</seg>
       </tuv>
     </tu>
     <tu>
@@ -59486,7 +59486,7 @@
         <seg>socket</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>套接字【】socket</seg>
+        <seg>套接字</seg>
       </tuv>
     </tu>
     <tu>
@@ -59494,7 +59494,7 @@
         <seg>Cannot connect using transport ''{0}'': required connector not found. Check your JDK installation</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不能连接用运输''{0}'':没有找到所需连接器。检查您的JDK安装。【】Cannot connect using transport ''{0}'': required connector not found. Check your JDK installation</seg>
+        <seg>不能连接用运输''{0}'':没有找到所需连接器。检查您的JDK安装。</seg>
       </tuv>
     </tu>
     <tu>
@@ -59502,7 +59502,7 @@
         <seg>The port to listen at unspecified</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>未指定监听端口【】The port to listen at unspecified</seg>
+        <seg>未指定监听端口</seg>
       </tuv>
     </tu>
     <tu>
@@ -59510,7 +59510,7 @@
         <seg>The port to attach to unspecified</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>未指定附加端口【】The port to attach to unspecified</seg>
+        <seg>未指定附加端口</seg>
       </tuv>
     </tu>
     <tu>
@@ -59518,7 +59518,7 @@
         <seg>Shared memory address unspecified</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>共享内存地址没有指定【】Shared memory address unspecified</seg>
+        <seg>共享内存地址没有指定</seg>
       </tuv>
     </tu>
     <tu>
@@ -59526,7 +59526,7 @@
         <seg>{0}. Check your JDK installation</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>检查你的JDK安装【】{0}. Check your JDK installation</seg>
+        <seg>检查你的JDK安装</seg>
       </tuv>
     </tu>
     <tu>
@@ -59542,7 +59542,7 @@
         <seg>VM Version Warning</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>虚拟机版本警告【】VM Version Warning</seg>
+        <seg>虚拟机版本警告</seg>
       </tuv>
     </tu>
     <tu>
@@ -59558,7 +59558,7 @@
         <seg>VM disconnected. Target virtual machine closed connection</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>虚拟机断开连接。目标虚拟机关闭了连接【】VM disconnected. Target virtual machine closed connection</seg>
+        <seg>虚拟机断开连接。目标虚拟机关闭了连接</seg>
       </tuv>
     </tu>
     <tu>
@@ -59566,7 +59566,7 @@
         <seg>Cannot connect to remote process, host is unknown</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不能连接远程进程，主机未知【】Cannot connect to remote process, host is unknown</seg>
+        <seg>不能连接远程进程，主机未知</seg>
       </tuv>
     </tu>
     <tu>
@@ -59574,7 +59574,7 @@
         <seg>Unable to open debugger port</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不能打开调试器端口【】Unable to open debugger port</seg>
+        <seg>不能打开调试器端口</seg>
       </tuv>
     </tu>
     <tu>
@@ -59590,7 +59590,7 @@
         <seg>Debugger is waiting for application to start; debug address: ''{0}''; transport: ''{1}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>调试器正在等待应用启动，调试地址：''{0}'，运输: ''{1}''【】Debugger is waiting for application to start; debug address: ''{0}''; transport: ''{1}''</seg>
+        <seg>调试器正在等待应用启动，调试地址：''{0}'，运输: ''{1}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -59598,7 +59598,7 @@
         <seg>Listening to the connection, address: ''{0}'', transport: ''{1}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>监听连接，地址：''{0}'，运输: ''{1}''【】Listening to the connection, address: ''{0}'', transport: ''{1}''</seg>
+        <seg>监听连接，地址：''{0}'，运输: ''{1}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -59606,7 +59606,7 @@
         <seg>Connecting to the target VM, address: ''{0}'', transport: ''{1}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>连接到目标虚拟机，地址：''{0}'，运输: ''{1}''【】Connecting to the target VM, address: ''{0}'', transport: ''{1}''</seg>
+        <seg>连接到目标虚拟机，地址：''{0}'，运输: ''{1}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -59614,7 +59614,7 @@
         <seg>The application is running</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>应用正在运行【】The application is running</seg>
+        <seg>应用正在运行</seg>
       </tuv>
     </tu>
     <tu>
@@ -59622,7 +59622,7 @@
         <seg>Debug stopped</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>调试停止【】Debug stopped</seg>
+        <seg>调试停止</seg>
       </tuv>
     </tu>
     <tu>
@@ -59630,7 +59630,7 @@
         <seg>Waiting until last debugger command completes</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>等待直到最后调试器命令完成【】Waiting until last debugger command completes</seg>
+        <seg>等待直到最后调试器命令完成</seg>
       </tuv>
     </tu>
     <tu>
@@ -59638,7 +59638,7 @@
         <seg>Stepping out</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>走出【】Stepping out</seg>
+        <seg>走出</seg>
       </tuv>
     </tu>
     <tu>
@@ -59646,7 +59646,7 @@
         <seg>Stepping into</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>走进【】Stepping into</seg>
+        <seg>走进</seg>
       </tuv>
     </tu>
     <tu>
@@ -59654,7 +59654,7 @@
         <seg>Stepping over</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>走过【】Stepping over</seg>
+        <seg>走过</seg>
       </tuv>
     </tu>
     <tu>
@@ -59670,7 +59670,7 @@
         <seg>Process resumed</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>进程展现【】Process resumed</seg>
+        <seg>进程展现</seg>
       </tuv>
     </tu>
     <tu>
@@ -59678,7 +59678,7 @@
         <seg>Paused in another thread</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>暂停在另一个线程中【】Paused in another thread</seg>
+        <seg>暂停在另一个线程中</seg>
       </tuv>
     </tu>
     <tu>
@@ -59686,7 +59686,7 @@
         <seg>Cannot pop bottom frame</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不能弹出底部框架【】Cannot pop bottom frame</seg>
+        <seg>不能弹出底部框架</seg>
       </tuv>
     </tu>
     <tu>
@@ -59694,7 +59694,7 @@
         <seg>An error occurred while popping stack frame: {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>一个错误发生当弹出堆栈框架时【】An error occurred while popping stack frame: {0}</seg>
+        <seg>一个错误发生当弹出堆栈框架时</seg>
       </tuv>
     </tu>
     <tu>
@@ -59702,7 +59702,7 @@
         <seg>Class not loaded : {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>类没有加载【】Class not loaded : {0}</seg>
+        <seg>类没有加载</seg>
       </tuv>
     </tu>
     <tu>
@@ -59710,7 +59710,7 @@
         <seg>Class at {0}:{1}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>类在【】Class at {0}:{1}</seg>
+        <seg>类在</seg>
       </tuv>
     </tu>
     <tu>
@@ -59718,7 +59718,7 @@
         <seg>null context</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>空上下文【】null context</seg>
+        <seg>空上下文</seg>
       </tuv>
     </tu>
     <tu>
@@ -59726,7 +59726,7 @@
         <seg>Array reference expected</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>数组引用期待【】Array reference expected</seg>
+        <seg>数组引用期待</seg>
       </tuv>
     </tu>
     <tu>
@@ -59734,7 +59734,7 @@
         <seg>Invalid index expression</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>无效索引表达式【】Invalid index expression</seg>
+        <seg>无效索引表达式</seg>
       </tuv>
     </tu>
     <tu>
@@ -59742,7 +59742,7 @@
         <seg>Right part of the assignment is not a value</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>赋值的右部分不是一个值【】Right part of the assignment is not a value</seg>
+        <seg>赋值的右部分不是一个值</seg>
       </tuv>
     </tu>
     <tu>
@@ -59750,7 +59750,7 @@
         <seg>Left part of the assignment is not lvalue</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>赋值的左部分不是一个值【】Left part of the assignment is not lvalue</seg>
+        <seg>赋值的左部分不是一个值</seg>
       </tuv>
     </tu>
     <tu>
@@ -59758,7 +59758,7 @@
         <seg>Incompatible types for ''{0}'' operation</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>''{0}''操作不兼容的类型【】Incompatible types for ''{0}'' operation</seg>
+        <seg>''{0}''操作不兼容的类型</seg>
       </tuv>
     </tu>
     <tu>
@@ -59766,7 +59766,7 @@
         <seg>No loop statements labeled with label ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>没有标签为''{0}''的循环语句【】No loop statements labeled with label ''{0}''</seg>
+        <seg>没有标签为''{0}''的循环语句</seg>
       </tuv>
     </tu>
     <tu>
@@ -59774,7 +59774,7 @@
         <seg>Reference type expected</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>引用类型期待【】Reference type expected</seg>
+        <seg>引用类型期待</seg>
       </tuv>
     </tu>
     <tu>
@@ -59782,7 +59782,7 @@
         <seg>Variable ''{0}'' is not declared</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>变量''{0}''没有被声明【】Variable ''{0}'' is not declared</seg>
+        <seg>变量''{0}''没有被声明</seg>
       </tuv>
     </tu>
     <tu>
@@ -59790,7 +59790,7 @@
         <seg>Variable ''{0}'' is already declared</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>变量''{0}''已经声明【】Variable ''{0}'' is already declared</seg>
+        <seg>变量''{0}''已经声明</seg>
       </tuv>
     </tu>
     <tu>
@@ -59798,7 +59798,7 @@
         <seg>Operation ''{0}'' not supported</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>操作''{0}''不支持【】Operation ''{0}'' not supported</seg>
+        <seg>操作''{0}''不支持</seg>
       </tuv>
     </tu>
     <tu>
@@ -59806,7 +59806,7 @@
         <seg>Statement ''{0}'' not supported</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>语句''{0}''不支持【】Statement ''{0}'' not supported</seg>
+        <seg>语句''{0}''不支持</seg>
       </tuv>
     </tu>
     <tu>
@@ -59814,7 +59814,7 @@
         <seg>Initializer for ''{0}'' has incompatible type</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>''{0}''的初始化器具有不兼容的类型【】Initializer for ''{0}'' has incompatible type</seg>
+        <seg>''{0}''的初始化器具有不兼容的类型</seg>
       </tuv>
     </tu>
     <tu>
@@ -59822,7 +59822,7 @@
         <seg>Local variable ''{0}'' not found in class closure</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>本地变量''{0}''在类闭包中没有找到【】Local variable ''{0}'' not found in class closure</seg>
+        <seg>本地变量''{0}''在类闭包中没有找到</seg>
       </tuv>
     </tu>
     <tu>
@@ -59830,7 +59830,7 @@
         <seg>Cannot find local variable ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>无法找到局部变量''{0}''【】Cannot find local variable ''{0}''</seg>
+        <seg>无法找到局部变量''{0}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -59838,7 +59838,7 @@
         <seg>Cannot resolve class containing field ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不能解析包含字段''{0}''的类【】Cannot resolve class containing field ''{0}''</seg>
+        <seg>不能解析包含字段''{0}''的类</seg>
       </tuv>
     </tu>
     <tu>
@@ -59846,7 +59846,7 @@
         <seg>Cannot find sources for class containing field ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不能找到包含字段''{0}''的类的源【】Cannot find sources for class containing field ''{0}''</seg>
+        <seg>不能找到包含字段''{0}''的类的源</seg>
       </tuv>
     </tu>
     <tu>
@@ -59854,7 +59854,7 @@
         <seg>Identifier expected instead of ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>识别期待 替代''{0}''【】Identifier expected instead of ''{0}''</seg>
+        <seg>识别期待 替代''{0}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -59862,7 +59862,7 @@
         <seg>Type is unknown for ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>类型是未知的对于''{0}''【】Type is unknown for ''{0}''</seg>
+        <seg>类型是未知的对于''{0}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -59870,7 +59870,7 @@
         <seg>Cannot evaluate qualifier ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不能解析限定的''{0}''【】Cannot evaluate qualifier ''{0}''</seg>
+        <seg>不能解析限定的''{0}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -59878,7 +59878,7 @@
         <seg>Method ''{0}'' not found</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>方法没有找到【】Method ''{0}'' not found</seg>
+        <seg>方法没有找到</seg>
       </tuv>
     </tu>
     <tu>
@@ -59886,7 +59886,7 @@
         <seg>Invalid expression for array dimension: {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>对于数组维度: {0} 是 无效的表达式【】Invalid expression for array dimension: {0}</seg>
+        <seg>对于数组维度: {0} 是 无效的表达式</seg>
       </tuv>
     </tu>
     <tu>
@@ -59894,7 +59894,7 @@
         <seg>Creation of multi-dimensional arrays not supported</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>多维数组的创建是不支持的【】Creation of multi-dimensional arrays not supported</seg>
+        <seg>多维数组的创建是不支持的</seg>
       </tuv>
     </tu>
     <tu>
@@ -59902,7 +59902,7 @@
         <seg>Anonymous class evaluation is not supported</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>匿名类解析是不支持的【】Anonymous class evaluation is not supported</seg>
+        <seg>匿名类解析是不支持的</seg>
       </tuv>
     </tu>
     <tu>
@@ -59910,7 +59910,7 @@
         <seg>Lambdas evaluation is not supported</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>Lambdas解析是不支持的【】Lambdas evaluation is not supported</seg>
+        <seg>Lambdas解析是不支持的</seg>
       </tuv>
     </tu>
     <tu>
@@ -59918,7 +59918,7 @@
         <seg>Method reference evaluation is not supported</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>方法引用解析是不支持的【】Method reference evaluation is not supported</seg>
+        <seg>方法引用解析是不支持的</seg>
       </tuv>
     </tu>
     <tu>
@@ -59926,7 +59926,7 @@
         <seg>No such static field: ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>没有这个静态字段【】No such static field: ''{0}''</seg>
+        <seg>没有这个静态字段</seg>
       </tuv>
     </tu>
     <tu>
@@ -59934,7 +59934,7 @@
         <seg>No such instance field: ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>没有这个实例字段【】No such instance field: ''{0}''</seg>
+        <seg>没有这个实例字段</seg>
       </tuv>
     </tu>
     <tu>
@@ -59942,7 +59942,7 @@
         <seg>Class or array type expected while evaluating field ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>类或者数组类型被期待当解析字段''{0}''时【】Class or array type expected while evaluating field ''{0}''</seg>
+        <seg>类或者数组类型被期待当解析字段''{0}''时</seg>
       </tuv>
     </tu>
     <tu>
@@ -59950,7 +59950,7 @@
         <seg>Error evaluating field : ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>错误解析字段【】Error evaluating field : ''{0}''</seg>
+        <seg>错误解析字段</seg>
       </tuv>
     </tu>
     <tu>
@@ -59958,7 +59958,7 @@
         <seg>Error evaluating method : ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>错误解析方法：【】Error evaluating method : ''{0}''</seg>
+        <seg>错误解析方法：</seg>
       </tuv>
     </tu>
     <tu>
@@ -59966,7 +59966,7 @@
         <seg>Object reference expected</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>预期对象引用【】Object reference expected</seg>
+        <seg>预期对象引用</seg>
       </tuv>
     </tu>
     <tu>
@@ -59974,7 +59974,7 @@
         <seg>Cannot evaluate: stack frame unavailable</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不能解析：堆栈框架无效【】Cannot evaluate: stack frame unavailable</seg>
+        <seg>不能解析：堆栈框架无效</seg>
       </tuv>
     </tu>
     <tu>
@@ -59982,7 +59982,7 @@
         <seg>No such static method: ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>没有这个静态方法【】No such static method: ''{0}''</seg>
+        <seg>没有这个静态方法</seg>
       </tuv>
     </tu>
     <tu>
@@ -59990,7 +59990,7 @@
         <seg>No such instance method: ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>没有这个实例方法【】No such instance method: ''{0}''</seg>
+        <seg>没有这个实例方法</seg>
       </tuv>
     </tu>
     <tu>
@@ -59998,7 +59998,7 @@
         <seg>Array type expected</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>预期数组类型【】Array type expected</seg>
+        <seg>预期数组类型</seg>
       </tuv>
     </tu>
     <tu>
@@ -60006,7 +60006,7 @@
         <seg>Numeric value expected as array dimension</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>数字值被期待作为数组维度【】Numeric value expected as array dimension</seg>
+        <seg>数字值被期待作为数组维度</seg>
       </tuv>
     </tu>
     <tu>
@@ -60014,7 +60014,7 @@
         <seg>Cannot evaluate array initializer</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不能解析数组初始化【】Cannot evaluate array initializer</seg>
+        <seg>不能解析数组初始化</seg>
       </tuv>
     </tu>
     <tu>
@@ -60022,7 +60022,7 @@
         <seg>Initializer type is not assignment-compatible with array's component type</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>初始化类型 不是与 数组的组件类型兼容的【】Initializer type is not assignment-compatible with array's component type</seg>
+        <seg>初始化类型 不是与 数组的组件类型兼容的</seg>
       </tuv>
     </tu>
     <tu>
@@ -60030,7 +60030,7 @@
         <seg>Invalid array size</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>无效数组大小【】Invalid array size</seg>
+        <seg>无效数组大小</seg>
       </tuv>
     </tu>
     <tu>
@@ -60038,7 +60038,7 @@
         <seg>Cannot initialize array</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不能初始化数组【】Cannot initialize array</seg>
+        <seg>不能初始化数组</seg>
       </tuv>
     </tu>
     <tu>
@@ -60046,7 +60046,7 @@
         <seg>Cannot evaluate class type</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不能解析类类型【】Cannot evaluate class type</seg>
+        <seg>不能解析类类型</seg>
       </tuv>
     </tu>
     <tu>
@@ -60054,7 +60054,7 @@
         <seg>Cannot resolve constructor ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不能解析构造器''{0}''【】Cannot resolve constructor ''{0}''</seg>
+        <seg>不能解析构造器''{0}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -60062,7 +60062,7 @@
         <seg>'this' is not available</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>'this'是不可用的【】'this' is not available</seg>
+        <seg>'this'是不可用的</seg>
       </tuv>
     </tu>
     <tu>
@@ -60070,7 +60070,7 @@
         <seg>Cannot cast null to ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不能类型转换空到''{0}''【】Cannot cast null to ''{0}''</seg>
+        <seg>不能类型转换空到''{0}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -60078,7 +60078,7 @@
         <seg>Cannot cast numeric value to ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不能类型转换数字值到''{0}''【】Cannot cast numeric value to ''{0}''</seg>
+        <seg>不能类型转换数字值到''{0}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -60086,7 +60086,7 @@
         <seg>Cannot cast boolean value to ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不能类型转换布尔值到''{0}''【】Cannot cast boolean value to ''{0}''</seg>
+        <seg>不能类型转换布尔值到''{0}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -60094,7 +60094,7 @@
         <seg>Cannot cast char value to ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不能类型转换字符值到''{0}''【】Cannot cast char value to ''{0}''</seg>
+        <seg>不能类型转换字符值到''{0}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -60102,7 +60102,7 @@
         <seg>Cannot cast ''{0}'' to ''{1}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不能类型转换''{0}'' 到''{1}''【】Cannot cast ''{0}'' to ''{1}''</seg>
+        <seg>不能类型转换''{0}'' 到''{1}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -60110,7 +60110,7 @@
         <seg>Numeric value expected</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>预期数字值【】Numeric value expected</seg>
+        <seg>预期数字值</seg>
       </tuv>
     </tu>
     <tu>
@@ -60118,7 +60118,7 @@
         <seg>Integer value expected</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>预期整型值【】Integer value expected</seg>
+        <seg>预期整型值</seg>
       </tuv>
     </tu>
     <tu>
@@ -60126,7 +60126,7 @@
         <seg>Boolean value expected</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>预期布尔值【】Boolean value expected</seg>
+        <seg>预期布尔值</seg>
       </tuv>
     </tu>
     <tu>
@@ -60134,7 +60134,7 @@
         <seg>Breakpoint does not belong to any class</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>断点不属于任何类【】Breakpoint does not belong to any class</seg>
+        <seg>断点不属于任何类</seg>
       </tuv>
     </tu>
     <tu>
@@ -60142,7 +60142,7 @@
         <seg>Source file changed or found source file does not correspond to the breakpoint''s file</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>源文件更改或发现源文件不符合断点文件【】Source file changed or found source file does not correspond to the breakpoint''s file</seg>
+        <seg>源文件更改或发现源文件不符合断点文件</seg>
       </tuv>
     </tu>
     <tu>
@@ -60150,7 +60150,7 @@
         <seg>The class {0}, found in the project classpath, has no associated source files</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>在项目类路径中找到的类 {0}，没有相关的源文件【】The class {0}, found in the project classpath, has no associated source files</seg>
+        <seg>在项目类路径中找到的类 {0}，没有相关的源文件</seg>
       </tuv>
     </tu>
     <tu>
@@ -60158,7 +60158,7 @@
         <seg>Paused</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>暂停【】Paused</seg>
+        <seg>暂停</seg>
       </tuv>
     </tu>
     <tu>
@@ -60166,7 +60166,7 @@
         <seg>MONITOR</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>监视器【】MONITOR</seg>
+        <seg>监视器</seg>
       </tuv>
     </tu>
     <tu>
@@ -60174,7 +60174,7 @@
         <seg>NOTSTARTED</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>没有开始的【】NOTSTARTED</seg>
+        <seg>没有开始的</seg>
       </tuv>
     </tu>
     <tu>
@@ -60182,7 +60182,7 @@
         <seg>SLEEPING</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>睡眠【】SLEEPING</seg>
+        <seg>睡眠</seg>
       </tuv>
     </tu>
     <tu>
@@ -60190,7 +60190,7 @@
         <seg>WAIT</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>等待【】WAIT</seg>
+        <seg>等待</seg>
       </tuv>
     </tu>
     <tu>
@@ -60198,7 +60198,7 @@
         <seg>ZOMBIE</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>僵尸【】ZOMBIE</seg>
+        <seg>僵尸</seg>
       </tuv>
     </tu>
     <tu>
@@ -60206,7 +60206,7 @@
         <seg>UNDEFINED</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>未定义【】UNDEFINED</seg>
+        <seg>未定义</seg>
       </tuv>
     </tu>
     <tu>
@@ -60214,7 +60214,7 @@
         <seg>Scanning: {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>扫描【】Scanning: {0}</seg>
+        <seg>扫描</seg>
       </tuv>
     </tu>
     <tu>
@@ -60222,7 +60222,7 @@
         <seg>Scanning for classes to reload</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>扫描 使类重新加载【】Scanning for classes to reload</seg>
+        <seg>扫描 使类重新加载</seg>
       </tuv>
     </tu>
     <tu>
@@ -60230,7 +60230,7 @@
         <seg>Reloading classes</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>重新加载类【】Reloading classes</seg>
+        <seg>重新加载类</seg>
       </tuv>
     </tu>
     <tu>
@@ -60238,7 +60238,7 @@
         <seg>Breakpoints will be ignored for the obsolete version of the method</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>断点将被忽略 因它是方法的过时版本【】Breakpoints will be ignored for the obsolete version of the method</seg>
+        <seg>断点将被忽略 因它是方法的过时版本</seg>
       </tuv>
     </tu>
     <tu>
@@ -60246,7 +60246,7 @@
         <seg>Operation canceled</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>操作取消【】Operation canceled</seg>
+        <seg>操作取消</seg>
       </tuv>
     </tu>
     <tu>
@@ -60254,7 +60254,7 @@
         <seg>Operation not supported by VM</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>操作VM不支持【】Operation not supported by VM</seg>
+        <seg>操作VM不支持</seg>
       </tuv>
     </tu>
     <tu>
@@ -60262,7 +60262,7 @@
         <seg>Class definition not found : {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>类定义没有找到【】Class definition not found : {0}</seg>
+        <seg>类定义没有找到</seg>
       </tuv>
     </tu>
     <tu>
@@ -60270,7 +60270,7 @@
         <seg>Verification error : {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>验证错误: {0}【】Verification error : {0}</seg>
+        <seg>验证错误: {0}</seg>
       </tuv>
     </tu>
     <tu>
@@ -60278,7 +60278,7 @@
         <seg>Unsupported class version : {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不支持类版本 : {0}【】Unsupported class version : {0}</seg>
+        <seg>不支持类版本 : {0}</seg>
       </tuv>
     </tu>
     <tu>
@@ -60286,7 +60286,7 @@
         <seg>Class format error : {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>类格式错误: {0}【】Class format error : {0}</seg>
+        <seg>类格式错误: {0}</seg>
       </tuv>
     </tu>
     <tu>
@@ -60294,7 +60294,7 @@
         <seg>Class circularity error : {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>类循环错误: {0}【】Class circularity error : {0}</seg>
+        <seg>类循环错误: {0}</seg>
       </tuv>
     </tu>
     <tu>
@@ -60302,7 +60302,7 @@
         <seg>Exception while reloading classes : {0} : {1}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>异常当重新加载类: {0} : {1}时【】Exception while reloading classes : {0} : {1}</seg>
+        <seg>异常当重新加载类: {0} : {1}时</seg>
       </tuv>
     </tu>
     <tu>
@@ -60310,7 +60310,7 @@
         <seg>For {0} of {1} {1,choice, 1#class|2#classes} not all versions were reloaded</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>为{0} of {1} {1,choice, 1#class|2#classes}不是所有版本是重新加载【】For {0} of {1} {1,choice, 1#class|2#classes} not all versions were reloaded</seg>
+        <seg>为{0} of {1} {1,choice, 1#class|2#classes}不是所有版本是重新加载</seg>
       </tuv>
     </tu>
     <tu>
@@ -60318,7 +60318,7 @@
         <seg>Cannot create void value</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不能创建空的值【】Cannot create void value</seg>
+        <seg>不能创建空的值</seg>
       </tuv>
     </tu>
     <tu>
@@ -60326,7 +60326,7 @@
         <seg>Range specified is too big. {0} needs too much resources to perform requested operation. Are you sure you want to continue?</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>范围指定太大。{0}需要太多的资源来执行请求的操作。你确定你想继续吗?【】Range specified is too big. {0} needs too much resources to perform requested operation. Are you sure you want to continue?</seg>
+        <seg>范围指定太大。{0}需要太多的资源来执行请求的操作。你确定你想继续吗?</seg>
       </tuv>
     </tu>
     <tu>
@@ -60334,7 +60334,7 @@
         <seg>Range Is Too Big</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>范围太大【】Range Is Too Big</seg>
+        <seg>范围太大</seg>
       </tuv>
     </tu>
     <tu>
@@ -60342,7 +60342,7 @@
         <seg>Start index is less than 0</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>开始索引比0少【】Start index is less than 0</seg>
+        <seg>开始索引比0少</seg>
       </tuv>
     </tu>
     <tu>
@@ -60350,7 +60350,7 @@
         <seg>End index is less than start index</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>结束索引比开始索引少【】End index is less than start index</seg>
+        <seg>结束索引比开始索引少</seg>
       </tuv>
     </tu>
     <tu>
@@ -60358,7 +60358,7 @@
         <seg>Array sta&amp;rt index:</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>数组开始索引【】Array sta&amp;rt index:</seg>
+        <seg>数组开始索引</seg>
       </tuv>
     </tu>
     <tu>
@@ -60366,7 +60366,7 @@
         <seg>en&amp;d index:</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>结束索引【】en&amp;d index:</seg>
+        <seg>结束索引</seg>
       </tuv>
     </tu>
     <tu>
@@ -60374,7 +60374,7 @@
         <seg>Show &amp;maximum</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>显示最大【】Show &amp;maximum</seg>
+        <seg>显示最大</seg>
       </tuv>
     </tu>
     <tu>
@@ -60382,7 +60382,7 @@
         <seg>array elements</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>数组元素【】array elements</seg>
+        <seg>数组元素</seg>
       </tuv>
     </tu>
     <tu>
@@ -60390,7 +60390,7 @@
         <seg>Autoscroll to new &amp;local variables</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>自动滚动到新的当地变量【】Autoscroll to new &amp;local variables</seg>
+        <seg>自动滚动到新的当地变量</seg>
       </tuv>
     </tu>
     <tu>
@@ -60398,7 +60398,7 @@
         <seg>S&amp;ynthetic fields</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>合成字段【】S&amp;ynthetic fields</seg>
+        <seg>合成字段</seg>
       </tuv>
     </tu>
     <tu>
@@ -60406,7 +60406,7 @@
         <seg>$val fields as local &amp;variables</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>$val 字段为本地变量【】$val fields as local &amp;variables</seg>
+        <seg>$val 字段为本地变量</seg>
       </tuv>
     </tu>
     <tu>
@@ -60414,7 +60414,7 @@
         <seg>Sort a&amp;lphabetically</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>按字母顺序排序【】Sort a&amp;lphabetically</seg>
+        <seg>按字母顺序排序</seg>
       </tuv>
     </tu>
     <tu>
@@ -60422,7 +60422,7 @@
         <seg>Hide &amp;null array elements</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>隐藏空数组元素【】Hide &amp;null array elements</seg>
+        <seg>隐藏空数组元素</seg>
       </tuv>
     </tu>
     <tu>
@@ -60430,7 +60430,7 @@
         <seg>&amp;Static fields</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>静态字段【】&amp;Static fields</seg>
+        <seg>静态字段</seg>
       </tuv>
     </tu>
     <tu>
@@ -60438,7 +60438,7 @@
         <seg>Static &amp;final fields</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>静态最终字段【】Static &amp;final fields</seg>
+        <seg>静态最终字段</seg>
       </tuv>
     </tu>
     <tu>
@@ -60446,7 +60446,7 @@
         <seg>Declared &amp;type</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>声明类型【】Declared &amp;type</seg>
+        <seg>声明类型</seg>
       </tuv>
     </tu>
     <tu>
@@ -60454,7 +60454,7 @@
         <seg>Fully &amp;qualified names</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>完全限定名【】Fully &amp;qualified names</seg>
+        <seg>完全限定名</seg>
       </tuv>
     </tu>
     <tu>
@@ -60462,7 +60462,7 @@
         <seg>Object &amp;id</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>对象ID【】Object &amp;id</seg>
+        <seg>对象ID</seg>
       </tuv>
     </tu>
     <tu>
@@ -60470,7 +60470,7 @@
         <seg>Show type for strings</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>显示类型为字符串【】Show type for strings</seg>
+        <seg>显示类型为字符串</seg>
       </tuv>
     </tu>
     <tu>
@@ -60478,7 +60478,7 @@
         <seg>Enable alternative view for Coll&amp;ections classes</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>启用替代视图为集合类【】Enable alternative view for Coll&amp;ections classes</seg>
+        <seg>启用替代视图为集合类</seg>
       </tuv>
     </tu>
     <tu>
@@ -60486,7 +60486,7 @@
         <seg>Enable 't&amp;oString()' object view:</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>启用'toString()'对象视图【】Enable 't&amp;oString()' object view:</seg>
+        <seg>启用'toString()'对象视图</seg>
       </tuv>
     </tu>
     <tu>
@@ -60494,7 +60494,7 @@
         <seg>For all classes that override 'toString()' method</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>为所有类 它们覆盖了'toString()'方法【】For all classes that override 'toString()' method</seg>
+        <seg>为所有类 它们覆盖了'toString()'方法</seg>
       </tuv>
     </tu>
     <tu>
@@ -60502,7 +60502,7 @@
         <seg>For classes from the list:</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>为类从列表【】For classes from the list:</seg>
+        <seg>为类从列表</seg>
       </tuv>
     </tu>
     <tu>
@@ -60510,7 +60510,7 @@
         <seg>Show type and object id</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>显示类型和对象ID【】Show type and object id</seg>
+        <seg>显示类型和对象ID</seg>
       </tuv>
     </tu>
     <tu>
@@ -60518,7 +60518,7 @@
         <seg>Use default renderer</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>用默认渲染器【】Use default renderer</seg>
+        <seg>用默认渲染器</seg>
       </tuv>
     </tu>
     <tu>
@@ -60526,7 +60526,7 @@
         <seg>Use following expression:</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>用下面的表达式【】Use following expression:</seg>
+        <seg>用下面的表达式</seg>
       </tuv>
     </tu>
     <tu>
@@ -60534,7 +60534,7 @@
         <seg>Use list of expressions:</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>用表达式的列表【】Use list of expressions:</seg>
+        <seg>用表达式的列表</seg>
       </tuv>
     </tu>
     <tu>
@@ -60542,7 +60542,7 @@
         <seg>Apply renderer to objects of type (fully-qualified name):</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>将渲染器应用到类型的对象(完全限定名):【】Apply renderer to objects of type (fully-qualified name):</seg>
+        <seg>将渲染器应用到类型的对象(完全限定名):</seg>
       </tuv>
     </tu>
     <tu>
@@ -60550,7 +60550,7 @@
         <seg>When rendering a node</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>当渲染一个节点的时候【】When rendering a node</seg>
+        <seg>当渲染一个节点的时候</seg>
       </tuv>
     </tu>
     <tu>
@@ -60558,7 +60558,7 @@
         <seg>When expanding a node</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>当扩展一个节点的时候【】When expanding a node</seg>
+        <seg>当扩展一个节点的时候</seg>
       </tuv>
     </tu>
     <tu>
@@ -60566,7 +60566,7 @@
         <seg>Test if a node can be expanded (optional):</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>测试一个节点是否可以扩展(可选):【】Test if a node can be expanded (optional):</seg>
+        <seg>测试一个节点是否可以扩展(可选):</seg>
       </tuv>
     </tu>
     <tu>
@@ -60574,7 +60574,7 @@
         <seg>Renderer Reference Type</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>渲染器引用类型【】Renderer Reference Type</seg>
+        <seg>渲染器引用类型</seg>
       </tuv>
     </tu>
     <tu>
@@ -60582,7 +60582,7 @@
         <seg>Reload classes in &amp;background</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>重新加载类在后台【】Reload classes in &amp;background</seg>
+        <seg>重新加载类在后台</seg>
       </tuv>
     </tu>
     <tu>
@@ -60590,7 +60590,7 @@
         <seg>Make project before reloading classes</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>编译项目在重新加载类前【】Make project before reloading classes</seg>
+        <seg>编译项目在重新加载类前</seg>
       </tuv>
     </tu>
     <tu>
@@ -60598,7 +60598,7 @@
         <seg>Enable 'JVM will hang' warning</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>启用'JVM 将要中止'警告【】Enable 'JVM will hang' warning</seg>
+        <seg>启用'JVM 将要中止'警告</seg>
       </tuv>
     </tu>
     <tu>
@@ -60606,7 +60606,7 @@
         <seg>Reload classes after compilation:</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>重新加载类在编译之后【】Reload classes after compilation:</seg>
+        <seg>重新加载类在编译之后</seg>
       </tuv>
     </tu>
     <tu>
@@ -60614,7 +60614,7 @@
         <seg>&amp;Always</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>总是【】&amp;Always</seg>
+        <seg>总是</seg>
       </tuv>
     </tu>
     <tu>
@@ -60622,7 +60622,7 @@
         <seg>&amp;Never</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>从不【】&amp;Never</seg>
+        <seg>从不</seg>
       </tuv>
     </tu>
     <tu>
@@ -60630,7 +60630,7 @@
         <seg>Force Class&amp;ic VM for JDK 1.3.x and earlier</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>强制使用经典VM 为JDK 1.3.x 和早些时候 【】Force Class&amp;ic VM for JDK 1.3.x and earlier</seg>
+        <seg>强制使用经典VM 为JDK 1.3.x 和早些时候</seg>
       </tuv>
     </tu>
     <tu>
@@ -60638,7 +60638,7 @@
         <seg>Disable JIT</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>禁用JIT【】Disable JIT</seg>
+        <seg>禁用JIT</seg>
       </tuv>
     </tu>
     <tu>
@@ -60646,7 +60646,7 @@
         <seg>&amp;Socket</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>套接字【】&amp;Socket</seg>
+        <seg>套接字</seg>
       </tuv>
     </tu>
     <tu>
@@ -60654,7 +60654,7 @@
         <seg>Ski&amp;p synthetic methods</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>跳过合成方法【】Ski&amp;p synthetic methods</seg>
+        <seg>跳过合成方法</seg>
       </tuv>
     </tu>
     <tu>
@@ -60662,7 +60662,7 @@
         <seg>Skip &amp;constructors</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>跳过构造器【】Skip &amp;constructors</seg>
+        <seg>跳过构造器</seg>
       </tuv>
     </tu>
     <tu>
@@ -60670,7 +60670,7 @@
         <seg>Skip class l&amp;oaders</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>跳过类加载器【】Skip class l&amp;oaders</seg>
+        <seg>跳过类加载器</seg>
       </tuv>
     </tu>
     <tu>
@@ -60678,7 +60678,7 @@
         <seg>Skip simple &amp;getters</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>跳过简单获得【】Skip simple &amp;getters</seg>
+        <seg>跳过简单获得</seg>
       </tuv>
     </tu>
     <tu>
@@ -60686,7 +60686,7 @@
         <seg>Do not step &amp;into the classes</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不进入类【】Do not step &amp;into the classes</seg>
+        <seg>不进入类</seg>
       </tuv>
     </tu>
     <tu>
@@ -60702,7 +60702,7 @@
         <seg>N&amp;ever</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>从不【】N&amp;ever</seg>
+        <seg>从不</seg>
       </tuv>
     </tu>
     <tu>
@@ -60718,7 +60718,7 @@
         <seg>Show class name</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>显示类名【】Show class name</seg>
+        <seg>显示类名</seg>
       </tuv>
     </tu>
     <tu>
@@ -60726,7 +60726,7 @@
         <seg>Show package name</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>显示包名【】Show package name</seg>
+        <seg>显示包名</seg>
       </tuv>
     </tu>
     <tu>
@@ -60734,7 +60734,7 @@
         <seg>Show &amp;line number</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>显示行号【】Show &amp;line number</seg>
+        <seg>显示行号</seg>
       </tuv>
     </tu>
     <tu>
@@ -60742,7 +60742,7 @@
         <seg>Move current thread to the top</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>移动当前线程到顶部【】Move current thread to the top</seg>
+        <seg>移动当前线程到顶部</seg>
       </tuv>
     </tu>
     <tu>
@@ -60750,7 +60750,7 @@
         <seg>Show stack &amp;frames for synthetic methods</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>显示堆栈框架为合成方法【】Show stack &amp;frames for synthetic methods</seg>
+        <seg>显示堆栈框架为合成方法</seg>
       </tuv>
     </tu>
     <tu>
@@ -60758,7 +60758,7 @@
         <seg>Show thread &amp;groups</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>显示线程组【】Show thread &amp;groups</seg>
+        <seg>显示线程组</seg>
       </tuv>
     </tu>
     <tu>
@@ -60766,7 +60766,7 @@
         <seg>Java Data Type Renderers</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>java数据类型渲染器【】Java Data Type Renderers</seg>
+        <seg>java数据类型渲染器</seg>
       </tuv>
     </tu>
     <tu>
@@ -60774,7 +60774,7 @@
         <seg>Renderer name:</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>渲染器名字【】Renderer name:</seg>
+        <seg>渲染器名字</seg>
       </tuv>
     </tu>
     <tu>
@@ -60782,7 +60782,7 @@
         <seg>No renderers</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>没有渲染器【】No renderers</seg>
+        <seg>没有渲染器</seg>
       </tuv>
     </tu>
     <tu>
@@ -60790,7 +60790,7 @@
         <seg>Add new renderer</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>添加新的渲染器【】Add new renderer</seg>
+        <seg>添加新的渲染器</seg>
       </tuv>
     </tu>
     <tu>
@@ -60798,7 +60798,7 @@
         <seg>Remove selected renderer</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>移除选择的渲染器【】Remove selected renderer</seg>
+        <seg>移除选择的渲染器</seg>
       </tuv>
     </tu>
     <tu>
@@ -60806,7 +60806,7 @@
         <seg>Copy selected renderer</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>复制选择的渲染器【】Copy selected renderer</seg>
+        <seg>复制选择的渲染器</seg>
       </tuv>
     </tu>
     <tu>
@@ -60814,7 +60814,7 @@
         <seg>Move renderer Up</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>移动渲染器向上【】Move renderer Up</seg>
+        <seg>移动渲染器向上</seg>
       </tuv>
     </tu>
     <tu>
@@ -60822,7 +60822,7 @@
         <seg>Move renderer Down</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>移动渲染器向下【】Move renderer Down</seg>
+        <seg>移动渲染器向下</seg>
       </tuv>
     </tu>
     <tu>
@@ -60830,7 +60830,7 @@
         <seg>Enter the expression</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>输入表达式【】Enter the expression</seg>
+        <seg>输入表达式</seg>
       </tuv>
     </tu>
     <tu>
@@ -60854,7 +60854,7 @@
         <seg>daemon</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>守护【】daemon</seg>
+        <seg>守护</seg>
       </tuv>
     </tu>
     <tu>
@@ -60862,7 +60862,7 @@
         <seg>blocks {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>块{0}【】blocks {0}</seg>
+        <seg>块{0}</seg>
       </tuv>
     </tu>
     <tu>
@@ -60870,7 +60870,7 @@
         <seg>waiting for {0} to release lock on {1}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>等待 {0} 释放锁{1}【】waiting for {0} to release lock on {1}</seg>
+        <seg>等待 {0} 释放锁{1}</seg>
       </tuv>
     </tu>
     <tu>
@@ -60878,7 +60878,7 @@
         <seg>locked {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>锁【】locked {0}</seg>
+        <seg>锁</seg>
       </tuv>
     </tu>
     <tu>
@@ -60886,7 +60886,7 @@
         <seg>Incompatible thread state: thread not suspended</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不兼容的线程状态:线程没有暂停【】Incompatible thread state: thread not suspended</seg>
+        <seg>不兼容的线程状态:线程没有暂停</seg>
       </tuv>
     </tu>
     <tu>
@@ -60894,7 +60894,7 @@
         <seg>&amp;Copy text to clipboard</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>复制文本到剪切板【】&amp;Copy text to clipboard</seg>
+        <seg>复制文本到剪切板</seg>
       </tuv>
     </tu>
     <tu>
@@ -60902,7 +60902,7 @@
         <seg>Expression Evaluation</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>表达式评估【】Expression Evaluation</seg>
+        <seg>表达式评估</seg>
       </tuv>
     </tu>
     <tu>
@@ -60910,7 +60910,7 @@
         <seg>&amp;Expression:</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>表达式【】&amp;Expression:</seg>
+        <seg>表达式</seg>
       </tuv>
     </tu>
     <tu>
@@ -60918,7 +60918,7 @@
         <seg>Debugger Settings</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>调试器设置【】Debugger Settings</seg>
+        <seg>调试器设置</seg>
       </tuv>
     </tu>
     <tu>
@@ -60926,7 +60926,7 @@
         <seg>JPDA Libraries Missing</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>JPDA库缺少【】JPDA Libraries Missing</seg>
+        <seg>JPDA库缺少</seg>
       </tuv>
     </tu>
     <tu>
@@ -60934,7 +60934,7 @@
         <seg>To get JPDA libraries please visit</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>要获得JPDA库，请访问【】To get JPDA libraries please visit</seg>
+        <seg>要获得JPDA库，请访问</seg>
       </tuv>
     </tu>
     <tu>
@@ -60942,7 +60942,7 @@
         <seg>Cannot start debugger: debug libraries are missig from JDK home</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不能启动调试器:调试库是来自JDK的权限【】Cannot start debugger: debug libraries are missig from JDK home</seg>
+        <seg>不能启动调试器:调试库是来自JDK的权限</seg>
       </tuv>
     </tu>
     <tu>
@@ -60950,7 +60950,7 @@
         <seg>Hot Swap</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>热交换【】Hot Swap</seg>
+        <seg>热交换</seg>
       </tuv>
     </tu>
     <tu>
@@ -60958,7 +60958,7 @@
         <seg>Hot Swap failed</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>热交换失败【】Hot Swap failed</seg>
+        <seg>热交换失败</seg>
       </tuv>
     </tu>
     <tu>
@@ -60966,7 +60966,7 @@
         <seg>Hot Swap completed with warnings</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>热交换完成 带有警告【】Hot Swap completed with warnings</seg>
+        <seg>热交换完成 带有警告</seg>
       </tuv>
     </tu>
     <tu>
@@ -60974,7 +60974,7 @@
         <seg>Add Instance Filter</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>添加实例过滤器【】Add Instance Filter</seg>
+        <seg>添加实例过滤器</seg>
       </tuv>
     </tu>
     <tu>
@@ -60982,7 +60982,7 @@
         <seg>Enter instance ID:</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>输入实例ID【】Enter instance ID:</seg>
+        <seg>输入实例ID</seg>
       </tuv>
     </tu>
     <tu>
@@ -60990,7 +60990,7 @@
         <seg>Instance ID should be a numeric value of type 'long'</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>实例ID应该是类型“long”类型的数值【】Instance ID should be a numeric value of type 'long'</seg>
+        <seg>实例ID应该是类型“long”类型的数值</seg>
       </tuv>
     </tu>
     <tu>
@@ -60998,7 +60998,7 @@
         <seg>Execution line</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>执行行【】Execution line</seg>
+        <seg>执行行</seg>
       </tuv>
     </tu>
     <tu>
@@ -61006,7 +61006,7 @@
         <seg>Reload Changed Classes for {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>重新加载改变的类为 {0}【】Reload Changed Classes for {0}</seg>
+        <seg>重新加载改变的类为 {0}</seg>
       </tuv>
     </tu>
     <tu>
@@ -61014,7 +61014,7 @@
         <seg>Some classes have been changed. Reload changed classes now?</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>有些类已经改变了。重载改变类呢?【】Some classes have been changed. Reload changed classes now?</seg>
+        <seg>有些类已经改变了。重载改变类呢?</seg>
       </tuv>
     </tu>
     <tu>
@@ -61030,7 +61030,7 @@
         <seg>Would you like to reload changed classes anyway?</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>你想重新加载修改过的类吗?【】Would you like to reload changed classes anyway?</seg>
+        <seg>你想重新加载修改过的类吗?</seg>
       </tuv>
     </tu>
     <tu>
@@ -61038,7 +61038,7 @@
         <seg>Code Fragment Evaluation</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>代码片段评估【】Code Fragment Evaluation</seg>
+        <seg>代码片段评估</seg>
       </tuv>
     </tu>
     <tu>
@@ -61046,7 +61046,7 @@
         <seg>Statements to &amp;evaluate:</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>语句评估 【】Statements to &amp;evaluate:</seg>
+        <seg>语句评估</seg>
       </tuv>
     </tu>
     <tu>
@@ -61054,7 +61054,7 @@
         <seg>Fully qualified name of a class:</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>完全合格的类名:【】Fully qualified name of a class:</seg>
+        <seg>完全合格的类名:</seg>
       </tuv>
     </tu>
     <tu>
@@ -61070,7 +61070,7 @@
         <seg>Choose Field's class</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>选择字段的类【】Choose Field's class</seg>
+        <seg>选择字段的类</seg>
       </tuv>
     </tu>
     <tu>
@@ -61078,7 +61078,7 @@
         <seg>Any exception</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>任何异常【】Any exception</seg>
+        <seg>任何异常</seg>
       </tuv>
     </tu>
     <tu>
@@ -61094,7 +61094,7 @@
         <seg>Enable</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>启用【】Enable</seg>
+        <seg>启用</seg>
       </tuv>
     </tu>
     <tu>
@@ -61102,7 +61102,7 @@
         <seg>Disable</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>禁用【】Disable</seg>
+        <seg>禁用</seg>
       </tuv>
     </tu>
     <tu>
@@ -61110,7 +61110,7 @@
         <seg>&lt;Default&gt;</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>默认【】&lt;Default&gt;</seg>
+        <seg>默认</seg>
       </tuv>
     </tu>
     <tu>
@@ -61118,7 +61118,7 @@
         <seg>Class Filters</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>类过滤器【】Class Filters</seg>
+        <seg>类过滤器</seg>
       </tuv>
     </tu>
     <tu>
@@ -61126,7 +61126,7 @@
         <seg>Class Exclusion Filters</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>类排除过滤器【】Class Exclusion Filters</seg>
+        <seg>类排除过滤器</seg>
       </tuv>
     </tu>
     <tu>
@@ -61134,7 +61134,7 @@
         <seg>Instance Filters</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>实例过滤器【】Instance Filters</seg>
+        <seg>实例过滤器</seg>
       </tuv>
     </tu>
     <tu>
@@ -61142,7 +61142,7 @@
         <seg>''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>【】''{0}''</seg>
+        <seg/>
       </tuv>
     </tu>
     <tu>
@@ -61150,7 +61150,7 @@
         <seg>Java Exception Breakpoints</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>java异常断点【】Java Exception Breakpoints</seg>
+        <seg>java异常断点</seg>
       </tuv>
     </tu>
     <tu>
@@ -61158,7 +61158,7 @@
         <seg>Java Field Watchpoints</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>java自动观察点【】Java Field Watchpoints</seg>
+        <seg>java自动观察点</seg>
       </tuv>
     </tu>
     <tu>
@@ -61166,7 +61166,7 @@
         <seg>Java Line Breakpoints</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>java行断点【】Java Line Breakpoints</seg>
+        <seg>java行断点</seg>
       </tuv>
     </tu>
     <tu>
@@ -61174,7 +61174,7 @@
         <seg>Java Method Breakpoints</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>java方法断点【】Java Method Breakpoints</seg>
+        <seg>java方法断点</seg>
       </tuv>
     </tu>
     <tu>
@@ -61182,7 +61182,7 @@
         <seg>Breakpoint Condition Error</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>断点条件错误【】Breakpoint Condition Error</seg>
+        <seg>断点条件错误</seg>
       </tuv>
     </tu>
     <tu>
@@ -61190,7 +61190,7 @@
         <seg>Breakpoint Action Error</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>断点动作错误【】Breakpoint Action Error</seg>
+        <seg>断点动作错误</seg>
       </tuv>
     </tu>
     <tu>
@@ -61198,7 +61198,7 @@
         <seg>Unable to evaluate the expression</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不能评估表达式【】Unable to evaluate the expression</seg>
+        <seg>不能评估表达式</seg>
       </tuv>
     </tu>
     <tu>
@@ -61206,7 +61206,7 @@
         <seg>&amp;Pass count:</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>通过数【】&amp;Pass count:</seg>
+        <seg>通过数</seg>
       </tuv>
     </tu>
     <tu>
@@ -61214,7 +61214,7 @@
         <seg>C&amp;lass filters:</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>类过滤器:【】C&amp;lass filters:</seg>
+        <seg>类过滤器:</seg>
       </tuv>
     </tu>
     <tu>
@@ -61222,7 +61222,7 @@
         <seg>&amp;Instance filters:</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>实例过滤器【】&amp;Instance filters:</seg>
+        <seg>实例过滤器</seg>
       </tuv>
     </tu>
     <tu>
@@ -61230,7 +61230,7 @@
         <seg>Co&amp;ndition:</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>条件【】Co&amp;ndition:</seg>
+        <seg>条件</seg>
       </tuv>
     </tu>
     <tu>
@@ -61238,7 +61238,7 @@
         <seg>Thread</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>线程【】Thread</seg>
+        <seg>线程</seg>
       </tuv>
     </tu>
     <tu>
@@ -61246,7 +61246,7 @@
         <seg>Log evaluated &amp;expression</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>日志评估表达式【】Log evaluated &amp;expression</seg>
+        <seg>日志评估表达式</seg>
       </tuv>
     </tu>
     <tu>
@@ -61254,7 +61254,7 @@
         <seg>Warning : {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>警告 : {0}【】Warning : {0}</seg>
+        <seg>警告 : {0}</seg>
       </tuv>
     </tu>
     <tu>
@@ -61262,7 +61262,7 @@
         <seg>Log message</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>日志消息【】Log message</seg>
+        <seg>日志消息</seg>
       </tuv>
     </tu>
     <tu>
@@ -61270,7 +61270,7 @@
         <seg>Log expression</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>日志表达式【】Log expression</seg>
+        <seg>日志表达式</seg>
       </tuv>
     </tu>
     <tu>
@@ -61278,7 +61278,7 @@
         <seg>Condition</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>条件【】Condition</seg>
+        <seg>条件</seg>
       </tuv>
     </tu>
     <tu>
@@ -61286,7 +61286,7 @@
         <seg>Pass count</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>通过数【】Pass count</seg>
+        <seg>通过数</seg>
       </tuv>
     </tu>
     <tu>
@@ -61294,7 +61294,7 @@
         <seg>Class filters</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>类过滤器:【】Class filters</seg>
+        <seg>类过滤器:</seg>
       </tuv>
     </tu>
     <tu>
@@ -61302,7 +61302,7 @@
         <seg>Instance filters:</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>实例过滤器:【】Instance filters:</seg>
+        <seg>实例过滤器:</seg>
       </tuv>
     </tu>
     <tu>
@@ -61310,7 +61310,7 @@
         <seg>Breakpoint at line {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>断点在行{0}【】Breakpoint at line {0}</seg>
+        <seg>断点在行{0}</seg>
       </tuv>
     </tu>
     <tu>
@@ -61318,7 +61318,7 @@
         <seg>No class name for exception breakpoint</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>没有异常断点的类名【】No class name for exception breakpoint</seg>
+        <seg>没有异常断点的类名</seg>
       </tuv>
     </tu>
     <tu>
@@ -61326,7 +61326,7 @@
         <seg>Exception ''{0}'' occurred in thread ''{1}'' at {2}({3}:{4,number,#})</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>=异常''{0}''发生在线程''{1}'' 在 {2}({3}:{4,number,#})【】Exception ''{0}'' occurred in thread ''{1}'' at {2}({3}:{4,number,#})</seg>
+        <seg>=异常''{0}''发生在线程''{1}'' 在 {2}({3}:{4,number,#})</seg>
       </tuv>
     </tu>
     <tu>
@@ -61334,7 +61334,7 @@
         <seg>Exception ''{0}'' occurred at {1}({2}:{3,number,#})</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>异常''{0}''发生在{1}({2}:{3,number,#})【】Exception ''{0}'' occurred at {1}({2}:{3,number,#})</seg>
+        <seg>异常''{0}''发生在{1}({2}:{3,number,#})</seg>
       </tuv>
     </tu>
     <tu>
@@ -61342,7 +61342,7 @@
         <seg>Enter Exception Class</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>输入异常类【】Enter Exception Class</seg>
+        <seg>输入异常类</seg>
       </tuv>
     </tu>
     <tu>
@@ -61350,7 +61350,7 @@
         <seg>Caught exceptio&amp;n</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>捕获异常【】Caught exceptio&amp;n</seg>
+        <seg>捕获异常</seg>
       </tuv>
     </tu>
     <tu>
@@ -61358,7 +61358,7 @@
         <seg>Uncaught excepti&amp;on</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>未捕获异常【】Uncaught excepti&amp;on</seg>
+        <seg>未捕获异常</seg>
       </tuv>
     </tu>
     <tu>
@@ -61366,7 +61366,7 @@
         <seg>Cannot find field ''{0}'' in class ''{1}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不能找到字段'{0}''在类''{1}''中【】Cannot find field ''{0}'' in class ''{1}''</seg>
+        <seg>不能找到字段'{0}''在类''{1}''中</seg>
       </tuv>
     </tu>
     <tu>
@@ -61374,7 +61374,7 @@
         <seg>Cannot add watchpoint: a class name is not specified</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不能添加watchpoint:没有指定类名【】Cannot add watchpoint: a class name is not specified</seg>
+        <seg>不能添加watchpoint:没有指定类名</seg>
       </tuv>
     </tu>
     <tu>
@@ -61382,7 +61382,7 @@
         <seg>Cannot add watchpoint: a field name is not specified</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不能添加watchpoint:字段名没有指定【】Cannot add watchpoint: a field name is not specified</seg>
+        <seg>不能添加watchpoint:字段名没有指定</seg>
       </tuv>
     </tu>
     <tu>
@@ -61406,7 +61406,7 @@
         <seg>Field acce&amp;ss</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>字段访问【】Field acce&amp;ss</seg>
+        <seg>字段访问</seg>
       </tuv>
     </tu>
     <tu>
@@ -61414,7 +61414,7 @@
         <seg>Field &amp;modification</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>字段修改【】Field &amp;modification</seg>
+        <seg>字段修改</seg>
       </tuv>
     </tu>
     <tu>
@@ -61422,7 +61422,7 @@
         <seg>Watch</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>观察【】Watch</seg>
+        <seg>观察</seg>
       </tuv>
     </tu>
     <tu>
@@ -61430,7 +61430,7 @@
         <seg>No executable code found at line {0} in class {1}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>在第 {1}类的第{0}行中没有可执行的代码【】No executable code found at line {0} in class {1}</seg>
+        <seg>在第 {1}类的第{0}行中没有可执行的代码</seg>
       </tuv>
     </tu>
     <tu>
@@ -61438,7 +61438,7 @@
         <seg>Line number is invalid</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>行号是无效的【】Line number is invalid</seg>
+        <seg>行号是无效的</seg>
       </tuv>
     </tu>
     <tu>
@@ -61446,7 +61446,7 @@
         <seg>Line {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>行{0}【】Line {0}</seg>
+        <seg>行{0}</seg>
       </tuv>
     </tu>
     <tu>
@@ -61454,7 +61454,7 @@
         <seg>Line {0} in {1}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>行 {0}在 {1}中【】Line {0} in {1}</seg>
+        <seg>行 {0}在 {1}中</seg>
       </tuv>
     </tu>
     <tu>
@@ -61462,7 +61462,7 @@
         <seg>Method not found in class {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>方法没有找到在类{0}中【】Method not found in class {0}</seg>
+        <seg>方法没有找到在类{0}中</seg>
       </tuv>
     </tu>
     <tu>
@@ -61470,7 +61470,7 @@
         <seg>Method entr&amp;y</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>方法进入【】Method entr&amp;y</seg>
+        <seg>方法进入</seg>
       </tuv>
     </tu>
     <tu>
@@ -61478,7 +61478,7 @@
         <seg>Method e&amp;xit</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>方法退出【】Method e&amp;xit</seg>
+        <seg>方法退出</seg>
       </tuv>
     </tu>
     <tu>
@@ -61486,7 +61486,7 @@
         <seg>S&amp;witch View</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>切换视图【】S&amp;witch View</seg>
+        <seg>切换视图</seg>
       </tuv>
     </tu>
     <tu>
@@ -61494,7 +61494,7 @@
         <seg>List View</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>列表视图【】List View</seg>
+        <seg>列表视图</seg>
       </tuv>
     </tu>
     <tu>
@@ -61502,7 +61502,7 @@
         <seg>Tree View</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>树视图【】Tree View</seg>
+        <seg>树视图</seg>
       </tuv>
     </tu>
     <tu>
@@ -61510,7 +61510,7 @@
         <seg>&amp;Flatten packages</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>平 包【】&amp;Flatten packages</seg>
+        <seg>平 包</seg>
       </tuv>
     </tu>
     <tu>
@@ -61518,7 +61518,7 @@
         <seg>Group by cl&amp;asses</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>分组用类【】Group by cl&amp;asses</seg>
+        <seg>分组用类</seg>
       </tuv>
     </tu>
     <tu>
@@ -61526,7 +61526,7 @@
         <seg>Group by me&amp;thods</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>分组用方法【】Group by me&amp;thods</seg>
+        <seg>分组用方法</seg>
       </tuv>
     </tu>
     <tu>
@@ -61534,7 +61534,7 @@
         <seg>Cannot evaluate descendants, object was collected. {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不能求子节点的值，对象被收集。{0}【】Cannot evaluate descendants, object was collected. {0}</seg>
+        <seg>不能求子节点的值，对象被收集。{0}</seg>
       </tuv>
     </tu>
     <tu>
@@ -61542,7 +61542,7 @@
         <seg>Invalid field name ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>无效字段名''{0}''【】Invalid field name ''{0}''</seg>
+        <seg>无效字段名''{0}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -61550,7 +61550,7 @@
         <seg>Debug info not available</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>调试信息不可用【】Debug info not available</seg>
+        <seg>调试信息不可用</seg>
       </tuv>
     </tu>
     <tu>
@@ -61558,7 +61558,7 @@
         <seg>Variables debug info not available</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>变量调试信息不可用【】Variables debug info not available</seg>
+        <seg>变量调试信息不可用</seg>
       </tuv>
     </tu>
     <tu>
@@ -61566,7 +61566,7 @@
         <seg>All elements in range ({0}, {1}) are null</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>所有元素在范围({0}, {1}) 都是空【】All elements in range ({0}, {1}) are null</seg>
+        <seg>所有元素在范围({0}, {1}) 都是空</seg>
       </tuv>
     </tu>
     <tu>
@@ -61574,7 +61574,7 @@
         <seg>All elements are null</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>所以元素是空【】All elements are null</seg>
+        <seg>所以元素是空</seg>
       </tuv>
     </tu>
     <tu>
@@ -61582,7 +61582,7 @@
         <seg>Class has no fields</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>类没有字段【】Class has no fields</seg>
+        <seg>类没有字段</seg>
       </tuv>
     </tu>
     <tu>
@@ -61590,7 +61590,7 @@
         <seg>No fields to display</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>没有字段显示【】No fields to display</seg>
+        <seg>没有字段显示</seg>
       </tuv>
     </tu>
     <tu>
@@ -61598,7 +61598,7 @@
         <seg>Object has been garbage collected during method invocation</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>对象在方法调用期间被垃圾收集【】Object has been garbage collected during method invocation</seg>
+        <seg>对象在方法调用期间被垃圾收集</seg>
       </tuv>
     </tu>
     <tu>
@@ -61606,7 +61606,7 @@
         <seg>Thread is running</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>线程正在运行【】Thread is running</seg>
+        <seg>线程正在运行</seg>
       </tuv>
     </tu>
     <tu>
@@ -61614,7 +61614,7 @@
         <seg>Thread has no frames</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>线程没有框架【】Thread has no frames</seg>
+        <seg>线程没有框架</seg>
       </tuv>
     </tu>
     <tu>
@@ -61622,7 +61622,7 @@
         <seg>Target VM is not paused by breakpoint request. Evaluation of methods is not possible in this mode</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>目标VM不会被断点请求暂停。在这种模式下，对方法的评估是不可能的。【】Target VM is not paused by breakpoint request. Evaluation of methods is not possible in this mode</seg>
+        <seg>目标VM不会被断点请求暂停。在这种模式下，对方法的评估是不可能的。</seg>
       </tuv>
     </tu>
     <tu>
@@ -61654,7 +61654,7 @@
         <seg>Thread ''{0}'' has been garbage-collected</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>线程''{0}''被垃圾收集【】Thread ''{0}'' has been garbage-collected</seg>
+        <seg>线程''{0}''被垃圾收集</seg>
       </tuv>
     </tu>
     <tu>
@@ -61694,7 +61694,7 @@
         <seg>Object reference expected instead of{0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>对象引用，而不是{0}【】Object reference expected instead of{0}</seg>
+        <seg>对象引用，而不是{0}</seg>
       </tuv>
     </tu>
     <tu>
@@ -61702,7 +61702,7 @@
         <seg>Invalid type name: ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>无效类型名：''{0}''【】Invalid type name: ''{0}''</seg>
+        <seg>无效类型名：''{0}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -61710,7 +61710,7 @@
         <seg>Node &amp;descendands expression:</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>节点子节点 表达式【】Node &amp;descendands expression:</seg>
+        <seg>节点子节点 表达式</seg>
       </tuv>
     </tu>
     <tu>
@@ -61718,7 +61718,7 @@
         <seg>'Node &amp;has descendands' expression (optional):</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>节点有子节点 表达式(可选):【】'Node &amp;has descendands' expression (optional):</seg>
+        <seg>节点有子节点 表达式(可选):</seg>
       </tuv>
     </tu>
     <tu>
@@ -61726,7 +61726,7 @@
         <seg>Node label expression</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>节点标签表达【】Node label expression</seg>
+        <seg>节点标签表达</seg>
       </tuv>
     </tu>
     <tu>
@@ -61734,7 +61734,7 @@
         <seg>Node de&amp;scendants:</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>节点子节点【】Node de&amp;scendants:</seg>
+        <seg>节点子节点</seg>
       </tuv>
     </tu>
     <tu>
@@ -61742,7 +61742,7 @@
         <seg>There is no executable code at {0}:{1}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>在{0}:{1}中没有可执行代码【】There is no executable code at {0}:{1}</seg>
+        <seg>在{0}:{1}中没有可执行代码</seg>
       </tuv>
     </tu>
     <tu>
@@ -61750,7 +61750,7 @@
         <seg>Local variable declarations are not supported here</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>这里不支持局部变量声明。【】Local variable declarations are not supported here</seg>
+        <seg>这里不支持局部变量声明。</seg>
       </tuv>
     </tu>
     <tu>
@@ -61758,7 +61758,7 @@
         <seg>Invalid declaration : {0} Only local variable declarations are supported</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>无效声明:{0}只支持局部变量声明。【】Invalid declaration : {0} Only local variable declarations are supported</seg>
+        <seg>无效声明:{0}只支持局部变量声明。</seg>
       </tuv>
     </tu>
     <tu>
@@ -61766,7 +61766,7 @@
         <seg>JDK is not specified</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>JDK没有指定【】JDK is not specified</seg>
+        <seg>JDK没有指定</seg>
       </tuv>
     </tu>
     <tu>
@@ -61774,7 +61774,7 @@
         <seg>Debugging is not supported for JDK {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>JDK {0}不支持调试【】Debugging is not supported for JDK {0}</seg>
+        <seg>JDK {0}不支持调试</seg>
       </tuv>
     </tu>
     <tu>
@@ -61782,7 +61782,7 @@
         <seg>Invalid JDK home directory specified.{0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>指定的无效JDK主目录.{0}【】Invalid JDK home directory specified.{0}</seg>
+        <seg>指定的无效JDK主目录.{0}</seg>
       </tuv>
     </tu>
     <tu>
@@ -61790,7 +61790,7 @@
         <seg>Debug libraries are missig from JDK home.nIn order for debugger to start, the libraries should be installed.nPlease visit http://java.sun.com/products/jpda</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>调试库是来自JDK的权限。为了启动调试器，应该安装库。请访问http://java.sun.com/products/jpda【】Debug libraries are missig from JDK home.nIn order for debugger to start, the libraries should be installed.Please visit http://java.sun.com/products/jpda</seg>
+        <seg>调试库是来自JDK的权限。为了启动调试器，应该安装库。请访问http://java.sun.com/products/jpda</seg>
       </tuv>
     </tu>
     <tu>
@@ -61798,7 +61798,7 @@
         <seg>No such field {0} in {1}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>没有这个字段{0} 在 {1}中【】No such field {0} in {1}</seg>
+        <seg>没有这个字段{0} 在 {1}中</seg>
       </tuv>
     </tu>
     <tu>
@@ -61806,7 +61806,7 @@
         <seg>File ''{0}'' not found; breakpoints for this file will be ignored</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>文件''{0}''未找到;该文件的断点将被忽略【】File ''{0}'' not found; breakpoints for this file will be ignored</seg>
+        <seg>文件''{0}''未找到;该文件的断点将被忽略</seg>
       </tuv>
     </tu>
     <tu>
@@ -61814,7 +61814,7 @@
         <seg>Cannot load file ''{0}''; breakpoints for this file will be ignored</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>无法加载文件''{0}'';该文件的断点将被忽略【】Cannot load file ''{0}''; breakpoints for this file will be ignored</seg>
+        <seg>无法加载文件''{0}'';该文件的断点将被忽略</seg>
       </tuv>
     </tu>
     <tu>
@@ -61822,7 +61822,7 @@
         <seg>Cannot substitute ''{0}'' into ''{1}'' as ''this''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不能替代''{0}''在''{1}''里 作为''this''【】Cannot substitute ''{0}'' into ''{1}'' as ''this''</seg>
+        <seg>不能替代''{0}''在''{1}''里 作为''this''</seg>
       </tuv>
     </tu>
     <tu>
@@ -61830,7 +61830,7 @@
         <seg>Invalid type name ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>无效的类型名称''{0}''【】Invalid type name ''{0}''</seg>
+        <seg>无效的类型名称''{0}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -61838,7 +61838,7 @@
         <seg>Cannot create expression from code fragment</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不能从代码片段中创建表达式。【】Cannot create expression from code fragment</seg>
+        <seg>不能从代码片段中创建表达式。</seg>
       </tuv>
     </tu>
     <tu>
@@ -61846,7 +61846,7 @@
         <seg>Invalid local variable name ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>无效的本地变量名''{0}''【】Invalid local variable name ''{0}''</seg>
+        <seg>无效的本地变量名''{0}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -61854,7 +61854,7 @@
         <seg>Inconsistent debug information</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不一致的调试信息【】Inconsistent debug information</seg>
+        <seg>不一致的调试信息</seg>
       </tuv>
     </tu>
     <tu>
@@ -61862,7 +61862,7 @@
         <seg>Internal exception - invalid stackframe</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>内部异常 —— 无效的堆栈帧【】Internal exception - invalid stackframe</seg>
+        <seg>内部异常 —— 无效的堆栈帧</seg>
       </tuv>
     </tu>
     <tu>
@@ -61870,7 +61870,7 @@
         <seg>Evaluation of {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>评价{0}【】Evaluation of {0}</seg>
+        <seg>评价{0}</seg>
       </tuv>
     </tu>
     <tu>
@@ -61878,7 +61878,7 @@
         <seg>Click here to view object tree</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>点击这里查看对象树【】Click here to view object tree</seg>
+        <seg>点击这里查看对象树</seg>
       </tuv>
     </tu>
     <tu>
@@ -61886,7 +61886,7 @@
         <seg>Port is not specified</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>端口没有被指定【】Port is not specified</seg>
+        <seg>端口没有被指定</seg>
       </tuv>
     </tu>
     <tu>
@@ -61894,7 +61894,7 @@
         <seg>Cannot invoke method: the invocation thread has been collected</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不能调用方法:已经收集了调用线程【】Cannot invoke method: the invocation thread has been collected</seg>
+        <seg>不能调用方法:已经收集了调用线程</seg>
       </tuv>
     </tu>
     <tu>
@@ -61902,7 +61902,7 @@
         <seg>Method to Step Into</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>方法进入【】Method to Step Into</seg>
+        <seg>方法进入</seg>
       </tuv>
     </tu>
     <tu>
@@ -61910,7 +61910,7 @@
         <seg>Shows or hides 'watches' pane</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>显示或隐藏“观察”面板【】Shows or hides 'watches' pane</seg>
+        <seg>显示或隐藏“观察”面板</seg>
       </tuv>
     </tu>
     <tu>
@@ -61918,7 +61918,7 @@
         <seg>Hide Watches</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>隐藏观察【】Hide Watches</seg>
+        <seg>隐藏观察</seg>
       </tuv>
     </tu>
     <tu>
@@ -61926,7 +61926,7 @@
         <seg>Show Watches</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>显示观察【】Show Watches</seg>
+        <seg>显示观察</seg>
       </tuv>
     </tu>
     <tu>
@@ -61934,7 +61934,7 @@
         <seg>Enables watching last executed method return value</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>允许观察最后执行的方法返回值【】Enables watching last executed method return value</seg>
+        <seg>允许观察最后执行的方法返回值</seg>
       </tuv>
     </tu>
     <tu>
@@ -61942,7 +61942,7 @@
         <seg>Show Method Return Values</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>显示方法返回值【】Show Method Return Values</seg>
+        <seg>显示方法返回值</seg>
       </tuv>
     </tu>
     <tu>
@@ -61950,7 +61950,7 @@
         <seg>Stop watching method return values</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>停止观察方法返回值【】Stop watching method return values</seg>
+        <seg>停止观察方法返回值</seg>
       </tuv>
     </tu>
     <tu>
@@ -61958,7 +61958,7 @@
         <seg>Feature is not supported by the target VM</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>特性不受目标VM的支持【】Feature is not supported by the target VM</seg>
+        <seg>特性不受目标VM的支持</seg>
       </tuv>
     </tu>
     <tu>
@@ -61966,7 +61966,7 @@
         <seg>Auto-Variables Mode</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>自动变量模式【】Auto-Variables Mode</seg>
+        <seg>自动变量模式</seg>
       </tuv>
     </tu>
     <tu>
@@ -61974,7 +61974,7 @@
         <seg>Show only variables used near the execution point</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>只显示在执行点附近使用的变量【】Show only variables used near the execution point</seg>
+        <seg>只显示在执行点附近使用的变量</seg>
       </tuv>
     </tu>
     <tu>
@@ -61982,7 +61982,7 @@
         <seg>After breakpoint was hit:</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>断点之后是碰撞【】After breakpoint was hit:</seg>
+        <seg>断点之后是碰撞</seg>
       </tuv>
     </tu>
     <tu>
@@ -61990,7 +61990,7 @@
         <seg>Frames not available for unsuspended thread</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>框架不可用为未暂停线程【】Frames not available for unsuspended thread</seg>
+        <seg>框架不可用为未暂停线程</seg>
       </tuv>
     </tu>
     <tu>
@@ -61998,7 +61998,7 @@
         <seg>Debug info might be corrupt: {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>调试信息可能是坏了:{0}【】Debug info might be corrupt: {0}</seg>
+        <seg>调试信息可能是坏了:{0}</seg>
       </tuv>
     </tu>
     <tu>
@@ -62006,7 +62006,7 @@
         <seg>Kill Process</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>杀死进程【】Kill Process</seg>
+        <seg>杀死进程</seg>
       </tuv>
     </tu>
     <tu>
@@ -62014,7 +62014,7 @@
         <seg>Forcibly terminate debugged application</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>强行终止调试应用程序【】Forcibly terminate debugged application</seg>
+        <seg>强行终止调试应用程序</seg>
       </tuv>
     </tu>
     <tu>
@@ -62022,7 +62022,7 @@
         <seg>Cannot resolve method return type: {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>无法解析方法返回类型: {0}【】Cannot resolve method return type: {0}</seg>
+        <seg>无法解析方法返回类型: {0}</seg>
       </tuv>
     </tu>
     <tu>
@@ -62030,7 +62030,7 @@
         <seg>Group by class</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>分组用类【】Group by class</seg>
+        <seg>分组用类</seg>
       </tuv>
     </tu>
     <tu>
@@ -62038,7 +62038,7 @@
         <seg>Context has changed, operation is not possible</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>环境已经改变，操作是不可能的【】Context has changed, operation is not possible</seg>
+        <seg>环境已经改变，操作是不可能的</seg>
       </tuv>
     </tu>
     <tu>
@@ -62046,7 +62046,7 @@
         <seg>Alternative source available for the class {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>供选择的源代码可用为类{0}【】Alternative source available for the class {0}</seg>
+        <seg>供选择的源代码可用为类{0}</seg>
       </tuv>
     </tu>
     <tu>
@@ -62054,7 +62054,7 @@
         <seg>JetBrains Account</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>JetBrains账户【】JetBrains Account</seg>
+        <seg>JetBrains账户</seg>
       </tuv>
     </tu>
     <tu>
@@ -62062,7 +62062,7 @@
         <seg>Error description (optional):</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>错误描述（可选）【】Error description (optional):</seg>
+        <seg>错误描述（可选）</seg>
       </tuv>
     </tu>
     <tu>
@@ -62070,7 +62070,7 @@
         <seg>&amp;Use JetBrains Account</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>用JetBrains账户【】&amp;Use JetBrains Account</seg>
+        <seg>用JetBrains账户</seg>
       </tuv>
     </tu>
     <tu>
@@ -62078,7 +62078,7 @@
         <seg>IDE Error Occurred</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>集成开发环境错误发生【】IDE Error Occurred</seg>
+        <seg>集成开发环境错误发生</seg>
       </tuv>
     </tu>
     <tu>
@@ -62086,7 +62086,7 @@
         <seg>See Details and Submit Report</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>查看细节 提交报告【】See Details and Submit Report</seg>
+        <seg>查看细节 提交报告</seg>
       </tuv>
     </tu>
     <tu>
@@ -62094,7 +62094,7 @@
         <seg>Can''t apply {0, number} {0, choice, 1#hunk|2#hunks}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>【】Can''t apply {0, number} {0, choice, 1#hunk|2#hunks}</seg>
+        <seg/>
       </tuv>
     </tu>
     <tu>
@@ -62102,7 +62102,7 @@
         <seg>Can''t apply {0, number} of {1, number} hunks</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>【】Can''t apply {0, number} of {1, number} hunks</seg>
+        <seg/>
       </tuv>
     </tu>
     <tu>
@@ -62110,7 +62110,7 @@
         <seg>Are you sure you want to discard your changes and accept {0, choice, 0#left|1#right} side?</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>你确定你想要丢弃你的改变并接受 {0, choice, 0#left|1#right}吗?【】Are you sure you want to discard your changes and accept {0, choice, 0#left|1#right} side?</seg>
+        <seg>你确定你想要丢弃你的改变并接受 {0, choice, 0#left|1#right}吗?</seg>
       </tuv>
     </tu>
     <tu>
@@ -62118,7 +62118,7 @@
         <seg>Temporary configurations limit:</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>临时配置限制:【】Temporary configurations limit:</seg>
+        <seg>临时配置限制:</seg>
       </tuv>
     </tu>
     <tu>
@@ -62126,7 +62126,7 @@
         <seg>Scheduled</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>计划【】Scheduled</seg>
+        <seg>计划</seg>
       </tuv>
     </tu>
     <tu>
@@ -62134,7 +62134,7 @@
         <seg>Timed out</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>超时【】Timed out</seg>
+        <seg>超时</seg>
       </tuv>
     </tu>
     <tu>
@@ -62142,7 +62142,7 @@
         <seg>Infrastructure failure</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>基础设施故障【】Infrastructure failure</seg>
+        <seg>基础设施故障</seg>
       </tuv>
     </tu>
     <tu>
@@ -62150,7 +62150,7 @@
         <seg>Triggering error</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>触发错误【】Triggering error</seg>
+        <seg>触发错误</seg>
       </tuv>
     </tu>
     <tu>
@@ -62158,7 +62158,7 @@
         <seg>Internet Explorer</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>【】Internet Explorer</seg>
+        <seg/>
       </tuv>
     </tu>
     <tu>
@@ -62166,7 +62166,7 @@
         <seg>Safari</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>【】Safari</seg>
+        <seg/>
       </tuv>
     </tu>
     <tu>
@@ -62174,7 +62174,7 @@
         <seg>Opera</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>【】Opera</seg>
+        <seg/>
       </tuv>
     </tu>
     <tu>
@@ -62182,7 +62182,7 @@
         <seg>Firefox</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>【】Firefox</seg>
+        <seg/>
       </tuv>
     </tu>
     <tu>
@@ -62190,7 +62190,7 @@
         <seg>Chrome</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>【】Chrome</seg>
+        <seg/>
       </tuv>
     </tu>
     <tu>
@@ -62254,7 +62254,7 @@
         <seg>Update channel switched to ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>更新频道切换到 ''{0}''【】Update channel switched to ''{0}''</seg>
+        <seg>更新频道切换到 ''{0}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -62278,7 +62278,7 @@
         <seg>Field annotated as @NotNull is implicitly initialized with &lt;code&gt;null&lt;/code&gt;</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>字段注释为@NotNull，使用null进行隐式初始化【】Field annotated as @NotNull is implicitly initialized with &lt;code&gt;null&lt;/code&gt;</seg>
+        <seg>字段注释为@NotNull，使用null进行隐式初始化</seg>
       </tuv>
     </tu>
     <tu>
@@ -62286,7 +62286,7 @@
         <seg>Suppressing inspection ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>抑制检查 ''{0}''【】Suppressing inspection ''{0}''</seg>
+        <seg>抑制检查 ''{0}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -62294,7 +62294,7 @@
         <seg>HTML problems in Javadoc (DocLint)</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>Javadoc中的HTML问题(文档线头)【】HTML problems in Javadoc (DocLint)</seg>
+        <seg>Javadoc中的HTML问题(文档线头)</seg>
       </tuv>
     </tu>
     <tu>
@@ -62566,7 +62566,7 @@
         <seg>&lt;html&gt;&lt;center&gt;Enter a shortcut here: &lt;br&gt;single or double-click, scroll the wheel,&lt;br&gt; modify with Ctrl, Alt and Shift</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>&lt;html&gt;&lt;center&gt;在这里输入一个快捷方式:单或双击，滚动滚轮，用Ctrl+Alt和Shift进行修改【】Enter a shortcut here: &lt;br&gt;single or double-click, scroll the wheel,&lt;br&gt; modify with Ctrl, Alt and Shift</seg>
+        <seg>&lt;html&gt;&lt;center&gt;在这里输入一个快捷方式:单或双击，滚动滚轮，用Ctrl+Alt和Shift进行修改</seg>
       </tuv>
     </tu>
     <tu>
@@ -62574,7 +62574,7 @@
         <seg>[JRT]</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>java运行时【】[JRT]</seg>
+        <seg>java运行时</seg>
       </tuv>
     </tu>
     <tu>
@@ -62582,7 +62582,7 @@
         <seg>[Java Run-time Modules]</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>java运行时模块【】[Java Run-time Modules]</seg>
+        <seg>java运行时模块</seg>
       </tuv>
     </tu>
     <tu>
@@ -62590,7 +62590,7 @@
         <seg>You need to run IDEA on Java 8 to be able to use modular JDK. Sorry</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>您需要在Java 8上运行想法才能使用模块化JDK。对不起。【】You need to run IDEA on Java 8 to be able to use modular JDK. Sorry</seg>
+        <seg>您需要在Java 8上运行想法才能使用模块化JDK。对不起。</seg>
       </tuv>
     </tu>
     <tu>
@@ -62598,7 +62598,7 @@
         <seg>Unsupported JDK ''{0}'' detected</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不支持JDK ''{0}'' 检测到【】Unsupported JDK ''{0}'' detected</seg>
+        <seg>不支持JDK ''{0}'' 检测到</seg>
       </tuv>
     </tu>
     <tu>
@@ -62606,7 +62606,7 @@
         <seg>ROOT GROUP</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>根组【】ROOT GROUP</seg>
+        <seg>根组</seg>
       </tuv>
     </tu>
     <tu>
@@ -62614,7 +62614,7 @@
         <seg>Todo</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>要做【】Todo</seg>
+        <seg>要做</seg>
       </tuv>
     </tu>
     <tu>
@@ -62646,7 +62646,7 @@
         <seg>Access static ''{1}.{0}'' via class ''{2}'' reference</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>访问静态''{1}.{0}'' 通过 类''{2}''引用【】Access static ''{1}.{0}'' via class ''{2}'' reference</seg>
+        <seg>访问静态''{1}.{0}'' 通过 类''{2}''引用</seg>
       </tuv>
     </tu>
     <tu>
@@ -62662,7 +62662,7 @@
         <seg>Add {0} no-args constructor to {1}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>添加{0}没有参数构造器到{1}【】Add {0} no-args constructor to {1}</seg>
+        <seg>添加{0}没有参数构造器到{1}</seg>
       </tuv>
     </tu>
     <tu>
@@ -62686,7 +62686,7 @@
         <seg>Add {0, choice, 0#exception|2#exceptions} to method signature</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>添加{0, choice, 0#exception|2#exceptions} 到方法签名【】Add {0, choice, 0#exception|2#exceptions} to method signature</seg>
+        <seg>添加{0, choice, 0#exception|2#exceptions} 到方法签名</seg>
       </tuv>
     </tu>
     <tu>
@@ -62782,7 +62782,7 @@
         <seg>Fix Javadoc</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>修复java文档【】Fix Javadoc</seg>
+        <seg>修复java文档</seg>
       </tuv>
     </tu>
     <tu>
@@ -62806,7 +62806,7 @@
         <seg>Bring Variable to Scope</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>带变量到范围【】Bring Variable to Scope</seg>
+        <seg>带变量到范围</seg>
       </tuv>
     </tu>
     <tu>
@@ -62814,7 +62814,7 @@
         <seg>Bring ''{0}'' into scope</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>带'{0}'在范围中【】Bring ''{0}'' into scope</seg>
+        <seg>带'{0}'在范围中</seg>
       </tuv>
     </tu>
     <tu>
@@ -62822,7 +62822,7 @@
         <seg>Cast {0, choice, 1#1st|2#2nd|3#3rd|4#{0,number}th} parameter to ''{1}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>【】Cast {0, choice, 1#1st|2#2nd|3#3rd|4#{0,number}th} parameter to ''{1}''</seg>
+        <seg/>
       </tuv>
     </tu>
     <tu>
@@ -62830,7 +62830,7 @@
         <seg>Cast parameter to ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>类型转换参数为【】Cast parameter to ''{0}''</seg>
+        <seg>类型转换参数为</seg>
       </tuv>
     </tu>
     <tu>
@@ -62838,7 +62838,7 @@
         <seg>Add explicit type arguments to {0, choice, 1#1st|2#2nd|3#3rd|4#{0,number}th} argument</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>添加显式的类型参数【】Add explicit type arguments to {0, choice, 1#1st|2#2nd|3#3rd|4#{0,number}th} argument</seg>
+        <seg>添加显式的类型参数</seg>
       </tuv>
     </tu>
     <tu>
@@ -62846,7 +62846,7 @@
         <seg>Add explicit type arguments</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>添加显式的类型参数【】Add explicit type arguments</seg>
+        <seg>添加显式的类型参数</seg>
       </tuv>
     </tu>
     <tu>
@@ -62854,7 +62854,7 @@
         <seg>Change signature of ''{0}'' to match ''{1}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>改变''{0}''的签名匹配''{1}''【】Change signature of ''{0}'' to match ''{1}''</seg>
+        <seg>改变''{0}''的签名匹配''{1}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -62862,7 +62862,7 @@
         <seg>Change class signature</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>改变类签名【】Change class signature</seg>
+        <seg>改变类签名</seg>
       </tuv>
     </tu>
     <tu>
@@ -62870,7 +62870,7 @@
         <seg>Change bound field type</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>改变绑定字段类型【】Change bound field type</seg>
+        <seg>改变绑定字段类型</seg>
       </tuv>
     </tu>
     <tu>
@@ -62878,7 +62878,7 @@
         <seg>Change ''{0} {2}'' to ''{1} {2}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>改变 ''{0} {2}'' 为 ''{1} {2}''【】Change ''{0} {2}'' to ''{1} {2}''</seg>
+        <seg>改变 ''{0} {2}'' 为 ''{1} {2}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -62886,7 +62886,7 @@
         <seg>Change GUI component type</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>改变GUI组件类型【】Change GUI component type</seg>
+        <seg>改变GUI组件类型</seg>
       </tuv>
     </tu>
     <tu>
@@ -62894,7 +62894,7 @@
         <seg>Change method signature from usage</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>改变方法签名从用法【】Change method signature from usage</seg>
+        <seg>改变方法签名从用法</seg>
       </tuv>
     </tu>
     <tu>
@@ -62902,7 +62902,7 @@
         <seg>Change signature of ''{0}'' to ''{1}({2})''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>改变''{0}''的签名为''{1}({2})''【】Change signature of ''{0}'' to ''{1}({2})''</seg>
+        <seg>改变''{0}''的签名为''{1}({2})''</seg>
       </tuv>
     </tu>
     <tu>
@@ -62910,7 +62910,7 @@
         <seg>Searching For Usages</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>搜索用法【】Searching For Usages</seg>
+        <seg>搜索用法</seg>
       </tuv>
     </tu>
     <tu>
@@ -62918,7 +62918,7 @@
         <seg>Create Class from New</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建类从新建【】Create Class from New</seg>
+        <seg>创建类从新建</seg>
       </tuv>
     </tu>
     <tu>
@@ -62926,7 +62926,7 @@
         <seg>Create class ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建类【】Create class ''{0}''</seg>
+        <seg>创建类</seg>
       </tuv>
     </tu>
     <tu>
@@ -62934,7 +62934,7 @@
         <seg>Create Class from Usage</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建类从用法【】Create Class from Usage</seg>
+        <seg>创建类从用法</seg>
       </tuv>
     </tu>
     <tu>
@@ -62942,7 +62942,7 @@
         <seg>Create {0} ''{1}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建【】Create {0} ''{1}''</seg>
+        <seg>创建</seg>
       </tuv>
     </tu>
     <tu>
@@ -62950,7 +62950,7 @@
         <seg>Create inner {0} ''{1}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建内部的【】Create inner {0} ''{1}''</seg>
+        <seg>创建内部的</seg>
       </tuv>
     </tu>
     <tu>
@@ -62958,7 +62958,7 @@
         <seg>Create Constant From Usage</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建常量从用法【】Create Constant From Usage</seg>
+        <seg>创建常量从用法</seg>
       </tuv>
     </tu>
     <tu>
@@ -62966,7 +62966,7 @@
         <seg>Create constant field ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建常量字段【】Create constant field ''{0}''</seg>
+        <seg>创建常量字段</seg>
       </tuv>
     </tu>
     <tu>
@@ -62974,7 +62974,7 @@
         <seg>Create enum constant ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建枚举常量【】Create enum constant ''{0}''</seg>
+        <seg>创建枚举常量</seg>
       </tuv>
     </tu>
     <tu>
@@ -62982,7 +62982,7 @@
         <seg>Create Constructor from New</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建构造函数从新建【】Create Constructor from New</seg>
+        <seg>创建构造函数从新建</seg>
       </tuv>
     </tu>
     <tu>
@@ -62990,7 +62990,7 @@
         <seg>Create constructor</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建构造函数【】Create constructor</seg>
+        <seg>创建构造函数</seg>
       </tuv>
     </tu>
     <tu>
@@ -62998,7 +62998,7 @@
         <seg>Create Constructor From super() Call</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建构造函数从super()调用【】Create Constructor From super() Call</seg>
+        <seg>创建构造函数从super()调用</seg>
       </tuv>
     </tu>
     <tu>
@@ -63006,7 +63006,7 @@
         <seg>Create Constructor From this() Call</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建构造函数从this()调用【】Create Constructor From this() Call</seg>
+        <seg>创建构造函数从this()调用</seg>
       </tuv>
     </tu>
     <tu>
@@ -63014,7 +63014,7 @@
         <seg>Create constructor in ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建构造函数''{0}''在【】Create constructor in ''{0}''</seg>
+        <seg>创建构造函数''{0}''在</seg>
       </tuv>
     </tu>
     <tu>
@@ -63022,7 +63022,7 @@
         <seg>Create constructor matching super</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建构造器匹配父类【】Create constructor matching super</seg>
+        <seg>创建构造器匹配父类</seg>
       </tuv>
     </tu>
     <tu>
@@ -63030,7 +63030,7 @@
         <seg>Choose Super Class Constructors</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>选择父类构造器【】Choose Super Class Constructors</seg>
+        <seg>选择父类构造器</seg>
       </tuv>
     </tu>
     <tu>
@@ -63038,7 +63038,7 @@
         <seg>Create field from Usage</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建字段从用法【】Create field from Usage</seg>
+        <seg>创建字段从用法</seg>
       </tuv>
     </tu>
     <tu>
@@ -63046,7 +63046,7 @@
         <seg>Create field ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建字段【】Create field ''{0}''</seg>
+        <seg>创建字段</seg>
       </tuv>
     </tu>
     <tu>
@@ -63054,7 +63054,7 @@
         <seg>Choose Target Class</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>关闭目标类【】Choose Target Class</seg>
+        <seg>关闭目标类</seg>
       </tuv>
     </tu>
     <tu>
@@ -63062,7 +63062,7 @@
         <seg>Create {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建【】Create {0}</seg>
+        <seg>创建</seg>
       </tuv>
     </tu>
     <tu>
@@ -63070,7 +63070,7 @@
         <seg>Please Correct "New Method Body" Template</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>请纠正“新方法主体”模板【】Please Correct "New Method Body" Template</seg>
+        <seg>请纠正“新方法主体”模板</seg>
       </tuv>
     </tu>
     <tu>
@@ -63078,7 +63078,7 @@
         <seg>Cannot create {0}.java in {1}: {2}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不能创建{0}.java在{1}: {2}【】Cannot create {0}.java in {1}: {2}</seg>
+        <seg>不能创建{0}.java在{1}: {2}</seg>
       </tuv>
     </tu>
     <tu>
@@ -63086,7 +63086,7 @@
         <seg>File Creation Failed</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>文件创建失败【】File Creation Failed</seg>
+        <seg>文件创建失败</seg>
       </tuv>
     </tu>
     <tu>
@@ -63094,7 +63094,7 @@
         <seg>Cannot create {0} in {1}: {2}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>不能创建{0}在{1}: {2}【】Cannot create {0} in {1}: {2}</seg>
+        <seg>不能创建{0}在{1}: {2}</seg>
       </tuv>
     </tu>
     <tu>
@@ -63102,7 +63102,7 @@
         <seg>Package Creation Failed</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>包创建失败【】Package Creation Failed</seg>
+        <seg>包创建失败</seg>
       </tuv>
     </tu>
     <tu>
@@ -63110,7 +63110,7 @@
         <seg>Create Accessor for Unused Field</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建访问方法为未使用的字段【】Create Accessor for Unused Field</seg>
+        <seg>创建访问方法为未使用的字段</seg>
       </tuv>
     </tu>
     <tu>
@@ -63118,7 +63118,7 @@
         <seg>Create getter and setter for ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建获得方法和设置方法为''{0}''【】Create getter and setter for ''{0}''</seg>
+        <seg>创建获得方法和设置方法为''{0}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -63126,7 +63126,7 @@
         <seg>Create Local from Usage</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建局部从用法【】Create Local from Usage</seg>
+        <seg>创建局部从用法</seg>
       </tuv>
     </tu>
     <tu>
@@ -63134,7 +63134,7 @@
         <seg>Create local variable ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建局部变量【】Create local variable ''{0}''</seg>
+        <seg>创建局部变量</seg>
       </tuv>
     </tu>
     <tu>
@@ -63142,7 +63142,7 @@
         <seg>Create Local Var from instanceof Usage</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建局部变量从【】Create Local Var from instanceof Usage</seg>
+        <seg>创建局部变量从</seg>
       </tuv>
     </tu>
     <tu>
@@ -63150,7 +63150,7 @@
         <seg>Insert ''({0}){1}'' declaration</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>插入''({0}){1}'' 声明【】Insert ''({0}){1}'' declaration</seg>
+        <seg>插入''({0}){1}'' 声明</seg>
       </tuv>
     </tu>
     <tu>
@@ -63158,7 +63158,7 @@
         <seg>Create method from usage</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建方法从用法【】Create method from usage</seg>
+        <seg>创建方法从用法</seg>
       </tuv>
     </tu>
     <tu>
@@ -63166,7 +63166,7 @@
         <seg>Create method ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建方法【】Create method ''{0}''</seg>
+        <seg>创建方法</seg>
       </tuv>
     </tu>
     <tu>
@@ -63174,7 +63174,7 @@
         <seg>Create abstract method ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建抽象方法【】Create abstract method ''{0}''</seg>
+        <seg>创建抽象方法</seg>
       </tuv>
     </tu>
     <tu>
@@ -63182,7 +63182,7 @@
         <seg>Create parameter from Usage</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建参数从用法【】Create parameter from Usage</seg>
+        <seg>创建参数从用法</seg>
       </tuv>
     </tu>
     <tu>
@@ -63190,7 +63190,7 @@
         <seg>Create parameter ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建参数【】Create parameter ''{0}''</seg>
+        <seg>创建参数</seg>
       </tuv>
     </tu>
     <tu>
@@ -63198,7 +63198,7 @@
         <seg>Create property From Usage</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建属性从用法【】Create property From Usage</seg>
+        <seg>创建属性从用法</seg>
       </tuv>
     </tu>
     <tu>
@@ -63206,7 +63206,7 @@
         <seg>Create Getter</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建获得方法【】Create Getter</seg>
+        <seg>创建获得方法</seg>
       </tuv>
     </tu>
     <tu>
@@ -63214,7 +63214,7 @@
         <seg>Create Setter</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建设置方法【】Create Setter</seg>
+        <seg>创建设置方法</seg>
       </tuv>
     </tu>
     <tu>
@@ -63222,7 +63222,7 @@
         <seg>Defer final assignment with temp</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>延迟最后的赋值用临时【】Defer final assignment with temp</seg>
+        <seg>延迟最后的赋值用临时</seg>
       </tuv>
     </tu>
     <tu>
@@ -63230,7 +63230,7 @@
         <seg>Defer assignment to ''{0}'' using temp variable</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>延迟赋值到''{0}'' 用临时变量【】Defer assignment to ''{0}'' using temp variable</seg>
+        <seg>延迟赋值到''{0}'' 用临时变量</seg>
       </tuv>
     </tu>
     <tu>
@@ -63238,7 +63238,7 @@
         <seg>Delete Catch</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>删除捕获【】Delete Catch</seg>
+        <seg>删除捕获</seg>
       </tuv>
     </tu>
     <tu>
@@ -63246,7 +63246,7 @@
         <seg>Delete catch for ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>删除捕获为''{0}''【】Delete catch for ''{0}''</seg>
+        <seg>删除捕获为''{0}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -63254,7 +63254,7 @@
         <seg>Delete method body</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>删除方法体【】Delete method body</seg>
+        <seg>删除方法体</seg>
       </tuv>
     </tu>
     <tu>
@@ -63262,7 +63262,7 @@
         <seg>Enable 'Settings|Code Style|Imports|Optimize imports on the fly'</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>启用 设置，代码样式，导入，动态优化导入【】Enable 'Settings|Code Style|Imports|Optimize imports on the fly'</seg>
+        <seg>启用 设置，代码样式，导入，动态优化导入</seg>
       </tuv>
     </tu>
     <tu>
@@ -63270,7 +63270,7 @@
         <seg>Generalize Catch</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>生成捕获【】Generalize Catch</seg>
+        <seg>生成捕获</seg>
       </tuv>
     </tu>
     <tu>
@@ -63278,7 +63278,7 @@
         <seg>Generalize catch for ''{0}'' to ''{1}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>生成捕获为''{0}'' 到 ''{1}''【】Generalize catch for ''{0}'' to ''{1}''</seg>
+        <seg>生成捕获为''{0}'' 到 ''{1}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -63286,7 +63286,7 @@
         <seg>Generify File</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>生成文件【】Generify File</seg>
+        <seg>生成文件</seg>
       </tuv>
     </tu>
     <tu>
@@ -63294,7 +63294,7 @@
         <seg>Try to generify ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>尝试生成 ''{0}''【】Try to generify ''{0}''</seg>
+        <seg>尝试生成 ''{0}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -63302,7 +63302,7 @@
         <seg>Import class</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>导入类【】Import class</seg>
+        <seg>导入类</seg>
       </tuv>
     </tu>
     <tu>
@@ -63310,7 +63310,7 @@
         <seg>Insert new</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>插入新建【】Insert new</seg>
+        <seg>插入新建</seg>
       </tuv>
     </tu>
     <tu>
@@ -63318,7 +63318,7 @@
         <seg>Base Ctr call</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>基础控制调用【】Base Ctr call</seg>
+        <seg>基础控制调用</seg>
       </tuv>
     </tu>
     <tu>
@@ -63326,7 +63326,7 @@
         <seg>Insert 'super();'</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>插入“super();【】Insert 'super();'</seg>
+        <seg>插入“super();</seg>
       </tuv>
     </tu>
     <tu>
@@ -63334,7 +63334,7 @@
         <seg>Make Class an Interface</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>使类成为接口【】Make Class an Interface</seg>
+        <seg>使类成为接口</seg>
       </tuv>
     </tu>
     <tu>
@@ -63342,7 +63342,7 @@
         <seg>Make ''{0}'' an interface</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>使 ''{0}'' 成为接口【】Make ''{0}'' an interface</seg>
+        <seg>使 ''{0}'' 成为接口</seg>
       </tuv>
     </tu>
     <tu>
@@ -63350,7 +63350,7 @@
         <seg>Make ''{0}'' a class</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>使 ''{0}'' 成为类【】Make ''{0}'' a class</seg>
+        <seg>使 ''{0}'' 成为类</seg>
       </tuv>
     </tu>
     <tu>
@@ -63358,7 +63358,7 @@
         <seg>Make vararg parameter last</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>使可变长度参数最后【】Make vararg parameter last</seg>
+        <seg>使可变长度参数最后</seg>
       </tuv>
     </tu>
     <tu>
@@ -63366,7 +63366,7 @@
         <seg>Move ''{0}'' to the end of the list</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>移动 ''{0}'' 到列表结尾【】Move ''{0}'' to the end of the list</seg>
+        <seg>移动 ''{0}'' 到列表结尾</seg>
       </tuv>
     </tu>
     <tu>
@@ -63374,7 +63374,7 @@
         <seg>Fix Parameter Type</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>修复参数类型【】Fix Parameter Type</seg>
+        <seg>修复参数类型</seg>
       </tuv>
     </tu>
     <tu>
@@ -63382,7 +63382,7 @@
         <seg>Make ''{0}'' take parameter of type ''{1}'' here</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>使 ''{0}'' 带有类型''{1}''的参数在这【】Make ''{0}'' take parameter of type ''{1}'' here</seg>
+        <seg>使 ''{0}'' 带有类型''{1}''的参数在这</seg>
       </tuv>
     </tu>
     <tu>
@@ -63390,7 +63390,7 @@
         <seg>Fix Return Type</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>修复返回类型【】Fix Return Type</seg>
+        <seg>修复返回类型</seg>
       </tuv>
     </tu>
     <tu>
@@ -63398,7 +63398,7 @@
         <seg>Fix Throws List</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>修复抛出列表【】Fix Throws List</seg>
+        <seg>修复抛出列表</seg>
       </tuv>
     </tu>
     <tu>
@@ -63406,7 +63406,7 @@
         <seg>Add ''{0}'' to ''{1}'' throws list</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>添加 ''{0}'' 到''{1}''抛出列表【】Add ''{0}'' to ''{1}'' throws list</seg>
+        <seg>添加 ''{0}'' 到''{1}''抛出列表</seg>
       </tuv>
     </tu>
     <tu>
@@ -63414,7 +63414,7 @@
         <seg>Remove ''{0}'' from ''{1}'' throws list</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>移除 ''{0}''从 ''{1}''抛出列表【】Remove ''{0}'' from ''{1}'' throws list</seg>
+        <seg>移除 ''{0}''从 ''{1}''抛出列表</seg>
       </tuv>
     </tu>
     <tu>
@@ -63422,7 +63422,7 @@
         <seg>Fix Modifiers</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>修复修饰符【】Fix Modifiers</seg>
+        <seg>修复修饰符</seg>
       </tuv>
     </tu>
     <tu>
@@ -63430,7 +63430,7 @@
         <seg>Do you want to change inheritors' visibility to visibility of the base method?</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>你想要改变继承的可见性吗?【】Do you want to change inheritors' visibility to visibility of the base method?</seg>
+        <seg>你想要改变继承的可见性吗?</seg>
       </tuv>
     </tu>
     <tu>
@@ -63438,7 +63438,7 @@
         <seg>Change Inheritors</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>改变继承者【】Change Inheritors</seg>
+        <seg>改变继承者</seg>
       </tuv>
     </tu>
     <tu>
@@ -63446,7 +63446,7 @@
         <seg>Move Class in Extend list</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>移动类在扩展列表中【】Move Class in Extend list</seg>
+        <seg>移动类在扩展列表中</seg>
       </tuv>
     </tu>
     <tu>
@@ -63454,7 +63454,7 @@
         <seg>Move bound ''{0}'' to the beginning of the bounds list of type parameter ''{1}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>将''{0}''移动到类型参数''{1}''的边界列表的开头【】Move bound ''{0}'' to the beginning of the bounds list of type parameter ''{1}''</seg>
+        <seg>将''{0}''移动到类型参数''{1}''的边界列表的开头</seg>
       </tuv>
     </tu>
     <tu>
@@ -63462,7 +63462,7 @@
         <seg>Move Catch Up</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>向上移动捕获【】Move Catch Up</seg>
+        <seg>向上移动捕获</seg>
       </tuv>
     </tu>
     <tu>
@@ -63470,7 +63470,7 @@
         <seg>Move catch for ''{0}'' before ''{1}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>移动捕获为''{0}''在''{1}''之前【】Move catch for ''{0}'' before ''{1}''</seg>
+        <seg>移动捕获为''{0}''在''{1}''之前</seg>
       </tuv>
     </tu>
     <tu>
@@ -63478,7 +63478,7 @@
         <seg>Move Class to Separate File</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>移动类到分离文件【】Move Class to Separate File</seg>
+        <seg>移动类到分离文件</seg>
       </tuv>
     </tu>
     <tu>
@@ -63486,7 +63486,7 @@
         <seg>Move class ''{0}'' to ''{0}.java''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>移动类''{0}''到''{0}.java''【】Move class ''{0}'' to ''{0}.java''</seg>
+        <seg>移动类''{0}''到''{0}.java''</seg>
       </tuv>
     </tu>
     <tu>
@@ -63494,7 +63494,7 @@
         <seg>Move Class to Package</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>移动类到包【】Move Class to Package</seg>
+        <seg>移动类到包</seg>
       </tuv>
     </tu>
     <tu>
@@ -63502,7 +63502,7 @@
         <seg>Move to package ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>移动类到包''{0}''【】Move to package ''{0}''</seg>
+        <seg>移动类到包''{0}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -63510,7 +63510,7 @@
         <seg>Negation Broader Scope</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>否定范围更广的范围【】Negation Broader Scope</seg>
+        <seg>否定范围更广的范围</seg>
       </tuv>
     </tu>
     <tu>
@@ -63518,7 +63518,7 @@
         <seg>Change to ''!({0})''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>改变成【】Change to ''!({0})''</seg>
+        <seg>改变成</seg>
       </tuv>
     </tu>
     <tu>
@@ -63534,7 +63534,7 @@
         <seg>Remove qualifier</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>移除限定符【】Remove qualifier</seg>
+        <seg>移除限定符</seg>
       </tuv>
     </tu>
     <tu>
@@ -63542,7 +63542,7 @@
         <seg>Remove redundant 'else'</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>移除冗余的 'else'【】Remove redundant 'else'</seg>
+        <seg>移除冗余的 'else'</seg>
       </tuv>
     </tu>
     <tu>
@@ -63550,7 +63550,7 @@
         <seg>Remove unused parameter</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>移除没有使用的参数【】Remove unused parameter</seg>
+        <seg>移除没有使用的参数</seg>
       </tuv>
     </tu>
     <tu>
@@ -63558,7 +63558,7 @@
         <seg>Remove parameter ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>移除参数 ''{0}''【】Remove parameter ''{0}''</seg>
+        <seg>移除参数 ''{0}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -63566,7 +63566,7 @@
         <seg>Remove unused variable</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>移除没有使用的变量【】Remove unused variable</seg>
+        <seg>移除没有使用的变量</seg>
       </tuv>
     </tu>
     <tu>
@@ -63574,7 +63574,7 @@
         <seg>Remove variable ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>移除变量 ''{0}''【】Remove variable ''{0}''</seg>
+        <seg>移除变量 ''{0}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -63582,7 +63582,7 @@
         <seg>Remove field ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>移除 字段''{0}''【】Remove field ''{0}''</seg>
+        <seg>移除 字段''{0}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -63590,7 +63590,7 @@
         <seg>Rename Wrong Reference</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>重命名错误引用【】Rename Wrong Reference</seg>
+        <seg>重命名错误引用</seg>
       </tuv>
     </tu>
     <tu>
@@ -63598,7 +63598,7 @@
         <seg>Rename reference</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>重命名引用【】Rename reference</seg>
+        <seg>重命名引用</seg>
       </tuv>
     </tu>
     <tu>
@@ -63606,7 +63606,7 @@
         <seg>Reuse variable declaration</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>重新用变量声明【】Reuse variable declaration</seg>
+        <seg>重新用变量声明</seg>
       </tuv>
     </tu>
     <tu>
@@ -63614,7 +63614,7 @@
         <seg>Reuse previous variable ''{0}'' declaration</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>重新用变量''{0}''声明【】Reuse previous variable ''{0}'' declaration</seg>
+        <seg>重新用变量''{0}''声明</seg>
       </tuv>
     </tu>
     <tu>
@@ -63622,7 +63622,7 @@
         <seg>Safe delete ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>安全删除''{0}''【】Safe delete ''{0}''</seg>
+        <seg>安全删除''{0}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -63630,7 +63630,7 @@
         <seg>Setup JDK Location</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>安装JDK位置【】Setup JDK Location</seg>
+        <seg>安装JDK位置</seg>
       </tuv>
     </tu>
     <tu>
@@ -63638,7 +63638,7 @@
         <seg>Setup JDK</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>安装JDK【】Setup JDK</seg>
+        <seg>安装JDK</seg>
       </tuv>
     </tu>
     <tu>
@@ -63646,7 +63646,7 @@
         <seg>Side Effects Found</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>发现副作用【】Side Effects Found</seg>
+        <seg>发现副作用</seg>
       </tuv>
     </tu>
     <tu>
@@ -63654,7 +63654,7 @@
         <seg>Simplify boolean expression</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>简化布尔表达式【】Simplify boolean expression</seg>
+        <seg>简化布尔表达式</seg>
       </tuv>
     </tu>
     <tu>
@@ -63662,7 +63662,7 @@
         <seg>Simplify ''{0}'' to {1}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>简化''{0}''成 {1}【】Simplify ''{0}'' to {1}</seg>
+        <seg>简化''{0}''成 {1}</seg>
       </tuv>
     </tu>
     <tu>
@@ -63670,7 +63670,7 @@
         <seg>Fix Super Method Return Type</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>修正超方法返回类型【】Fix Super Method Return Type</seg>
+        <seg>修正超方法返回类型</seg>
       </tuv>
     </tu>
     <tu>
@@ -63678,7 +63678,7 @@
         <seg>Surround with try/catch</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>包围用try/catch【】Surround with try/catch</seg>
+        <seg>包围用try/catch</seg>
       </tuv>
     </tu>
     <tu>
@@ -63686,7 +63686,7 @@
         <seg>Make Final</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>使得最终的【】Make Final</seg>
+        <seg>使得最终的</seg>
       </tuv>
     </tu>
     <tu>
@@ -63694,7 +63694,7 @@
         <seg>Make {0} final</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>使得{0}最终的【】Make {0} final</seg>
+        <seg>使得{0}最终的</seg>
       </tuv>
     </tu>
     <tu>
@@ -63702,7 +63702,7 @@
         <seg>Transform {0} into final one element array</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>将{0}转换为最后一个元素数组【】Transform {0} into final one element array</seg>
+        <seg>将{0}转换为最后一个元素数组</seg>
       </tuv>
     </tu>
     <tu>
@@ -63710,7 +63710,7 @@
         <seg>Fix Variable Type</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>修复变量类型【】Fix Variable Type</seg>
+        <seg>修复变量类型</seg>
       </tuv>
     </tu>
     <tu>
@@ -63718,7 +63718,7 @@
         <seg>Change {0} ''{1}'' type to ''{2}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>变量{0} ''{1}''类型成''{2}''【】Change {0} ''{1}'' type to ''{2}''</seg>
+        <seg>变量{0} ''{1}''类型成''{2}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -63726,7 +63726,7 @@
         <seg>Wrap Expression</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>包裹表达式【】Wrap Expression</seg>
+        <seg>包裹表达式</seg>
       </tuv>
     </tu>
     <tu>
@@ -63734,7 +63734,7 @@
         <seg>Wrap using ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>包裹用''{0}''【】Wrap using ''{0}''</seg>
+        <seg>包裹用''{0}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -63742,7 +63742,7 @@
         <seg>&amp;Transform</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>变换【】&amp;Transform</seg>
+        <seg>变换</seg>
       </tuv>
     </tu>
     <tu>
@@ -63750,7 +63750,7 @@
         <seg>&lt;html&gt;&lt;body&gt;\ There are possible side effects found in expressions assigned to the variable ''{0}''&lt;br&gt;\ You can:&lt;ul&gt;&lt;li&gt;&lt;b&gt;Remove&lt;/b&gt; variable usages along with all expressions involved&lt;/li&gt;\ &lt;/body&gt;&lt;/html&gt;</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>&lt;html&gt;&lt;body&gt;\ 在变量 ''{0}''的表达式中有可能出现的副作用。您可以将变量用法和所有表达式一起删除【】 There are possible side effects found in expressions assigned to the variable ''{0}''&lt;br&gt;\ You can:&lt;ul&gt;&lt;li&gt;&lt;b&gt;Remove&lt;/b&gt; variable usages along with all expressions involved&lt;/li&gt;\ &lt;/body&gt;&lt;/html&gt;</seg>
+        <seg>&lt;html&gt;&lt;body&gt;\ 在变量 ''{0}''的表达式中有可能出现的副作用。您可以将变量用法和所有表达式一起删除</seg>
       </tuv>
     </tu>
     <tu>
@@ -63758,7 +63758,7 @@
         <seg>Change Parameter Class</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>改变参数类【】Change Parameter Class</seg>
+        <seg>改变参数类</seg>
       </tuv>
     </tu>
     <tu>
@@ -63766,7 +63766,7 @@
         <seg>Extend Class from</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>扩展类从【】Extend Class from</seg>
+        <seg>扩展类从</seg>
       </tuv>
     </tu>
     <tu>
@@ -63774,7 +63774,7 @@
         <seg>Make ''{0}'' extend ''{1}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>使得''{0}''继承 ''{1}''【】Make ''{0}'' extend ''{1}''</seg>
+        <seg>使得''{0}''继承 ''{1}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -63782,7 +63782,7 @@
         <seg>Make ''{0}'' not extend ''{1}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>使得''{0}''不继承 ''{1}''【】Make ''{0}'' not extend ''{1}''</seg>
+        <seg>使得''{0}''不继承 ''{1}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -63790,7 +63790,7 @@
         <seg>Make ''{0}'' implement ''{1}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>使得''{0}''实现 ''{1}''【】Make ''{0}'' implement ''{1}''</seg>
+        <seg>使得''{0}''实现 ''{1}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -63798,7 +63798,7 @@
         <seg>Make ''{0}'' not implement ''{1}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>使得''{0}''不实现 ''{1}''【】Make ''{0}'' not implement ''{1}''</seg>
+        <seg>使得''{0}''不实现 ''{1}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -63806,7 +63806,7 @@
         <seg>Make method constructor</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>制造方法构造器【】Make method constructor</seg>
+        <seg>制造方法构造器</seg>
       </tuv>
     </tu>
     <tu>
@@ -63814,7 +63814,7 @@
         <seg>Create interface {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建接口【】Create interface {0}</seg>
+        <seg>创建接口</seg>
       </tuv>
     </tu>
     <tu>
@@ -63822,7 +63822,7 @@
         <seg>Create package {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建类【】Create package {0}</seg>
+        <seg>创建类</seg>
       </tuv>
     </tu>
     <tu>
@@ -63830,7 +63830,7 @@
         <seg>Create field {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建字段【】Create field {0}</seg>
+        <seg>创建字段</seg>
       </tuv>
     </tu>
     <tu>
@@ -63838,7 +63838,7 @@
         <seg>Create property {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建属性【】Create property {0}</seg>
+        <seg>创建属性</seg>
       </tuv>
     </tu>
     <tu>
@@ -63846,7 +63846,7 @@
         <seg>Add constructor parameter</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>添加构造函数参数【】Add constructor parameter</seg>
+        <seg>添加构造函数参数</seg>
       </tuv>
     </tu>
     <tu>
@@ -63854,7 +63854,7 @@
         <seg>Remove ''{0}'' suppression</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>移除''{0}''抑制【】Remove ''{0}'' suppression</seg>
+        <seg>移除''{0}''抑制</seg>
       </tuv>
     </tu>
     <tu>
@@ -63862,7 +63862,7 @@
         <seg>Remove suppression</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>移除抑制【】Remove suppression</seg>
+        <seg>移除抑制</seg>
       </tuv>
     </tu>
     <tu>
@@ -63870,7 +63870,7 @@
         <seg>Fix Arguments</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>修复参数【】Fix Arguments</seg>
+        <seg>修复参数</seg>
       </tuv>
     </tu>
     <tu>
@@ -63878,7 +63878,7 @@
         <seg>Change ''{0}'' to ''new {1}{2}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>改变''{0}''成''new {1}{2}''【】Change ''{0}'' to ''new {1}{2}''</seg>
+        <seg>改变''{0}''成''new {1}{2}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -63886,7 +63886,7 @@
         <seg>Change new operator type</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>改变新的操作符类型【】Change new operator type</seg>
+        <seg>改变新的操作符类型</seg>
       </tuv>
     </tu>
     <tu>
@@ -63894,7 +63894,7 @@
         <seg>Add to Dependency Injection Annotations</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>添加到依赖注入注释【】Add to Dependency Injection Annotations</seg>
+        <seg>添加到依赖注入注释</seg>
       </tuv>
     </tu>
     <tu>
@@ -63902,7 +63902,7 @@
         <seg>Suppress for {0} annotated by ''{1}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>以 ''{1}''为 {0}的注释【】Suppress for {0} annotated by ''{1}''</seg>
+        <seg>以 ''{1}''为 {0}的注释</seg>
       </tuv>
     </tu>
     <tu>
@@ -63910,7 +63910,7 @@
         <seg>Add to Special Annotations</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>添加到特殊的注释【】Add to Special Annotations</seg>
+        <seg>添加到特殊的注释</seg>
       </tuv>
     </tu>
     <tu>
@@ -63918,7 +63918,7 @@
         <seg>Add ''{0}'' to special annotations list</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>添加''{0}''到特殊的注释列表【】Add ''{0}'' to special annotations list</seg>
+        <seg>添加''{0}''到特殊的注释列表</seg>
       </tuv>
     </tu>
     <tu>
@@ -63926,7 +63926,7 @@
         <seg>Add dependency on module ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>添加依赖给模块''{0}''【】Add dependency on module ''{0}''</seg>
+        <seg>添加依赖给模块''{0}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -63934,7 +63934,7 @@
         <seg>Add module dependency</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>添加模块依赖关系【】Add module dependency</seg>
+        <seg>添加模块依赖关系</seg>
       </tuv>
     </tu>
     <tu>
@@ -63942,7 +63942,7 @@
         <seg>Add library ''{0}'' to classpath</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>添加库 ''{0}''到类路径【】Add library ''{0}'' to classpath</seg>
+        <seg>添加库 ''{0}''到类路径</seg>
       </tuv>
     </tu>
     <tu>
@@ -63950,7 +63950,7 @@
         <seg>Add library to classpath</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>添加库到类路径【】Add library to classpath</seg>
+        <seg>添加库到类路径</seg>
       </tuv>
     </tu>
     <tu>
@@ -63958,7 +63958,7 @@
         <seg>Circular Dependency Warning</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>循环依赖警告【】Circular Dependency Warning</seg>
+        <seg>循环依赖警告</seg>
       </tuv>
     </tu>
     <tu>
@@ -63966,7 +63966,7 @@
         <seg>Static import method</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>静态导入方法【】Static import method</seg>
+        <seg>静态导入方法</seg>
       </tuv>
     </tu>
     <tu>
@@ -63974,7 +63974,7 @@
         <seg>Choose Method to Import</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>关闭方法 导入【】Choose Method to Import</seg>
+        <seg>关闭方法 导入</seg>
       </tuv>
     </tu>
     <tu>
@@ -63982,7 +63982,7 @@
         <seg>Add ''{0}'' Library to Project</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>将''{0}'' 库添加到项目中【】Add ''{0}'' Library to Project</seg>
+        <seg>将''{0}'' 库添加到项目中</seg>
       </tuv>
     </tu>
     <tu>
@@ -63990,7 +63990,7 @@
         <seg>Choose directory where the library will be copied</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>关闭目录 在库将被复制的地方【】Choose directory where the library will be copied</seg>
+        <seg>关闭目录 在库将被复制的地方</seg>
       </tuv>
     </tu>
     <tu>
@@ -63998,7 +63998,7 @@
         <seg>Library file ''{0}'' does not exist</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>库文件''{0}''不存在【】Library file ''{0}'' does not exist</seg>
+        <seg>库文件''{0}''不存在</seg>
       </tuv>
     </tu>
     <tu>
@@ -64006,7 +64006,7 @@
         <seg>&amp;Use ''{0}'' from {1} distribution</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>用''{0}''从{1}分布【】&amp;Use ''{0}'' from {1} distribution</seg>
+        <seg>用''{0}''从{1}分布</seg>
       </tuv>
     </tu>
     <tu>
@@ -64014,7 +64014,7 @@
         <seg>&amp;Copy ''{0}'' library files to</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>复制''{0}''库文件到【】&amp;Copy ''{0}'' library files to</seg>
+        <seg>复制''{0}''库文件到</seg>
       </tuv>
     </tu>
     <tu>
@@ -64022,7 +64022,7 @@
         <seg>Permute arguments</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>置换参数【】Permute arguments</seg>
+        <seg>置换参数</seg>
       </tuv>
     </tu>
     <tu>
@@ -64030,7 +64030,7 @@
         <seg>Fix literal type</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>解决文字类型【】Fix literal type</seg>
+        <seg>解决文字类型</seg>
       </tuv>
     </tu>
     <tu>
@@ -64038,7 +64038,7 @@
         <seg>Create getter, setter and field for ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建获得方法，设置方法和字段为''{0}''【】【】Create getter, setter and field for ''{0}''</seg>
+        <seg>创建获得方法，设置方法和字段为''{0}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -64046,7 +64046,7 @@
         <seg>Create getter and field for ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建获得方法和字段为''{0}''【】Create getter and field for ''{0}''</seg>
+        <seg>创建获得方法和字段为''{0}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -64054,7 +64054,7 @@
         <seg>Create setter and field for ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>创建设置方法和字段为''{0}''【】Create setter and field for ''{0}''</seg>
+        <seg>创建设置方法和字段为''{0}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -64062,7 +64062,7 @@
         <seg>Fix StringBuilder append</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>修复StringBuilder附加【】Fix StringBuilder append</seg>
+        <seg>修复StringBuilder附加</seg>
       </tuv>
     </tu>
     <tu>
@@ -64070,7 +64070,7 @@
         <seg>Change to ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>改变成''{0}''【】Change to ''{0}''</seg>
+        <seg>改变成''{0}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -64078,7 +64078,7 @@
         <seg>Fix Character Literal</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>修复字符文字【】Fix Character Literal</seg>
+        <seg>修复字符文字</seg>
       </tuv>
     </tu>
     <tu>
@@ -64086,7 +64086,7 @@
         <seg>Convert to string literal</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>转换为字符串【】Convert to string literal</seg>
+        <seg>转换为字符串</seg>
       </tuv>
     </tu>
     <tu>
@@ -64094,7 +64094,7 @@
         <seg>Initialize in constructor</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>【】Initialize in constructor</seg>
+        <seg/>
       </tuv>
     </tu>
     <tu>
@@ -64102,7 +64102,7 @@
         <seg>Choose constructors to add initialization to</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>选择构造函数来添加初始化【】Choose constructors to add initialization to</seg>
+        <seg>选择构造函数来添加初始化</seg>
       </tuv>
     </tu>
     <tu>
@@ -64110,7 +64110,7 @@
         <seg>Remove redundant arguments to call ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>删除冗余参数去调用 ''{0}''【】Remove redundant arguments to call ''{0}''</seg>
+        <seg>删除冗余参数去调用 ''{0}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -64118,7 +64118,7 @@
         <seg>Remove redundant arguments</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>删除冗余参数【】Remove redundant arguments</seg>
+        <seg>删除冗余参数</seg>
       </tuv>
     </tu>
     <tu>
@@ -64126,7 +64126,7 @@
         <seg>Replace with list access</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>替换为访问列表【】Replace with list access</seg>
+        <seg>替换为访问列表</seg>
       </tuv>
     </tu>
     <tu>
@@ -64134,7 +64134,7 @@
         <seg>Add qualifier</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>添加限定符【】Add qualifier</seg>
+        <seg>添加限定符</seg>
       </tuv>
     </tu>
     <tu>
@@ -64142,7 +64142,7 @@
         <seg>Original class</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>原始类【】Original class</seg>
+        <seg>原始类</seg>
       </tuv>
     </tu>
     <tu>
@@ -64150,7 +64150,7 @@
         <seg>Wrap using ''Arrays.asList''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>包裹用''Arrays.asList''【】Wrap using ''Arrays.asList''</seg>
+        <seg>包裹用''Arrays.asList''</seg>
       </tuv>
     </tu>
     <tu>
@@ -64158,7 +64158,7 @@
         <seg>Add missing annotation parameters - {0}</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>添加缺少的注解参数- {0}【】Add missing annotation parameters - {0}</seg>
+        <seg>添加缺少的注解参数- {0}</seg>
       </tuv>
     </tu>
     <tu>
@@ -64166,7 +64166,7 @@
         <seg>Add missing annotation parameter ''{0}''</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>添加缺少的注解参数''{0}''【】Add missing annotation parameter ''{0}''</seg>
+        <seg>添加缺少的注解参数''{0}''</seg>
       </tuv>
     </tu>
     <tu>
@@ -64174,7 +64174,7 @@
         <seg>Add qualifier {0} to method</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>添加限定符 {0}到方法【】Add qualifier {0} to method</seg>
+        <seg>添加限定符 {0}到方法</seg>
       </tuv>
     </tu>
     <tu>
@@ -64182,7 +64182,7 @@
         <seg>Classes to check</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>类检查【】Classes to check</seg>
+        <seg>类检查</seg>
       </tuv>
     </tu>
     <tu>
@@ -64190,7 +64190,7 @@
         <seg>Line before {0} deleted</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>在{0} 之前的行 删除【】Line before {0} deleted</seg>
+        <seg>在{0} 之前的行 删除</seg>
       </tuv>
     </tu>
     <tu>
@@ -64198,7 +64198,7 @@
         <seg>{1} lines before {0} deleted</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>在{0}之前的{1}行 删除【】{1} lines before {0} deleted</seg>
+        <seg>在{0}之前的{1}行 删除</seg>
       </tuv>
     </tu>
     <tu>
@@ -64206,7 +64206,7 @@
         <seg>Line {0} changed</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>行{0}改变【】Line {0} changed</seg>
+        <seg>行{0}改变</seg>
       </tuv>
     </tu>
     <tu>
@@ -64214,7 +64214,7 @@
         <seg>Lines {0}-{1} changed</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>行{0}-{1}改变【】Lines {0}-{1} changed</seg>
+        <seg>行{0}-{1}改变</seg>
       </tuv>
     </tu>
     <tu>
@@ -64222,7 +64222,7 @@
         <seg>Are you sure you want to delete the shelved changelist named ''{0}''? You will not be able to undo this operation</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>你确定你想删除被命名为''{0}''的被搁置的变更列表吗?您将无法撤消此操作。【】Are you sure you want to delete the shelved changelist named ''{0}''? You will not be able to undo this operation</seg>
+        <seg>你确定你想删除被命名为''{0}''的被搁置的变更列表吗?您将无法撤消此操作。</seg>
       </tuv>
     </tu>
     <tu>
@@ -64230,7 +64230,7 @@
         <seg>Are you sure you want to delete {0} shelved changelists? You will not be able to undo this operation</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>您确定要删除{0}个被搁置的变更列表吗?您将无法撤消此操作。【】Are you sure you want to delete {0} shelved changelists? You will not be able to undo this operation</seg>
+        <seg>您确定要删除{0}个被搁置的变更列表吗?您将无法撤消此操作。</seg>
       </tuv>
     </tu>
     <tu>
@@ -64238,7 +64238,7 @@
         <seg>You are going to remove {0} file(s) from shelved changelist. Are you sure?</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>您将从被搁置的变更列表中删除{0}文件(s)。你确定吗?【】You are going to remove {0} file(s) from shelved changelist. Are you sure?</seg>
+        <seg>您将从被搁置的变更列表中删除{0}文件(s)。你确定吗?</seg>
       </tuv>
     </tu>
     <tu>
@@ -64246,7 +64246,7 @@
         <seg>Remove Files from Shelved Changelist</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>从搁置的变更列表中删除文件【】Remove Files from Shelved Changelist</seg>
+        <seg>从搁置的变更列表中删除文件</seg>
       </tuv>
     </tu>
     <tu>
@@ -64254,7 +64254,7 @@
         <seg>Successfully created patch {0}. {1} of the selected files {1,choice,1#is|2#are} binary and {1,choice,1#was|2#were} not included in the patch</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>成功创建补丁{0}。选择的文件{1,choice,1#is|2#are}二进制和1，{1,choice,1#was|2#were} 不包含在补丁中。【】Successfully created patch {0}. {1} of the selected files {1,choice,1#is|2#are} binary and {1,choice,1#was|2#were} not included in the patch</seg>
+        <seg>成功创建补丁{0}。选择的文件{1,choice,1#is|2#are}二进制和1，{1,choice,1#was|2#were} 不包含在补丁中。</seg>
       </tuv>
     </tu>
     <tu>
@@ -64262,7 +64262,7 @@
         <seg>All of the selected files are binary. Binary files cannot be included in patches. No patch has been created</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>所有被选中的文件都是二进制文件。二进制文件不能包含在补丁中。目前还没有创建补丁。【】All of the selected files are binary. Binary files cannot be included in patches. No patch has been created</seg>
+        <seg>所有被选中的文件都是二进制文件。二进制文件不能包含在补丁中。目前还没有创建补丁。</seg>
       </tuv>
     </tu>
     <tu>
@@ -64270,7 +64270,7 @@
         <seg>Current VCS does not support viewing changes by revision</seg>
       </tuv>
       <tuv lang="ZH-CN">
-        <seg>当前的VCS不支持通过修订来查看变更【】Current VCS does not support viewing changes by revision</seg>
+        <seg>当前的VCS不支持通过修订来查看变更</seg>
       </tuv>
     </tu>
     <tu>
