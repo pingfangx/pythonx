@@ -3,7 +3,10 @@ import re
 from android_studio_translator.tools import Tools
 from xx import filex
 from xx import iox
-from android_studio_translator.tips.tips import Tips
+from android_studio_translator.delete_action import DeleteAction
+
+
+# from android_studio_translator.tips.tips import Tips
 
 
 class ActionsBundle:
@@ -19,6 +22,21 @@ class ActionsBundle:
     """处理完快捷键和省略，翻译结果文件"""
 
     def main(self):
+        version = '2.3.3'
+        "版本号"
+        source_dir = r'D:\workspace\TranslatorX\AndroidStudio\source'
+        "OmegaT的source路径"
+        target_dir = r'D:\workspace\TranslatorX\AndroidStudio\target'
+        "OmegaT的target路径"
+        original_dir = r'D:\workspace\TranslatorX\AndroidStudio\target\original'
+
+        source_messages_dir = r'%s\%s\%s' % (source_dir, version, r'lib\resources_en\messages')
+        target_messages_dir = r'%s\%s\%s' % (target_dir, version, r'lib\resources_en\messages')
+        original_message_dir = r'%s\%s\%s' % (original_dir, version, r'lib\resources_en\messages')
+
+        name_pattern = r'.properties'
+        """处理时过滤文件的模板"""
+
         en_add_file = ActionsBundle.en_add_file
         cn_split_file = 'data/ActionsBundle_cn_split.properties'
         """修改断句的文件"""
@@ -30,25 +48,16 @@ class ActionsBundle:
 
         result_file = r"data/ActionsBundle_result.properties"
 
-        original_dir = r'D:\workspace\TranslatorX\AndroidStudio\target\original\AndroidStudio'
-        source_dir = r'D:\workspace\TranslatorX\AndroidStudio\source\AndroidStudio'
-        target_dir = r'D:\workspace\TranslatorX\AndroidStudio\target\AndroidStudio'
-        name_pattern = r'.properties'
-
-        android_studio_tips_translation_dir = r'D:\workspace\TranslatorX\AndroidStudio\target\AndroidStudio\resources_en\tips'
-        """tips的路径"""
-        tips_names_cn_file = ''
         action_list = [
             ['退出', exit],
             ['处理' + en_add_file, self.process_file_for_translation, en_add_file],
-            ['处理' + cn_split_file, self.process_file_for_translation, cn_split_file,
-             cn_modified_file],
+            ['处理' + cn_split_file, self.process_file_for_translation, cn_split_file, cn_modified_file],
             ['处理翻译结果', self.add_ellipsis_and_shortcut, en_add_file, en_modified_add_translation_file, result_file],
-            ['处理所有文件' + source_dir, self.process_dir_for_translation, source_dir, source_dir, name_pattern],
-            ['处理所有文件的翻译结果' + target_dir, self.process_dir_translation_result, original_dir, target_dir, None,
+            ['处理所有文件' + source_messages_dir, self.process_dir_for_translation, source_messages_dir, source_messages_dir,
              name_pattern],
-            ['处理AndroidStudio翻译中的tips翻译结果', Tips.process_tips_translation_result, tips_names_cn_file,
-             android_studio_tips_translation_dir, Tips.RESULT_TYPE_ANDROID_STUDIO, android_studio_tips_translation_dir],
+            ['处理所有文件的翻译结果' + target_dir, self.process_dir_translation_result, original_message_dir, target_messages_dir,
+             None,
+             name_pattern],
         ]
         iox.choose_action(action_list)
 
@@ -94,14 +103,14 @@ class ActionsBundle:
         if result_file is None:
             result_file = filex.get_result_file_name(file, '_modified')
         print('删除省略号')
-        Tools.delete_symbol(file, 0, 0, result_file)
+        DeleteAction.delete_ellipsis(file, result_file)
         # 后面的将接着用result_fiel
         print('删除快捷方式')
-        Tools.delete_symbol(result_file, 0, 1, result_file)
-        print('删除等号前后的空格')
-        Tools.delete_symbol(result_file, 0, 2, result_file)
+        DeleteAction.delete_underline_shortcut(result_file, result_file)
+        print('删除&形式的快捷方式')
+        DeleteAction.delete_and_shortcut(result_file, result_file)
         print('再次删除省略号，防止位于快捷方式之前')
-        Tools.delete_symbol(result_file, 0, 0, result_file)
+        DeleteAction.delete_ellipsis(result_file, result_file)
 
     @staticmethod
     def add_ellipsis_and_shortcut(en_file, cn_file, result_file=None):
