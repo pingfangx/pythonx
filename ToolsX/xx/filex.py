@@ -1,4 +1,5 @@
 import os.path
+import re
 from configparser import ConfigParser
 
 
@@ -118,3 +119,24 @@ def get_config(file_path, encoding='utf-8'):
     conf = ConfigParser()
     conf.read(file_path, encoding=encoding)
     return conf
+
+
+def list_file(dir_path, name_pattern=None):
+    """
+    列出目录中的文件，返回文件路径的数组
+    :param dir_path:目录，如果传一个文件，则会返回只包含该文件的数组
+    :param name_pattern: 文件名的正则匹配
+    :return:
+    """
+    file_list = list()
+    if os.path.isfile(dir_path):
+        file_list.append(dir_path)
+    elif os.path.isdir(dir_path):
+        for parent, dirnames, filenames in os.walk(dir_path):
+            for file in filenames:
+                if name_pattern is not None:
+                    if re.search(name_pattern, file) is not None:
+                        file_list.append(parent + '\\' + file)
+                else:
+                    file_list.append(parent + '\\' + file)
+    return file_list
