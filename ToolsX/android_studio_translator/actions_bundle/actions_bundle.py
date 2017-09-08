@@ -66,7 +66,7 @@ class ActionsBundle:
         """处理文件夹中的所有文件"""
         if result_dir is None:
             result_dir = process_dir + '_delete'
-        file_list = Tools.list_file(process_dir, name_pattern)
+        file_list = filex.list_file(process_dir, name_pattern)
         length = len(file_list)
         for i in range(length):
             file = file_list[i]
@@ -80,7 +80,7 @@ class ActionsBundle:
         if result_dir is None:
             result_dir = cn_dir + '_add'
 
-        en_file_list = Tools.list_file(en_dir, name_pattern)
+        en_file_list = filex.list_file(en_dir, name_pattern)
         length = len(en_file_list)
         for i in range(length):
             en_file = en_file_list[i]

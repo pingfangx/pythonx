@@ -185,7 +185,7 @@ class KeymapDefault:
         :param dir_path:
         :return:
         """
-        file_list = Tools.list_file(dir_path, r'\.xml$')
+        file_list = filex.list_file(dir_path, r'\.xml$')
         for file in file_list:
             keymap_dict = KeymapDefault.get_keymap_dict_from_file(file)
             if keymap_dict:

@@ -60,7 +60,7 @@ class Translator:
         """如果key相同，value是否有不一致
         发现确实有不一致，所以必须区分文件"""
 
-        file_list = Tools.list_file(dir_path)
+        file_list = filex.list_file(dir_path)
         all_translation = dict()
         for file in file_list:
             print('\ncheck ' + file)
@@ -80,7 +80,7 @@ class Translator:
 
         all_translation = dict()
         diff_translation = dict()
-        en_file_list = Tools.list_file(en_dir, '\.(?!png|gif)')
+        en_file_list = filex.list_file(en_dir, '\.(?!png|gif)')
         for en_file in en_file_list:
             print('\ncheck ' + en_file)
             cn_file = Translator.get_cn_file_name(en_dir, cn_dir, en_file, suffix)
@@ -120,7 +120,7 @@ class Translator:
     def check_translation_complete(en_dir, cn_dir, out_put=None, suffix=''):
         """翻译是否完整"""
         incomplete_dict = dict()
-        en_file_list = Tools.list_file(en_dir, '\.(?!png|gif)')
+        en_file_list = filex.list_file(en_dir, '\.(?!png|gif)')
         incomplete_file = []
         miss_file = []
         complete_count = 0
@@ -211,7 +211,7 @@ class Translator:
     @staticmethod
     def generate_need_translation_file(en_dir, result_dir):
         """生成需要翻译的文件"""
-        en_file_list = Tools.list_file(en_dir)
+        en_file_list = filex.list_file(en_dir)
         all_translation = dict()
         for en_file in en_file_list:
             en_dict = Tools.get_dict_from_file(en_file)
@@ -237,7 +237,7 @@ class Translator:
     @staticmethod
     def generate_need_translation_file2(en_dir, result_file):
         """生成需要翻译的文件"""
-        en_file_list = Tools.list_file(en_dir)
+        en_file_list = filex.list_file(en_dir)
         all_translation = dict()
         for en_file in en_file_list:
             en_dict = Tools.get_dict_from_file(en_file)
@@ -301,7 +301,7 @@ class Translator:
         for i in compare_dir_list:
             if i == r'C:\Users\Admin\Desktop\AndroidStudio汉化\汉化包\整理':
                 t_dict = dict()
-                for i_file in Tools.list_file(i):
+                for i_file in filex.list_file(i):
                     t_dict.update(filex.get_dict_from_file(i_file))
                 dict_list.append(t_dict)
                 continue
