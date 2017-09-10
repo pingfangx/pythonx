@@ -1,12 +1,11 @@
-from xx import iox
-from xx import filex
-from xx import netx
-from android_studio_translator.tools import Tools
+import filecmp
 import os
-import math
 import re
 from xml.etree import ElementTree as Et
-import filecmp
+
+from android_studio_translator.tools import Tools
+from xx import filex
+from xx import iox
 
 
 class Translator:
@@ -51,7 +50,9 @@ class Translator:
             ['检查输出目录是否翻译完整' + target_dir, self.check_translation_complete, source_dir, target_dir, incomplete_file],
             ['比较几个文件夹的翻译结果并输出词典', self.compare_translation, en_dir, compare_dirs, omegat_dict_file],
             ['比较几个文件夹的翻译结果并输出词典（顺序）', self.compare_translation_by_index, en_dir, compare_dirs],
-            ['将%s导出为OmegaT记忆库' % all_dict_file, self.export_to_omegat, all_dict_file]
+            ['将%s导出为OmegaT记忆库' % all_dict_file, self.export_to_omegat, all_dict_file],
+            ['将OmegaT的词库导出为文本', self.export_omegat_dictionary_to_file,
+             r'D:\workspace\TranslatorX\AndroidStudio\tm\99all_dict.tmx']
         ]
         iox.choose_action(action_list)
 
@@ -388,6 +389,19 @@ class Translator:
                 else:
                     output_dict[key] = value
         Tools.save_omegat_dict(output_dict, result_file)
+
+    @staticmethod
+    def export_omegat_dictionary_to_file(file_path, result_file=None):
+        """导出omegat的词库为文件"""
+        if result_file is None:
+            result_file = filex.get_result_file_name(file_path, '', 'txt')
+        omegat_dict = Translator.get_omegat_dict(file_path)
+
+        result = list()
+        for key, value in omegat_dict.items():
+            result.append('%s=%s\n' % (key, value))
+        print('size is %d' % len(sorted(omegat_dict.keys())))
+        filex.write_lines(result_file, result)
 
 
 if __name__ == '__main__':

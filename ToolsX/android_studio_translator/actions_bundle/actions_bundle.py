@@ -1,9 +1,9 @@
 import re
 
+from android_studio_translator.delete_action import DeleteAction
 from android_studio_translator.tools import Tools
 from xx import filex
 from xx import iox
-from android_studio_translator.delete_action import DeleteAction
 
 
 # from android_studio_translator.tips.tips import Tips
@@ -28,7 +28,7 @@ class ActionsBundle:
         "OmegaT的source路径"
         target_dir = r'D:\workspace\TranslatorX\AndroidStudio\target'
         "OmegaT的target路径"
-        original_dir = r'D:\workspace\TranslatorX\AndroidStudio\target\original'
+        original_dir = r'D:\workspace\TranslatorX\AndroidStudio\original'
 
         source_messages_dir = r'%s\%s\%s' % (source_dir, version, r'lib\resources_en\messages')
         target_messages_dir = r'%s\%s\%s' % (target_dir, version, r'lib\resources_en\messages')
@@ -53,7 +53,8 @@ class ActionsBundle:
             ['处理' + en_add_file, self.process_file_for_translation, en_add_file],
             ['处理' + cn_split_file, self.process_file_for_translation, cn_split_file, cn_modified_file],
             ['处理翻译结果', self.add_ellipsis_and_shortcut, en_add_file, en_modified_add_translation_file, result_file],
-            ['处理所有文件' + source_messages_dir, self.process_dir_for_translation, source_messages_dir, source_messages_dir,
+            ['处理所有文件' + original_message_dir, self.process_dir_for_translation, original_message_dir,
+             source_messages_dir,
              name_pattern],
             ['处理所有文件的翻译结果' + target_dir, self.process_dir_translation_result, original_message_dir, target_messages_dir,
              None,
