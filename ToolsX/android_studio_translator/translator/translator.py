@@ -36,6 +36,7 @@ class Translator:
             r'C:\Users\Admin\Desktop\AndroidStudio汉化\汉化包\1',
             r'C:\Users\Admin\Desktop\AndroidStudio汉化\汉化包\4',
         ]
+        phone_translation_dir = [r'C:\Users\Admin\Desktop\AndroidStudio汉化\汉化包\phone']
         action_list = [
             ['退出', exit],
             ['检查key相同时，value是否有不一致', self.check_same_key_difference_value, en_dir],
@@ -49,7 +50,9 @@ class Translator:
             ['使用词典更新OmegaT的记忆文件', self.update_omegat_dict, all_dict_file, omegat_dict_file, omegat_result_dict_file],
             ['检查输出目录是否翻译完整' + target_dir, self.check_translation_complete, source_dir, target_dir, incomplete_file],
             ['比较几个文件夹的翻译结果并输出词典', self.compare_translation, en_dir, compare_dirs, omegat_dict_file],
-            ['比较几个文件夹的翻译结果并输出词典（顺序）', self.compare_translation_by_index, en_dir, compare_dirs],
+            ['比较几个文件夹的翻译结果并输出词典（以文件顺序为优先级）', self.compare_translation_by_index, en_dir, compare_dirs],
+            ['比较手机翻译结果并输出OmegaT词典(不转unicode)', self.compare_translation, en_dir, phone_translation_dir, None,
+             r'data/phone_dict.tmx.xml', None, False, False],
             ['将%s导出为OmegaT记忆库' % all_dict_file, self.export_to_omegat, all_dict_file],
             ['将OmegaT的词库导出为文本', self.export_omegat_dictionary_to_file,
              r'D:\workspace\TranslatorX\AndroidStudio\tm\99all_dict.tmx']
@@ -76,7 +79,7 @@ class Translator:
             # print('the translation size is :%d' % len(sorted(all_translation.keys())))
 
     @staticmethod
-    def check_same_en_difference_cn(en_dir, cn_dir, print_msg=False, suffix=''):
+    def check_same_en_difference_cn(en_dir, cn_dir, print_msg=False, suffix='', trans_unicode=True):
         """英文相同时，是否有不一致的翻译"""
 
         all_translation = dict()
@@ -89,7 +92,7 @@ class Translator:
                 print('中文文件不存在' + cn_file)
                 continue
             en_dict = Tools.get_dict_from_file(en_file)
-            cn_dict = Tools.get_dict_from_file(cn_file, delete_cn_shortcut=True, trans_unicode=True)
+            cn_dict = Tools.get_dict_from_file(cn_file, delete_cn_shortcut=True, trans_unicode=trans_unicode)
             for key, en_value in en_dict.items():
                 if key in cn_dict.keys():
                     # 有key对应的中英文
@@ -293,7 +296,7 @@ class Translator:
 
     @staticmethod
     def compare_translation(en_dir, compare_dir_list, omegat_dict_file=None, dict_file=None, dict_diff_file=None,
-                            by_index=False):
+                            by_index=False, trans_unicode=True):
         if dict_file is None:
             dict_file = 'data/dict.txt'
         if dict_diff_file is None:
@@ -306,7 +309,8 @@ class Translator:
                     t_dict.update(filex.get_dict_from_file(i_file))
                 dict_list.append(t_dict)
                 continue
-            i_all_translation, i_diff_translation = Translator.check_same_en_difference_cn(en_dir, i, False)
+            i_all_translation, i_diff_translation = Translator.check_same_en_difference_cn(en_dir, i, False, '',
+                                                                                           trans_unicode=trans_unicode)
             dict_list.append(i_all_translation)
         if omegat_dict_file is not None:
             dict_list.insert(0, Translator.get_omegat_dict(omegat_dict_file))
@@ -363,17 +367,22 @@ class Translator:
                     i, len(sorted(i_dict.keys())), len(sorted(all_translation.keys())),
                     len(sorted(diff_translation.keys()))))
 
-        result = list()
-        for key, value in all_translation.items():
-            result.append('%s=%s\n' % (key, value))
         print('size is %d' % len(sorted(all_translation.keys())))
-        filex.write_lines(dict_file, result)
+        if all_translation:
+            if dict_file.endswith('.tmx') or dict_file.endswith('.tmx.xml'):
+                Tools.save_omegat_dict(all_translation, dict_file)
+            else:
+                result = list()
+                for key, value in all_translation.items():
+                    result.append('%s=%s\n' % (key, value))
+                filex.write_lines(dict_file, result)
 
-        result = list()
-        for key, value in diff_translation.items():
-            result.append('%s=%s\n' % (key, value))
-        print('size is %d' % len(sorted(diff_translation.keys())))
-        filex.write_lines(dict_diff_file, result)
+        print('diff size is %d' % len(sorted(diff_translation.keys())))
+        if diff_translation:
+            result = list()
+            for key, value in diff_translation.items():
+                result.append('%s=%s\n' % (key, value))
+            filex.write_lines(dict_diff_file, result)
 
     @staticmethod
     def export_to_omegat(file_path, result_file=None):

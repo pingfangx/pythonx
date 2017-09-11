@@ -203,7 +203,9 @@ class Tools:
                             print(cn_value)
                             print('英文中有“. ”，中文中不包含“。 ”')
                 if not added:
-                    Tools.add_translate_element(body, en_value, cn_value)
+                    if cn_value:
+                        # 只添加不为空的
+                        Tools.add_translate_element(body, en_value, cn_value)
 
         tree = Et.ElementTree(tmx)
         tree.write(output_file, encoding='utf-8')
