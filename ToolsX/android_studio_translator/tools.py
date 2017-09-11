@@ -2,9 +2,9 @@ import os
 import re
 from xml.etree import ElementTree as Et
 
+from android_studio_translator.delete_action import DeleteAction
 from xx import encodex
 from xx import filex
-from android_studio_translator.delete_action import DeleteAction
 from xx import iox
 
 
@@ -220,7 +220,9 @@ class Tools:
         Et.SubElement(tmx, 'header')
         body = Et.SubElement(tmx, 'body')
         for (k, v) in omega_dict.items():
-            Tools.add_translate_element(body, k, v)
+            if v:
+                # 只添加不为空的
+                Tools.add_translate_element(body, k, v)
 
         tree = Et.ElementTree(tmx)
         tree.write(output_file, encoding='utf-8')

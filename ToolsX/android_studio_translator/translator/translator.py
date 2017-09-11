@@ -13,7 +13,7 @@ class Translator:
 
     def main(self):
 
-        en_dir = r'C:\Users\Admin\Desktop\AndroidStudio汉化\汉化包\en'
+        en_dir = r'D:\workspace\TranslatorX\AndroidStudio\original\2.3.3\lib\resources_en'
         cn_dir = r'C:\Users\Admin\Desktop\AndroidStudio汉化\汉化包\4'
         dict_file = 'data/dict.txt'
 
@@ -363,7 +363,9 @@ class Translator:
                     if not has_diff:
                         if print_i:
                             print('统一翻译')
-                        all_translation[key] = i_value
+                        if i_value:
+                            # 只添加不为空的
+                            all_translation[key] = i_value
                 print('%d中处理%d条，其中%d条翻译相同,%d条不同' % (
                     i, len(sorted(i_dict.keys())), len(sorted(all_translation.keys())),
                     len(sorted(diff_translation.keys()))))
