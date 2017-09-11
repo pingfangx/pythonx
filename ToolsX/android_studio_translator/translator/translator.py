@@ -49,8 +49,8 @@ class Translator:
              need_translation_result_dir + '.properties'],
             ['使用词典更新OmegaT的记忆文件', self.update_omegat_dict, all_dict_file, omegat_dict_file, omegat_result_dict_file],
             ['检查输出目录是否翻译完整' + target_dir, self.check_translation_complete, source_dir, target_dir, incomplete_file],
-            ['比较几个文件夹的翻译结果并输出词典', self.compare_translation, en_dir, compare_dirs, omegat_dict_file],
-            ['比较几个文件夹的翻译结果并输出词典（以文件顺序为优先级）', self.compare_translation_by_index, en_dir, compare_dirs],
+            ['比较几个文件夹的翻译结果并输出词典（可备选）', self.compare_translation, en_dir, compare_dirs, omegat_dict_file],
+            ['比较几个文件夹的翻译结果并输出词典（以文件顺序为优先级单个结果）', self.compare_translation_by_index, en_dir, compare_dirs],
             ['比较手机翻译结果并输出OmegaT词典(不转unicode)', self.compare_translation, en_dir, phone_translation_dir, None,
              r'data/phone_dict.tmx.xml', None, False, False],
             ['将%s导出为OmegaT记忆库' % all_dict_file, self.export_to_omegat, all_dict_file],
@@ -301,11 +301,12 @@ class Translator:
             dict_file = 'data/dict.txt'
         if dict_diff_file is None:
             dict_diff_file = filex.get_result_file_name(dict_file, '_diff')
+        separator = '[xx|]'
         dict_list = list()
         for i in compare_dir_list:
             if i == r'C:\Users\Admin\Desktop\AndroidStudio汉化\汉化包\整理':
                 t_dict = dict()
-                for i_file in filex.list_file(i):
+                for i_file in filex.list_file(i, '.properties'):
                     t_dict.update(filex.get_dict_from_file(i_file))
                 dict_list.append(t_dict)
                 continue
@@ -348,10 +349,10 @@ class Translator:
                                 has_diff = True
                                 if key in diff_translation.keys():
                                     pre_translation = diff_translation[key]
-                                    if j_value not in pre_translation.split('|'):
-                                        diff_translation[key] = pre_translation + '|' + j_value.replace('\n', '')
+                                    if j_value not in pre_translation.split(separator):
+                                        diff_translation[key] = pre_translation + separator + j_value.replace('\n', '')
                                 else:
-                                    diff_translation[key] = (i_value + '|' + j_value).replace('\n', '')
+                                    diff_translation[key] = (i_value + separator + j_value).replace('\n', '')
                                 if print_i:
                                     print('词典%d中是%s' % (j, j_value))
                             # 处理后移除
