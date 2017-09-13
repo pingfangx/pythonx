@@ -1,4 +1,5 @@
 import os.path
+import re
 from configparser import ConfigParser
 
 
@@ -15,7 +16,7 @@ def read_lines(file_path, encoding='utf-8', ignore_line_separator=False):
 
     with open(file_path, encoding=encoding) as f:
         if ignore_line_separator:
-            result = [line.replace('\n', '') for line in f.readlines()]
+            result = [line.rstrip('\n') for line in f.readlines()]
         else:
             result = f.readlines()
     return result
@@ -58,11 +59,12 @@ def check_and_create_dir(file_path, print_msg=True):
         os.makedirs(dir_name)
 
 
-def get_dict_from_file(file_path, separator='='):
+def get_dict_from_file(file_path, separator='=', join_line=True):
     """
     从文件中读取字典，
     :param file_path:文件路径
     :param separator:分隔符
+    :param join_line: 是否连接行
     :return: 如果有错返回None
     """
     result = dict()
@@ -70,8 +72,19 @@ def get_dict_from_file(file_path, separator='='):
     if lines is None:
         return None
 
+    pre_line = None
     for line in lines:
         line = line.replace('\n', '')
+        if join_line:
+            if pre_line is not None:
+                # 连接前一行
+                line = pre_line + line
+            if line.endswith('\\'):
+                # 在.properties文件中，有一些行会以\结尾，要求连接
+                pre_line = line
+                continue
+            else:
+                pre_line = None
         if separator in line:
             key_value = line.split(separator, maxsplit=1)
             result[key_value[0]] = key_value[1]
@@ -106,3 +119,24 @@ def get_config(file_path, encoding='utf-8'):
     conf = ConfigParser()
     conf.read(file_path, encoding=encoding)
     return conf
+
+
+def list_file(dir_path, name_pattern=None):
+    """
+    列出目录中的文件，返回文件路径的数组
+    :param dir_path:目录，如果传一个文件，则会返回只包含该文件的数组
+    :param name_pattern: 文件名的正则匹配
+    :return:
+    """
+    file_list = list()
+    if os.path.isfile(dir_path):
+        file_list.append(dir_path)
+    elif os.path.isdir(dir_path):
+        for parent, dirnames, filenames in os.walk(dir_path):
+            for file in filenames:
+                if name_pattern is not None:
+                    if re.search(name_pattern, file) is not None:
+                        file_list.append(parent + '\\' + file)
+                else:
+                    file_list.append(parent + '\\' + file)
+    return file_list
