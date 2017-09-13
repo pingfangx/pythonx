@@ -1,19 +1,23 @@
 import re
-
+import os
 import pyperclip
 
 from xx import iox
+from xx import filex
 
 
 class BlogXTools:
     DESTINATION_COPYRIGHT = '转载申明'
     DESTINATION_COPYRIGHT_AND_TITLE = '转载申明加标题'
-    DESTINATION_URL = '网址'
+    DESTINATION_URL = '标题和网址'
     DESTINATION_QUOTE = '引用'
     DESTINATION_REFERENCE_AND_QUOTE = '参考文献和引用'
+    DESTINATION_FILE_NAME_WITH_ID = '文件名带id'
 
     PATTERN_CLIPBOARD = r'tid=(\d+)'
     PATTERN_URL = r'thread-(\d+)'
+
+    process_dir = r'D:\workspace\BlogX\draft'
 
     def main(self):
         action_list = [
@@ -25,7 +29,9 @@ class BlogXTools:
             BlogXTools.DESTINATION_URL,
             BlogXTools.DESTINATION_QUOTE,
             BlogXTools.DESTINATION_REFERENCE_AND_QUOTE,
-            ['外部链接转为参考文献和引用', self.parse_reference_and_quote]
+            BlogXTools.DESTINATION_FILE_NAME_WITH_ID,
+            ['外部链接转为参考文献和引用', self.parse_reference_and_quote],
+            ['通过标题重命名文件、添加转载申明、添加[md]标签', self.auto_process_file]
         ]
         for destination in destination_list:
             if isinstance(destination, str):
@@ -62,6 +68,8 @@ class BlogXTools:
                     result = '[1]:%s "%s"' % (url, title)
                 elif destination == BlogXTools.DESTINATION_REFERENCE_AND_QUOTE:
                     result = '[[1]].[%s](%s)  \n[1]:%s "%s"' % (title, url, url, title)
+                elif destination == BlogXTools.DESTINATION_FILE_NAME_WITH_ID:
+                    result = '[%s]%s' % (tid, title)
 
         if result is not None:
             BlogXTools.copy_text(result)
@@ -121,6 +129,50 @@ class BlogXTools:
                     quote += '\n[%s]:%s (%s.《%s》)' % (index, url, author, title)
                     i += 3
         return reference + '\n' + quote
+
+    @staticmethod
+    def auto_process_file(text):
+        """自动处理文件"""
+        title, tid = BlogXTools.get_title_and_tid(text)
+        if tid is not None:
+            file_name = '[%s]%s.txt' % (tid, title)
+            found_file = None
+            for file in filex.list_file(BlogXTools.process_dir):
+                parent_dir, base_name = os.path.split(file)
+                if base_name == file_name:
+                    print('打到文件')
+                    found_file = file
+                    break
+                elif base_name == '%s.txt' % title:
+                    print('找到未命名的文件，执行重命名')
+                    new_name = parent_dir + '/' + file_name
+                    os.rename(file, new_name)
+                    found_file = new_name
+                    break
+            if found_file:
+                lines = filex.read_lines(found_file)
+                first_line = lines[0]
+                need_process = True
+                if first_line.startswith('[md]'):
+                    print('第一行已经包含[md]标签，不处理')
+                    need_process = False
+                elif first_line.startswith('>本文由平方X'):
+                    print('第一行已经包含转载申明')
+                else:
+                    # 添加转载申明
+                    url = 'http://blog.pingfangx.com/%s.html' % tid
+                    result = '>本文由平方X发表于平方X网，转载请注明出处。[%s](%s)\n\n' % (url, url)
+                    lines.insert(0, result)
+                    print('已写入转载申明')
+                if need_process:
+                    # 写入[md]标签
+                    lines.insert(0, '[md]\n')
+                    lines.append('\n[/md]')
+                    filex.write_lines(found_file, lines)
+                # 复制
+                text = ''.join(lines)
+
+        return text
 
 
 if __name__ == '__main__':
