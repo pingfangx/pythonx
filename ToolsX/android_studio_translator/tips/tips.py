@@ -35,7 +35,7 @@ class Tips:
     def main(self):
         tips_en_dir = r'D:\workspace\TranslatorX\AndroidStudio\source\tips'
         # 翻译结果目录
-        tips_cn_dir = r'D:\workspace\TranslatorX\AndroidStudio\target\tips'
+        tips_cn_dir = r'D:\workspace\TranslatorX\AndroidStudio\target\2.3.3\lib\resources_en\tips'
         # 处理为AndroidStudio的目录
         tips_android_studio_dir = tips_cn_dir + r'_android_studio'
         # 处理为github page的目录
@@ -49,7 +49,7 @@ class Tips:
                                          r'.properties '
 
         # 文件名翻译结果
-        tips_names_cn_file = filex.get_result_file_name(tips_manifest_translation_file, '_cn_result')
+        tips_names_cn_file = 'data/IdeTipsAndTricks_name_zh_CN_cn_result.properties'
 
         Tips.github_pages_action_list = [
             [tips_names_cn_file, tips_en_dir, tips_github_pages_en_dir, 0, 'en'],
@@ -328,7 +328,7 @@ class Tips:
         for parent, dirnames, filenames in os.walk(dir_path):
             for file in filenames:
                 name, ext = os.path.splitext(file)
-                if ext == '.html':
+                if ext == '.html' and not parent.endswith('excluded'):
                     file_dict[name] = parent + '\\' + file
         return file_dict
 
