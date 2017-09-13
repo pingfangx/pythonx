@@ -24,11 +24,15 @@ class ActionsBundle:
     def main(self):
         version = '2.3.3'
         "版本号"
-        source_dir = r'D:\workspace\TranslatorX\AndroidStudio\source'
+
+        project_dir = r'D:\workspace\TranslatorX\AndroidStudio'
+        "项目路径"
+
+        source_dir = project_dir + r'\source'
         "OmegaT的source路径"
-        target_dir = r'D:\workspace\TranslatorX\AndroidStudio\target'
+        target_dir = project_dir + r'\target'
         "OmegaT的target路径"
-        original_dir = r'D:\workspace\TranslatorX\AndroidStudio\original'
+        original_dir = project_dir + r'\original'
 
         source_messages_dir = r'%s\%s\%s' % (source_dir, version, r'lib\resources_en\messages')
         target_messages_dir = r'%s\%s\%s' % (target_dir, version, r'lib\resources_en\messages')
@@ -48,6 +52,11 @@ class ActionsBundle:
 
         result_file = r"data/ActionsBundle_result.properties"
 
+        omegat_dict_file = project_dir + r'/omegat/project_save.tmx'
+        "记忆库文件"
+        pseudo_dict_file = original_message_dir + r'.tmx'
+        "伪翻译记忆"
+
         action_list = [
             ['退出', exit],
             ['处理' + en_add_file, self.process_file_for_translation, en_add_file],
@@ -57,8 +66,8 @@ class ActionsBundle:
              source_messages_dir,
              name_pattern],
             ['处理所有文件的翻译结果' + target_dir, self.process_dir_translation_result, original_message_dir, target_messages_dir,
-             None,
-             name_pattern],
+             None, name_pattern],
+            ['根据伪翻译文件更新记忆库', self.update_omegat_dict_by_pseudo_dict, omegat_dict_file, pseudo_dict_file]
         ]
         iox.choose_action(action_list)
 
@@ -172,6 +181,45 @@ class ActionsBundle:
         result = Tools.translate_file_by_dict(en_file, cn_dict, '')  # 重新翻译
         result.insert(0, '# from:[AndroidStudio翻译(3)-ActionsBundle中文翻译](http://blog.pingfangx.com/2355.html)\n')
         filex.write_lines(result_file, result)
+
+    @staticmethod
+    def update_omegat_dict_by_pseudo_dict(omegat_dict_file, pseudo_dict_file, result_file=None):
+        "根据伪翻译记忆更新记忆库"
+        if result_file is None:
+            result_file = filex.get_result_file_name(pseudo_dict_file, '_update_by_pseudo')
+        source_dict = Tools.get_dict_from_omegat(omegat_dict_file)
+        pseudo_dict = Tools.get_dict_from_omegat(pseudo_dict_file)
+        print('记忆库共%d条记录，伪翻译共%d条记录' % (len(source_dict), len(pseudo_dict)))
+        result_dict = ActionsBundle.update_dict_add_extra_info(source_dict, pseudo_dict)
+        print('处理结果共%s条记录' % len(result_dict))
+        Tools.save_omegat_dict(result_dict, result_file)
+
+    @staticmethod
+    def update_dict_add_extra_info(source_dict, pseudo_dict):
+        "更新词典，添加快捷键、结尾标点符号等"
+        result_dict = dict()
+        for en in pseudo_dict.keys():
+            # 处理快捷键
+            cn = None
+            if 'Cannot add build files from excluded directories' in en:
+                print('1')
+            abbreviated_en = DeleteAction.delete_all_symbol_of_string(en, False)
+            if abbreviated_en != en:
+                # 只有缩短的才需要处理
+                if abbreviated_en in source_dict.keys():
+                    cn = source_dict[abbreviated_en]
+                    cn = DeleteAction.add_extra_info_of_string(en, cn, False)
+                else:
+                    # print('不包含缩简key:%s' % abbreviated_en)
+                    pass
+            if cn is None:
+                if en in source_dict.keys():
+                    cn = source_dict[en]
+                else:
+                    print('不包含原始key:%s' % en)
+            if cn is not None:
+                result_dict[en] = cn
+        return result_dict
 
 
 if __name__ == '__main__':

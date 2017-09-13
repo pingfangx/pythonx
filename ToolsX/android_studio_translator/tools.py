@@ -290,6 +290,26 @@ class Tools:
         return result
 
     @staticmethod
+    def get_dict_from_omegat(file_path):
+        """读取omegat的记忆文件"""
+        tree = Et.parse(file_path)
+        tmx = tree.getroot()
+        body = tmx.find('body')
+        result = dict()
+        for tu in body.iter('tu'):
+            cn = None
+            en = None
+            for tuv in tu.iter('tuv'):
+                if tuv.attrib['lang'] == 'EN-US':
+                    en = tuv.find('seg').text
+                elif tuv.attrib['lang'] == 'ZH-CN':
+                    cn = tuv.find('seg').text
+            if en is not None:
+                # 中文允许为空
+                result[en] = cn
+        return result
+
+    @staticmethod
     def list_file(dir_path, name_pattern=None):
         """
         获取目录中的文件，组成以文件名（不带后缀的）为key的字典

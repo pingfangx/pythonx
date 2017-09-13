@@ -13,7 +13,7 @@ class Translator:
 
     def main(self):
 
-        en_dir = r'D:\workspace\TranslatorX\AndroidStudio\original\2.3.3\lib\resources_en'
+        en_dir = r'D:\workspace\TranslatorX\AndroidStudio\source\2.3.3\lib\resources_en'
         cn_dir = r'C:\Users\Admin\Desktop\AndroidStudio汉化\汉化包\4'
         dict_file = 'data/dict.txt'
 

@@ -27,19 +27,23 @@ class DeleteAction:
 
     action_list = [
         [
-            0, '省略号', '_delete_ellipsis', [re.compile(r'(.*?)(\s?([.。…])+)$'), r'\1']
+            0, '省略号', '_delete_ellipsis', [r'(\s?([.。…])+)$', '', 1, '%s']
         ],
         [
-            1, '等号前后的空格', '_delete_space', [re.compile('\s*(=)\s*'), r'\1']
+            1, '等号前后的空格', '_delete_space', ['\s*(=)\s*', r'\1']
         ],
         [
-            2, '_样式的快捷方式', '_delete_underline_shortcut', [re.compile(r'(.*?)(\s?\(_\w\))'), r'\1'],
-            [re.compile('_'), '']
+            2, '_样式的快捷方式', '_delete_underline_shortcut', [r'_(\w)', r'\1', 1, '(_%s)']
         ],
         [
-            3, '&样式的快捷方式', '_delete_and_short_cut', [r'(?<!\\)&(\w)', r'\1']
+            3, '&样式的快捷方式', '_delete_and_short_cut', [r'(?<!\\)&(\w)', r'\1', 1, '(&%s)']
         ]
     ]
+    """
+    第个操作包括[序号，名字，结果文件名添加，替换列表...]
+    替换列表可能是多个
+    每个替换列表包所[查找正则，替换为，反向恢复时要添加的内容的group的序号（，可选），添加时的字符串模板]
+    """
 
     def __init__(self, name, delete_type, file_type, default_result_file_suffix, replace_list):
         """
@@ -120,3 +124,48 @@ class DeleteAction:
             seg.text = line
         tree.write(result_file, encoding='utf-8')
         print('输出为' + result_file)
+
+    @staticmethod
+    def delete_all_symbol_of_string(text, print_msg=False):
+        """删除文字中的所有标记"""
+        result = text
+        for action in DeleteAction.action_list:
+            replace_list = action[3:]
+            for replace_pattern in replace_list:
+                pre_result = result
+                result = re.sub(replace_pattern[0], replace_pattern[1], result)
+                if print_msg:
+                    if pre_result != result:
+                        print('\n缩简【%s】为【%s】' % (pre_result, result))
+        return result
+
+    @staticmethod
+    def add_extra_info_of_string(en, cn, print_msg=False):
+        """为翻译结果添加快捷键等信息"""
+        result = cn
+        for action in DeleteAction.action_list:
+            replace_list = action[3:]
+            for replace_pattern in replace_list:
+                if len(replace_pattern) >= 4:
+                    # 有可以添加的值
+                    group_index = replace_pattern[2]
+                    append = replace_pattern[3]
+                    match = re.search(replace_pattern[0], en)
+                    if match is not None:
+                        # 匹配
+                        pre_result = result
+                        append_content = match.group(group_index)
+                        if append_content == '.':
+                            # .换为句号
+                            append_content = '。'
+                        append_content = append % append_content
+                        if not result.endswith(append_content):
+                            # 已经以。等结尾，不添加
+                            result += append_content
+                        if print_msg:
+                            print('匹配%s,处理\n【%s】为\n【%s】' % (replace_pattern[0], pre_result, result))
+
+        if print_msg:
+            if result == cn:
+                print('%s没有发生变化' % en)
+        return result
