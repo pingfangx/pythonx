@@ -30,6 +30,7 @@ class BlogXTools:
             BlogXTools.DESTINATION_QUOTE,
             BlogXTools.DESTINATION_REFERENCE_AND_QUOTE,
             BlogXTools.DESTINATION_FILE_NAME_WITH_ID,
+            ['外部链接转为地址', self.parse_reference],
             ['外部链接转为参考文献和引用', self.parse_reference_and_quote],
             ['通过标题重命名文件、添加转载申明、添加[md]标签', self.auto_process_file]
         ]
@@ -104,6 +105,25 @@ class BlogXTools:
         pyperclip.copy(text)
         if print_msg:
             print('已复制：\n' + text)
+
+    @staticmethod
+    def parse_reference(text):
+        """解析外部链接为地址
+        格式为：
+        作者
+        标题
+        地址
+        """
+        lines = text.split('\n')
+        lines = [line.replace('\r', '') for line in lines]
+        reference = ''
+        for i in range(len(lines)):
+            line = lines[i]
+            if line:
+                author, title, url = lines[i:i + 3]
+                reference = '\n[%s.《%s》](%s)  ' % (author, title, url)
+                break
+        return reference
 
     @staticmethod
     def parse_reference_and_quote(text):
