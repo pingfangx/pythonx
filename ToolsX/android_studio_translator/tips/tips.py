@@ -7,6 +7,7 @@ from android_studio_translator.keymap_default.keymap_default import KeymapDefaul
 from android_studio_translator.tools import Tools
 from xx import filex
 from xx import iox
+from android_studio_translator.version import Version
 
 
 class Tips:
@@ -33,7 +34,7 @@ class Tips:
     github_pages_action_list = list()
 
     def main(self):
-        tips_en_dir = r'D:\workspace\TranslatorX\AndroidStudio\source\tips'
+        tips_en_dir = Version.source_version_lib_resource_en + '/tips'
         # 翻译结果目录
         tips_cn_dir = r'D:\workspace\TranslatorX\AndroidStudio\target\2.3.3\lib\resources_en\tips'
         # 处理为AndroidStudio的目录
@@ -43,13 +44,14 @@ class Tips:
         tips_github_pages_cn_dir = r'D:\workspace\github.pingfangx.io\android_studio\tips' + r'\cn'
 
         # 清单文件
-        tips_manifest_file = r'D:\workspace\TranslatorX\AndroidStudio\source\AndroidStudio\resources\META-INF' \
-                             r'\IdeTipsAndTricks.xml '
-        tips_manifest_translation_file = r'D:\workspace\TranslatorX\AndroidStudio\target\IdeTipsAndTricks_name_zh_CN' \
-                                         r'.properties '
+        tips_manifest_file = Version.original_version_lib + '/resources/META-INF/IdeTipsAndTricks.xml'
+        tips_name_en_file = Version.source_version_lib + '/resources/META-INF/IdeTipsAndTricks_en.properties'
+        tips_manifest_translation_file = Version.target_version_lib + '/resources/META-INF/IdeTipsAndTricks_en_zh_CN' \
+                                                                      '.properties '
 
         # 文件名翻译结果
-        tips_names_cn_file = 'data/IdeTipsAndTricks_name_zh_CN_cn_result.properties'
+        tips_names_cn_file = Version.target_version_lib + '/resources/META-INF/IdeTipsAndTricks_en_zh_CN_cn_result' \
+                                                          '.properties '
 
         Tips.github_pages_action_list = [
             [tips_names_cn_file, tips_en_dir, tips_github_pages_en_dir, 0, 'en'],
@@ -59,8 +61,9 @@ class Tips:
         ]
         action_list = [
             ['退出', exit],
-            ['处理清单文件，整理tips的名称方便翻译', self.process_tips_manifest_file, tips_manifest_file],
-            ['将翻译结果的unicode转为中文件', Tools.change_unicode_to_chinese, tips_manifest_translation_file],
+            ['处理清单文件，整理tips的名称方便翻译', self.process_tips_manifest_file, tips_manifest_file, tips_name_en_file],
+            ['检查并补全缺少的tips名', self.check_and_append_tips_name, tips_en_dir, tips_name_en_file, tips_name_en_file],
+            ['将翻译结果的unicode转为中文', Tools.change_unicode_to_chinese, tips_manifest_translation_file],
             ['处理tips翻译结果为AndroidStudio用', self.process_tips_translation_result, tips_names_cn_file, tips_cn_dir,
              Tips.RESULT_TYPE_ANDROID_STUDIO, tips_android_studio_dir],
             ['处理所有GitHub Pages文件', self.process_all_github_pages],
@@ -143,71 +146,132 @@ class Tips:
 
         print('处理' + tips_cn_dir)
 
-        file_dict = Tips.get_file_dict_in_dir(tips_cn_dir)
+        file_dict = Tips.get_file_dict_in_dir(tips_cn_dir, ignore_excluded=True)
         if file_dict is None:
             return
 
-        lines = filex.read_lines(tips_names_file, ignore_line_separator=True)
-        if lines is None:
+        all_lines = filex.read_lines(tips_names_file, ignore_line_separator=True)
+        if all_lines is None:
             return
 
+        # 删除空行
+        lines = []
+        append_line = -1
+        for line in all_lines:
+            if '=' in line:
+                lines.append(line)
+            else:
+                if 'append' in line:
+                    # 有几个就从第几个开始，如果有1个，则index从1开始是添加的
+                    append_line = len(lines)
+
         length = len(lines)
+        print('共%d行，添加行是%d' % (length, append_line))
+        all_files = filex.list_file(tips_cn_dir)
+        print('共%d文件' % len(all_files))
         for i in range(length):
             line = lines[i]
             en_name, cn_name = line.split('=')
-            if en_name in file_dict.keys():
-                file_name = file_dict[en_name]
-                if language == 'cn':
-                    add_cn_title = '(%s)' % cn_name
-                else:
-                    add_cn_title = ''
-                header = '<h1>[%d/%d] %s%s</h1>\n' % (i + 1, length, en_name, add_cn_title)
-                if result_type == Tips.RESULT_TYPE_ANDROID_STUDIO:
-                    footer = None
-                    result_name = file_name.replace(tips_cn_dir, result_dir)
-                else:
-                    # 前一页
-                    pre_page = ''
-                    if i > 0:
-                        pre_name = lines[i - 1].split('=')[0]
-                        if result_file_type == 1:
-                            pre_file = '%03d-%s.html' % (i, pre_name)
-                        else:
-                            pre_file = '%03d.html' % i
-                        pre_page = '<a href=\'%s\'>&lt;&lt;%s</a>' % (pre_file, pre_name)
-
-                    # 后一页
-                    next_page = ''
-                    if i < length - 1:
-                        next_name = lines[i + 1].split('=')[0]
-                        if result_file_type == 1:
-                            next_file = '%03d-%s.html' % (i + 2, next_name)
-                        else:
-                            next_file = '%03d.html' % (i + 2)
-                        next_page = '<a href=\'%s\'>&gt;&gt;%s</a>' % (next_file, next_name)
-
-                    # 当前文件名和结果名
-                    dir_name, base_name = os.path.split(file_name)
-                    name, ext = os.path.splitext(base_name)
+            file_path = r'%s\%s.html' % (tips_cn_dir, en_name)
+            if i >= append_line or not os.path.exists(file_path):
+                # 如果是添加的或不存在，取exclude的
+                excluded_file_path = r'%s\excluded\%s.html' % (tips_cn_dir, en_name)
+                if os.path.exists(excluded_file_path):
+                    # 如果存在则赋值，否则可能顺序在后，其实文件还是在前
+                    file_path = excluded_file_path
+            if not os.path.exists(file_path):
+                print('文件不存在%s' % en_name)
+                continue
+            # 已经有了，移除
+            if file_path in all_files:
+                all_files.remove(file_path)
+            else:
+                print('文件不存于列表中%s' % file_path)
+            if language == 'cn':
+                add_cn_title = '(%s)' % cn_name
+            else:
+                add_cn_title = ''
+            header = '<h1>[%d/%d] %s%s</h1>\n' % (i + 1, length, en_name, add_cn_title)
+            if result_type == Tips.RESULT_TYPE_ANDROID_STUDIO:
+                author_url = '<a href=\'%s\'>[<font color=\'blue\'>%s</font>]</a>' % (
+                    'https://github.com/pingfangx/TranslatorX',
+                    '联系汉化作者及反馈')
+                header = '<h1>[%d/%d] %s%s %s</h1>\n' % (i + 1, length, en_name, add_cn_title, author_url)
+                footer = None
+                result_name = file_path.replace(tips_cn_dir, result_dir)
+            else:
+                # 前一页
+                pre_page = ''
+                if i > 0:
+                    pre_name = lines[i - 1].split('=')[0]
                     if result_file_type == 1:
-                        current_file = '%03d-%s.html' % (i + 1, name)
+                        pre_file = '%03d-%s.html' % (i, pre_name)
                     else:
-                        current_file = '%03d%s' % (i + 1, ext)
-                    result_name = '%s\\%s' % (result_dir, current_file)
+                        pre_file = '%03d.html' % i
+                    pre_page = '<a href=\'%s\'>&lt;&lt;%s</a>' % (pre_file, pre_name)
 
-                    # 主页
-                    home_page = '<a href=\'%s\'>homepage</a>' % '../index.html'
-                    # 切换页面
-                    if language == 'cn':
-                        to_another_page = '<a href=\'../%s/%s\'>English</a>' % ('en', current_file)
+                # 后一页
+                next_page = ''
+                if i < length - 1:
+                    next_name = lines[i + 1].split('=')[0]
+                    if result_file_type == 1:
+                        next_file = '%03d-%s.html' % (i + 2, next_name)
                     else:
-                        to_another_page = '<a href=\'../%s/%s\'>中文</a>' % ('cn', current_file)
-                    add_homepage = '<p>%s&nbsp;|&nbsp;%s</p>\n' % (home_page, to_another_page)
+                        next_file = '%03d.html' % (i + 2)
+                    next_page = '<a href=\'%s\'>&gt;&gt;%s</a>' % (next_file, next_name)
 
-                    header = add_homepage + header
-                    footer = '<p>%s&nbsp;&nbsp;%s</p>\n<p>&nbsp;</p>' % (pre_page, next_page)
+                # 当前文件名和结果名
+                dir_name, base_name = os.path.split(file_path)
+                name, ext = os.path.splitext(base_name)
+                if result_file_type == 1:
+                    current_file = '%03d-%s.html' % (i + 1, name)
+                else:
+                    current_file = '%03d%s' % (i + 1, ext)
+                result_name = '%s\\%s' % (result_dir, current_file)
 
-                Tips.process_tips_translation_file(file_name, result_name, result_type, header, footer, language)
+                # 主页
+                home_page = '<a href=\'%s\'>homepage</a>' % '../index.html'
+                # 切换页面
+                if language == 'cn':
+                    to_another_page = '<a href=\'../%s/%s\'>English</a>' % ('en', current_file)
+                else:
+                    to_another_page = '<a href=\'../%s/%s\'>中文</a>' % ('cn', current_file)
+                add_homepage = '<p>%s&nbsp;|&nbsp;%s</p>\n' % (home_page, to_another_page)
+
+                header = add_homepage + header
+                footer = '<p>%s&nbsp;&nbsp;%s</p>\n<p>&nbsp;</p>' % (pre_page, next_page)
+
+            Tips.process_tips_translation_file(file_path, result_name, result_type, header, footer, language)
+        print('剩余文件%d个' % len(all_files))
+
+    @staticmethod
+    def check_and_append_tips_name(file_path, tips_name_file, result_file=None):
+        """根据检查tips的文件是否全"""
+        if result_file is None:
+            result_file = filex.get_result_file_name(tips_name_file, '_append')
+        file_list = filex.list_file(file_path)
+        print('共%d个文件' % len(file_list))
+        lines = filex.read_lines(tips_name_file)
+        tips_name = []
+        for line in lines:
+            if '=' in line:
+                name = line.split('=')[0]
+                tips_name.append(name)
+                # 名字只加一层，exclude里面的不处理
+                file_name = '%s/%s.html' % (file_path, name)
+                if file_name in file_list:
+                    file_list.remove(file_name)
+                else:
+                    print('文件不存在%s' % file_name)
+        print('共有%d个tip名' % len(tips_name))
+        print('还缺%d个文件' % len(file_list))
+        # 写入结果
+        lines.append('\n# append\n')
+        for file_name in file_list:
+            name = os.path.splitext(os.path.split(file_name)[1])[0]
+            word = Tips.camel_word_to_words(name)
+            lines.append('%s=%s\n' % (name, word))
+        filex.write_lines(result_file, lines)
 
     @staticmethod
     def process_tips_translation_file(file_path, result_file, result_type, add_header=None, add_footer=None,
@@ -318,18 +382,20 @@ class Tips:
                 print('没有文件' + en_name)
 
     @staticmethod
-    def get_file_dict_in_dir(dir_path):
+    def get_file_dict_in_dir(dir_path, ignore_excluded=False):
         """
         获取目录中的文件，组成以文件名（不带后缀的）为key的字典
         :param dir_path:
+        :param ignore_excluded: 是否忽略exclude的
         :return:
         """
         file_dict = dict()
         for parent, dirnames, filenames in os.walk(dir_path):
             for file in filenames:
                 name, ext = os.path.splitext(file)
-                if ext == '.html' and not parent.endswith('excluded'):
-                    file_dict[name] = parent + '\\' + file
+                if ext == '.html':
+                    if not (ignore_excluded and parent.endswith('excluded')):
+                        file_dict[name] = parent + '\\' + file
         return file_dict
 
     @staticmethod
