@@ -14,6 +14,7 @@ class TranslationFile:
     """
 
     file_list = [
+        'lib/idea.jar',
         'lib/resources_en.jar',
     ]
 
@@ -32,9 +33,10 @@ class TranslationFile:
             ['备份文件,%s到%s' % (source_dir, backup_dir), self.copy_dir, source_dir, backup_dir],
             ['恢复文件,%s到%s' % (backup_dir, source_dir), self.copy_dir, backup_dir, source_dir],
             ['复制备份文件到工作目录,%s到%s' % (backup_dir, work_dir), self.copy_dir, backup_dir, work_dir],
-            ['打包jar文件,%s到%s' % (work_dir, work_dir), self.jar_file, work_dir, work_dir],
+            ['直接打包jar文件到源目录,%s到%s' % (work_dir, source_dir), self.jar_file, source_dir, work_dir],
+            ['打包jar文件到工作目录,%s到%s' % (work_dir, work_dir), self.jar_file, work_dir, work_dir],
             ['替换源文件,%s到%s' % (work_dir, source_dir), self.copy_dir, work_dir, source_dir],
-            ['打包并替换', self.jar_file_and_replace, work_dir, work_dir, source_dir]
+            ['打包到工作目录并替换源目录', self.jar_file_and_replace, work_dir, work_dir, source_dir]
         ]
         iox.choose_action(action_list)
 
