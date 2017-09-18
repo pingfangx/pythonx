@@ -17,6 +17,7 @@ class TranslationFile:
     file_list = [
         'lib/idea.jar',
         'lib/resources_en.jar',
+        'plugins/android/lib/resources_en.jar',
     ]
 
     def main(self):
