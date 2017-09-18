@@ -27,7 +27,7 @@ class DeleteAction:
 
     action_list = [
         [
-            0, '省略号', '_delete_ellipsis', [r'(\s?([.。…])+)$', '', 1, '%s']
+            0, '省略号', '_delete_ellipsis', [r'(\s?([.。…\\:])+)$', '', 1, '%s']
         ],
         [
             1, '等号前后的空格', '_delete_space', ['\s*(=)\s*', r'\1']
