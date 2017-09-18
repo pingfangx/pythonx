@@ -5,6 +5,7 @@ import filecmp
 
 import shutil
 import zipfile
+import os
 
 
 class TranslationFile:
@@ -36,14 +37,19 @@ class TranslationFile:
             ['直接打包jar文件到源目录,%s到%s' % (work_dir, source_dir), self.jar_file, source_dir, work_dir],
             ['打包jar文件到工作目录,%s到%s' % (work_dir, work_dir), self.jar_file, work_dir, work_dir],
             ['替换源文件,%s到%s' % (work_dir, source_dir), self.copy_dir, work_dir, source_dir],
-            ['打包到工作目录并替换源目录', self.jar_file_and_replace, work_dir, work_dir, source_dir]
+            ['打包到工作目录并替换源目录', self.jar_file_and_replace, work_dir, work_dir, source_dir],
+            ['根据翻译的jar包复制原始jar包', self.process_jar_by_translation, r'D:\workspace\汉化包\translation', source_dir,
+             r'D:\workspace\汉化包\original'],
+            ['解包所有jar包', self.unpack_all_jar, r'D:\workspace\汉化包\original']
         ]
         iox.choose_action(action_list)
 
     @staticmethod
-    def copy_dir(source_dir, target_dir):
+    def copy_dir(source_dir, target_dir, file_list=None):
         """备份"""
-        for file in TranslationFile.file_list:
+        if file_list is None:
+            file_list = TranslationFile.file_list
+        for file in file_list:
             source_file = '%s/%s' % (source_dir, file)
             if not os.path.exists(source_file):
                 print('文件不存在%s' % source_file)
@@ -53,6 +59,7 @@ class TranslationFile:
                 if filecmp.cmp(source_file, target_file):
                     print('文件已相同%s与%s' % (source_file, target_file))
                     continue
+            filex.check_and_create_dir(target_file)
             shutil.copyfile(source_file, target_file)
             print('复制文件%s到%s' % (source_file, target_file))
         pass
@@ -76,6 +83,7 @@ class TranslationFile:
                 print('压缩%d个文件' % len(work_file_list))
                 for work_file in work_file_list:
                     # 相对于jar目录，所以替换
+                    # 注意这里会导致文件重复
                     zip_file.write(work_file, arcname=work_file.replace(work_jar_dir, ''))
 
     @staticmethod
@@ -83,6 +91,21 @@ class TranslationFile:
         """打包并替换"""
         TranslationFile.jar_file(jar_file_dir, jar_content_dir)
         TranslationFile.copy_dir(jar_file_dir, target_dir)
+
+    @staticmethod
+    def process_jar_by_translation(translation_dir, source_dir, target_dir):
+        """根据汉化包备份包"""
+        jar_files = filex.list_file(translation_dir)
+        file_list = [jar_file.replace(translation_dir, '') for jar_file in jar_files]
+        TranslationFile.copy_dir(source_dir, target_dir, file_list)
+
+    @staticmethod
+    def unpack_all_jar(dir_path):
+        for file_path in filex.list_file(dir_path, '.jar$'):
+            print('解包%s' % file_path)
+            folder = os.path.splitext(file_path)[0]
+            with zipfile.ZipFile(file_path) as zip_file:
+                zip_file.extractall(folder)
 
 
 if __name__ == '__main__':
