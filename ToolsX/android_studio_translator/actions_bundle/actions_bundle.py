@@ -67,7 +67,10 @@ class ActionsBundle:
              name_pattern],
             ['处理所有文件的翻译结果' + target_dir, self.process_dir_translation_result, original_message_dir, target_messages_dir,
              None, name_pattern],
-            ['根据伪翻译文件更新记忆库', self.update_omegat_dict_by_pseudo_dict, omegat_dict_file, pseudo_dict_file]
+            ['根据伪翻译文件更新记忆库', self.update_omegat_dict_by_pseudo_dict, omegat_dict_file, pseudo_dict_file],
+            ['将谷歌翻译文件处理为记忆库', self.process_google_translation_to_omegat_dict,
+             r"D:\workspace\TranslatorX\AndroidStudio\source\2.3.3\plugins\android\lib\resources_en\messages\AndroidBundle_modified.properties",
+             r"D:\workspace\TranslatorX\AndroidStudio\source\2.3.3\plugins\android\lib\resources_en\messages\1.txt"]
         ]
         iox.choose_action(action_list)
 
@@ -220,6 +223,26 @@ class ActionsBundle:
             if cn is not None:
                 result_dict[en] = cn
         return result_dict
+
+    @staticmethod
+    def process_google_translation_to_omegat_dict(en_file, cn_file, result_file=None):
+        if result_file is None:
+            result_file = filex.get_result_file_name(en_file, '', 'tmx')
+        en_dict = filex.get_dict_from_file(en_file)
+        cn_dict = filex.get_dict_from_file(cn_file)
+        print('英文词典%d条' % (len(en_dict)))
+        print('中文词典%d条' % (len(cn_dict)))
+
+        result = dict()
+        for cn_key, cn_value in cn_dict.items():
+            cn_key = cn_key.strip()
+            cn_value=cn_value.strip()
+            if cn_key in en_dict.keys():
+                en_value = en_dict[cn_key]
+                result[en_value] = cn_value
+
+        print('结果%d条' % (len(result)))
+        Tools.save_omegat_dict(result, result_file)
 
 
 if __name__ == '__main__':
