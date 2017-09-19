@@ -3379,7 +3379,7 @@
         <seg>Invalid log tag regex pattern</seg>
       </tuv>
       <tuv lang="ZH-CN" changeid="Admin" changedate="20170918T094834Z" creationid="Admin" creationdate="20170918T094834Z">
-        <seg>无效的日志标签正则表达式</seg>
+        <seg>无效的日志标签正则表达式模式</seg>
       </tuv>
     </tu>
     <tu>
@@ -3435,7 +3435,7 @@
         <seg>Layout Inflation without a Parent</seg>
       </tuv>
       <tuv lang="ZH-CN" changeid="Admin" changedate="20170918T101011Z" creationid="Admin" creationdate="20170918T101011Z">
-        <seg>布局没有parent的加载</seg>
+        <seg>布局没有使用父布局加载</seg>
       </tuv>
     </tu>
     <tu>
@@ -3643,7 +3643,7 @@
         <seg>Method ''{0}'' in ''{1}'' has incorrect signature</seg>
       </tuv>
       <tuv lang="ZH-CN" changeid="Admin" changedate="20170918T111006Z" creationid="Admin" creationdate="20170918T111006Z">
-        <seg>“ ' {1} '中 的方法' ' {0} ”具有不正确的签名</seg>
+        <seg>' ' {1} ''中的方法' ' {0} ''具有不正确的签名</seg>
       </tuv>
     </tu>
     <tu>
@@ -3651,7 +3651,7 @@
         <seg>Method ''{0}'' is missing in ''{1}'' or has incorrect signature</seg>
       </tuv>
       <tuv lang="ZH-CN" changeid="Admin" changedate="20170918T110939Z" creationid="Admin" creationdate="20170918T110939Z">
-        <seg>方法' ' {0} ' '在' ' {1} '中丢失或具有不正确的签名</seg>
+        <seg>方法' ' {0} ' '在' ' {1} ''中丢失或具有不正确的签名</seg>
       </tuv>
     </tu>
     <tu>
@@ -3795,7 +3795,7 @@
         <seg>Missing Super Call</seg>
       </tuv>
       <tuv lang="ZH-CN" changeid="Admin" changedate="20170918T101442Z" creationid="Admin" creationdate="20170918T101442Z">
-        <seg>缺少父调用</seg>
+        <seg>缺少 Super 调用</seg>
       </tuv>
     </tu>
     <tu>
@@ -5195,7 +5195,7 @@
         <seg>Root element is not specified</seg>
       </tuv>
       <tuv lang="ZH-CN" changeid="Admin" changedate="20170918T110141Z" creationid="Admin" creationdate="20170918T110141Z">
-        <seg>未指定Root元素</seg>
+        <seg>未指定根元素</seg>
       </tuv>
     </tu>
     <tu>
@@ -5875,7 +5875,7 @@
         <seg>The apk for your currently selected variant ({0}) is not signed</seg>
       </tuv>
       <tuv lang="ZH-CN" changeid="Admin" changedate="20170918T090623Z" creationid="Admin" creationdate="20170918T090623Z">
-        <seg>您当前选择的变量（{0}）的apk未签名</seg>
+        <seg>您当前选择的变体（{0}）的apk未签名</seg>
       </tuv>
     </tu>
     <tu>
@@ -6875,7 +6875,7 @@
         <seg>content root ''{0}'' of module ''{1}''</seg>
       </tuv>
       <tuv lang="ZH-CN" changeid="Admin" changedate="20170918T111046Z" creationid="Admin" creationdate="20170918T111046Z">
-        <seg>模块“{1}”的内容根“”{0}“</seg>
+        <seg>模块“{1}”的内容根“{0}”</seg>
       </tuv>
     </tu>
     <tu>
