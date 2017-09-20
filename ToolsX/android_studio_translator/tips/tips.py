@@ -8,6 +8,7 @@ from android_studio_translator.tools import Tools
 from xx import filex
 from xx import iox
 from android_studio_translator.version import Version
+import shutil
 
 
 class Tips:
@@ -66,6 +67,8 @@ class Tips:
             ['将翻译结果的unicode转为中文', Tools.change_unicode_to_chinese, tips_manifest_translation_file],
             ['处理tips翻译结果为AndroidStudio用', self.process_tips_translation_result, tips_names_cn_file, tips_cn_dir,
              Tips.RESULT_TYPE_ANDROID_STUDIO, tips_android_studio_dir],
+            ['处理tips翻译结果为AndroidStudio用（重命名原始目录）', self.process_tips_to_android_studio, tips_names_cn_file,
+             tips_cn_dir],
             ['处理所有GitHub Pages文件', self.process_all_github_pages],
             ['处理tips原文为GitHub Pages用（数字命名）', self.process_tips_translation_result, tips_names_cn_file, tips_en_dir,
              Tips.RESULT_TYPE_GITHUB_PAGES, tips_github_pages_en_dir, 0, 'en'],
@@ -120,6 +123,22 @@ class Tips:
         for param in Tips.github_pages_action_list:
             Tips.process_tips_translation_result(param[0], param[1], Tips.RESULT_TYPE_GITHUB_PAGES,
                                                  param[2], param[3], param[4])
+
+    @staticmethod
+    def process_tips_to_android_studio(tips_names_file, tips_cn_dir):
+        """
+        处理为AndroidStudio的结果
+        :param tips_names_file: 
+        :param tips_cn_dir: 
+        :return: 
+        """
+        back_dir = tips_cn_dir + '_back'
+        if os.path.exists(back_dir):
+            print('删除文件夹%s' % back_dir)
+            shutil.rmtree(back_dir)
+        print('重命名')
+        os.rename(tips_cn_dir, back_dir)
+        Tips.process_tips_translation_result(tips_names_file, back_dir, Tips.RESULT_TYPE_ANDROID_STUDIO, tips_cn_dir)
 
     @staticmethod
     def process_tips_translation_result(tips_names_file, tips_cn_dir, result_type=RESULT_TYPE_ANDROID_STUDIO,
