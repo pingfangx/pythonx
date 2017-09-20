@@ -36,6 +36,7 @@ class TranslationFile:
             ['恢复文件,%s到%s' % (backup_dir, source_dir), self.copy_dir, backup_dir, source_dir],
             ['复制备份文件到工作目录,%s到%s' % (backup_dir, work_dir), self.copy_dir, backup_dir, work_dir],
             ['直接打包jar文件到源目录,%s到%s' % (work_dir, source_dir), self.jar_file, source_dir, work_dir],
+            ['恢复备份并打包jar文件到源目录', self.restore_and_jar_file, backup_dir, source_dir, work_dir],
             ['打包jar文件到工作目录,%s到%s' % (work_dir, work_dir), self.jar_file, work_dir, work_dir],
             ['替换源文件,%s到%s' % (work_dir, source_dir), self.copy_dir, work_dir, source_dir],
             ['打包到工作目录并替换源目录', self.jar_file_and_replace, work_dir, work_dir, source_dir],
@@ -64,6 +65,12 @@ class TranslationFile:
             shutil.copyfile(source_file, target_file)
             print('复制文件%s到%s' % (source_file, target_file))
         pass
+
+    @staticmethod
+    def restore_and_jar_file(backup_dir, source_dir, work_dir):
+        """恢复备份并打包"""
+        TranslationFile.copy_dir(backup_dir, source_dir)
+        TranslationFile.jar_file(source_dir, work_dir)
 
     @staticmethod
     def jar_file(jar_file_dir, jar_content_dir):
