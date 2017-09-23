@@ -2,6 +2,7 @@
 联网相关
 """
 
+import os
 import urllib.parse
 import urllib.request
 
@@ -56,3 +57,17 @@ def get(url, params=None, headers=None, cookie=None, encode='utf-8', need_print=
     if need_print:
         print('result is ' + result)
     return result
+
+
+def get_file(url, file_path, need_print=True):
+    """下载文件"""
+    if need_print:
+        print('下载文件 %s ，从 %s' % (file_path, url))
+    dir_name = os.path.dirname(file_path)
+    if not os.path.exists(dir_name):
+        os.makedirs(dir_name)
+        if need_print:
+            print('创建目录 %s' % dir_name)
+    urllib.request.urlretrieve(url, file_path)
+    if need_print:
+        print('下载完成')
