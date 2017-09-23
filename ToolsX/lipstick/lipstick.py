@@ -1,5 +1,8 @@
-from bs4 import BeautifulSoup
+import os
 import urllib.parse
+
+from bs4 import BeautifulSoup
+
 from xx import filex
 from xx import iox
 from xx import netx
@@ -139,6 +142,8 @@ class ChooseLipstick:
     @staticmethod
     def export_html(source_file, result_file):
         """导出 html"""
+        lipstick_type = os.path.splitext(os.path.basename(result_file))[0].split('_')[0]
+        current_path = os.path.dirname(result_file) + '/'
         lines = filex.read_lines(source_file, ignore_line_separator=True)
         length = len(lines)
         result = list()
@@ -183,8 +188,14 @@ class ChooseLipstick:
 
             # 右边的图
             size = '100%'
-            for img in lipstick.img.split(','):
-                ima_tag = r'<img class="square" src="%s"  width="%s" height="%s" />' % (img, size, size)
+            image_list = lipstick.img.split(',')
+            for j in range(len(image_list)):
+                img = image_list[j]
+                image_path = 'data/image/%s_%03d_%d.jpg' % (lipstick_type, i + 1, j + 1)
+                ima_tag = r'<img class="square" src="%s"  width="%s" height="%s" />' % (
+                    image_path.replace(current_path, ''), size, size)
+                if not os.path.exists(image_path):
+                    netx.get_file(img, image_path)
                 result.append(ima_tag)
 
             result.append('<div style="clear: both"></div>')
@@ -196,6 +207,7 @@ class ChooseLipstick:
     @staticmethod
     def export_color_html(source_file, result_file):
         """导出 html"""
+        lipstick_type = os.path.splitext(os.path.basename(result_file))[0].split('_')[0]
         lines = filex.read_lines(source_file, ignore_line_separator=True)
         length = len(lines)
         result = list()
@@ -232,7 +244,7 @@ class ChooseLipstick:
                 end_index = length
             for j in range(i, end_index):
                 lipstick = Lipstick.from_string(lines[j])
-                img = lipstick.img.split(',')[0]
+                # img = lipstick.img.split(',')[0]
                 name_list = list()
                 name_list.append(lipstick.index)
                 split_result = lipstick.name.split('#')
@@ -247,11 +259,12 @@ class ChooseLipstick:
                             k_name = '(' + k_name
                         name_list.append(k_name.replace('Dior迪奥', ''))
                 name_tag = '<span class="item">%s</span>' % '<br/>'.join(name_list)
-                ima_tag = '<img src="%s"  width="%s" height="%s"/>' % (
-                    img, size, size)
+                image_path = 'image/%s_%03d_%d.jpg' % (lipstick_type, j + 1, 1)
+                img_tag = '<img src="%s"  width="%s" height="%s"/>' % (
+                    image_path, size, size)
                 body += '\n' + '<div class="square">'
                 body += '\n' + name_tag
-                body += '\n' + ima_tag
+                body += '\n' + img_tag
                 body += '\n</div>'
 
             body += '\n' + '<div style="clear: both"></div>'
