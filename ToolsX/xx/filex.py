@@ -22,12 +22,13 @@ def read_lines(file_path, encoding='utf-8', ignore_line_separator=False):
     return result
 
 
-def write_lines(file_path, lines, mode='w', add_line_separator=False, print_msg=True):
+def write_lines(file_path, lines, mode='w', encoding='utf-8', add_line_separator=False, print_msg=True):
     """
     写入翻译结果
     :param file_path: 要写入的文件
     :param lines: 结果数组
     :param mode: 写入模式
+    :param encoding: 编码
     :param add_line_separator: 是否添加换行符
     :param print_msg: 是否显示
     :return: 
@@ -35,8 +36,18 @@ def write_lines(file_path, lines, mode='w', add_line_separator=False, print_msg=
     if add_line_separator:
         lines = [line + '\n' for line in lines]
     check_and_create_dir(file_path, print_msg=print_msg)
-    file = open(file_path, mode=mode, encoding='utf-8')
+    file = open(file_path, mode=mode, encoding=encoding)
     file.writelines(lines)
+    file.close()
+    if print_msg:
+        print('写入完成' + file_path)
+
+
+def write(file_path, content, mode='w', encoding='utf-8', print_msg=True):
+    """直接写入内容"""
+    check_and_create_dir(file_path, print_msg=print_msg)
+    file = open(file_path, mode=mode, encoding=encoding)
+    file.write(content)
     file.close()
     if print_msg:
         print('写入完成' + file_path)
