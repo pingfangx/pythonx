@@ -1,9 +1,10 @@
-import re
 import os
+import re
+
 import pyperclip
 
-from xx import iox
 from xx import filex
+from xx import iox
 
 
 class BlogXTools:
@@ -155,7 +156,7 @@ class BlogXTools:
         """自动处理文件"""
         title, tid = BlogXTools.get_title_and_tid(text)
         if tid is not None:
-            file_name = '[%s]%s.txt' % (tid, title)
+            file_name = '[%s]%s.md' % (tid, title)
             found_file = None
             for file in filex.list_file(BlogXTools.process_dir):
                 parent_dir, base_name = os.path.split(file)
@@ -186,8 +187,8 @@ class BlogXTools:
                     print('已写入转载申明')
                 if need_process:
                     # 写入[md]标签
-                    lines.insert(0, '[md]\n')
-                    lines.append('\n[/md]')
+                    lines.insert(0, '[md]\n\n')
+                    lines.append('\n\n[/md]')
                     filex.write_lines(found_file, lines)
                 # 复制
                 text = ''.join(lines)
