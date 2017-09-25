@@ -14,13 +14,13 @@ class ChooseLipstick:
     def main(self):
         dior_list_file = r'data/dior_list.txt'
         dior_details_file = r'data/dior_details.txt'
-        dior_html_file = r'data/dior.html'
-        dior_color_html_file = r'data/dior_color.html'
+        dior_html_file = r'D:\workspace\pingfangx.github.io\baby\lipstick\dior.html'
+        dior_color_html_file = r'D:\workspace\pingfangx.github.io\baby\lipstick\dior_color.html'
 
         ysl_list_file = r'data/ysl_list.txt'
         ysl_detail_file = r'data/ysl_details.txt'
-        ysl_html_file = r'data/ysl.html'
-        ysl_color_html_file = r'data/ysl_color.html'
+        ysl_html_file = r'D:\workspace\pingfangx.github.io\baby\lipstick\ysl.html'
+        ysl_color_html_file = r'D:\workspace\pingfangx.github.io\baby\lipstick\ysl_color.html'
         action_list = [
             ['退出', exit],
             ['读取 Dior 口红列表', self.get_dior_list, dior_list_file],
@@ -47,11 +47,11 @@ class ChooseLipstick:
         i = 0
         for category in soup.select('.category.js-category'):
             '大的分组'
-            category_name = category.select_one('.category-title').string
+            category_name = category.select_one('.category-title').string.replace('Dior迪奥', '')
             print('\n分组:%s' % category_name)
             for column in category.select('.column.product'):
                 '每一个系列'
-                legend_name = column.select_one('.legend-name').string
+                legend_name = column.select_one('.legend-name').string.replace('Dior迪奥', '')
                 legend_desc = column.select_one('.legend-description').string.strip()
                 print('系列名:' + legend_name)
                 legend_swatches_list = column.select_one('.legend-swatches-list')
@@ -61,7 +61,7 @@ class ChooseLipstick:
                     color = a.find('img')
                     image = ChooseLipstick.dior_host + color['src']
                     i += 1
-                    lipstick = Lipstick('%03d' % i, category_name, legend_name, url, '', legend_desc, image)
+                    lipstick = Lipstick('%03d' % i, category_name + '-' + legend_name, '', url, '', legend_desc, image)
                     result.append(str(lipstick) + '\n')
         filex.write_lines(result_file, result)
 
@@ -85,12 +85,14 @@ class ChooseLipstick:
             # name = soup.select_one('.quickbuy-title').string
             # desc = soup.select_one('.quickbuy-subtitle').string
             price = soup.select_one('.details-price.js-order-value').string.strip()
+            color_name = soup.select_one('.swatches-list').select_one('li.selected').select_one('a')['data-swatch-name']
             # color_span = soup.select_one('.swatch-name.js-swatch-name')
             # color = color_span.select_one('span').string
             # swatches_list = soup.select_one('.swatches-list.js-products-selector')
             # swatches = swatches_list.select_one('li.selected')
             lipstick.url = url
             lipstick.price = price
+            lipstick.name = color_name
             lipstick.img = ','.join((lipstick.img, cover_img))
             filex.write_lines(result_file, [str(lipstick)], mode='a', add_line_separator=True)
 
@@ -108,6 +110,7 @@ class ChooseLipstick:
             page = netx.get(details_url, need_print=False)
             soup = BeautifulSoup(page, "html.parser")
             category = soup.select_one('.pdp_top_content_wrapper').select_one('.product_subtitle').string
+            category = category.replace('圣罗兰', '')
             # image = soup.select_one('.primary_image')['src']
             # color_2 = soup.select_one('.product_image.b-product_img')['src']
             color_list = soup.select_one('.swatches.js_swatches.color.contentcarousel_list')
@@ -116,8 +119,15 @@ class ChooseLipstick:
                     url = color_div.select_one('a')['href']
                     color_image = color_div.select_one('img')['src']
                     name = color_div.select_one('span').string
+                    name = name.replace('（', '(').replace('）', ')')
+                    split_list = name.split('(', 1)
+                    if len(split_list) > 1:
+                        name = split_list[0].strip()
+                        other = '(' + split_list[1].strip()
+                    else:
+                        other = ''
                     i += 1
-                    lipstick = Lipstick('%03d' % i, category, name, url, '', '', color_image)
+                    lipstick = Lipstick('%03d' % i, category, name, url, '', other, color_image)
                     result.append(str(lipstick))
         filex.write_lines(result_file, result, add_line_separator=True)
 
@@ -146,133 +156,102 @@ class ChooseLipstick:
         current_path = os.path.dirname(result_file) + '/'
         lines = filex.read_lines(source_file, ignore_line_separator=True)
         length = len(lines)
-        result = list()
-        header = '''
+        html = '''
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>选呀选呀选口红</title>
-    <style type="text/css">
-        .square {
-            border: 1px solid #000000;
-            width: [width_percent]vw;
-            height: [width_percent]vw;
-            float: left;
-        }
-
-        .item {
-            margin: 10px;
-        }
-    </style>
+    <title>选呀选呀选口红~</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/lipstick.css">
 </head>
 <body>
+<div class="container-fluid">
+    [content]
+</div>
+</body>
+</html>
         '''
-        lipstick = Lipstick.from_string(lines[0])
-        if len(lipstick.img.split(',')) == 2:
-            header = header.replace('[width_percent]', '30')
-        else:
-            header = header.replace('[width_percent]', '20')
-        result.extend(header.split('\n'))
+        content = list()
         for i in range(length):
+            content.append('<div class="row">')
             lipstick = Lipstick.from_string(lines[i])
-
             # 左边
-            category = lipstick.category.replace('Dior迪奥', '')
-            name = lipstick.name.replace('Dior迪奥', '')
-            result.append('<div class="square">')
-            item_list = [lipstick.index, category, name, lipstick.other]
+            content.append('<div class="%s">' % 'col-xs-3')
+            item_list = ['编号:' + lipstick.index, '色号:' + lipstick.name, '类别:' + lipstick.category, lipstick.other]
             for cell in item_list:
-                result.append('<div class="item">%s</div>' % cell)
-            result.append('</div>')
+                content.append('<h4>%s</h4>' % cell)
+            content.append('</div>')
 
             # 右边的图
-            size = '100%'
             image_list = lipstick.img.split(',')
-            for j in range(len(image_list)):
+            length = len(image_list)
+            for j in range(length):
+                if length == 2:
+                    if j == 0:
+                        col_style = 'col-xs-3'
+                    else:
+                        col_style = 'col-xs-5'
+                else:
+                    col_style = 'col-xs-3'
                 img = image_list[j]
-                image_path = 'data/image/%s_%03d_%d.jpg' % (lipstick_type, i + 1, j + 1)
-                ima_tag = r'<img class="square" src="%s"  width="%s" height="%s" />' % (
-                    image_path.replace(current_path, ''), size, size)
+                image_path = '%simage/%s_%03d_%d.jpg' % (current_path, lipstick_type, i + 1, j + 1)
+                ima_tag = '<img class="%s" src="%s"/>' % (col_style, image_path.replace(current_path, ''))
                 if not os.path.exists(image_path):
                     netx.get_file(img, image_path)
-                result.append(ima_tag)
+                content.append(ima_tag)
+            content.append('</div>')
 
-            result.append('<div style="clear: both"></div>')
-
-        result.append('</body>')
-        result.append('</html>')
-        filex.write_lines(result_file, result, add_line_separator=True)
+        content = html.replace('[content]', '\n'.join(content))
+        filex.write(result_file, content)
 
     @staticmethod
     def export_color_html(source_file, result_file):
         """导出 html"""
-        lipstick_type = os.path.splitext(os.path.basename(result_file))[0].split('_')[0]
-        lines = filex.read_lines(source_file, ignore_line_separator=True)
-        length = len(lines)
-        result = list()
-        header = '''
+        html = '''
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>选呀选呀选口红</title>
-    <style type="text/css">
-        .square {
-            border: 1px solid #000000;
-            width: 9vw;
-            height: 9vw;
-            float: left;
-        }
-
-        .item {
-            position: absolute;
-            background: transparent;
-        }
-    </style>
+    <title>选呀选呀选口红~</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/lipstick_color.css">
 </head>
 <body>
-    [body]
+<div class="container-fluid">
+    [content]
+</div>
 </body>
 </html>
         '''
-        size = '100%'
-        body = ''
-        for i in range(0, length, 10):
-            end_index = i + 10
+        lipstick_type = os.path.splitext(os.path.basename(result_file))[0].split('_')[0]
+        content = list()
+
+        lines = filex.read_lines(source_file, ignore_line_separator=True)
+        length = len(lines)
+        for i in range(0, length, 4):
+            content.append('<div class="row">')
+            end_index = i + 4
             if end_index > length:
                 end_index = length
             for j in range(i, end_index):
                 lipstick = Lipstick.from_string(lines[j])
-                # img = lipstick.img.split(',')[0]
-                name_list = list()
-                name_list.append(lipstick.index)
-                split_result = lipstick.name.split('#')
-                if len(split_result) > 1:
-                    split_result[0] += '#'
-                for j_name in split_result:
-                    j_name = j_name.replace('（', '(').replace('）', ')')
-                    j_split = j_name.split('(')
-                    for k in range(len(j_split)):
-                        k_name = j_split[k]
-                        if k > 0:
-                            k_name = '(' + k_name
-                        name_list.append(k_name.replace('Dior迪奥', ''))
-                name_tag = '<span class="item">%s</span>' % '<br/>'.join(name_list)
+                name_tag = '<span class="item">%s</span>' % '<br/>'.join(
+                    ('编号:' + lipstick.index, '色号:' + lipstick.name))
                 image_path = 'image/%s_%03d_%d.jpg' % (lipstick_type, j + 1, 1)
-                img_tag = '<img src="%s"  width="%s" height="%s"/>' % (
-                    image_path, size, size)
-                body += '\n' + '<div class="square">'
-                body += '\n' + name_tag
-                body += '\n' + img_tag
-                body += '\n</div>'
+                img_tag = '<img class="center-block" src="%s"/>' % image_path
 
-            body += '\n' + '<div style="clear: both"></div>'
+                content.append('<div class="col-xs-3">')
+                content.append(name_tag)
+                content.append(img_tag)
+                content.append('</div>')
 
-        header = header.replace('[body]', body)
+            content.append('</div>')
 
-        result.extend(header.split('\n'))
-        filex.write_lines(result_file, result, add_line_separator=True)
+        html = html.replace('[content]', '\n'.join(content))
+        filex.write(result_file, html)
 
 
 class Lipstick:
