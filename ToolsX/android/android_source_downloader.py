@@ -2,6 +2,7 @@ import os
 from subprocess import call
 from xml.etree import ElementTree as Et
 
+from xx import filex
 from xx import iox
 
 
@@ -35,6 +36,7 @@ class AndroidSourceDownloader:
             ['clone manifest', self.download_manifest],
             ['clone manifest 并显示所有分枝', self.download_manifest, True],
             ['clone manifest 并切换分枝为 ' + self.tag, self.download_manifest],
+            ['导出下载安卓源码的 cmd.bat', self.download_android_source, self.root_dir + '/cmd.bat'],
             ['下载安卓源码', self.download_android_source],
         ]
         iox.choose_action(action_list)
@@ -60,18 +62,22 @@ class AndroidSourceDownloader:
         print(cmd)
         call(cmd)
 
-    def download_android_source(self):
-        """ 下载安卓源码 """
+    def download_android_source(self, out_file=None):
+        """
+        下载安卓源码 
+        :param out_file: 输出文件，如果直接运行，不会显示 clone 的进度（可能是我不会，我简单搜了一下，没找到）
+        所以先输出为bat文件，再执行
+        :return: 
+        """
         if not os.path.exists(self.source_root):
             os.mkdir(self.source_root)
 
         root = Et.parse(self.manifest_file)
         project_list = root.findall('project')
         length = len(project_list)
+        result = list()
         for i in range(length):
             project = project_list[i]
-            print('clone %d/%d' % (i + 1, length))
-            os.chdir(self.source_root)
             dir_path = project.attrib['path']
             last = dir_path.rfind("/")
             if last != -1:
@@ -79,13 +85,24 @@ class AndroidSourceDownloader:
                 dir_path = self.source_root + os.path.sep + dir_path[:last]
                 if not os.path.exists(dir_path):
                     os.makedirs(dir_path)
-                # 切换目录
-                os.chdir(dir_path)
-            # 如果没有/，则是在当前目录
+                work_dir = dir_path
+            else:
+                # 如果没有/，则是在当前目录
+                work_dir = self.source_root
+
+            # 执行命令
             name = project.attrib['name']
             cmd = '%s clone %s/%s.git' % (self.git_path, self.project_root, name)
-            self.run_cmd(cmd)
-        pass
+            if out_file:
+                result.append('echo %d/%d' % (i + 1, length))
+                result.append('cd /d %s' % work_dir)
+                result.append(cmd)
+            else:
+                print('clone %d/%d' % (i + 1, length))
+                os.chdir(work_dir)
+                self.run_cmd(cmd)
+        if out_file:
+            filex.write_lines(out_file, result, add_line_separator=True)
 
 
 if __name__ == '__main__':
