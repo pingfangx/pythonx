@@ -35,7 +35,7 @@ class AndroidSourceDownloader:
             ['退出', exit],
             ['clone manifest', self.download_manifest],
             ['clone manifest 并显示所有分枝', self.download_manifest, True],
-            ['clone manifest 并切换分枝为 ' + self.tag, self.download_manifest],
+            ['clone manifest 并切换分枝为 ' + self.tag, self.download_manifest, False, True],
             ['导出下载安卓源码的 cmd.bat', self.download_android_source, self.root_dir + '/cmd.bat'],
             ['下载安卓源码', self.download_android_source],
         ]
