@@ -1,8 +1,10 @@
 import os
 import re
+import sys
 
 import pyperclip
 
+sys.path.append("..")
 from xx import filex
 from xx import iox
 
