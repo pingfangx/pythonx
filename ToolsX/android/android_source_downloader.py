@@ -1,4 +1,5 @@
 import os
+import shutil
 from subprocess import call
 from xml.etree import ElementTree as Et
 
@@ -72,6 +73,7 @@ class AndroidSourceDownloader:
         if not os.path.exists(self.source_root):
             os.mkdir(self.source_root)
 
+        timex_bat_file = os.path.split(out_file)[0] + os.path.sep + 'timex.bat'
         root = Et.parse(self.manifest_file)
         project_list = root.findall('project')
         length = len(project_list)
@@ -94,15 +96,25 @@ class AndroidSourceDownloader:
             name = project.attrib['name']
             cmd = '%s clone %s/%s.git' % (self.git_path, self.project_root, name)
             if out_file:
-                result.append('echo %d/%d' % (i + 1, length))
+                result.append('\n@echo.')
+                result.append('@echo cloning %d/%d' % (i + 1, length))
                 result.append('cd /d %s' % work_dir)
                 result.append(cmd)
+                result.append('call %s' % timex_bat_file)
             else:
                 print('clone %d/%d' % (i + 1, length))
                 os.chdir(work_dir)
                 self.run_cmd(cmd)
         if out_file:
+            # 保存时间
+            result.insert(0, 'call %s save' % timex_bat_file)
+            result.append('\n@ echo download complete.')
+            result.append('@pause')
             filex.write_lines(out_file, result, add_line_separator=True)
+
+            # 复制
+            shutil.copy('data/timex.bat', timex_bat_file)
+            print('复制 timex.bat 完成')
 
 
 if __name__ == '__main__':
