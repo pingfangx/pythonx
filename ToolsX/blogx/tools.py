@@ -78,7 +78,7 @@ class BlogXTools:
                 elif destination == BlogXTools.DESTINATION_FILE_NAME_WITH_ID:
                     result = '[%s]%s' % (tid, title)
                 elif destination == BlogXTools.RELATIVE_BLOG:
-                    result = '相关博文:《%s》(%s)' % (title, url)
+                    result = '相关博文:[《%s》](%s)' % (title, url)
 
         if result is not None:
             BlogXTools.copy_text(result)
