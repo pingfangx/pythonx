@@ -37,7 +37,8 @@ class BlogXTools:
             BlogXTools.RELATIVE_BLOG,
             ['外部链接转为地址', self.parse_reference],
             ['外部链接转为参考文献和引用', self.parse_reference_and_quote],
-            ['通过标题重命名文件、添加转载申明、添加[md]标签', self.auto_process_file]
+            ['通过标题重命名文件、添加[md]标签', self.auto_process_file],
+            ['通过标题重命名文件、添加转载申明、添加[md]标签', self.auto_process_file2]
         ]
         for destination in destination_list:
             if isinstance(destination, str):
@@ -159,7 +160,16 @@ class BlogXTools:
 
     @staticmethod
     def auto_process_file(text):
-        """自动处理文件"""
+        return BlogXTools.auto_process_file2(text, False)
+
+    @staticmethod
+    def auto_process_file2(text, add_note=True):
+        """
+        自动处理文件
+        :param text: 从 discuz 复制的文本
+        :param add_note: 是否添加转截申明
+        :return: 
+        """
         title, tid = BlogXTools.get_title_and_tid(text)
         if tid is not None:
             file_name = '[%s]%s.md' % (tid, title)
@@ -186,11 +196,12 @@ class BlogXTools:
                 elif first_line.startswith('>本文由平方X'):
                     print('第一行已经包含转载申明')
                 else:
-                    # 添加转载申明
-                    url = 'http://blog.pingfangx.com/%s.html' % tid
-                    result = '>本文由平方X发表于平方X网，转载请注明出处。[%s](%s)\n\n' % (url, url)
-                    lines.insert(0, result)
-                    print('已写入转载申明')
+                    if add_note:
+                        # 添加转载申明
+                        url = 'http://blog.pingfangx.com/%s.html' % tid
+                        result = '>本文由平方X发表于平方X网，转载请注明出处。[%s](%s)\n\n' % (url, url)
+                        lines.insert(0, result)
+                        print('已写入转载申明')
                 if need_process:
                     # 写入[md]标签
                     lines.insert(0, '[md]\n\n')
