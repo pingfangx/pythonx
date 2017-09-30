@@ -9,8 +9,8 @@ from xx import iox
 
 class AndroidSourceDownloader:
     """
-    参考:Jeanboydev.《 Windows 环境下载 Android 源码》.http://blog.csdn.net/freekiteyu/article/details/70939672
-    感谢
+    参考:[Jeanboydev.《 Windows 环境下载 Android 源码》](http://blog.csdn.net/freekiteyu/article/details/70939672)
+    相关博文:[《Windows 下载查看 Android 源码》](http://blog.pingfangx.com/2395.html)
     """
 
     def __init__(self, root_dir, tag, git_path, use_tsinghua=True):
@@ -68,6 +68,8 @@ class AndroidSourceDownloader:
         下载安卓源码 
         :param out_file: 输出文件，如果直接运行，不会显示 clone 的进度（可能是我不会，我简单搜了一下，没找到）
         所以先输出为bat文件，再执行
+        【纠正】但是一些博文中是有进度的，比较了一下发下，直接运行 .py 文件（即以 cmd 运行），就有进度了。
+        但是在 PyCharm 中运行是没有进度展示的，所以费了很大的精力在生成 .bat 和在 .bat 中计算时间并，哈哈。
         :return: 
         """
         if not os.path.exists(self.source_root):
