@@ -16,6 +16,7 @@ class BlogXTools:
     DESTINATION_QUOTE = '引用'
     DESTINATION_REFERENCE_AND_QUOTE = '参考文献和引用'
     DESTINATION_FILE_NAME_WITH_ID = '文件名带id'
+    RELATIVE_BLOG = '相关博文'
 
     PATTERN_CLIPBOARD = r'tid=(\d+)'
     PATTERN_URL = r'thread-(\d+)'
@@ -33,6 +34,7 @@ class BlogXTools:
             BlogXTools.DESTINATION_QUOTE,
             BlogXTools.DESTINATION_REFERENCE_AND_QUOTE,
             BlogXTools.DESTINATION_FILE_NAME_WITH_ID,
+            BlogXTools.RELATIVE_BLOG,
             ['外部链接转为地址', self.parse_reference],
             ['外部链接转为参考文献和引用', self.parse_reference_and_quote],
             ['通过标题重命名文件、添加转载申明、添加[md]标签', self.auto_process_file]
@@ -74,6 +76,8 @@ class BlogXTools:
                     result = '[[1]].[%s](%s)  \n[1]:%s "%s"' % (title, url, url, title)
                 elif destination == BlogXTools.DESTINATION_FILE_NAME_WITH_ID:
                     result = '[%s]%s' % (tid, title)
+                elif destination == BlogXTools.RELATIVE_BLOG:
+                    result = '相关博文:《%s》(%s)' % (title, url)
 
         if result is not None:
             BlogXTools.copy_text(result)
