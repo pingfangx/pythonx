@@ -1,0 +1,160 @@
+import json
+import subprocess
+import urllib.parse
+from abc import ABC, abstractmethod
+from xml.etree import ElementTree as Et
+
+from xx import filex
+from xx import iox
+from xx import netx
+
+from android_studio_translator.machine_translation.Py4Js import Py4Js
+from android_studio_translator.tools import Tools
+
+
+class MachineTranslator(ABC):
+    """翻译抽象类"""
+
+    @staticmethod
+    @abstractmethod
+    def translate(en):
+        """翻译"""
+
+
+class GoogleTranslator(MachineTranslator):
+    """谷歌翻译"""
+
+    @staticmethod
+    def translate(en):
+        print('翻译 %s' % en)
+        js = Py4Js()
+        tk = js.getTk(en)
+        en = urllib.parse.quote(en)
+        url = "http://translate.google.cn/translate_a/single?client=t" \
+              "&sl=en&tl=zh-CN&hl=zh-CN&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca" \
+              "&dt=rw&dt=rm&dt=ss&dt=t&ie=UTF-8&oe=UTF-8&clearbtn=1&otf=1&pc=1" \
+              "&srcrom=0&ssel=0&tsel=0&kc=2&tk=%s&q=%s" % (tk, en)
+        result = netx.get(url, need_print=False)
+        """
+        [[["测试","test",null,null,2],[null,null,"Cèshì","test"]],...]
+        """
+        if result:
+            result = json.loads(result)
+            if result:
+                print(result)
+                # 第一个结果
+                first_result = result[0]
+                # 第 1 个带翻译，第 2 个可能带拼音
+                translation = first_result[0]
+                # 翻译中的第一个即是结果
+                cn = translation[0]
+                return cn
+        return None
+
+
+class BaiduTranslator(MachineTranslator):
+    """百度翻译"""
+
+    @staticmethod
+    def translate(en):
+        return '百度翻译'
+
+
+class MachineTranslation:
+    def main(self):
+        omegat_file_path = r'D:\xx\software\program\OmegaT_4.1.2_01_Beta_Without_JRE\OmegaT2.jar'
+        project_dir = r'D:\workspace\TranslatorX\GitManualPage'
+        pseudo_file = 'pseudo.tmx'
+        action_list = [
+            ['退出', exit],
+            ['生成伪翻译记忆文件', self.create_pseudo_translation, omegat_file_path, project_dir, pseudo_file],
+            ['谷歌翻译记忆文件', self.translate_file, GoogleTranslator, pseudo_file],
+            ['百度翻译记忆文件', self.translate_file, BaiduTranslator, pseudo_file],
+        ]
+        iox.choose_action(action_list)
+
+    @staticmethod
+    def create_pseudo_translation(jar_file, project_dir, result_file=None, translate_type='empty'):
+        """
+        创建伪翻译
+        java -jar OmegaT.jar <project-dir> --mode=console-createpseudotranslatetmx --pseudotranslatetmx=<filename>
+         --pseudotranslatetype=[equal|empty]
+        :param jar_file:  OmegaT 的 jar 文件
+        :param project_dir:  项目目路
+        :param result_file: 结果文件，tmx 格式
+        :param translate_type: 翻译类型，可选 equal | empty
+        :return: 
+        """
+        if result_file is None:
+            result_file = filex.get_result_file_name('pseudo', '', 'tmx')
+        cmd = 'java -jar %s %s --mode=console-createpseudotranslatetmx --pseudotranslatetmx=%s ' \
+              '--pseudotranslatetype=%s' % (jar_file, project_dir, result_file, translate_type)
+        print(cmd)
+        subprocess.call(cmd, shell=True)
+        print('已输出文件 %s' % result_file)
+
+    @staticmethod
+    def translate_file(cls, file_path):
+        """
+        翻译
+        寻找一个要翻译的单词
+        翻译，更新字典，保存
+        继续
+        :param cls: 类
+        :param file_path: 
+        :return: 
+        """
+
+        if not issubclass(cls, MachineTranslator):
+            print('%s 不是 MachineTranslator 的子类' % cls)
+            return
+
+        en_dict = Tools.get_dict_from_omegat(file_path)
+        if not en_dict:
+            print('翻译文件字典为空')
+            return
+
+        keys = sorted(en_dict.keys())
+        length = len(keys)
+        for i in range(length):
+            en = keys[i]
+            cn = en_dict[en]
+            if cn is not None:
+                continue
+            if en.startswith('$'):
+                continue
+            print('翻译 %d/%d 个:【%s】' % (i + 1, length, en))
+            cn = cls.translate(en)
+            print('翻译结果 %d/%d 个:【%s】' % (i + 1, length, cn))
+            # 更新字典
+            en_dict[en] = cn
+            # 写入文件
+            MachineTranslation.save_translation(file_path, en, cn)
+
+    @staticmethod
+    def save_translation(file_path, check_en, save_cn):
+        """保存翻译"""
+
+        tree = Et.parse(file_path)
+        tmx = tree.getroot()
+        body = tmx.find('body')
+        for tu in body.iter('tu'):
+            en = None
+            for tuv in tu.iter('tuv'):
+                if tuv.attrib['lang'] == 'EN-US':
+                    en = tuv.find('seg').text
+                    break
+            # 检查
+            if en is None or en != check_en:
+                continue
+            # 保存
+            for tuv in tu.iter('tuv'):
+                if tuv.attrib['lang'] == 'ZH-CN':
+                    tuv.find('seg').text = save_cn
+                    tree.write(file_path, encoding='utf-8')
+                    print('保存完成【%s】:【%s】' % (check_en, save_cn))
+                    return
+
+
+if __name__ == '__main__':
+    MachineTranslation().main()
