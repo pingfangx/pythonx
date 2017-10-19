@@ -1,37 +1,41 @@
-def TL(a=''):
-    k = ''
+import ctypes
+
+
+def get_google_tk(a=''):
+    """
+    计算谷歌翻译的 tk
+    翻译原始 js 自 :https://github.com/cocoa520/Google_TK/blob/master/google_tk.html
+    :return: 
+    """
     b = 406644
     b1 = 3293161072
 
     jd = "."
     _b = "+-a^+6"
-    Zb = "+-3^+b+-f"
+    zb = "+-3^+b+-f"
 
     e = list()
-    f = 0
     length = len(a)
     for g in range(0, length):
         m = ord(a[g])
         if 128 > m:
             e.append(m)
+        elif 2048 > m:
+            e.append(m >> 6 | 192)
+        elif 55296 == (m & 64512) and g + 1 < length and 56320 == (ord(a[g + 1]) & 64512):
+            m = 65536 + ((m & 1023) << 10) + (ord(a[++g]) & 1023)
+            e.append(m >> 18 | 240)
+            e.append(m >> 12 & 63 | 128)
         else:
-            if 2048 > m:
-                e.append(m >> 6 | 192)
-            else:
-                if 55296 == (m & 64512) and g + 1 < length and 56320 == (ord(a[g + 1]) & 64512):
-                    m = 65536 + ((m & 1023) << 10) + (ord(a[++g]) & 1023)
-                    e.append(m >> 18 | 240)
-                    e.append(m >> 12 & 63 | 128)
-                else:
-                    e.append(m > 12 | 224)
-                    e.append(m >> 6 & 63 | 128)
-                    e.append(m & 63 | 128)
+            e.append(m > 12 | 224)
+            e.append(m >> 6 & 63 | 128)
+            e.append(m & 63 | 128)
 
     a = b
-    for f in range(len(e)):
-        a += e[f]
-        a = RL(a, _b)
-    a = RL(a, Zb)
+    for f in e:
+        a += f
+        a = get_rl(a, _b)
+    a = get_rl(a, zb)
     a ^= b1 or 0
     if 0 > a:
         a = (a & 2147483647) + 2147483648
@@ -40,27 +44,24 @@ def TL(a=''):
     return str(a) + jd + str(a ^ b)
 
 
-def RL(a, b):
+def get_rl(a, b):
     t = 'a'
-    Yb = '+'
+    yb = '+'
     for c in range(0, len(b) - 2, 3):
         d = b[c + 2]
         if d >= t:
             d = ord(d) - 87
         else:
             d = int(d)
-        if b[c + 1] == Yb:
+        if b[c + 1] == yb:
             d = unsigned_right_shift(a, d)
         else:
             d = a << d
-        if b[c] == Yb:
+        if b[c] == yb:
             a = a + d & 4294967295
         else:
             a = a ^ d
     return a
-
-
-import ctypes
 
 
 def unsigned_right_shift(n, i):
