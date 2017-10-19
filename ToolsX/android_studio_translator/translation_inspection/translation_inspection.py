@@ -1,8 +1,10 @@
-from xx import filex
 import re
+
+from xx import filex
 from xx import iox
-from android_studio_translator.tools import Tools
+
 from android_studio_translator.delete_action import DeleteAction
+from android_studio_translator.tools import Tools
 
 
 class TranslationInspection:
@@ -59,6 +61,8 @@ class TranslationInspection:
                     cn_key = abbreviated_en
             if cn_key:
                 value = translation_dict[cn_key]
+                if not value:
+                    continue
                 translation_dict.pop(cn_key)
                 old = value
                 for inspection in inspection_list:
