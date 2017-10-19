@@ -27,7 +27,7 @@ def get_google_tk(a=''):
             e.append(m >> 18 | 240)
             e.append(m >> 12 & 63 | 128)
         else:
-            e.append(m > 12 | 224)
+            e.append(m >> 12 | 224)
             e.append(m >> 6 & 63 | 128)
             e.append(m & 63 | 128)
 
