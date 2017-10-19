@@ -1,4 +1,5 @@
 import json
+import re
 import subprocess
 import urllib.parse
 from abc import ABC, abstractmethod
@@ -9,6 +10,7 @@ from xx import iox
 from xx import netx
 
 from android_studio_translator.machine_translation.Py4Js import Py4Js
+from android_studio_translator.machine_translation.google_tk import get_google_tk
 from android_studio_translator.tools import Tools
 
 
@@ -26,9 +28,12 @@ class GoogleTranslator(MachineTranslator):
 
     @staticmethod
     def translate(en):
-        print('翻译 %s' % en)
         js = Py4Js()
         tk = js.getTk(en)
+        tk2 = get_google_tk(en)
+        if tk != tk2:
+            print('计算的 tk 不相等')
+            exit()
         en = urllib.parse.quote(en)
         url = "http://translate.google.cn/translate_a/single?client=t" \
               "&sl=en&tl=zh-CN&hl=zh-CN&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca" \
@@ -41,15 +46,28 @@ class GoogleTranslator(MachineTranslator):
         if result:
             result = json.loads(result)
             if result:
-                print(result)
                 # 第一个结果
                 first_result = result[0]
                 # 第 1 个带翻译，第 2 个可能带拼音
                 translation = first_result[0]
                 # 翻译中的第一个即是结果
                 cn = translation[0]
+                cn = GoogleTranslator.process_result(en, cn)
                 return cn
         return None
+
+    @staticmethod
+    def process_result(en, cn):
+        """处理结果"""
+        # 标签会被加上空格，将空格去除
+        all_match = re.findall('</ .+?>', cn)
+        if all_match:
+            for match in all_match:
+                without_space = match.replace(' ', '')
+                if without_space in en and match not in en:
+                    # 在 en 中有不含空格的，没有含空格的，才替换
+                    cn = cn.replace(match, without_space)
+        return cn
 
 
 class BaiduTranslator(MachineTranslator):
@@ -70,8 +88,14 @@ class MachineTranslation:
             ['生成伪翻译记忆文件', self.create_pseudo_translation, omegat_file_path, project_dir, pseudo_file],
             ['谷歌翻译记忆文件', self.translate_file, GoogleTranslator, pseudo_file],
             ['百度翻译记忆文件', self.translate_file, BaiduTranslator, pseudo_file],
+            ['测试 tk', self.test_tk, '’'],
         ]
         iox.choose_action(action_list)
+
+    @staticmethod
+    def test_tk(a='test'):
+        print(Py4Js().getTk(a))
+        print(get_google_tk(a))
 
     @staticmethod
     def create_pseudo_translation(jar_file, project_dir, result_file=None, translate_type='empty'):
@@ -122,8 +146,9 @@ class MachineTranslation:
             if cn is not None:
                 continue
             if en.startswith('$'):
+                print('\n跳过 %d/%d 个:【%s】' % (i + 1, length, en))
                 continue
-            print('翻译 %d/%d 个:【%s】' % (i + 1, length, en))
+            print('\n翻译 %d/%d 个:【%s】' % (i + 1, length, en))
             cn = cls.translate(en)
             print('翻译结果 %d/%d 个:【%s】' % (i + 1, length, cn))
             # 更新字典
