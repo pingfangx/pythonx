@@ -67,6 +67,17 @@ class GoogleTranslator(MachineTranslator):
                 if without_space in en and match not in en:
                     # 在 en 中有不含空格的，没有含空格的，才替换
                     cn = cn.replace(match, without_space)
+        # 谷歌翻译标签前后会被加上空格
+        # 匹配<tag>空格内容空格</tag>
+        all_match = re.findall(r'(?<!\s)<(\w+?)>\s(.+?)\s</\1>(?!\s)', cn)
+        if all_match:
+            for (tag, content) in all_match:
+                find = r'<%s> %s </%s>' % (tag, content, tag)
+                # 有时[0]前会被谷歌加上空格
+                content = re.sub(r'\s(\[\d\])', r'\1', content)
+                replace = r' <%s>%s</%s> ' % (tag, content, tag)
+                # 将中间的空格替换为前后的空格，这里不能用正则，因为内容中可能有符号
+                cn = cn.replace(find, replace)
         cn = TranslationInspection.inspect(en, cn)
         return cn
 
@@ -104,7 +115,7 @@ class MachineTranslation:
             ['谷歌翻译记忆文件', self.translate_file, GoogleTranslator, pseudo_file, ignore_reg_list],
             ['百度翻译记忆文件', self.translate_file, BaiduTranslator, pseudo_file, ignore_reg_list],
             ['删除空翻译', self.delete_empty_translation, pseudo_file],
-            ['测试 tk', self.test_tk, '’'],
+            ['测试 tk', self.test_tk, 'See <a0>gitnamespaces[7]</a0> for more details.'],
         ]
         iox.choose_action(action_list)
 
@@ -112,6 +123,7 @@ class MachineTranslation:
     def test_tk(a='test'):
         print(Py4Js().getTk(a))
         print(get_google_tk(a))
+        print(GoogleTranslator.translate(a))
 
     @staticmethod
     def create_pseudo_translation(jar_file, project_dir, result_file=None, translate_type='empty'):
