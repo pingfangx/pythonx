@@ -94,7 +94,9 @@ class MachineTranslation:
     def main(self):
         omegat_file_path = r'D:\xx\software\program\OmegaT_4.1.2_01_Beta_Without_JRE\OmegaT2.jar'
         project_dir = r'D:\workspace\WebsiteCopy\Translation'
-        pseudo_file = 'pseudo.tmx'
+        pseudo_file = 'data/pseudo.tmx'
+        translation_file = 'data/translation.tmx'
+        ignore_file = 'data/auto.tmx'
         ignore_reg_list = [
             r'^[\.[<#$-]|[\u4e00-\u9fa5]|git|GIT|http'
         ]
@@ -112,9 +114,11 @@ class MachineTranslation:
         action_list = [
             ['退出', exit],
             ['生成伪翻译记忆文件', self.create_pseudo_translation, omegat_file_path, project_dir, pseudo_file, 'empty'],
-            ['谷歌翻译记忆文件', self.translate_file, GoogleTranslator, pseudo_file, ignore_reg_list],
-            ['百度翻译记忆文件', self.translate_file, BaiduTranslator, pseudo_file, ignore_reg_list],
-            ['删除空翻译', self.delete_empty_translation, pseudo_file],
+            ['谷歌翻译记忆文件', self.translate_file, GoogleTranslator, pseudo_file, translation_file, ignore_reg_list,
+             ignore_file],
+            ['百度翻译记忆文件', self.translate_file, BaiduTranslator, pseudo_file, translation_file, ignore_reg_list,
+             ignore_file],
+            ['删除空翻译', self.delete_empty_or_same_translation, ignore_file, True, False],
             ['测试 tk', self.test_tk, 'See <a0>gitnamespaces[7]</a0> for more details.'],
         ]
         iox.choose_action(action_list)
@@ -146,7 +150,7 @@ class MachineTranslation:
         print('已输出文件 %s' % result_file)
 
     @staticmethod
-    def translate_file(cls, file_path, ignore_reg_list):
+    def translate_file(cls, file_path, result_file=None, ignore_reg_list=None, ignore_file_path=None):
         """
         翻译
         寻找一个要翻译的单词
@@ -154,9 +158,14 @@ class MachineTranslation:
         继续
         :param cls: 类
         :param file_path: 文件路径
+        :param result_file: 结果文件
         :param ignore_reg_list: 忽略正则列表，如果匹配则忽略
+        :param ignore_file_path: 忽略的单词保存于，用于生成 auto中的tmx ，避免每次都要手动设为相同翻译
         :return: 
         """
+
+        if result_file is None:
+            result_file = file_path
 
         if not issubclass(cls, MachineTranslator):
             print('%s 不是 MachineTranslator 的子类' % cls)
@@ -180,6 +189,8 @@ class MachineTranslation:
                     if re.match(ignore_reg, en):
                         print('\n跳过 %d/%d 个:【%s】' % (i + 1, length, en))
                         continue_loop = True
+                        if ignore_file_path:
+                            MachineTranslation.save_translation(ignore_file_path, en, en)
                         break
             if continue_loop:
                 continue
@@ -189,10 +200,10 @@ class MachineTranslation:
             # 更新字典
             en_dict[en] = cn
             # 写入文件
-            MachineTranslation.save_translation(file_path, en, cn)
+            MachineTranslation.save_translation(result_file, en, cn)
 
     @staticmethod
-    def delete_empty_translation(file_path):
+    def delete_empty_or_same_translation(file_path, delete_empty=True, delete_same=True):
         """删除空翻译"""
         tree = Et.parse(file_path)
         tmx = tree.getroot()
@@ -207,9 +218,9 @@ class MachineTranslation:
                     cn = tuv.find('seg').text
                 if tuv.attrib['lang'] == 'EN-US':
                     en = tuv.find('seg').text
-            if not cn:
+            if delete_empty and not cn:
                 empty_translation_list.append(tu)
-            if en == cn:
+            if delete_same and en == cn:
                 empty_translation_list.append(tu)
         print('删除 %d 条空翻译' % len(empty_translation_list))
         for empty_translation in empty_translation_list:
