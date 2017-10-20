@@ -103,6 +103,7 @@ class MachineTranslation:
             ['生成伪翻译记忆文件', self.create_pseudo_translation, omegat_file_path, project_dir, pseudo_file, 'empty'],
             ['谷歌翻译记忆文件', self.translate_file, GoogleTranslator, pseudo_file, ignore_reg_list],
             ['百度翻译记忆文件', self.translate_file, BaiduTranslator, pseudo_file, ignore_reg_list],
+            ['删除空翻译', self.delete_empty_translation, pseudo_file],
             ['测试 tk', self.test_tk, '’'],
         ]
         iox.choose_action(action_list)
@@ -177,6 +178,32 @@ class MachineTranslation:
             en_dict[en] = cn
             # 写入文件
             MachineTranslation.save_translation(file_path, en, cn)
+
+    @staticmethod
+    def delete_empty_translation(file_path):
+        """删除空翻译"""
+        tree = Et.parse(file_path)
+        tmx = tree.getroot()
+        body = tmx.find('body')
+
+        empty_translation_list = list()
+        for tu in body.iter('tu'):
+            en = None
+            cn = None
+            for tuv in tu.iter('tuv'):
+                if tuv.attrib['lang'] == 'ZH-CN':
+                    cn = tuv.find('seg').text
+                if tuv.attrib['lang'] == 'EN-US':
+                    en = tuv.find('seg').text
+            if not cn:
+                empty_translation_list.append(tu)
+            if en == cn:
+                empty_translation_list.append(tu)
+        print('删除 %d 条空翻译' % len(empty_translation_list))
+        for empty_translation in empty_translation_list:
+            body.remove(empty_translation)
+        tree.write(file_path, encoding='utf-8')
+        print('保存完成')
 
     @staticmethod
     def save_translation(file_path, check_en, save_cn):
