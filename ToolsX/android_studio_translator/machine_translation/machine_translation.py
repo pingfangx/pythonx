@@ -12,6 +12,7 @@ from xx import netx
 from android_studio_translator.machine_translation.Py4Js import Py4Js
 from android_studio_translator.machine_translation.google_tk import get_google_tk
 from android_studio_translator.tools import Tools
+from android_studio_translator.translation_inspection.translation_inspection import TranslationInspection
 
 
 class MachineTranslator(ABC):
@@ -34,11 +35,10 @@ class GoogleTranslator(MachineTranslator):
         if tk != tk2:
             print('计算的 tk 不相等')
             exit()
-        en = urllib.parse.quote(en)
         url = "http://translate.google.cn/translate_a/single?client=t" \
               "&sl=en&tl=zh-CN&hl=zh-CN&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca" \
               "&dt=rw&dt=rm&dt=ss&dt=t&ie=UTF-8&oe=UTF-8&clearbtn=1&otf=1&pc=1" \
-              "&srcrom=0&ssel=0&tsel=0&kc=2&tk=%s&q=%s" % (tk, en)
+              "&srcrom=0&ssel=0&tsel=0&kc=2&tk=%s&q=%s" % (tk, urllib.parse.quote(en))
         result = netx.get(url, need_print=False)
         """
         [[["测试","test",null,null,2],[null,null,"Cèshì","test"]],...]
@@ -67,6 +67,7 @@ class GoogleTranslator(MachineTranslator):
                 if without_space in en and match not in en:
                     # 在 en 中有不含空格的，没有含空格的，才替换
                     cn = cn.replace(match, without_space)
+        cn = TranslationInspection.inspect(en, cn)
         return cn
 
 
@@ -81,13 +82,27 @@ class BaiduTranslator(MachineTranslator):
 class MachineTranslation:
     def main(self):
         omegat_file_path = r'D:\xx\software\program\OmegaT_4.1.2_01_Beta_Without_JRE\OmegaT2.jar'
-        project_dir = r'D:\workspace\TranslatorX\GitManualPage'
+        project_dir = r'D:\workspace\WebsiteCopy\Translation'
         pseudo_file = 'pseudo.tmx'
+        ignore_reg_list = [
+            r'^[\.[<#$-]|[\u4e00-\u9fa5]|git|GIT|http'
+        ]
+        """
+        \. 上一级目录
+        [ 可选参数
+        < 标签或参数
+        # 锚点
+        $ 命仅
+        - -- 参数
+        [\u4e00-\u9fa5] 中文
+        git GIT 命令
+        http https 链接
+        """
         action_list = [
             ['退出', exit],
-            ['生成伪翻译记忆文件', self.create_pseudo_translation, omegat_file_path, project_dir, pseudo_file],
-            ['谷歌翻译记忆文件', self.translate_file, GoogleTranslator, pseudo_file],
-            ['百度翻译记忆文件', self.translate_file, BaiduTranslator, pseudo_file],
+            ['生成伪翻译记忆文件', self.create_pseudo_translation, omegat_file_path, project_dir, pseudo_file, 'empty'],
+            ['谷歌翻译记忆文件', self.translate_file, GoogleTranslator, pseudo_file, ignore_reg_list],
+            ['百度翻译记忆文件', self.translate_file, BaiduTranslator, pseudo_file, ignore_reg_list],
             ['测试 tk', self.test_tk, '’'],
         ]
         iox.choose_action(action_list)
@@ -118,14 +133,15 @@ class MachineTranslation:
         print('已输出文件 %s' % result_file)
 
     @staticmethod
-    def translate_file(cls, file_path):
+    def translate_file(cls, file_path, ignore_reg_list):
         """
         翻译
         寻找一个要翻译的单词
         翻译，更新字典，保存
         继续
         :param cls: 类
-        :param file_path: 
+        :param file_path: 文件路径
+        :param ignore_reg_list: 忽略正则列表，如果匹配则忽略
         :return: 
         """
 
@@ -145,8 +161,14 @@ class MachineTranslation:
             cn = en_dict[en]
             if cn is not None:
                 continue
-            if en.startswith('$'):
-                print('\n跳过 %d/%d 个:【%s】' % (i + 1, length, en))
+            continue_loop = False
+            if ignore_reg_list:
+                for ignore_reg in ignore_reg_list:
+                    if re.match(ignore_reg, en):
+                        print('\n跳过 %d/%d 个:【%s】' % (i + 1, length, en))
+                        continue_loop = True
+                        break
+            if continue_loop:
                 continue
             print('\n翻译 %d/%d 个:【%s】' % (i + 1, length, en))
             cn = cls.translate(en)

@@ -78,6 +78,23 @@ class TranslationInspection:
         Tools.save_omegat_dict(result, result_file)
 
     @staticmethod
+    def inspect(en, cn):
+        """提取出方法方便外部调用"""
+        inspection_list = [
+            StandardTranslation.inspect_translation,
+            TranslationInspection.inspect_double_quote,
+            TranslationInspection.inspect_single_quote,
+            TranslationInspection.inspect_double_single_quote,
+            TranslationInspection.inspect_parentheses,
+            TranslationInspection.inspect_ends_symbol,
+            TranslationInspection.inspect_short_cut,
+            TranslationInspection.inspect_space,
+        ]
+        for inspection in inspection_list:
+            cn = inspection(en, cn, False)
+        return cn
+
+    @staticmethod
     def inspect_space(en, cn, print_msg=False):
         """
         检查汉字与英文（或{\d}）之间是否添加了空格
