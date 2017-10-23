@@ -1,5 +1,6 @@
 import json
 import re
+import shutil
 import subprocess
 import urllib.parse
 from abc import ABC, abstractmethod
@@ -123,7 +124,8 @@ class MachineTranslation:
         """
         action_list = [
             ['退出', exit],
-            ['生成伪翻译记忆文件', self.create_pseudo_translation, omegat_file_path, project_dir, pseudo_file, 'empty'],
+            ['生成伪翻译记忆文件并复制替换 auto translation', self.create_pseudo_translation, omegat_file_path, project_dir,
+             pseudo_file, 'empty'],
             ['谷歌翻译记忆文件', self.translate_file, GoogleTranslator, pseudo_file, translation_file, ignore_reg_list,
              ignore_file],
             ['百度翻译记忆文件', self.translate_file, BaiduTranslator, pseudo_file, translation_file, ignore_reg_list,
@@ -159,6 +161,14 @@ class MachineTranslation:
         print(cmd)
         subprocess.call(cmd, shell=True)
         print('已输出文件 %s' % result_file)
+
+        auto_file = 'data/auto.tmx'
+        shutil.copyfile(result_file, auto_file)
+        print('已复制文件 %s' % auto_file)
+
+        translation_file = 'data/translation.tmx'
+        shutil.copyfile(result_file, translation_file)
+        print('已复制文件 %s' % translation_file)
 
     @staticmethod
     def translate_file(cls, file_path, result_file=None, ignore_reg_list=None, ignore_file_path=None):
