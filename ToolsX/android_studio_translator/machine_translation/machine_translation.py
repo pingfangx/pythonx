@@ -69,13 +69,22 @@ class GoogleTranslator(MachineTranslator):
                     cn = cn.replace(match, without_space)
         # 谷歌翻译标签前后会被加上空格
         # 匹配<tag>空格内容空格</tag>
-        all_match = re.findall(r'(?<!\s)<(\w+?)>\s(.+?)\s</\1>(?!\s)', cn)
+        all_match = re.findall(r'<(\w+?)>(.+?)</\1>', cn)
         if all_match:
             for (tag, content) in all_match:
-                find = r'<%s> %s </%s>' % (tag, content, tag)
-                # 有时[0]前会被谷歌加上空格
-                content = re.sub(r'\s(\[\d\])', r'\1', content)
-                replace = r' <%s>%s</%s> ' % (tag, content, tag)
+                en_match = re.search(r'<%s>(.+?)</%s>' % (tag, tag), en)
+                if not en_match:
+                    print('tag 不正确,cn=【%s】,en=【%s】,tag=【%s】' % (cn, en, tag))
+                    exit()
+                en_content = en_match.group(1)
+                # 增加前后空格
+                if not cn.startswith(r'<%s>' % tag):
+                    cn = re.sub(r'\s?(<%s>)' % tag, r' \1', cn)
+                if not cn.endswith(r'</%s>' % tag):
+                    cn = re.sub(r'(</%s>)\s?' % tag, r'\1 ', cn)
+                # 将翻译替换为英文，保持原样
+                find = r'<%s>%s</%s>' % (tag, content, tag)
+                replace = r'<%s>%s</%s>' % (tag, en_content, tag)
                 # 将中间的空格替换为前后的空格，这里不能用正则，因为内容中可能有符号
                 cn = cn.replace(find, replace)
         cn = TranslationInspection.inspect(en, cn)
@@ -118,8 +127,9 @@ class MachineTranslation:
              ignore_file],
             ['百度翻译记忆文件', self.translate_file, BaiduTranslator, pseudo_file, translation_file, ignore_reg_list,
              ignore_file],
-            ['删除空翻译', self.delete_empty_or_same_translation, ignore_file, True, False],
-            ['测试 tk', self.test_tk, 'See <a0>gitnamespaces[7]</a0> for more details.'],
+            ['删除 translation 空翻译', self.delete_empty_or_same_translation, translation_file],
+            ['删除 auto 空翻译', self.delete_empty_or_same_translation, ignore_file, True, False],
+            ['测试 tk', self.test_tk, r'a valid tag <e0>name</e0> (i.e. a <c1>refs/tags/<tag></c1> reference).'],
         ]
         iox.choose_action(action_list)
 
