@@ -26,6 +26,7 @@ class BlogXTools:
     def main(self):
         action_list = [
             ['退出', exit],
+            ['设置处理目录', self.set_process_dir],
         ]
         destination_list = [
             BlogXTools.DESTINATION_COPYRIGHT,
@@ -47,8 +48,20 @@ class BlogXTools:
             elif isinstance(destination, list):
                 action = '→%s' % destination[0]
                 action_list.append([action, self.parse_text, destination[1]])
-        while True:
-            iox.choose_action(action_list)
+        print('\n当前处理的文件夹是 %s' % BlogXTools.process_dir)
+        iox.choose_action(action_list)
+
+    def set_process_dir(self):
+        """设置处理的文件"""
+        input_file = input('请输入或拖入要处理的文件或文件夹\n')
+        if not input_file:
+            print('没有输入')
+        input_file = input_file.strip('"')
+        if os.path.isdir(input_file):
+            BlogXTools.process_dir = input_file
+        elif os.path.isfile(input_file):
+            BlogXTools.process_dir = os.path.dirname(input_file)
+        self.main()
 
     @staticmethod
     def parse_text(destination, text=None):
