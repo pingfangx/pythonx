@@ -48,10 +48,12 @@ class GoogleTranslator(MachineTranslator):
             if result:
                 # 第一个结果
                 first_result = result[0]
-                # 第 1 个带翻译，第 2 个可能带拼音
-                translation = first_result[0]
-                # 翻译中的第一个即是结果
-                cn = translation[0]
+                # 前几个为翻译，最后 1 个可能带拼音
+                cn = ''
+                for translation in first_result:
+                    if len(translation) == 5:
+                        # 翻译中的第一个即是结果
+                        cn += translation[0]
                 cn = GoogleTranslator.process_result(en, cn)
                 return cn
         return None
@@ -107,12 +109,11 @@ class MachineTranslation:
         translation_file = 'data/translation.tmx'
         ignore_file = 'data/auto.tmx'
         ignore_reg_list = [
-            r'^[\.[<#$-]|[\u4e00-\u9fa5]|git|GIT|http'
+            r'^[\.[#$-]|[\u4e00-\u9fa5]|git|GIT|http'
         ]
         """
         \. 上一级目录
         [ 可选参数
-        < 标签或参数
         # 锚点
         $ 命仅
         - -- 参数
