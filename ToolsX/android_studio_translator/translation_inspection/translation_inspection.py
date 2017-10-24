@@ -373,6 +373,7 @@ class StandardTranslation:
             StandardTranslation.standard_translation = StandardTranslation.get_standard_translation()
         for standard_translation in StandardTranslation.standard_translation:
             for s_en in standard_translation.en_list:
+                # 可能含标点符号，用空格分不准确
                 if s_en in en.split(' '):
                     contain = False
                     for s_cn in standard_translation.cn_list:
@@ -383,6 +384,7 @@ class StandardTranslation:
                         has_replace = False
                         if standard_translation.replace_list:
                             for replace in standard_translation.replace_list:
+                                # 可能不只有一个
                                 if cn.count(replace) == 1:
                                     # 只有一个，进行替换
                                     if print_msg:

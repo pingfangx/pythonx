@@ -6,6 +6,7 @@ import urllib.parse
 from abc import ABC, abstractmethod
 from xml.etree import ElementTree as Et
 
+import pyperclip
 from xx import filex
 from xx import iox
 from xx import netx
@@ -140,7 +141,9 @@ class MachineTranslation:
     def test_tk(a='test'):
         print(Py4Js().getTk(a))
         print(get_google_tk(a))
-        print(GoogleTranslator.translate(a))
+        translation = GoogleTranslator.translate(a)
+        pyperclip.copy(translation)
+        print('已翻译并复制【%s】' % translation)
 
     @staticmethod
     def create_pseudo_translation(jar_file, project_dir, result_file=None, translate_type='empty'):
