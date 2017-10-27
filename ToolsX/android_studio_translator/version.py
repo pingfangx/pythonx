@@ -1,7 +1,7 @@
 class Version:
     """记录要翻译的版本"""
 
-    version = '2.3.3'
+    version = '3.0'
     "版本号"
 
     project = r'D:/workspace/TranslatorX/AndroidStudio'
