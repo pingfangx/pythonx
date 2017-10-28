@@ -111,7 +111,8 @@ class MachineTranslation:
         translation_file = 'data/translation.tmx'
         ignore_file = 'data/auto.tmx'
         ignore_reg_list = [
-            r'^[\.[#$-]|[\u4e00-\u9fa5]|git|GIT|http'
+            r'^[\.[#$-]|git|GIT|http',
+            r'[\u4e00-\u9fa5]',
         ]
         """
         \. 上一级目录
@@ -127,8 +128,9 @@ class MachineTranslation:
             ['退出', exit],
             ['生成伪翻译记忆文件并复制替换 auto translation', self.create_pseudo_translation, omegat_file_path, project_dir,
              pseudo_file, 'empty'],
-            ['谷歌翻译记忆文件', self.translate_file, GoogleTranslator, pseudo_file, translation_file, ignore_reg_list,
-             ignore_file],
+            ['谷歌翻译记忆文件 并删除空翻译', self.translate_file, GoogleTranslator, translation_file, translation_file,
+             ignore_reg_list,
+             None, True],
             ['百度翻译记忆文件', self.translate_file, BaiduTranslator, pseudo_file, translation_file, ignore_reg_list,
              ignore_file],
             ['删除 translation 空翻译', self.delete_empty_or_same_translation, translation_file],
@@ -174,7 +176,8 @@ class MachineTranslation:
         print('已复制文件 %s' % translation_file)
 
     @staticmethod
-    def translate_file(cls, file_path, result_file=None, ignore_reg_list=None, ignore_file_path=None):
+    def translate_file(cls, file_path, result_file=None, ignore_reg_list=None, ignore_file_path=None,
+                       delete_empty_translation=False):
         """
         翻译
         寻找一个要翻译的单词
@@ -185,6 +188,7 @@ class MachineTranslation:
         :param result_file: 结果文件
         :param ignore_reg_list: 忽略正则列表，如果匹配则忽略
         :param ignore_file_path: 忽略的单词保存于，用于生成 auto中的tmx ，避免每次都要手动设为相同翻译
+        :param delete_empty_translation: 删除空翻译
         :return: 
         """
 
@@ -210,9 +214,15 @@ class MachineTranslation:
             continue_loop = False
             if ignore_reg_list:
                 for ignore_reg in ignore_reg_list:
-                    if re.match(ignore_reg, en):
+                    if ignore_reg.startswith('^'):
+                        if re.match(ignore_reg, en):
+                            continue_loop = True
+                    else:
+                        # 不以 ^ 开头才搜索
+                        if re.search(ignore_reg, en):
+                            continue_loop = True
+                    if continue_loop:
                         print('\n跳过 %d/%d 个:【%s】' % (i + 1, length, en))
-                        continue_loop = True
                         if ignore_file_path:
                             MachineTranslation.save_translation(ignore_file_path, en, en)
                         break
@@ -225,6 +235,8 @@ class MachineTranslation:
             en_dict[en] = cn
             # 写入文件
             MachineTranslation.save_translation(result_file, en, cn)
+        if delete_empty_translation:
+            MachineTranslation.delete_empty_or_same_translation(result_file, True, True)
 
     @staticmethod
     def delete_empty_or_same_translation(file_path, delete_empty=True, delete_same=True):
