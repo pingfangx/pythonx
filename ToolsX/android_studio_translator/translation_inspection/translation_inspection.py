@@ -1,10 +1,9 @@
 import re
 
-from xx import filex
-from xx import iox
-
 from android_studio_translator.delete_action import DeleteAction
 from android_studio_translator.tools import Tools
+from xx import filex
+from xx import iox
 
 
 class TranslationInspection:
@@ -27,12 +26,13 @@ class TranslationInspection:
         ]
         action_list = [
             ['退出', exit],
-            ['检查', self.inspect, pseudo_file, translation_file, inspection_list, None, False, False],
+            ['检查', self.inspect_file, translation_file, translation_file, inspection_list, None, False, False],
         ]
         iox.choose_action(action_list)
 
     @staticmethod
-    def inspect(pseudo_file, translation_file, inspection_list, result_file=None, print_msg=False, print_change=False):
+    def inspect_file(pseudo_file, translation_file, inspection_list, result_file=None, print_msg=False,
+                     print_change=False):
         """
         
         :param pseudo_file: 伪翻译文件，也可以与翻译文件相同，用于自校检
@@ -100,9 +100,33 @@ class TranslationInspection:
         检查汉字与英文（或{\d}）之间是否添加了空格
         """
         chinese_pattern = r'([\u4e00-\u9fa5])'
-        need_space_pattern = r'([a-zA-Z]|{\d}+)'
+        # 字母，或{0}，或''{0}''
+        # need_space_pattern = r'([a-zA-Z]|{\d}+|\'\'{\d}\'\')'
+
+        # 测试发现有一些没有完全替换，使用 .+? 也不会过多替换
+        # need_space_pattern = r'([a-zA-Z]|{\d}+|\'\'.+?\'\')'
+
+        # 再进一步，即使单个引号也不会有错误的
+        need_space_pattern = r'([a-zA-Z]|{\d}+|\'.+?\')'
+        double_quote_pattern = r'\''
+
         cn = re.sub(chinese_pattern + need_space_pattern, r'\1 \2', cn)
         cn = re.sub(need_space_pattern + chinese_pattern, r'\1 \2', cn)
+
+        all_match = re.findall(r'\'\s(.+?)\s\'', cn)
+        if all_match:
+            for match in all_match:
+                match_without_quote_space = '\' %s \'' % match
+                match_without_quote = '\'%s\'' % match
+                if match_without_quote in en:
+                    if print_msg:
+                        print('翻译的双引号中有空格，而原文没有，将其空格删除【%s】' % match_without_quote_space)
+                    cn = cn.replace(match_without_quote_space, match_without_quote)
+
+        if re.search(chinese_pattern + double_quote_pattern, cn):
+            print('【%s】在中文后有相连的引号' % cn)
+        if re.search(double_quote_pattern + chinese_pattern, cn):
+            print('【%s】在中文前有相连的引号' % cn)
         return cn
 
     @staticmethod
@@ -125,8 +149,18 @@ class TranslationInspection:
                 print('\n【%s】匹配，翻译是【%s】,内容是【%s】' % (en, cn, content))
             append = replace % content
             if not cn.endswith(append):
-                print('【%s】not endswith 【%s】' % (cn, append))
-                cn += append
+                ignore_list = [
+                    'shortcut:',
+                    'productName;',
+                ]
+                contain_ignore = False
+                for ignore_word in ignore_list:
+                    if '&%s' % ignore_word in cn:
+                        contain_ignore = True
+                        break
+                if not contain_ignore:
+                    print('【%s】not endswith 【%s】' % (cn, append))
+                    cn += append
         return cn
 
     @staticmethod
@@ -392,7 +426,7 @@ class StandardTranslation:
                                     cn = cn.replace(replace, standard_translation.cn_list[0])
                                     has_replace = True
                         if not has_replace:
-                            print('\n【%s】的翻译\n【%s】中不包含期望的\n【%s】对应的【%s】' % (
+                            print('\n【%s】的翻译\n【%s】中不包含期望的翻译\n【%s】应该翻译为【%s】' % (
                                 en, cn, s_en, ','.join(standard_translation.cn_list)))
 
         return cn
