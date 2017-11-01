@@ -1,11 +1,12 @@
-from xx import filex
-from xx import iox
-import os
 import filecmp
-
+import os
 import shutil
 import zipfile
-import os
+
+from xx import filex
+from xx import iox
+
+from android_studio_translator.version import Version
 
 
 class TranslationFile:
@@ -16,7 +17,9 @@ class TranslationFile:
 
     file_list = [
         'lib/idea.jar',
+        'lib/resources.jar',
         'lib/resources_en.jar',
+        'plugins/android/lib/android.jar',
         'plugins/android/lib/resources_en.jar',
     ]
 
@@ -24,10 +27,10 @@ class TranslationFile:
         source_dir = r'D:\xx\software\program\android\AndroidStudio'
         "源目录"
 
-        backup_dir = r'D:\workspace\TranslatorX\AndroidStudio\original\2.3.3'
-        "备份目录，不可修改，要修于备分"
+        backup_dir = r'D:\workspace\TranslatorX\AndroidStudio\original\%s' % Version.version
+        "备份目录，不可修改，要用于备分"
 
-        work_dir = r'D:\workspace\TranslatorX\AndroidStudio\target\2.3.3'
+        work_dir = r'D:\workspace\TranslatorX\AndroidStudio\result\%s' % Version.version
         "要替换的文件所在的目录"
 
         action_list = [

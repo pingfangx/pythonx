@@ -3,12 +3,12 @@ import re
 import shutil
 from xml.etree import ElementTree as Et
 
-from android_studio_translator.keymap_default.keymap_default import KeymapDefault
-from android_studio_translator.tools import Tools
 from xx import filex
 from xx import iox
+
+from android_studio_translator.keymap_default.keymap_default import KeymapDefault
+from android_studio_translator.tools import Tools
 from android_studio_translator.version import Version
-import shutil
 
 
 class Tips:
@@ -25,9 +25,9 @@ class Tips:
         'minorVersion': '0',
     }
 
-    KEYMAP_CN_DICT = KeymapDefault.get_keymap_dict_from_file('../keymap_default/data/keymap_default.xml')
+    KEYMAP_CN_DICT = KeymapDefault.get_keymap_dict_from_file('../keymap_default/data/$default.xml')
     KEYMAP_CN_DICT.update(KeymapDefault.get_keymap_dict_from_file('data/keymap_add.xml'))
-    KEYMAP_EN_DICT = KeymapDefault.get_keymap_dict_from_file('../keymap_default/data/keymap_default.xml', False)
+    KEYMAP_EN_DICT = KeymapDefault.get_keymap_dict_from_file('../keymap_default/data/$default.xml', False)
     KEYMAP_EN_DICT.update(KeymapDefault.get_keymap_dict_from_file('data/keymap_add.xml', False))
 
     KEYMAP_DICT = KEYMAP_CN_DICT
@@ -37,7 +37,7 @@ class Tips:
     def main(self):
         tips_en_dir = Version.source_version_lib_resource_en + '/tips'
         # 翻译结果目录
-        tips_cn_dir = r'D:\workspace\TranslatorX\AndroidStudio\target\2.3.3\lib\resources_en\tips'
+        tips_cn_dir = Version.target_version_lib + '/resources_en/tips'
         # 处理为AndroidStudio的目录
         tips_android_studio_dir = tips_cn_dir + r'_android_studio'
         # 处理为github page的目录
@@ -278,7 +278,7 @@ class Tips:
                 name = line.split('=')[0]
                 tips_name.append(name)
                 # 名字只加一层，exclude里面的不处理
-                file_name = '%s/%s.html' % (file_path, name)
+                file_name = '%s\\%s.html' % (file_path, name)
                 if file_name in file_list:
                     file_list.remove(file_name)
                 else:
