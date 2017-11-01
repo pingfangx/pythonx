@@ -1,9 +1,10 @@
 import re
 
-from android_studio_translator.delete_action import DeleteAction
-from android_studio_translator.tools import Tools
 from xx import filex
 from xx import iox
+
+from android_studio_translator.delete_action import DeleteAction
+from android_studio_translator.tools import Tools
 
 
 class TranslationInspection:
@@ -11,10 +12,9 @@ class TranslationInspection:
     有一个问题，就是判断''被错误翻译成""的时候，没有判断引号中的内容是否一致
     """
 
-    def main(self):
-        pseudo_file = 'data/project_save.tmx'
-        translation_file = 'data/project_save.tmx'
-        inspection_list = [
+    @staticmethod
+    def get_inspection_list():
+        return [
             StandardTranslation.inspect_translation,
             TranslationInspection.inspect_double_quote,
             TranslationInspection.inspect_single_quote,
@@ -24,11 +24,27 @@ class TranslationInspection:
             TranslationInspection.inspect_short_cut,
             TranslationInspection.inspect_space,
         ]
+
+    def main(self):
+        pseudo_file = 'data/project_save.tmx'
+        translation_file = 'data/project_save.tmx'
+        inspection_list = TranslationInspection.get_inspection_list()
         action_list = [
             ['退出', exit],
-            ['检查', self.inspect_file, translation_file, translation_file, inspection_list, None, False, False],
+            ['检查', self.inspect_file, translation_file, translation_file, inspection_list, None, True, True],
+            ['测试', self.test],
         ]
         iox.choose_action(action_list)
+
+    @staticmethod
+    def test():
+        en = r'For example, "<c0>a/**/b</c0>" matches "<c1>a/b</c1>", "<c2>a/x/b</c2>", "<c3>a/x/y/b</c3>" and so on.'
+        cn = r'例如，“ <c0>a/**/b</c0> ”匹配“ <c1>a/b</c1> ”，“ <c2>a/x/b</c2> ”，“<c3 > a / x / y / b </c3>”等等。'
+        inspection_list = TranslationInspection.get_inspection_list()
+        for inspection in inspection_list:
+            old = cn
+            cn = inspection(en, cn, True)
+            print('\nafter %s\n%s\n%s\n%s' % (inspection.__name__, en, old, cn))
 
     @staticmethod
     def inspect_file(pseudo_file, translation_file, inspection_list, result_file=None, print_msg=False,
@@ -80,16 +96,7 @@ class TranslationInspection:
     @staticmethod
     def inspect(en, cn):
         """提取出方法方便外部调用"""
-        inspection_list = [
-            StandardTranslation.inspect_translation,
-            TranslationInspection.inspect_double_quote,
-            TranslationInspection.inspect_single_quote,
-            TranslationInspection.inspect_double_single_quote,
-            TranslationInspection.inspect_parentheses,
-            TranslationInspection.inspect_ends_symbol,
-            TranslationInspection.inspect_short_cut,
-            TranslationInspection.inspect_space,
-        ]
+        inspection_list = TranslationInspection.get_inspection_list()
         for inspection in inspection_list:
             cn = inspection(en, cn, False)
         return cn
@@ -107,7 +114,9 @@ class TranslationInspection:
         # need_space_pattern = r'([a-zA-Z]|{\d}+|\'\'.+?\'\')'
 
         # 再进一步，即使单个引号也不会有错误的
-        need_space_pattern = r'([a-zA-Z]|{\d}+|\'.+?\')'
+        # need_space_pattern = r'([a-zA-Z]|{\d}+|\'.+?\')'
+        # 补充双引号
+        need_space_pattern = r'([a-zA-Z]|{\d}+|\'.+?\'|\".+?\")'
         double_quote_pattern = r'\''
 
         cn = re.sub(chinese_pattern + need_space_pattern, r'\1 \2', cn)
@@ -339,18 +348,22 @@ class TranslationInspection:
             en_content = en_match.group(1)
             if print_msg:
                 print('【%s】包含双引号，翻译是【%s】,内容是【%s】' % (en, cn, en_content))
-            if en.count('"') == 2 and cn.count('“') == 1 and cn.count('”') == 1:
+            if en.count('"') == cn.count('“') * 2 and en.count('"') == cn.count('”') * 2:
                 if print_msg:
                     print('【""】被翻译成了【“”】，替换')
                 cn = cn.replace('“', '\"')
                 cn = cn.replace('”', '\"')
-            cn_match = re.search(pattern, cn)
-            if cn_match is not None:
-                cn_content = cn_match.group(1)
-                if en_content != cn_content and en_content == cn_content.strip():
-                    if print_msg:
-                        print('翻译中引号中的内容带有空格，删除')
-                    cn = re.sub(pattern, '"%s"' % (cn_content.strip()), cn)
+            else:
+                if print_msg:
+                    print('%s 中双引号数量不匹配 %s' % (cn, en))
+            cn_match_list = re.findall(pattern, cn)
+            if cn_match_list:
+                for cn_content in cn_match_list:
+                    cn_content_strip = cn_content.replace(' ', '')
+                    if cn_content not in en and cn_content_strip in en:
+                        if print_msg:
+                            print('翻译中引号中的内容带有空格，删除')
+                        cn = cn.replace(cn_content, cn_content_strip)
         return cn
 
 
