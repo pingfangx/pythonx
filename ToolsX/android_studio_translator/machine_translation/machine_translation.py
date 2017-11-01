@@ -136,8 +136,21 @@ class MachineTranslation:
             ['删除 translation 空翻译', self.delete_empty_or_same_translation, translation_file],
             ['删除 auto 空翻译', self.delete_empty_or_same_translation, ignore_file, True, False],
             ['测试 tk', self.test_tk, r'a valid tag <e0>name</e0> (i.e. a <c1>refs/tags/<tag></c1> reference).'],
+            ['读取输入并翻译', self.read_and_translate],
         ]
         iox.choose_action(action_list)
+
+    @staticmethod
+    def read_and_translate():
+        """读取并翻译"""
+        hint = '\n请输入要翻译的内空\t(0 表示退出)\n'
+        word = input(hint)
+        while word != '0':
+            print('翻译中...')
+            translation = GoogleTranslator.translate(word)
+            pyperclip.copy(translation)
+            print('已翻译并复制【%s】' % translation)
+            word = input(hint)
 
     @staticmethod
     def test_tk(a='test'):
