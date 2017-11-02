@@ -45,9 +45,21 @@ class TranslationFile:
             ['打包到工作目录并替换源目录', self.jar_file_and_replace, work_dir, work_dir, source_dir],
             ['根据翻译的jar包复制原始jar包', self.process_jar_by_translation, r'D:\workspace\汉化包\translation', source_dir,
              r'D:\workspace\汉化包\original'],
-            ['解包所有jar包', self.unpack_all_jar, r'D:\workspace\汉化包\original']
+            ['解包所有jar包', self.unpack_all_jar, r'D:\workspace\汉化包\original'],
+            ['重命名_zh_CN', self.rename_cn_files, work_dir],
         ]
         iox.choose_action(action_list)
+
+    @staticmethod
+    def rename_cn_files(work_dir):
+        """将翻译文件中的 _zh_CN删除，用于英文环境也可以正常使用"""
+        for root, dirs, files in os.walk(work_dir):
+            for file in files:
+                if file.endswith('_zh_CN.properties'):
+                    old_name = root + os.path.sep + file
+                    new_name = old_name.replace('_zh_CN.properties', '.properties')
+                    print('rename 【%s】 to 【%s】' % (old_name, new_name))
+                    os.rename(old_name, new_name)
 
     @staticmethod
     def copy_dir(source_dir, target_dir, file_list=None):
