@@ -86,7 +86,7 @@ class TranslationInspection:
                 if old != value:
                     if print_change:
                         i += 1
-                        print('\n%d.【%s】根据【%s】被修改为\n【%s】\n' % (i, old, en, value))
+                        print('\n%d.\n【%s】根据【%s】被修改为\n【%s】\n' % (i, old, en, value))
                 result[en] = value
             else:
                 print('不包含key:%s' % en)
@@ -245,7 +245,9 @@ class TranslationInspection:
                     print('被翻译成了【"】，替换')
                 cn = cn.replace('"', "\'\'")
             old = cn
-            cn = re.sub(r'\s*(\')\s*', r'\1', cn)
+            # 这里的目的是去掉两个 ' 中间与内容的空格
+            # 2个 ' 中间，前后可能有空格，中间 .+（一个或多个），懒惰
+            cn = re.sub(r"('+)\s*(.+?)\s*('+)", r"\1\2\3", cn)
             if old != cn:
                 if print_msg:
                     print('去除单引号前后的空格')
