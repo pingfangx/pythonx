@@ -23,6 +23,8 @@ class TranslationInspection:
             TranslationInspection.inspect_ends_symbol,
             TranslationInspection.inspect_short_cut,
             TranslationInspection.inspect_space,
+            TranslationInspection.inspect_space_2,
+            TranslationInspection.inspect_serial_number,
         ]
 
     def main(self):
@@ -102,6 +104,21 @@ class TranslationInspection:
         return cn
 
     @staticmethod
+    def inspect_serial_number(en, cn, print_msg=False):
+        """检查序号是否还有"""
+        pattern = r'{\d}'
+        # 可用来检查
+        # pattern = r'{.+?}'
+        en_all_match = re.findall(pattern, en)
+        if en_all_match:
+            cn_all_match = re.findall(pattern, cn)
+            if not cn_all_match:
+                print('\n中文中没有序号\nen=【%s】\ncn=【%s】' % (en, cn))
+            elif len(en_all_match) != len(cn_all_match):
+                print('\n中英文序号数量不一致\nen=【%s】\ncn=【%s】' % (en, cn))
+        return cn
+
+    @staticmethod
     def inspect_space(en, cn, print_msg=False):
         """
         检查汉字与英文（或{\d}）之间是否添加了空格
@@ -136,6 +153,52 @@ class TranslationInspection:
             print('【%s】在中文后有相连的引号' % cn)
         if re.search(double_quote_pattern + chinese_pattern, cn):
             print('【%s】在中文前有相连的引号' % cn)
+        return cn
+
+    @staticmethod
+    def inspect_space_2(en, cn, print_msg=False):
+        """
+        该方法检查 序号与引号之前是否加上空格
+        {0} ''{1}''
+        :param en: 
+        :param cn: 
+        :param print_msg: 
+        :return: 
+        """
+        # 空格* {0} 空格* '多个 {0} '多个 空格*
+        pattern = r"\s*{\d}\s*['\"]+{\d}['\"]+\s*"
+        pattern2 = r"\s*['\"]+{\d}['\"]+\s*{\d}\s*"
+        match = re.search(pattern, en)
+        if match:
+            cn_pattern = pattern
+        else:
+            cn_pattern = pattern2
+            match = re.search(pattern2, en)
+        if match:
+            en_word = match.group()
+            if en_word not in cn:
+                cn_match = re.search(cn_pattern, cn)
+                if not cn_match:
+                    print('\n%s\n%s\n【%s】不在中文中，并且中文无法匹配正则' % (en, cn, en_word))
+                else:
+                    # 中文中找到匹配，可以替换
+                    cn_word = cn_match.group()
+                    replace_word = en_word
+                    # 在开头结尾可以去掉空格
+                    if cn.startswith(cn_word):
+                        # 以其开头
+                        replace_word = replace_word.lstrip(' ')
+                    else:
+                        if en.startswith(en_word):
+                            # 英文以其开头，则不会有前导空格，在中文中不以其开头，则应加上空格
+                            replace_word = ' ' + replace_word
+                    if cn.endswith(cn_word):
+                        replace_word = replace_word.rstrip(' ')
+                    else:
+                        if en.endswith(en_word):
+                            # 英文以其结尾，中文不以其结尾，添加末尾空格
+                            replace_word += ' '
+                    cn = cn.replace(cn_word, replace_word)
         return cn
 
     @staticmethod
