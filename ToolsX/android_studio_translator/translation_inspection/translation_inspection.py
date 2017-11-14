@@ -33,7 +33,7 @@ class TranslationInspection:
         inspection_list = TranslationInspection.get_inspection_list()
         action_list = [
             ['退出', exit],
-            ['检查', self.inspect_file, translation_file, translation_file, inspection_list, None, True, True],
+            ['检查', self.inspect_file, translation_file, translation_file, inspection_list, None, False, False],
             ['测试', self.test],
         ]
         iox.choose_action(action_list)
@@ -149,10 +149,11 @@ class TranslationInspection:
                         print('翻译的双引号中有空格，而原文没有，将其空格删除【%s】' % match_without_quote_space)
                     cn = cn.replace(match_without_quote_space, match_without_quote)
 
-        if re.search(chinese_pattern + double_quote_pattern, cn):
-            print('【%s】在中文后有相连的引号' % cn)
-        if re.search(double_quote_pattern + chinese_pattern, cn):
-            print('【%s】在中文前有相连的引号' % cn)
+        if print_msg:
+            if re.search(chinese_pattern + double_quote_pattern, cn):
+                print('【%s】在中文后有相连的引号' % cn)
+            if re.search(double_quote_pattern + chinese_pattern, cn):
+                print('【%s】在中文前有相连的引号' % cn)
         return cn
 
     @staticmethod
@@ -480,6 +481,9 @@ class StandardTranslation:
         """
         检查翻译是否准确，是否使用统一的翻译
         """
+        if en == cn:
+            # 如果相等根本没翻译就不检查了
+            return cn
         en = en.lower()
         if not StandardTranslation.standard_translation:
             StandardTranslation.standard_translation = StandardTranslation.get_standard_translation()
