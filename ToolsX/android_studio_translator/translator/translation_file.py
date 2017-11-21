@@ -58,6 +58,9 @@ class TranslationFile:
                 if file.endswith('_zh_CN.properties'):
                     old_name = root + os.path.sep + file
                     new_name = old_name.replace('_zh_CN.properties', '.properties')
+                    if os.path.exists(new_name):
+                        print('delete 【%s】' % new_name)
+                        os.remove(new_name)
                     print('rename 【%s】 to 【%s】' % (old_name, new_name))
                     os.rename(old_name, new_name)
 
