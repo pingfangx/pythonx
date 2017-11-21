@@ -139,6 +139,12 @@ class TranslationInspection:
         cn = re.sub(chinese_pattern + need_space_pattern, r'\1 \2', cn)
         cn = re.sub(need_space_pattern + chinese_pattern, r'\1 \2', cn)
 
+        # 中文跟标签,标签中为不是中文
+        need_space_pattern3 = r'([\u4e00-\u9fa5])<(.+?)>([^\u4e00-\u9fa5]+?)</\2>'
+        cn = re.sub(need_space_pattern3, r'\1 <\2>\3</\2>', cn)
+        need_space_pattern4 = r'<(.+?)>([^\u4e00-\u9fa5]+?)</\1>([\u4e00-\u9fa5])'
+        cn = re.sub(need_space_pattern4, r'<\1>\2</\1> \3', cn)
+
         all_match = re.findall(r'\'\s(.+?)\s\'', cn)
         if all_match:
             for match in all_match:
