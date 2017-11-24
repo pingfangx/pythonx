@@ -46,6 +46,8 @@ class TranslationFile:
             ['根据翻译的jar包复制原始jar包', self.process_jar_by_translation, r'D:\workspace\汉化包\translation', source_dir,
              r'D:\workspace\汉化包\original'],
             ['解包所有jar包', self.unpack_all_jar, r'D:\workspace\汉化包\original'],
+            ['根据汉化文件解包 jar 包', self.unpack_jar_by_translation_file, TranslationFile.file_list, work_dir,
+             r'D:\xx\software\program\android\AndroidStudio-3.0.1-back'],
             ['重命名_zh_CN', self.rename_cn_files, work_dir],
         ]
         iox.choose_action(action_list)
@@ -132,6 +134,73 @@ class TranslationFile:
             folder = os.path.splitext(file_path)[0]
             with zipfile.ZipFile(file_path) as zip_file:
                 zip_file.extractall(folder)
+
+    @staticmethod
+    def unpack_jar_by_translation_file(jar_list, translation_dir, root_dir, output_dir=None):
+        """
+        根据汉化的文件，解压 jar 包，
+        用于解压出要汉化的文件，或是比较有没有发生变化
+        :param jar_list: 要处理的 jar 包
+        :param translation_dir: 翻译文件的目录
+        :param root_dir: jar 包根目录
+        :param output_dir: 输出目录
+        :return: 
+        """
+        if output_dir is None:
+            output_dir = root_dir + '_unpack'
+        for jar_file in jar_list:
+            jar_file_path = root_dir + os.path.sep + jar_file
+            print('\njar 文件 %s' % jar_file_path)
+            if not os.path.exists(jar_file_path):
+                print('jar 文件不存在：%s' % jar_file_path)
+                continue
+
+            translation_jar_dir = translation_dir + os.path.sep + jar_file.replace('.jar', '')
+            print('翻译结果 %s' % translation_jar_dir)
+            if not os.path.exists(translation_jar_dir):
+                print('翻译结果不存在：%s' % translation_jar_dir)
+                continue
+
+            for root, dirs, files in os.walk(translation_jar_dir):
+                relative_dir = root.replace(translation_jar_dir, '')
+                """相对于 jar 文件的目录"""
+                if jar_file.endswith('resources_en.jar'):
+                    # 解压整个文件夹，以查看是否有新增的文件
+                    print('文件夹%s' % root + os.path.sep)
+                    for directory in dirs:
+                        TranslationFile.unpack_directory_from_jar(jar_file_path,
+                                                                  relative_dir + os.path.sep + directory + os.path.sep,
+                                                                  output_dir + os.path.sep + jar_file)
+                else:
+                    # 解压对应文件
+                    for file in files:
+                        print('文件%s' % root + os.path.sep + file)
+                        TranslationFile.unpack_file_from_jar(jar_file_path, relative_dir + os.path.sep + file,
+                                                             output_dir + os.path.sep + jar_file)
+
+    @staticmethod
+    def unpack_file_from_jar(jar_file, member, path):
+        """
+        解压 jar 中的一个文件
+        """
+        # zip 中使用的是 /，不以其开头
+        member = member.replace('\\', '/').lstrip('/')
+        print('解压 %s 的 %s \n解到 %s' % (jar_file, member, path))
+        with zipfile.ZipFile(jar_file) as zip_file:
+            zip_file.extract(member, path)
+
+    @staticmethod
+    def unpack_directory_from_jar(jar_file, member, path):
+        """
+        解压 jar 中的一个目录
+        """
+        # zip 中使用的是 /，不以其开头
+        member = member.replace('\\', '/').lstrip('/')
+        print('解压 %s 的 %s \n解到 %s' % (jar_file, member, path))
+        with zipfile.ZipFile(jar_file) as zip_file:
+            for file in zip_file.namelist():
+                if file.startswith(member):
+                    zip_file.extract(file, path)
 
 
 if __name__ == '__main__':
