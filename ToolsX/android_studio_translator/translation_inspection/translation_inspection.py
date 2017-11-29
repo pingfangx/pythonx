@@ -25,6 +25,7 @@ class TranslationInspection:
             TranslationInspection.inspect_space,
             TranslationInspection.inspect_space_2,
             TranslationInspection.inspect_serial_number,
+            TranslationInspection.inspect_tag,
         ]
 
     def main(self):
@@ -102,6 +103,50 @@ class TranslationInspection:
         for inspection in inspection_list:
             cn = inspection(en, cn, False)
         return cn
+
+    @staticmethod
+    def inspect_tag(en, cn, print_msg=False):
+        """检查标签"""
+        pattern = r'</?.+?>'
+        en_all_match = re.findall(pattern, en)
+        cn_all_match = re.findall(pattern, cn)
+        if not TranslationInspection.compare_list(en_all_match, cn_all_match):
+            print('en=【%s】\ncn=【%s】' % (en, cn))
+            print(en_all_match)
+            print(cn_all_match)
+            print('')
+        return cn
+
+    @staticmethod
+    def compare_list(list1, list2):
+        """比较两个数组，忽略元素的顺序"""
+        if list1 is None and list2 is None:
+            # 都为 None
+            return True
+        elif list1 is None or list2 is None:
+            # 有一个为 None
+            print('有一个 list 为 None')
+            return False
+
+        # 忽略换行
+        tag = '<br>'
+        while tag in list1:
+            list1.remove(tag)
+        while tag in list2:
+            list2.remove(tag)
+        if len(list1) != len(list2):
+            print('长度不相等')
+            return False
+
+        chinese_pattern = re.compile(r'([\u4e00-\u9fa5])')
+        for i in list2:
+            if re.search(chinese_pattern, i):
+                # 忽略中文
+                continue
+            if i not in list1 or list1.count(i) != list2.count(i):
+                print('元素 %s 不存在或数量不等' % i)
+                return False
+        return True
 
     @staticmethod
     def inspect_serial_number(en, cn, print_msg=False):
@@ -509,9 +554,11 @@ class StandardTranslation:
                                 # 可能不只有一个
                                 if cn.count(replace) == 1:
                                     # 只有一个，进行替换
-                                    if print_msg:
-                                        print('将【%s】替换为【%s】' % (replace, standard_translation.cn_list[0]))
-                                    cn = cn.replace(replace, standard_translation.cn_list[0])
+                                    print('应该将【%s】替换为【%s】' % (replace, standard_translation.cn_list[0]))
+                                    print(en)
+                                    print(cn)
+                                    # 不再直接替换,提醒操作
+                                    # cn = cn.replace(replace, standard_translation.cn_list[0])
                                     has_replace = True
                         if not has_replace:
                             print('\n【%s】的翻译\n【%s】中不包含期望的翻译\n【%s】应该翻译为【%s】' % (
