@@ -22,6 +22,7 @@ class TranslationInspection:
             TranslationInspection.inspect_parentheses,
             TranslationInspection.inspect_ends_symbol,
             TranslationInspection.inspect_short_cut,
+            TranslationInspection.inspect_underline_short_cut,
             TranslationInspection.inspect_space,
             TranslationInspection.inspect_space_2,
             TranslationInspection.inspect_serial_number,
@@ -265,6 +266,43 @@ class TranslationInspection:
         return cn
 
     @staticmethod
+    def inspect_underline_short_cut(en, cn, print_msg=False):
+        """
+        检查下划线的快捷方式，这里主要是检查，可能被错误的替换
+        """
+        if en != cn:
+            # 相等不处理
+            if '_' in en:
+                if en.count('_') == 1:
+                    # 只有一个下划线
+                    match = re.search(r'_\w', en)
+                    if match:
+                        append = '(%s)' % match.group()
+                        if cn.endswith(append):
+                            pass
+                        else:
+                            print('\n可能需要添加快捷方式【%s】' % append)
+                            print('%s\n%s' % (en, cn))
+                    else:
+                        if '_' not in cn:
+                            print('\n%s\n%s' % (en, cn))
+                            print('没有匹配字母，且不匹配')
+                else:
+                    if cn.count('_') != en.count('_'):
+                        print('\n%s\n%s' % (en, cn))
+                        print('有多个下划线，且数量不匹配')
+        shortcut_pattern = '\(_\w\)$'
+        match = re.search(shortcut_pattern, cn)
+        if match:
+            # 有快捷方式
+            if '&' in en or en.count('_') == 1:
+                pass
+            else:
+                print('\n%s\n%s' % (en, cn))
+                print('没有 & 或一个下划线，却添加了快捷方式')
+        return cn
+
+    @staticmethod
     def search_and_replace(en, cn, pattern, replace, group=1, print_msg=False):
         match = re.search(pattern, en)
         if match is not None:
@@ -285,6 +323,12 @@ class TranslationInspection:
                 if not contain_ignore:
                     print('【%s】not endswith 【%s】' % (cn, append))
                     cn += append
+                else:
+                    if print_msg:
+                        print('忽略')
+            else:
+                if print_msg:
+                    print('已经以【%s】结尾' % append)
         return cn
 
     @staticmethod

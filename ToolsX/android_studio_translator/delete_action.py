@@ -20,7 +20,7 @@ class DeleteAction:
     "删除等号前后的空格"
 
     DELETE_TYPE_UNDERLINE_SHORTCUT = 2
-    "删除下划线样式的快捷方式"
+    "删除下划线样式的快捷方式，**注意这个会删除所有下划线，小心使用**"
 
     DELETE_TYPE_AND_SHORTCUT = 3
     "删除&样式的快捷方式"
