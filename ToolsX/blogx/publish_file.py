@@ -1,7 +1,9 @@
 import os
 import sys
 
+import netx
 import pyperclip
+import requests
 
 sys.path.append("..")
 from xx import filex
@@ -9,36 +11,57 @@ from xx import iox
 
 
 class BlogXTools:
-    def __init__(self):
-        self.process_file = r'D:\workspace\BlogX\CodeFarmer\git\usages\git 移动一个提交.txt'
+    def __init__(self, cookies):
+        self.cookies = cookies
+        self.file_path = ''
         self.add_note = False
-        self.tid = ''
+        self.add_md_in_file = False
+        """是否在文件中添加 md 标签，置为 false 在发布时再添加"""
+        self.fid = 56
+        """论动 id ，这个以后可以修改为通过文件名判断"""
+        self.tid = 0
+        self.tid_file = 'tid.txt'
 
     def main(self):
         action_list = [
             ['退出', exit],
-            ['自动处理文件', self.process, self.process_file, self.tid],
-            ['设置处理文件', self.set_process_file],
+            ['设置处理文件', self.set_file_path],
+            ['自动获取 tid', self.get_tid_from_net],
+            ['处理文件', self.process_file],
+            ['发布', self.post_blog],
+            ['手动设置 fid', self.set_fid],
             ['手动设置 tid', self.set_tid],
             ['切换添加转载申明', self.toggle_add_note],
         ]
-        print('\n2-当前处理的文件是 %s\n3-tid=%s\n4-添加转载申明 %s' % (self.process_file, self.tid, self.add_note))
-        iox.choose_action(action_list)
+        self.read_tid()
+        while True:
+            print('\nfile_path=%s' % self.file_path)
+            print('fid=%s' % self.fid)
+            print('tid=%s' % self.tid)
+            print('add_note=%s' % self.add_note)
+            print('add_md_in_file=%s' % self.add_md_in_file)
+            iox.choose_action(action_list)
 
-    def set_process_file(self):
+    def set_file_path(self):
         """设置处理的文件"""
         input_file = input('请输入或拖入要处理的文件或文件夹\n')
         if not input_file:
             print('没有输入')
         input_file = input_file.strip('"')
         if os.path.isfile(input_file):
-            self.process_file = input_file
-        self.main()
+            self.file_path = input_file
 
     def toggle_add_note(self):
         """切换是否添加转载申明"""
         self.add_note = not self.add_note
-        self.main()
+
+    def set_fid(self):
+        """手动设置 fid"""
+        input_fid = input('请输入 fid\n')
+        if not input_fid:
+            print('没有输入')
+        else:
+            self.fid = input_fid
 
     def set_tid(self):
         """手动设置 tid"""
@@ -46,18 +69,38 @@ class BlogXTools:
         if not input_tid:
             print('没有输入')
         else:
-            self.tid = input_tid
-        self.main()
+            self.tid = int(input_tid)
+            self.save_tid()
 
-    def process(self, file_path, tid):
+    def read_tid(self):
+        if os.path.exists(self.tid_file):
+            with open(self.tid_file, mode='r', encoding='utf-8') as f:
+                self.tid = int(f.read())
+
+    def save_tid(self):
+        with open(self.tid_file, mode='w', encoding='utf-8') as f:
+            f.write(str(self.tid))
+            print('已将 tid 设置为 %s ' % self.tid)
+
+    def get_tid_from_net(self):
+        """获取 tid"""
+        url = 'http://www.pingfangx.com/xx/blog/api/get_last_tid'
+        last_tid = netx.handle_result(requests.get(url, cookies=self.cookies))
+        if last_tid:
+            self.tid = last_tid + 1
+            self.save_tid()
+
+    def process_file(self):
         """处理文件"""
-        folder, file_name = os.path.split(file_path)
+        folder, file_name = os.path.split(self.file_path)
         title = os.path.splitext(file_name)[0]
-        new_name = '[%s]%s.md' % (tid, title)
+        new_name = '[%s]%s.md' % (self.tid, title)
         new_path = folder + os.path.sep + new_name
         if file_name != new_name:
-            print('%s → %s' % (file_path, new_path))
-            os.rename(file_path, new_path)
+            print('%s → %s' % (self.file_path, new_path))
+            os.rename(self.file_path, new_path)
+            self.file_path = new_path
+            print('已将 file_path 置为 %s' % self.file_path)
 
         print('处理文件%s' % new_path)
         lines = filex.read_lines(new_path)
@@ -71,20 +114,16 @@ class BlogXTools:
         else:
             if self.add_note:
                 # 添加转载申明
-                url = 'http://blog.pingfangx.com/%s.html' % tid
+                url = 'http://blog.pingfangx.com/%s.html' % self.tid
                 result = '>本文由平方X发表于平方X网，转载请注明出处。[%s](%s)\n\n' % (url, url)
                 lines.insert(0, result)
                 print('已写入转载申明')
         if need_process:
             # 写入[md]标签
-            lines.insert(0, '[md]\n\n')
-            lines.append('\n\n[/md]')
-            filex.write_lines(new_path, lines)
-        # 复制
-        text = ''.join(lines)
-        post_title = '[%s]%s' % (tid, title)
-        self.post_blog(post_title, text)
-        self.copy_text(text, False)
+            if self.add_md_in_file:
+                lines.insert(0, '[md]\n\n')
+                lines.append('\n\n[/md]')
+        filex.write_lines(new_path, lines)
 
     @staticmethod
     def copy_text(text, print_msg=True):
@@ -93,11 +132,33 @@ class BlogXTools:
         if print_msg:
             print('已复制：\n' + text)
 
-    def post_blog(self, title, text):
+    def post_blog(self):
         """将博客发布"""
+        base_name = os.path.basename(self.file_path)
+        title = os.path.splitext(base_name)[0]
+        with open(self.file_path, encoding='utf-8') as f:
+            content = f.read()
+        if not content:
+            print('没有读取到内容')
+            return
+        if not content.startswith('[md]'):
+            content = '[md]\n' + content
+        if not content.endswith('[/md]'):
+            content += '[/md]'
         print('发布%s' % title)
-        pass
+        data = {'fid': self.fid, 'title': title, 'content': content}
+        url = 'http://www.pingfangx.com/xx/blog/api/post'
+        success_tid = netx.handle_result(requests.post(url, data, cookies=self.cookies))
+        if success_tid:
+            if success_tid == self.tid:
+                print('发帖成功 tid 正常')
+            else:
+                print('tid 不正常，可能需要手动修改 %s-%s' % (self.tid, success_tid))
+            self.tid = success_tid + 1
+            self.save_tid()
 
 
 if __name__ == '__main__':
-    BlogXTools().main()
+    with open('cookies.txt', encoding='utf-8') as f:
+        cookies_str = f.read()
+        BlogXTools(netx.parse_cookies(cookies_str)).main()

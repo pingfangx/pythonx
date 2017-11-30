@@ -71,3 +71,44 @@ def get_file(url, file_path, need_print=True):
     urllib.request.urlretrieve(url, file_path)
     if need_print:
         print('下载完成')
+
+
+def parse_cookies(cookies=''):
+    """从字符串中解析出 cookies"""
+    result = dict()
+    if not cookies:
+        return result
+
+    key_value_list = cookies.split(';')
+    for key_value in key_value_list:
+        key_value_pair = key_value.split('=', maxsplit=1)
+        if len(key_value_pair) == 2:
+            key, value = key_value_pair
+            result[key.strip()] = value.strip()
+    return result
+
+
+def handle_result(requests, success_callback=None, fail_callback=None, print_result=True):
+    """处理结果"""
+    result = requests.json()
+    if print_result:
+        print(result)
+    if result:
+        code = result['code']
+        if code == 200:
+            # 成功
+            data = result['data']
+            if success_callback:
+                success_callback(data)
+            return data
+        else:
+            # 失败
+            msg = result['msg']
+            print(msg)
+            if fail_callback:
+                fail_callback(code, msg)
+    else:
+        # 结果为空
+        if fail_callback:
+            fail_callback(0, None)
+    return None
