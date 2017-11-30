@@ -1,0 +1,14 @@
+<keymap name="$default" version="1" disable-mnemonics="false">
+    <action id="RecentChanges">
+        <keyboard-shortcut first-keystroke="alt shift C"/>
+    </action>
+    <action id="ActivateChangesToolWindow">
+        <keyboard-shortcut first-keystroke="alt 9"/>
+    </action>
+    <action id="CompareDirs">
+        <keyboard-shortcut first-keystroke="control D"/>
+    </action>
+    <action id="CheckinProject">
+        <keyboard-shortcut first-keystroke="control K"/>
+    </action>
+</keymap>

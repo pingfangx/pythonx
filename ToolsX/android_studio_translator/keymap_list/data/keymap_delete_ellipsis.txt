@@ -109,12 +109,12 @@ Previous Template Variable
 # Main menu
 ## File
 ### New
-New Project...
-Import Project...
+New Project
+Import Project
 Project from Version Control
-New Module...
-Import Module...
-Import Sample...
+New Module
+Import Module
+Import Sample
 Add Property Files to Resource Bundle
 Property
 Java Class
@@ -197,30 +197,30 @@ Resource Bundle
 XML Configuration File
 Groovy.NewScript
 Gant Script
-Open...
-Profile or Debug APK...
-Attach project...
+Open
+Profile or Debug APK
+Attach project
 ### Open Recent
 Reopen Project
-Manage Projects...
+Manage Projects
 Close Project
 Link C++ Project with Gradle
-Settings...
-Project Structure...
+Settings
+Project Structure
 ### Other Settings
-Default Settings...
-Configure Plugins...
-Default Project Structure...
-Import Settings...
-Export Settings...
-Save as Directory-Based Format...
-Export to Zip File...
-Settings Repository...
+Default Settings
+Configure Plugins
+Default Project Structure
+Import Settings
+Export Settings
+Save as Directory-Based Format
+Export to Zip File
+Settings Repository
 Save All
 Synchronize
-Invalidate Caches / Restart...
-Export to HTML...
-Print...
+Invalidate Caches / Restart
+Export to HTML
+Print
 Add to Favorites
 File Encoding
 ### Line Separators
@@ -246,20 +246,20 @@ Paste from History
 Paste Simple
 Delete
 ### Find
-Find...
-Replace...
+Find
+Replace
 Find Next / Move to Next Occurrence
 Find Previous / Move to Previous Occurrence
 Find Word at Caret
 Select All Occurrences
 Add Selection for Next Occurrence
 Unselect Occurrence
-Find in Path...
-Replace in Path...
-Search Structurally...
-Replace Structurally...
+Find in Path
+Replace in Path
+Search Structurally
+Replace Structurally
 Find Usages
-Find Usages Settings...
+Find Usages Settings
 Show Usages
 Find Usages in File
 Highlight Usages in File
@@ -268,7 +268,7 @@ Recent Find Usages
 Play Back Last Macro
 Start/Stop Macro Recording
 Edit Macros
-Play Saved Macros...
+Play Saved Macros
 Macro Actions
 Column Selection Mode
 Select All
@@ -309,7 +309,7 @@ Recent Changes
 Compare Files
 Compare File with Editor
 Compare with Clipboard
-Quick Switch Scheme...
+Quick Switch Scheme
 Toolbar
 Tool Buttons
 Status Bar
@@ -329,11 +329,11 @@ Toggle Presentation mode
 Toggle Distraction Free mode
 Toggle Full Screen mode
 ## Navigate
-Class...
-File...
-Symbol...
-Custom Folding...
-Line/Column...
+Class
+File
+Symbol
+Custom Folding
+Line/Column
 Back
 Forward
 Last Edit Location
@@ -344,14 +344,14 @@ Toggle Bookmark with Mnemonic
 Show Bookmarks
 Next Bookmark
 Previous Bookmark
-Select In...
+Select In
 Jump to Navigation Bar
 Declaration
 Implementation(s)
 Type Declaration
 Super Method
 Test
-Related Symbol...
+Related Symbol
 File Structure
 File Path
 Imports Hierarchy
@@ -369,14 +369,14 @@ Previous Change
 Next Method
 Previous Method
 ## Code
-Override Methods...
-Implement Methods...
-Delegate Methods...
-Declare Members...
-Generate Definitions...
-Generate...
-Surround With...
-Unwrap/Remove...
+Override Methods
+Implement Methods
+Delegate Methods
+Declare Members
+Generate Definitions
+Generate
+Surround With
+Unwrap/Remove
 ### Completion
 Basic
 SmartType
@@ -405,8 +405,8 @@ Expand doc comments
 Collapse doc comments
 Fold Selection / Remove region
 Fold Code Block
-Insert Live Template...
-Surround with Live Template...
+Insert Live Template
+Surround with Live Template
 Comment with Line Comment
 Comment with Block Comment
 Reformat Code
@@ -423,92 +423,92 @@ Move Element Left
 Move Element Right
 Move Line Down
 Move Line Up
-Update Copyright...
+Update Copyright
 Convert Java File to Kotlin File
 ## Analyze
-Inspect Code...
-Code Cleanup...
-Run Inspection by Name...
-Configure Current File Analysis...
-View Offline Inspection Results...
-Infer Nullity...
-Infer Annotations...
-Show Coverage Data...
-Generate Coverage Report...
+Inspect Code
+Code Cleanup
+Run Inspection by Name
+Configure Current File Analysis
+View Offline Inspection Results
+Infer Nullity
+Infer Annotations
+Show Coverage Data
+Generate Coverage Report
 Hide Coverage Data
-Analyze Dependencies...
-Analyze Backward Dependencies...
+Analyze Dependencies
+Analyze Backward Dependencies
 Analyze Dependencies on Specified Target
-Analyze Module Dependencies...
-Analyze Cyclic Dependencies...
+Analyze Module Dependencies
+Analyze Cyclic Dependencies
 Analyze Data Flow to Here
 Analyze Data Flow from Here
-Analyze Stacktrace...
+Analyze Stacktrace
 ## Refactor
-Refactor This...
-Rename...
-Rename File...
-Change Signature...
-Convert to Method...
-Convert to Function...
-Convert to Block...
-Convert to Property...
-Convert to Instance Variable...
-Type Migration...
-Make Static...
-Convert To Instance Method...
-Move...
-Copy...
-Safe Delete...
+Refactor This
+Rename
+Rename File
+Change Signature
+Convert to Method
+Convert to Function
+Convert to Block
+Convert to Property
+Convert to Instance Variable
+Type Migration
+Make Static
+Convert To Instance Method
+Move
+Copy
+Safe Delete
 ### Extract
-Property...
-Define...
-Typedef...
-Variable...
-Constant...
-Field...
-Parameter...
-Functional Parameter...
-Parameter Object...
-Method...
-Function to Scope...
-Type Parameter...
-Type Alias...
-Block Parameter...
-Method Object...
-Delegate...
-Include File...
-Interface...
-Superclass...
-Subclass...
-Protocol...
-Category...
-Module...
-Style...
-Layout...
-Inline...
-Find and Replace Code Duplicates...
-Invert Boolean...
-Pull Members Up...
-Push Members Down...
-Use Interface Where Possible...
-Replace Inheritance with Delegation...
-Remove Middleman...
-Wrap Method Return Value...
-Convert Anonymous to Inner...
-Encapsulate Fields...
-Replace Temp with Query...
-Replace Constructor with Factory Method...
-Replace Constructor with Builder...
-Generify...
-Migrate...
-Internationalize...
+Property
+Define
+Typedef
+Variable
+Constant
+Field
+Parameter
+Functional Parameter
+Parameter Object
+Method
+Function to Scope
+Type Parameter
+Type Alias
+Block Parameter
+Method Object
+Delegate
+Include File
+Interface
+Superclass
+Subclass
+Protocol
+Category
+Module
+Style
+Layout
+Inline
+Find and Replace Code Duplicates
+Invert Boolean
+Pull Members Up
+Push Members Down
+Use Interface Where Possible
+Replace Inheritance with Delegation
+Remove Middleman
+Wrap Method Return Value
+Convert Anonymous to Inner
+Encapsulate Fields
+Replace Temp with Query
+Replace Constructor with Factory Method
+Replace Constructor with Builder
+Generify
+Migrate
+Internationalize
 Convert to Java
-Modularize...
-Remove Unused Resources...
-Inline Style...
-Use Style Where Possible...
-Add RTL Support Where Possible...
+Modularize
+Remove Unused Resources
+Inline Style
+Use Style Where Possible
+Add RTL Support Where Possible
 ## Build
 Make Module(s)
 CompileDirty
@@ -523,24 +523,24 @@ BuildArtifact
 ### Groovy Resources
 Build Resources
 Rebuild Resources
-Edit Build Types...
-Edit Flavors...
-Edit Libraries and Dependencies...
-Select Build Variant...
+Edit Build Types
+Edit Flavors
+Edit Libraries and Dependencies
+Select Build Variant
 Build APK(s)
-Generate Signed APK...
-Analyze APK...
-Deploy Module to App Engine...
+Generate Signed APK
+Analyze APK
+Deploy Module to App Engine
 ## Run
 Run
 Debug
 Run with Coverage
-Run...
-Debug...
+Run
+Debug
 Record Espresso Test
 Record Robo Script
-Attach to Local Process...
-Edit Configurations...
+Attach to Local Process
+Edit Configurations
 Import Test Results
 Apply Changes
 Stop
@@ -557,7 +557,7 @@ Force Run to Cursor
 Drop Frame
 Pause Program
 Resume Program
-Evaluate Expression...
+Evaluate Expression
 Quick Evaluate Expression
 Show Execution Point
 Toggle Line Breakpoint
@@ -565,40 +565,40 @@ Toggle Method Breakpoint
 Toggle Field Watchpoint
 Toggle Temporary Line Breakpoint
 Toggle Breakpoint Enabled
-View Breakpoints...
+View Breakpoints
 Get thread dump
 Attach debugger to Android process
 ## Tools
 ### Tasks & Contexts
-Switch Task...
-Open Task...
-Close Active Task...
-Edit Task...
-Create Changelist...
+Switch Task
+Open Task
+Close Active Task
+Edit Task
+Create Changelist
 Show Description
 Open in Browser
 Analyze Stacktrace From Task
 Configure Servers
-Save Context...
-Load Context...
+Save Context
+Load Context
 Clear Context
-Save as Live Template...
-Save File as Template...
-Generate JavaDoc...
+Save as Live Template
+Save File as Template
+Generate JavaDoc
 IDE Scripting Console
-View PSI Structure...
-View PSI Structure of Current File...
-Create Command-line Launcher...
-Create Desktop Entry...
+View PSI Structure
+View PSI Structure of Current File
+Create Command-line Launcher
+Create Desktop Entry
 ### XML Actions
 Validate
 Generate DTD from XML File
-Convert Schema...
-Generate XSD Schema from XML File...
-Generate XML Document from XSD Schema...
+Convert Schema
+Generate XSD Schema from XML File
+Generate XML Document from XSD Schema
 External Tools
-Generate GroovyDoc...
-Groovy Shell...
+Generate GroovyDoc
+Groovy Shell
 ### Mvc.Actions
 Change SDK version
 Synchronize Griffon settings
@@ -610,7 +610,7 @@ App Links Assistant
 ADB USB to WIFI
 ADB Restart
 #### ADB Idea
-ADB Operations Popup...
+ADB Operations Popup
 ADB Uninstall App
 ADB Kill App
 ADB Start App
@@ -619,7 +619,7 @@ ADB Clear App Data
 ADB Clear App Data and Restart
 ADB Start App With Debugger
 ADB Restart App With Debugger
-Syne Project with Gradle Files
+Sync Project with Gradle Files
 Android Device Monitor
 AVD Manager
 SDK Manager
@@ -646,9 +646,9 @@ Kotlin REPL
 ### Local History
 Show History
 Show History for Selection
-Put Label...
-Enable Version Control Integration...
-VCS Operations Popup...
+Put Label
+Enable Version Control Integration
+VCS Operations Popup
 Commit Project
 Update Project
 Integrate Project
@@ -660,7 +660,7 @@ Commit File
 Add to VCS
 Revert
 Compare with the Same Repository Version
-Compare with...
+Compare with
 Compare with Branch/Bookmark
 Show History
 Show History for Selection
@@ -668,19 +668,19 @@ Annotate
 Pull
 Push
 Run Conflict Resolver
-Merge...
-Branches...
-Tag Repository...
-Update to...
+Merge
+Branches
+Tag Repository
+Update to
 Mark as Resolved
 Continue Grafting
 Abort Rebasing
 Continue Rebasing
-Show Mq Unapplied Patches...
-Browse Changes...
+Show Mq Unapplied Patches
+Browse Changes
 ### Subversion
-Share Direciory...
-Create External...
+Share Direciory
+Create External
 Add to VCS
 Ignore
 Commit File
@@ -688,58 +688,58 @@ Update
 Integrate
 Check Status
 Edit Properties
-Set Property...
+Set Property
 Revert
-Resolve Text Conflict...
-Mark Resolved...
-Mark Tree Conflict Resolved...
+Resolve Text Conflict
+Mark Resolved
+Mark Tree Conflict Resolved
 Cleanup
 Show Current Revision
 Compare with the Same Repository Version
 Compare with Latest Repository Version
-Compare with...
-Compare with Branch...
+Compare with
+Compare with Branch
 Show History
 Show History for Selection
 Annotate
-Branch or Tag...
-Lock...
+Branch or Tag
+Lock
 Unlock
 Relocate
-Browse Changes...
+Browse Changes
 ### Git
 Commit File
 Annotate
 Show Current Revision
 Compare with the Same Repository Version
 Compare with Latest Repository Version
-Compare with...
-Compare with Branch...
+Compare with
+Compare with Branch
 Show History
 Show History for Selection
 Revert
-Resolve Conflicts...
-Branches...
-Tag...
-Merge Changes...
-Stash Changes...
-UnStash Changes...
-Reset HEAD...
-Remotes...
-Clone...
+Resolve Conflicts
+Branches
+Tag
+Merge Changes
+Stash Changes
+UnStash Changes
+Reset HEAD
+Remotes
+Clone
 Fetch
-Pull...
-Push...
-Rebase...
+Pull
+Push
+Rebase
 Abort Rebasing
 Continue Rebasing
 Skip Commit in Rebasing
 Rebase my GitHub fork
 Create Pull Request
 ### CVS
-Global CVS Settings...
-Configure CVS Roots...
-Migrate CVS Root...
+Global CVS Settings
+Configure CVS Roots
+Migrate CVS Root
 Commit File
 Revert
 Update
@@ -751,43 +751,43 @@ Undo 'Add'
 Ignore
 Compare with the Same Repository Version
 Compare with Latest Repository Version
-Compare with...
+Compare with
 Compare with Specified Revision
 Show History
 Show History for Selection
 Annotate
-Create Branch...
-Create Tag...
-Delete Tag...
+Create Branch
+Create Tag
+Delete Tag
 #### Edit and Watch
 Edit
 Unedit
 Show Editors
 Watch On
 Watch Off
-Add Watch...
-Remove Watch...
+Add Watch
+Remove Watch
 Show Watchers
 Work Offline
 Browse Changes
-Create Patch...
-Apply Patch...
+Create Patch
+Apply Patch
 Apply Patch from Clipboard
-Shelve Changes...
+Shelve Changes
 Checkout from Version Control
 ### Import into Version Control
-Import into CVS...
-Create Git Repository...
-Import into Subversion...
-Share Project (Subversion)...
+Import into CVS
+Create Git Repository
+Import into Subversion
+Share Project (Subversion)
 Create Mercurial Repository
 Share Project on GitHub
-Setup on Google Cloud Source Repositories...
+Setup on Google Cloud Source Repositories
 ### Browse VCS Repository
-Browse CVS Repository...
-Show Git Repository Log...
-Browse Subversion Repository...
-### Syne Settings
+Browse CVS Repository
+Show Git Repository Log
+Browse Subversion Repository
+### Sync Settings
 Merge
 Overwrite Local
 Overwrite Remote
@@ -852,7 +852,7 @@ Auto Show
 Next Project Window
 Previous Project Window
 ## Help
-Find Action...
+Find Action
 Android Studio Help
 IntelliJ IDEA Help
 Getting Started
@@ -865,12 +865,12 @@ Productivity Guide
 Settings Summary
 Support Center
 Submit Feedback
-Report Instant Run Issue...
+Report Instant Run Issue
 Show Log in File Manager
-Edit Custom Properties...
-Edit Custom VM Options...
-Debug Log Settings...
-Check for Updates...
+Edit Custom Properties
+Edit Custom VM Options
+Debug Log Settings
+Check for Updates
 About
 # Tool Windows
 Messages
@@ -912,55 +912,55 @@ Undo 'Add'
 Ignore
 Compare with the Same Repository Version
 Compare with Latest Repository Version
-Compare with...
+Compare with
 Compare with Specified Revision
 Show History
-Show History for Selection...
+Show History for Selection
 Annotate
 Create Branch
-Create Tag...
-Delete Tag...
+Create Tag
+Delete Tag
 ### Edit and Watch
 Edit
 Unedit
 Show Editors
 Watch On
 Watch Off
-Add Watch...
-Remove Watch...
+Add Watch
+Remove Watch
 Show Watchers
 Work Offline
-Browse Changes..
+Browse Changes
 ## Git
 Commit File
 Annotate
 Show Current Revision
 Compare with the Same Repository Version
 Compare with Latest Repository Version
-Compare with...
-Compare with Branch...
-show HIStory
+Compare with
+Compare with Branch
+Show History
 Show History for Selection
 Revert
-Resolve Conflicts...
+Resolve Conflicts
 ### Repository
-Branches...
-Merge Changes...
-Stash Changes...
-UnStash Changes...
-Reset HEAD...
-Remotes...
-Clone...
+Branches
+Merge Changes
+Stash Changes
+UnStash Changes
+Reset HEAD
+Remotes
+Clone
 Fetch
-Pull...
-Push...
-Rebase...
+Pull
+Push
+Rebase
 Abort Rebasing
 Continue Rebasing
 Skip Commit in Rebasing
 ## Subversion
-Share Directory...
-Create External...
+Share Directory
+Create External
 Add to VCS
 Ignore
 Commit File
@@ -968,58 +968,58 @@ Update
 Integrate
 Check Status
 Edit Properties
-Set Property...
+Set Property
 Revert
-Resolve Text Conflict...
-Mark Resolved...
-Mark Tree Conflict Resolved...
+Resolve Text Conflict
+Mark Resolved
+Mark Tree Conflict Resolved
 Cleanup
 Show Current Revision
 Compare with the Same Repository Version
 Compare with Latest Repository Version
-Compare with...
-Compare with Branch...
+Compare with
+Compare with Branch
 Show History
 Show History for Selection
 Annotate
-Branch or Tag...
-Lock...
+Branch or Tag
+Lock
 Unlock
 Relocate
-Browse Changes...
+Browse Changes
 ## Mercurial
 Commit File
 Add to VCS
 Revert
 Compare with the Same Repository Version
-Compare with...
+Compare with
 Compare with Branch/Bookmark
 Show History
 Show History for Selection
 Annotate
-Pull...
-Push...
+Pull
+Push
 Run Conflict Resolver
-Merge...
-Branches...
-Tag Repository...
-Update to...
+Merge
+Branches
+Tag Repository
+Update to
 Mark as Resolved
 Continue Grafting
 Abort Rebasing
 Continue Rebasing
-Show Mq Unapplied Patches...
-Browse Changes...
+Show Mq Unapplied Patches
+Browse Changes
 ## Shelve
-Shelve Changes...
+Shelve Changes
 Shelve Silently
-Unshelve...
+Unshelve
 Unshelve Silently
 Restore Applied Shelved Change
-Import Patches...
+Import Patches
 Create Patch
 Show/Hide Applied Shelved Changes
-Clean Already Unshelved...
+Clean Already Unshelved
 ## Diff & Merge
 Show Diff
 Compare Files
@@ -1027,17 +1027,17 @@ Compare File with Editor
 Compare with Clipboard
 Compare with the Same Repository Version
 Compare with Latest Repository Version
-Compare with Specified Revision...
+Compare with Specified Revision
 Compare with Local
 Select Opposite Diff Pane
 Select Position In Opposite Diff Pane
-Show Diff Settings Popup...
+Show Diff Settings Popup
 Show Diff in External Tool
 Next Difference
 Previous Difference
 Next Conflict
 Previous Conflict
-Go To Changed File...
+Go To Changed File
 Accept Left Side
 Accept Right Side
 Append Left Side
@@ -1095,20 +1095,20 @@ Show Current Revision
 Show History for Selection
 Show History
 Show All Affected Files
-Compare with Specified Revision...
-Compare with...
+Compare with Specified Revision
+Compare with
 Annotate
 Next Change
 Previous Change
 Change under caret
-Enable Version Control Integration...
-VCS Operations Popup...
+Enable Version Control Integration
+VCS Operations Popup
 Update Project
 Integrate Project
 Refresh File Status
-Browse Changes...
-Create Patch...
-Apply Patch...
+Browse Changes
+Create Patch
+Apply Patch
 Apply Patch from Clipboard
 Revert
 Refresh
@@ -1119,10 +1119,10 @@ Set Active Changelist
 Move to Another Changelist
 Delete
 Add to VCS
-Ignore...
+Ignore
 Remove from VCS
 Check Out
-Edit Changelist...
+Edit Changelist
 Delete
 Refresh
 Filter
@@ -1140,7 +1140,7 @@ Show Shelf
 Show VCS Log
 Show Working Copies
 Cherry-Pick
-Push...
+Push
 #External Build Systems
 Refresh all external projects
 Refresh external project
@@ -1151,15 +1151,15 @@ Auto-import
 Tasks Activation
 Select Project Data To Import
 Run Task
-Assign Shortcut...
-Assign Shortcut...
+Assign Shortcut
+Assign Shortcut
 Execute Before Sync
 Execute After Sync
 Execute Before Build
 Execute After Build
 Execute Before Rebuild
 Execute After Rebuild
-Execute Before Run/Debug...
+Execute Before Run/Debug
 Group Tasks
 Display tasks inherited from sub-projects
 Show Ignored
@@ -1170,37 +1170,37 @@ Choose a task to assign a shortcut
 # Debugger Actions
 Add to Watches
 Evaluate in Console
-Set Value...
+Set Value
 Compare Value with Clipboard
 Copy Name
-Inspect...
+Inspect
 Add to Watches
 Evaluate In Console
-New Watch...
+New Watch
 Show watches in variables tab
 Remove All Watches
 Mute Breakpoints
 Sort Values Alphabetically
 Focus On Breakpoint
-Show Referring Objects...
-Export Threads...
-Customize Data Views...
-New Class Level Watch...
+Show Referring Objects
+Export Threads
+Customize Data Views
+New Class Level Watch
 View Text
-Customize Threads View...
+Customize Threads View
 EditNodeSource
 Jump to Object Source
 Drop Frame
 View as
-Adjust Range...
-Show related stack...
+Adjust Range
+Show related stack
 Show types
 Resume
 Suspend
 Interrupt
 Force Return
-Add Stepping Filter...
-Create...
+Add Stepping Filter
+Create
 Auto
 # Macros
 # Quick Lists
@@ -1210,7 +1210,7 @@ QuickList
 ADB Clear App Data
 ADB Clear App Data and Restart
 ADB Kill App
-ADB Operations Popup...
+ADB Operations Popup
 ADB Restart App
 ADB Restart App With Debugger
 ADB Start App
@@ -1223,56 +1223,56 @@ ADB USB to WIFI
 Generate Butterknife Injections
 ## Android NDK Support
 +instance
--copyWithZone:...
--description...
--init/encodeWithCoder:...
--initWith...
--isEqual: and -hash...
-@synthesize...
+-copyWithZone:
+-description
+-init/encodeWithCoder:
+-initWith
+-isEqual: and -hash
+@synthesize
 Add Watchpoint
-Block Parameter...
+Block Parameter
 C++ Class
 C/C++ Header File
 C/C++ Source File
-Category...
+Category
 Constructor
-Convert to Block...
-Convert to Function...
-Convert to Instance Variable...
-Convert to Method...
-Convert to Property...
-Declare Members...
-Define...
+Convert to Block
+Convert to Function
+Convert to Instance Variable
+Convert to Method
+Convert to Property
+Declare Members
+Define
 Destructor
 Enable value renderers
 Equality Operators
-Generate Definitions...
+Generate Definitions
 Getter
 Getter and Setter
 Hide out-of-scope variables
 Imports Hierarchy
-Property...
-Protocol...
+Property
+Protocol
 Relational Operators
 SetUp Method
 Setter
 Show Compiler Info
 Stream Output Operator
-Subclass...
+Subclass
 TearDown Method
 Test
 Test Fixture
-Typedef...
+Typedef
 ## Android Support
 Android.DeviceExplorer.GotoSharedPrefsFolder
 Android.DeviceExplorer.Help
 Android.DeviceExplorer.GotoSdcardFolder
 Android.DeviceExplorer.GotoDatabaseFolder
 AVD Manager
-Add RTL Support Where Possible...
+Add RTL Support Where Possible
 Add Sample Data File
 Add to pattern suite
-Analyze APK...
+Analyze APK
 Android Component
 Android Device Monitor
 Android Profiler
@@ -1283,73 +1283,73 @@ Apply Changes
 Attach debugger to Android process
 Build APK(s)
 Clean Project
-Configure Project Subset...
+Configure Project Subset
 Connection Assistant
-Convert to PNG...
-Convert to WebP...
-Create 9-Patch file...
-Edit Build Types...
-Edit Flavors...
-Edit Libraries and Dependencies...
+Convert to PNG
+Convert to WebP
+Create 9-Patch file
+Edit Build Types
+Edit Flavors
+Edit Libraries and Dependencies
 Enable ADB Integration
 Exclude from suite
-Export to Zip File...
+Export to Zip File
 Find and Add Module
-Generate Signed APK...
+Generate Signed APK
 Generate Sources
 Image Asset
-Infer Annotations...
-Infer Nullity...
-Inline Layout...
-Inline Style...
+Infer Annotations
+Infer Nullity
+Inline Layout
+Inline Style
 IntelliJ IDEA Help
 Layout Inspector
-Layout...
-Library Properties...
+Layout
+Library Properties
 Licenses
 Link C++ Project with Gradle
 Make Module(s)
-Modularize...
+Modularize
 Open Translations Editor
-Profile or Debug APK...
+Profile or Debug APK
 Profile or debug APK
-Project Structure...
+Project Structure
 Rebuild Project
 Refresh Linked C++ Projects
-Remove Unused Resources...
-Report Instant Run Issue...
+Remove Unused Resources
+Report Instant Run Issue
 Restart Activity
 Restore Default Layout
 SDK Manager
 SDK Manager
 Sample Data directory
-Select Build Variant...
+Select Build Variant
 Store Current Layout as Default
-Style...
+Style
 Submit Feedback
 Sync Project with Gradle Files
 Theme Editor
-Use Style Where Possible...
+Use Style Where Possible
 Vector Asset
 ## App Links Assistant
 App Links Assistant
 ## CVS Integration
 Add
-Add Watch...
-Browse CVS Repository...
+Add Watch
+Browse CVS Repository
 Check Out
-Configure CVS Roots...
-Create Branch...
-Create Tag...
-Delete Tag...
+Configure CVS Roots
+Create Branch
+Create Tag
+Delete Tag
 Edit
 Get
-Global CVS Settings...
+Global CVS Settings
 Ignore
-Import into CVS...
+Import into CVS
 Merge
-Migrate CVS Root...
-Remove Watch...
+Migrate CVS Root
+Remove Watch
 Show Editors
 Show Watchers
 Undo 'Add'
@@ -1361,43 +1361,43 @@ Work Offline
 Create CodeIris Graph
 ## Copyright
 Copyright
-Update Copyright...
+Update Copyright
 ## Coverage
-Generate Coverage Report...
+Generate Coverage Report
 Hide Coverage Data
-Show Coverage Data...
+Show Coverage Data
 ## ECTranslation
 Translate
 ## Genymotion
 Genymotion Device Manager
 ## Git Integration
 Abort Rebasing
-Branches...
+Branches
 Checkout Revision
-Clone...
-Compare with Branch...
+Clone
+Compare with Branch
 Continue Rebasing
-Create Git Repository...
+Create Git Repository
 Fetch
 Highlight Non-Picked Commits
-Merge Changes...
-New Branch...
-New Tag...
-Pull. . .
-Rebase...
-Remotes...
-Reset Current Branch to Here...
-Reset HEAD...
-Resolve Conflicts...
+Merge Changes
+New Branch
+New Tag
+Pull
+Rebase
+Remotes
+Reset Current Branch to Here
+Reset HEAD
+Resolve Conflicts
 Select in Git Log
-Show Git Repository Log...
+Show Git Repository Log
 Skip Commit in Rebasing
-Stash Changes...
-Tag...
-UnStash Changes...
-Undo Commit...
+Stash Changes
+Tag
+UnStash Changes
+Undo Commit
 ## GitHub
-Create Gist...
+Create Gist
 Create Pull Request
 Open on GitHub
 Rebase my GitHub fork
@@ -1406,8 +1406,8 @@ Share Project on GitHub
 Add Cloud snapshot location
 Setup on Google Cloud Source Repositories
 ## Google Cloud Tools For Android Studio
-Deploy Module to App Engine...
-Import Sample...
+Deploy Module to App Engine
+Import Sample
 Import an Android code sample
 ## Google Developers Samples
 Find Sample Code
@@ -1427,12 +1427,12 @@ Convert to Java
 Exclude from stub generation
 Expand all
 Gant Script
-Generate GroovyDoc...
+Generate GroovyDoc
 Getter
 Getter and Setter
-Groovy Console...
+Groovy Console
 Groovy IDE Scripting Shell
-Groovy Shell...
+Groovy Shell
 Rebuild Resources
 Remove
 Run Command
@@ -1445,7 +1445,7 @@ toString( )
 ## GsonFormat
 GsonFormat
 # I18n for Java
-Internationalize...
+Internationalize
 ## JSONOnlineViewer
 JSONViewer
 ## Java Bytecode Decompiler
@@ -1469,7 +1469,7 @@ Create backup for debugging Kotlin incremental compilation
 Decompile Kotlin To Java
 Execute Kotlin Code
 Find Implicit Nothing Calls
-Function to Scope...
+Function to Scope
 Kotlin File/Class
 Kotlin Internal Mode
 Kotlin REPL
@@ -1481,8 +1481,8 @@ Show Kotlin Bytecode
 TearDown Function
 Test Function
 Throw cached PCE
-Type Alias...
-Type Parameter...
+Type Alias
+Type Parameter
 equals() and hashCode()
 toString( )
 ## PlantUML integration
@@ -1510,45 +1510,45 @@ Resource Bundle
 Merge
 Overwrite Local
 Overwrite Remote
-Settings Repository...
+Settings Repository
 ## Subversion Integration
-Branch or Tag...
-Browse Subversion Repository...
+Branch or Tag
+Browse Subversion Repository
 Cleanup
 Cleanup Project
 Compare Subversion Properties
-Compare with Branch...
-Create External...
+Compare with Branch
+Create External
 Edit Properties
 Edit Revision Comment
-Import into Subversion...
+Import into Subversion
 Integrate to Branch
-Lock...
-Mark Resolved...
-Mark Tree Conflict Resolved...
-Mark Tree Conflict Resolved...
-Relocate...
-Resolve Text Conflict...
-Set Property...
-Share Directory...
-Share Project (Subversion)...
+Lock
+Mark Resolved
+Mark Tree Conflict Resolved
+Mark Tree Conflict Resolved
+Relocate
+Resolve Text Conflict
+Set Property
+Share Directory
+Share Project (Subversion)
 Show Working Copies
 Show properties
 Unlock
 ## Task Management
-Analyze Stacktrace From Task...
+Analyze Stacktrace From Task
 Clear Context
-Close Active Task...
-Configure Servers...
-Create Changelist...
-Edit Task...
-Load Context...
-Open Task...
+Close Active Task
+Configure Servers
+Create Changelist
+Edit Task
+Load Context
+Open Task
 Open in Browser
-Save Context...
+Save Context
 Show Description
 Switch Task
-Switch Task...
+Switch Task
 ## Test Recorder
 Record Espresso Test
 Record Robo Script
@@ -1557,8 +1557,8 @@ Add to temp suite
 Exclude from suite
 ## hg4idea
 Abort Rebasing
-Branches...
-Compare with Branch/Bookmark...
+Branches
+Compare with Branch/Bookmark
 Continue Grafting
 Continue Rebasing
 Create Mercurial Repository
@@ -1569,17 +1569,17 @@ Goto patch
 Import
 Mark as Resolved
 Merge With
-Merge...
+Merge
 Move and Push
-New Branch...
-New Tag...
-Pull...
+New Branch
+New Tag
+Pull
 Rename Patch
 Run Conflict Resolver
-Show Mq Unapplied Patches...
-Tag Repository...
+Show Mq Unapplied Patches
+Tag Repository
 Update to Revision
-Update to...
+Update to
 # Other
 ## Scroll
 Scroll Home
@@ -1632,8 +1632,8 @@ Edit Configuration
 Activate Navigation Bar
 Actual Size
 Add
-Add As Library...
-Add Method '' to Blacklist...
+Add As Library
+Add Method '' to Blacklist
 Add New Favorites List
 Add section rule
 Add to Favorites
@@ -1644,7 +1644,7 @@ Browse
 Browse Console History
 Change File Language
 Change Icon
-Change View...
+Change View
 Check for Update
 A Class Hierarchy
 Class Name Completion
@@ -1671,10 +1671,10 @@ Dump lookup element weights to log
 Edit breakpoint
 Edit Configuration
 Edit rule
-Edit Run Configuration...
+Edit Run Configuration
 Edit Scopes
 Edit Settings
-Edit...
+Edit
 Emmet Preview
 Enable Tracking With Hidden Memory View
 Exclude from Validation
@@ -1686,11 +1686,11 @@ Execute Groovy Code
 Expand All
 Expand Tree Node
 Export Settings
-Export Test Results...
+Export Test Results
 Export to Text File
 File Size
 File Size
-Find...
+Find
 Fix doc comment
 Focus On Startup
 Fold Lines Like This
@@ -1726,12 +1726,12 @@ Module Settings
 Move down
 Move To Opposite Group
 Move up
-New File...
-New Folder...
+New File
+New Folder
 New Project Group
 New Scratch Buffer
-New...
-New...
+New
+New
 Next Entry in Console History
 Not Excluded
 Open an existing Android Studio project
@@ -1749,7 +1749,7 @@ Project Directory
 Recent Tests
 Recursive
 Refresh
-Registry...
+Registry
 Reload from Disk
 Remove Run Configuration
 Remove Run Configuration
@@ -1762,7 +1762,7 @@ Restore Default Extensions
 Restore Layout
 Run context configuration
 Run Garbage Collector
-Run inspection on ...
+Run inspection on
 Run with Coverage context configuration
 Save Document
 Search Everywhere
@@ -1774,7 +1774,7 @@ Select Previous Tab in multi-editor file
 Select Run/Debug Configuration
 Send EOF
 Set Background Image
-Settings...
+Settings
 Shelf Settings
 Show Color Picker
 Show Context Menu
@@ -1803,7 +1803,7 @@ Stop
 Subtypes Hierarchy
 Supertypes Hierarchy
 Surround with Emmet
-Switch IDE boot JDK...
+Switch IDE boot JDK
 Switcher
 Synchronize selected file
 Toggle Diff Highlight Mode
@@ -1812,7 +1812,7 @@ Toggle parameter name hints
 Toggle Popup Hints for Current File
 Track New Instances
 Transparency Chessboard
-UI Debugger...
+UI Debugger
 Unmark Generated Sources Root
 Unmark Root
 Unmute Breakpoints on Session Finish
