@@ -1,4 +1,4 @@
-﻿computer
+computer
 	software'所有的软件都安装或解压到这里，这里面只要卸载就应删除，不能保存文件到此
 		Adobe
 		    Photoshop
