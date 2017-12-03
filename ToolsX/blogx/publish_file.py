@@ -1,3 +1,4 @@
+import locale
 import os
 import sys
 
@@ -95,7 +96,10 @@ class BlogXTools:
         """处理文件"""
         folder, file_name = os.path.split(self.file_path)
         title = os.path.splitext(file_name)[0]
-        new_name = '[%s]%s.md' % (self.tid, title)
+        if title.startswith('[%s]' % self.tid):
+            new_name = title + '.md'
+        else:
+            new_name = '[%s]%s.md' % (self.tid, title)
         new_path = folder + os.path.sep + new_name
         if file_name != new_name:
             print('%s → %s' % (self.file_path, new_path))
@@ -104,7 +108,10 @@ class BlogXTools:
             print('已将 file_path 置为 %s' % self.file_path)
 
         print('处理文件%s' % new_path)
-        lines = filex.read_lines(new_path)
+        try:
+            lines = filex.read_lines(new_path)
+        except UnicodeDecodeError:
+            lines = filex.read_lines(new_path, encoding=locale.getpreferredencoding(False))
         first_line = lines[0]
         need_process = True
         if first_line.startswith('[md]'):
