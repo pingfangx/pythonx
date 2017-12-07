@@ -36,7 +36,8 @@ class GoogleTranslator(MachineTranslator):
         tk2 = get_google_tk(en)
         if tk != tk2:
             print('计算的 tk 不相等')
-            exit()
+            filex.write('data/error_tk.txt', en + '\n', 'a')
+            return en
         url = "http://translate.google.cn/translate_a/single?client=t" \
               "&sl=en&tl=zh-CN&hl=zh-CN&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca" \
               "&dt=rw&dt=rm&dt=ss&dt=t&ie=UTF-8&oe=UTF-8&clearbtn=1&otf=1&pc=1" \
@@ -106,12 +107,12 @@ class BaiduTranslator(MachineTranslator):
 class MachineTranslation:
     def main(self):
         omegat_file_path = r'D:\xx\software\program\OmegaT_4.1.2_01_Beta_Without_JRE\OmegaT2.jar'
-        project_dir = r'D:\workspace\WebsiteCopy\Translation'
+        project_dir = r'D:\workspace\TranslatorX\test'
         pseudo_file = 'data/pseudo.tmx'
         translation_file = 'data/translation.tmx'
         ignore_file = 'data/auto.tmx'
         ignore_reg_list = [
-            r'^[\.[#$-]|git|GIT|http',
+            r'^[\.[#$-]|git|GIT|http|android[\.:]',
             r'[\u4e00-\u9fa5]',
         ]
         """
@@ -123,11 +124,13 @@ class MachineTranslation:
         [\u4e00-\u9fa5] 中文
         git GIT 命令
         http https 链接
+        android. 和 android:
         """
         action_list = [
             ['退出', exit],
             ['生成伪翻译记忆文件并复制替换 auto translation', self.create_pseudo_translation, omegat_file_path, project_dir,
              pseudo_file, 'empty'],
+            ['过滤 translation.tmx', self.filter, translation_file, ignore_reg_list, translation_file],
             ['谷歌翻译记忆文件 并删除空翻译', self.translate_file, GoogleTranslator, translation_file, translation_file,
              ignore_reg_list,
              None, True],
@@ -139,6 +142,45 @@ class MachineTranslation:
             ['读取输入并翻译', self.read_and_translate],
         ]
         iox.choose_action(action_list)
+
+    @staticmethod
+    def filter(file_path, ignore_reg_list, result_path=None):
+        """过滤掉不需要翻译的"""
+        if result_path is None:
+            result_path = filex.get_result_file_name(file_path, '_filter')
+
+        """删除空翻译"""
+        tree = Et.parse(file_path)
+        tmx = tree.getroot()
+        body = tmx.find('body')
+
+        empty_translation_list = list()
+        for tu in body.iter('tu'):
+            en = None
+            for tuv in tu.iter('tuv'):
+                if tuv.attrib['lang'] == 'EN-US':
+                    en = tuv.find('seg').text
+            continue_loop = False
+            if ignore_reg_list:
+                for ignore_reg in ignore_reg_list:
+                    if ignore_reg.startswith('^'):
+                        if re.match(ignore_reg, en):
+                            continue_loop = True
+                    else:
+                        # 不以 ^ 开头才搜索
+                        if re.search(ignore_reg, en):
+                            continue_loop = True
+                    if continue_loop:
+                        print('\n跳过【%s】' % en)
+                        empty_translation_list.append(tu)
+                        break
+            if continue_loop:
+                continue
+        print('删除 %d 条空翻译' % len(empty_translation_list))
+        for empty_translation in empty_translation_list:
+            body.remove(empty_translation)
+        tree.write(result_path, encoding='utf-8')
+        print('保存完成')
 
     @staticmethod
     def read_and_translate():
