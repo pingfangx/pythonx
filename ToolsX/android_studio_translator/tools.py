@@ -1,11 +1,13 @@
+import datetime
 import os
 import re
 from xml.etree import ElementTree as Et
 
-from android_studio_translator.delete_action import DeleteAction
 from xx import encodex
 from xx import filex
 from xx import iox
+
+from android_studio_translator.delete_action import DeleteAction
 
 
 class Tools:
@@ -245,8 +247,14 @@ class Tools:
         seg = Et.SubElement(tuv, 'seg')
         seg.text = en
         # 中文
+        # TODO 这里需要从原文件中读取 tu 及 tuv ，修改或添加时间作者后再写入
         tuv2 = Et.SubElement(tu, 'tuv')
         tuv2.attrib['lang'] = 'ZH-CN'
+        tuv2.attrib['changeid'] = 'pingfangx'
+        # 注意时区 utc
+        tuv2.attrib['changedate'] = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
+        tuv2.attrib['creationid'] = 'pingfangx'
+        tuv2.attrib['creationdate'] = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
         seg2 = Et.SubElement(tuv2, 'seg')
         seg2.text = cn
 
