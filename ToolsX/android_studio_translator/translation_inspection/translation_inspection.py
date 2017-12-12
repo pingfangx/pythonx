@@ -54,14 +54,14 @@ class TranslationInspection:
     def inspect_file(pseudo_file, translation_file, inspection_list, result_file=None, print_msg=False,
                      print_change=False):
         """
-        
+
         :param pseudo_file: 伪翻译文件，也可以与翻译文件相同，用于自校检
         :param translation_file: 翻译文件
         :param inspection_list: 要检测的方法列表，如检测tips时是不需要检测快捷方式的
         :param result_file: 结果文件
         :param print_msg: 是否输出操作时的消息
         :param print_change: 是否输出更改时的消息，如果2个都置为False，可以查看需要处理的内容
-        :return: 
+        :return:
         """
         if result_file is None:
             result_file = filex.get_result_file_name(translation_file, '_inspection')
@@ -136,7 +136,7 @@ class TranslationInspection:
         while tag in list2:
             list2.remove(tag)
         if len(list1) != len(list2):
-            print('长度不相等')
+            print('标签长度不相等')
             return False
 
         chinese_pattern = re.compile(r'([\u4e00-\u9fa5])')
@@ -155,6 +155,7 @@ class TranslationInspection:
         pattern = r'{\d}'
         # 可用来检查
         # pattern = r'{.+?}'
+        # pattern = r'({\d(, choice.+)?})'
         en_all_match = re.findall(pattern, en)
         if en_all_match:
             cn_all_match = re.findall(pattern, cn)
@@ -213,10 +214,10 @@ class TranslationInspection:
         """
         该方法检查 序号与引号之前是否加上空格
         {0} ''{1}''
-        :param en: 
-        :param cn: 
-        :param print_msg: 
-        :return: 
+        :param en:
+        :param cn:
+        :param print_msg:
+        :return:
         """
         # 空格* {0} 空格* '多个 {0} '多个 空格*
         pattern = r"\s*{\d}\s*['\"]+{\d}['\"]+\s*"
@@ -281,8 +282,19 @@ class TranslationInspection:
                         if cn.endswith(append):
                             pass
                         else:
-                            print('\n可能需要添加快捷方式【%s】' % append)
-                            print('%s\n%s' % (en, cn))
+                            ignore_list = [
+                                r'EXIT_CODE',
+                                r'directory_path',
+                                r'EMPTY_MAP',
+                            ]
+                            contain_ignore_word = False
+                            for ignore_word in ignore_list:
+                                if ignore_word in en:
+                                    contain_ignore_word = True
+                                    break
+                            if not contain_ignore_word:
+                                print('\n可能需要添加快捷方式【%s】' % append)
+                                print('%s\n%s' % (en, cn))
                     else:
                         if '_' not in cn:
                             print('\n%s\n%s' % (en, cn))
@@ -314,6 +326,8 @@ class TranslationInspection:
                 ignore_list = [
                     'shortcut:',
                     'productName;',
+                    'majorVersion;',
+                    'minorVersion;',
                 ]
                 contain_ignore = False
                 for ignore_word in ignore_list:
@@ -476,10 +490,22 @@ class TranslationInspection:
 
             cn_match_list = re.findall(pattern, cn)
             if len(en_match_list) != len(cn_match_list):
-                print('\n【%s】包含成对单引号，翻译是【%s】' % (en, cn))
-                print('匹配结果的大小不相等')
-                print(en_match_list)
-                print(cn_match_list)
+                ignore_list = [
+                    'idea\'s',
+                    'Drag\'n\'Drop',
+                    'won\'t',
+                    'it\'s'
+                ]
+                contain_ignore_word = False
+                for ignore_word in ignore_list:
+                    if ignore_word in en:
+                        contain_ignore_word = True
+                        break
+                if not contain_ignore_word:
+                    print('\n【%s】包含成对单引号，翻译是【%s】' % (en, cn))
+                    print('匹配结果的大小不相等')
+                    print(en_match_list)
+                    print(cn_match_list)
                 return cn
             for i in range(len(en_match_list)):
                 en_content = en_match_list[i]
@@ -598,15 +624,35 @@ class StandardTranslation:
                                 # 可能不只有一个
                                 if cn.count(replace) == 1:
                                     # 只有一个，进行替换
-                                    print('应该将【%s】替换为【%s】' % (replace, standard_translation.cn_list[0]))
-                                    print(en)
-                                    print(cn)
+
+                                    ignore_list = [
+                                        r'just right-click an annotation',
+                                    ]
+                                    contain_ignore_word = False
+                                    for ignore_word in ignore_list:
+                                        if ignore_word in en:
+                                            contain_ignore_word = True
+                                            break
+                                    if not contain_ignore_word:
+                                        print('\n应该将【%s】替换为【%s】' % (replace, standard_translation.cn_list[0]))
+                                        print(en)
+                                        print(cn)
                                     # 不再直接替换,提醒操作
                                     # cn = cn.replace(replace, standard_translation.cn_list[0])
                                     has_replace = True
                         if not has_replace:
-                            print('\n【%s】的翻译\n【%s】中不包含期望的翻译\n【%s】应该翻译为【%s】' % (
-                                en, cn, s_en, ','.join(standard_translation.cn_list)))
+                            ignore_list = [
+                                r'all you have to do',
+                                r'<s3>view | parameter info</s3>',
+                            ]
+                            contain_ignore_word = False
+                            for ignore_word in ignore_list:
+                                if ignore_word in en:
+                                    contain_ignore_word = True
+                                    break
+                            if not contain_ignore_word:
+                                print('\n【%s】的翻译\n【%s】中不包含期望的翻译\n【%s】应该翻译为【%s】' % (
+                                    en, cn, s_en, ','.join(standard_translation.cn_list)))
 
         return cn
 
