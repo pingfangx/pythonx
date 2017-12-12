@@ -26,9 +26,9 @@ class Tips:
     }
 
     KEYMAP_CN_DICT = KeymapDefault.get_keymap_dict_from_file('../keymap_default/data/$default.xml')
-    KEYMAP_CN_DICT.update(KeymapDefault.get_keymap_dict_from_file('data/keymap_add.xml'))
+    KEYMAP_CN_DICT.update(KeymapDefault.get_keymap_dict_from_file('../tips/data/keymap_add.xml'))
     KEYMAP_EN_DICT = KeymapDefault.get_keymap_dict_from_file('../keymap_default/data/$default.xml', False)
-    KEYMAP_EN_DICT.update(KeymapDefault.get_keymap_dict_from_file('data/keymap_add.xml', False))
+    KEYMAP_EN_DICT.update(KeymapDefault.get_keymap_dict_from_file('../tips/data/keymap_add.xml', False))
 
     KEYMAP_DICT = KEYMAP_CN_DICT
 
@@ -91,7 +91,7 @@ class Tips:
         :return: 
         """
         if result_file is None:
-            result_file = filex.get_result_file_name(file_path, '_name', 'properties')
+            result_file = filex.get_result_file_name(file_path, '_en', 'properties')
         ordered_file_list = self.get_tips_order_files(file_path)
 
         result = []
@@ -110,7 +110,8 @@ class Tips:
         """
         result = re.sub('[A-Z][a-z]+', lambda m: m.group().lower() + ' ', word).rstrip()
         # 少数情况，要再处理一次
-        result = result.replace('Ifor', 'I for').replace('movefile', 'move file')
+        result = result.replace('Ifor', 'I for').replace('movefile', 'move file').replace('html 5outline',
+                                                                                          'html5 outline')
         if word != result:
             print('【%s】转为【%s】' % (word, result))
         else:
@@ -205,6 +206,7 @@ class Tips:
             if file_path in all_files:
                 all_files.remove(file_path)
             else:
+                # 该错误的原因是在 IdeTipsAndTricks 中有 2 个相同的名字
                 print('文件不存于列表中%s' % file_path)
             if language == 'cn':
                 add_cn_title = '(%s)' % cn_name
@@ -212,10 +214,9 @@ class Tips:
                 add_cn_title = ''
             header = '<h1>[%d/%d] %s%s</h1>\n' % (i + 1, length, en_name, add_cn_title)
             if result_type == Tips.RESULT_TYPE_ANDROID_STUDIO:
-                # author_url = '<a href=\'%s\'>[<font color=\'blue\'>%s</font>]</a>' % (
-                #     'https://github.com/pingfangx/TranslatorX',
-                #     '联系汉化作者及反馈')
-                author_url = ''
+                author_url = '<a href=\'%s\'>[%s]</a>' % (
+                    'http://www.pingfangx.com/xx/translation',
+                    '汉化反馈')
                 header = '<h1>[%d/%d] %s%s %s</h1>\n' % (i + 1, length, en_name, add_cn_title, author_url)
                 footer = None
                 result_name = file_path.replace(tips_cn_dir, result_dir)
