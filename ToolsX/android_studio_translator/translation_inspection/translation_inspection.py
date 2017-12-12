@@ -207,6 +207,8 @@ class TranslationInspection:
                 print('【%s】在中文后有相连的引号' % cn)
             if re.search(double_quote_pattern + chinese_pattern, cn):
                 print('【%s】在中文前有相连的引号' % cn)
+        # 特殊的不替换
+        cn = cn.replace('平方 X', '平方X')
         return cn
 
     @staticmethod
