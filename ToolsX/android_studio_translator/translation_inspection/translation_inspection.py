@@ -35,15 +35,15 @@ class TranslationInspection:
         inspection_list = TranslationInspection.get_inspection_list()
         action_list = [
             ['退出', exit],
-            ['检查', self.inspect_file, translation_file, translation_file, inspection_list, None, False, False],
+            ['检查', self.inspect_file, translation_file, translation_file, inspection_list, None, False, True],
             ['测试', self.test],
         ]
         iox.choose_action(action_list)
 
     @staticmethod
     def test():
-        en = r'For example, "<c0>a/**/b</c0>" matches "<c1>a/b</c1>", "<c2>a/x/b</c2>", "<c3>a/x/y/b</c3>" and so on.'
-        cn = r'例如，“ <c0>a/**/b</c0> ”匹配“ <c1>a/b</c1> ”，“ <c2>a/x/b</c2> ”，“<c3 > a / x / y / b </c3>”等等。'
+        en = 'Redundant directive \'\'requires {0}\'\''
+        cn = '多余的指令 \'\' requires {0}\'\''
         inspection_list = TranslationInspection.get_inspection_list()
         for inspection in inspection_list:
             old = cn
@@ -454,11 +454,33 @@ class TranslationInspection:
                 return cn
             # 如果前后跟字母，则补充空格
             old = cn
-            cn = re.sub(r'([a-zA-Z]+)(\'\')', r'\1 \2', cn)
-            cn = re.sub(r'(\'\')([a-zA-Z]+)', r'\1 \2', cn)
+            TranslationInspection.add_space_round_quote(en, cn, pattern, '\'\'', print_msg)
             if old != cn:
                 if print_msg:
                     print('补充与字母相联的''的空格')
+        return cn
+
+    @staticmethod
+    def add_space_round_quote(en, cn, pattern, quote, print_msg):
+        """添加引号周围的括号"""
+        en_match_list = re.findall(pattern, en)
+        cn_match_list = re.findall(pattern, cn)
+        if len(en_match_list) == len(cn_match_list):
+            for i in range(len(en_match_list)):
+                en_content = en_match_list[i]
+                cn_content = cn_match_list[i]
+                if en_content != cn_content and en_content == cn_content.strip():
+                    if print_msg:
+                        print('翻译中引号中的内容带有空格，删除')
+                    cn = cn.replace(quote + cn_content + quote, quote + cn_content.strip() + quote)
+                    cn_content_with_quotation = cn_content.strip()
+                else:
+                    cn_content_with_quotation = cn_content
+                cn_content_with_quotation = quote + cn_content_with_quotation + quote
+                if not cn.startswith(cn_content_with_quotation) and ' ' + cn_content_with_quotation not in cn:
+                    cn = cn.replace(cn_content_with_quotation, ' ' + cn_content_with_quotation)
+                if not cn.endswith(cn_content_with_quotation) and cn_content_with_quotation + ' ' not in cn:
+                    cn = cn.replace(cn_content_with_quotation, cn_content_with_quotation + ' ')
         return cn
 
     @staticmethod
