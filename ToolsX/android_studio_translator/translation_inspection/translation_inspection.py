@@ -1,10 +1,9 @@
 import re
 
-from xx import filex
-from xx import iox
-
 from android_studio_translator.delete_action import DeleteAction
 from android_studio_translator.tools import Tools
+from xx import filex
+from xx import iox
 
 
 class TranslationInspection:
@@ -281,8 +280,15 @@ class TranslationInspection:
                     match = re.search(r'_\w', en)
                     if match:
                         append = '(%s)' % match.group()
+                        append = append.upper()
                         if cn.endswith(append):
-                            pass
+                            if print_msg:
+                                print('已经以【%s】结尾' % append)
+                        elif cn.endswith(append.lower()):
+                            if print_msg:
+                                print('已经以小写的【%s】结尾,替换为大写' % append.lower())
+                            cn = cn[: -len(append)]
+                            cn += append
                         else:
                             ignore_list = [
                                 r'EXIT_CODE',
@@ -324,7 +330,16 @@ class TranslationInspection:
             if print_msg:
                 print('\n【%s】匹配，翻译是【%s】,内容是【%s】' % (en, cn, content))
             append = replace % content
-            if not cn.endswith(append):
+            append = append.upper()
+            if cn.endswith(append):
+                if print_msg:
+                    print('已经以【%s】结尾' % append)
+            elif cn.endswith(append.lower()):
+                if print_msg:
+                    print('已经以小写的【%s】结尾,替换为大写' % append.lower())
+                cn = cn[: -len(append)]
+                cn += append
+            else:
                 ignore_list = [
                     'shortcut:',
                     'productName;',
@@ -342,9 +357,6 @@ class TranslationInspection:
                 else:
                     if print_msg:
                         print('忽略')
-            else:
-                if print_msg:
-                    print('已经以【%s】结尾' % append)
         return cn
 
     @staticmethod
