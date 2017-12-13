@@ -1,10 +1,10 @@
 import os
-
 import shutil
 import zipfile
 
-from xx import iox
 from xx import filex
+from xx import iox
+
 from android_studio_translator.tips.tips import Tips
 from android_studio_translator.tools import Tools
 from android_studio_translator.translator.translation_file import TranslationFile
@@ -109,7 +109,7 @@ class JetBrainsTranslator:
 
 
 class Software:
-    def __init__(self, path, name=None, version=None):
+    def __init__(self, path, name=None, version=None, release_version=1):
         self.work_dir = ''
         "汉化包的工作目录"
         self.path = path
@@ -127,9 +127,9 @@ class Software:
         "软件名"
         self.version = version
         "软件版本"
-        self.release_version = 1
+        self.release_version = release_version
         "当前软件版本下的汉化包版本，如果需要，可以手动设置，分开设置"
-        self.en_jar_path = '%s/jars/%s/英文包/%s/%s' % (self.work_dir, self.name, self.version, 'resources_en.jar')
+        self.en_jar_path = ''
         "软件的英文包"
         self.translation_jar_name = 'resources_cn_%s_%s_r%s.jar' % (self.name, self.version, self.release_version)
         "汉化包言语件名"
@@ -139,6 +139,7 @@ class Software:
     def set_work_dir(self, work_dir):
         self.work_dir = work_dir
         self.translation_jar = '%s/jars/%s/%s' % (self.work_dir, self.name, self.translation_jar_name)
+        self.en_jar_path = '%s/jars/%s/英文包/%s/%s' % (self.work_dir, self.name, self.version, 'resources_en.jar')
 
     def copy_resources_en_jar(self):
         """复制 jar"""
@@ -210,6 +211,7 @@ class ZipTools:
     def zip_jar(source_dir, target_jar):
         """压缩文件夹"""
         print('压缩 %s 到 %s' % (source_dir, target_jar))
+        filex.check_and_create_dir(target_jar)
         translation_file_list = []
         for root, dirs, files in os.walk(source_dir):
             for file_name in files:
