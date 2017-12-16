@@ -138,7 +138,8 @@ class JetBrainsTranslator:
 
 
 class Software:
-    def __init__(self, work_dir, path, name=None, version=None, pre_version=None, release_version=1):
+    def __init__(self, work_dir, path, name=None, version=None, pre_version=None, release_version=1,
+                 pre_release_version=1):
         self.work_dir = work_dir
         "汉化包的工作目录"
         self.path = path
@@ -160,6 +161,7 @@ class Software:
         "上一个版本"
         self.release_version = release_version
         "当前软件版本下的汉化包版本，如果需要，可以手动设置，分开设置"
+        self.pre_release_version = pre_release_version
         self.en_jar_path = '%s/jars/%s/英文包/%s/%s' % (self.work_dir, self.name, self.version, 'resources_en.jar')
         "软件的英文包"
         self.translation_jar_name = 'resources_cn_%s_%s_r%s.jar' % (self.name, self.version, self.release_version)
@@ -239,6 +241,13 @@ class Software:
         jar_file_path = self.path + os.sep + 'lib' + os.sep + self.translation_jar_name
         print('复制 %s 到 %s' % (self.translation_jar, jar_file_path))
         shutil.copyfile(self.translation_jar, jar_file_path)
+
+        pre_jar_name = 'resources_cn_%s_%s_r%s.jar' % (self.name, self.pre_version, self.pre_release_version)
+        pre_jar_file_path = self.path + os.sep + 'lib' + os.sep + pre_jar_name
+        if os.path.exists(pre_jar_file_path):
+            os.remove(pre_jar_file_path)
+        else:
+            print('上一版本 %s 不存在' % pre_jar_file_path)
 
     def validate_version(self):
         """校验是否已更新软件"""
@@ -329,10 +338,12 @@ class Software:
         f2 = '%s/jars/%s/英文包/%s/%s' % (self.work_dir, self.name, self.pre_version, 'resources_en.jar')
         tmp_dir1 = os.path.splitext(f1)[0]
         tmp_dir2 = os.path.splitext(f2)[0]
-        print('删除 %s' % tmp_dir1)
-        shutil.rmtree(tmp_dir1)
-        print('删除 %s' % tmp_dir2)
-        shutil.rmtree(tmp_dir2)
+        if os.path.exists(tmp_dir1):
+            print('删除 %s' % tmp_dir1)
+            shutil.rmtree(tmp_dir1)
+        if os.path.exists(tmp_dir2):
+            print('删除 %s' % tmp_dir2)
+            shutil.rmtree(tmp_dir2)
 
     def extract_jar_to_source_dir(self):
         """将 jar 解压到 source 目录"""

@@ -313,6 +313,11 @@ class Tips:
         lines = filex.read_lines(file_path)
         if lines is None:
             return
+
+        if add_header and add_header in lines:
+            # 不重复添加
+            add_header = None
+
         meta = r'<meta http-equiv="content-type" content="text/html; charset=UTF-8">'
         result = []
         add_meta = False
