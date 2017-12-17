@@ -48,7 +48,8 @@ class JetBrainsTranslator:
                 pre_version = pre_version_list[-1]
             else:
                 pre_version = pre_version_list[i]
-            software = Software(self.work_dir, software_root_dir + software_name, software_name, version, pre_version)
+            software = Software(self.work_dir, software_root_dir + software_name, software_name, version, pre_version,
+                                2)
             self.software_list.append(software)
 
     def main(self):
@@ -62,7 +63,7 @@ class JetBrainsTranslator:
             ['复制 resources_en.jar', self.iter_software, lambda x: x.copy_resources_en_jar()],
             ['压缩进汉化包', self.iter_software, lambda x: x.zip_translation()],
             ['将汉化包复制到软件目录', self.iter_software, lambda x: x.copy_translation_to_work_dir()],
-            ['以下是版本更新时调用的方法------------------', ],
+            ['以下是版本更新时调用的方法----------', ],
             ['校验版本是否更新', self.iter_software, lambda x: x.validate_version()],
             ['检查 jar 包是否变化', self.iter_software, lambda x: x.compare_jar()],
             ['删除比较 jar 包时的缓存', self.iter_software, lambda x: x.delete_compare_tmp_dir()],
@@ -138,7 +139,7 @@ class JetBrainsTranslator:
 
 class Software:
     def __init__(self, work_dir, path, name=None, version=None, pre_version=None, release_version=1,
-                 pre_release_version=1):
+                 pre_release_version=-1):
         self.work_dir = work_dir
         "汉化包的工作目录"
         self.path = path
@@ -158,6 +159,13 @@ class Software:
         "软件版本"
         self.pre_version = pre_version
         "上一个版本"
+        if pre_release_version == -1:
+            # 没有传参，取默认
+            if release_version > 1:
+                # -1
+                pre_release_version = release_version - 1
+            else:
+                pre_release_version = 1
         self.release_version = release_version
         "当前软件版本下的汉化包版本，如果需要，可以手动设置，分开设置"
         self.pre_release_version = pre_release_version
@@ -241,12 +249,28 @@ class Software:
         print('复制 %s 到 %s' % (self.translation_jar, jar_file_path))
         shutil.copyfile(self.translation_jar, jar_file_path)
 
+        # 上一版本号
         pre_jar_name = 'resources_cn_%s_%s_r%s.jar' % (self.name, self.pre_version, self.pre_release_version)
         pre_jar_file_path = self.path + os.sep + 'lib' + os.sep + pre_jar_name
         if os.path.exists(pre_jar_file_path):
-            os.remove(pre_jar_file_path)
+            try:
+                os.remove(pre_jar_file_path)
+                print('删除 %s' % pre_jar_file_path)
+            except PermissionError:
+                print('删除 %s 失败' % pre_jar_file_path)
         else:
             print('上一版本 %s 不存在' % pre_jar_file_path)
+        # 上一 release
+        pre_jar_name = 'resources_cn_%s_%s_r%s.jar' % (self.name, self.version, self.pre_release_version)
+        pre_jar_file_path = self.path + os.sep + 'lib' + os.sep + pre_jar_name
+        if os.path.exists(pre_jar_file_path):
+            try:
+                os.remove(pre_jar_file_path)
+                print('删除 %s' % pre_jar_file_path)
+            except PermissionError:
+                print('删除 %s 失败' % pre_jar_file_path)
+        else:
+            print('上一发布版本 %s 不存在' % pre_jar_file_path)
 
     def validate_version(self):
         """校验是否已更新软件"""
