@@ -3,12 +3,11 @@ import os
 import shutil
 import zipfile
 
-from xx import filex
-from xx import iox
-
 from android_studio_translator.tips.tips import Tips
 from android_studio_translator.tools import Tools
 from android_studio_translator.translator.translation_file import TranslationFile
+from xx import filex
+from xx import iox
 
 
 class JetBrainsTranslator:
@@ -35,7 +34,7 @@ class JetBrainsTranslator:
             'WebStorm',
         ]
 
-        software_root_dir = r'D:/xx/software/JetBrains/'
+        software_root_dir = r'D:/software/JetBrains/'
         self.software_list = []
         for i in range(len(software_name_list)):
             software_name = software_name_list[i]
@@ -303,7 +302,7 @@ class Software:
         with zipfile.ZipFile(f1) as zipfile1:
             with zipfile.ZipFile(f2) as zipfile2:
                 namelist1 = zipfile1.namelist()
-                namelist2 = zipfile1.namelist()
+                namelist2 = zipfile2.namelist()
                 for name1 in namelist1:
                     ext = os.path.splitext(name1)[1]
                     if ext in ignore_ext:
@@ -315,7 +314,7 @@ class Software:
                                 zipfile1.extract(name1, tmp_dir1)
                                 zipfile2.extract(name1, tmp_dir2)
                             else:
-                                print('f1 中有,但 f2 中没有')
+                                print('%s 在f1 中有,但 f2 中没有' % name1)
         print('3-比较解压出的文件')
         for root, dirs, files in os.walk(tmp_dir1):
             for file_name in files:
