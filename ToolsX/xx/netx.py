@@ -6,15 +6,18 @@ import os
 import urllib.parse
 import urllib.request
 
+import requests
 
-def get(url, params=None, headers=None, cookie=None, encode='utf-8', need_print=True):
+
+def get(url, params=None, headers=None, cookies=None, encode='utf-8', result_type='text', need_print=True):
     """
     获取数据
     :param url: 地址
     :param params: 参数
     :param headers： 头
-    :param cookie: cookie
+    :param cookies: cookies
     :param encode: 编码
+    :param result_type: 结果类型
     :param need_print: 是否需要打印
     :return:
     """
@@ -28,32 +31,14 @@ def get(url, params=None, headers=None, cookie=None, encode='utf-8', need_print=
     else:
         if not 'User-Agent' in headers.keys():
             headers['User-Agent'] = ua
-
-    # 拼接参数
-    if params is not None:
-        extra = urllib.parse.urlencode(params)
-        if '?' in url:
-            url += '&' + extra
-        else:
-            url += '?' + extra
-
-    # 构建请求
-    request = urllib.request.Request(
-        url=url,
-        headers=headers)
-
     # 打开请求
     if need_print:
         print("open " + url)
-    if cookie is None:
-        request_data = urllib.request.urlopen(request)
-    else:
-        opener = urllib.request.build_opener()
-        opener.addheaders.append(('Cookie', cookie))
-        request_data = opener.open(request)
-
-    # 读取并解析结果
-    result = request_data.read().decode(encode)
+    result = requests.get(url, params=params, headers=headers, cookies=cookies)
+    if result_type == 'text':
+        result = result.text
+    elif result_type == 'json':
+        result = result.json()
     if need_print:
         print('result is ' + result)
     return result
