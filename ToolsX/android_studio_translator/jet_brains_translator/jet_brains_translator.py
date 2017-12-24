@@ -19,12 +19,18 @@ class JetBrainsTranslator:
         self.target_dir = self.work_dir + os.path.sep + 'target'
 
         current_version_list = [
-            '3.0.1',
-            '2017.3.1'
+            '3.0.1-2',
+            '2017.3.1-2',
+            '2017.3.2-1',
+            '2017.3.1-2',
+            '2017.3.1-2',
         ]
         pre_version_list = [
-            '3.0',
-            '2017.3'
+            '3.0-1',
+            '2017.3-1',
+            '2017.3.1-2',
+            '2017.3-1',
+            '2017.3-1',
         ]
         software_name_list = [
             'AndroidStudio',
@@ -44,12 +50,21 @@ class JetBrainsTranslator:
             else:
                 # 取对应版本
                 version = current_version_list[i]
+            if '-' in version:
+                version, release_version = version.split('-')
+            else:
+                release_version = 1
+
             if i >= len(pre_version_list):
                 pre_version = pre_version_list[-1]
             else:
                 pre_version = pre_version_list[i]
+            if '-' in pre_version:
+                pre_version, pre_release_version = pre_version.split('-')
+            else:
+                pre_release_version = 1
             software = Software(self.work_dir, software_root_dir + software_name, software_name, version, pre_version,
-                                2)
+                                release_version, pre_release_version)
             self.software_list.append(software)
 
     def main(self):
