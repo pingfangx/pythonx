@@ -19,18 +19,12 @@ class JetBrainsTranslator:
         self.target_dir = self.work_dir + os.path.sep + 'target'
 
         current_version_list = [
-            '3.0.1-2',
-            '2017.3.1-2',
+            '3.0.1-3',
             '2017.3.2-1',
-            '2017.3.1-2',
-            '2017.3.1-2',
         ]
         pre_version_list = [
-            '3.0-1',
-            '2017.3-1',
+            '3.0.1-2',
             '2017.3.1-2',
-            '2017.3-1',
-            '2017.3-1',
         ]
         software_name_list = [
             'AndroidStudio',
