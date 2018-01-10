@@ -1,9 +1,11 @@
+# coding=utf-8
 import re
+
+from xx import filex
+from xx import iox
 
 from android_studio_translator.delete_action import DeleteAction
 from android_studio_translator.tools import Tools
-from xx import filex
-from xx import iox
 
 
 class TranslationInspection:
@@ -138,7 +140,7 @@ class TranslationInspection:
             print('标签长度不相等')
             return False
 
-        chinese_pattern = re.compile(r'([\u4e00-\u9fa5])')
+        chinese_pattern = re.compile(u'([\u4e00-\u9fa5])')
         for i in list2:
             if re.search(chinese_pattern, i):
                 # 忽略中文
@@ -169,7 +171,7 @@ class TranslationInspection:
         """
         检查汉字与英文（或{\d}）之间是否添加了空格
         """
-        chinese_pattern = r'([\u4e00-\u9fa5])'
+        chinese_pattern = u'([\u4e00-\u9fa5])'
         # 字母，或{0}，或''{0}''
         # need_space_pattern = r'([a-zA-Z]|{\d}+|\'\'{\d}\'\')'
 
@@ -179,16 +181,17 @@ class TranslationInspection:
         # 再进一步，即使单个引号也不会有错误的
         # need_space_pattern = r'([a-zA-Z]|{\d}+|\'.+?\')'
         # 补充双引号
-        need_space_pattern = r'([a-zA-Z]|{\d}+|\'.+?\'|\".+?\")'
+        need_space_pattern = r'([a-zA-Z]|\d|{\d}+|\'.+?\'|\".+?\")'
         double_quote_pattern = r'\''
 
         cn = re.sub(chinese_pattern + need_space_pattern, r'\1 \2', cn)
         cn = re.sub(need_space_pattern + chinese_pattern, r'\1 \2', cn)
 
         # 中文跟标签,标签中为不是中文
-        need_space_pattern3 = r'([\u4e00-\u9fa5])<(.+?)>([^\u4e00-\u9fa5]+?)</\2>'
+        # 由于使用了 u'' ，所以后面的 \\2 要义
+        need_space_pattern3 = u'([\u4e00-\u9fa5])<(.+?)>([^\u4e00-\u9fa5]+?)</\\2>'
         cn = re.sub(need_space_pattern3, r'\1 <\2>\3</\2>', cn)
-        need_space_pattern4 = r'<(.+?)>([^\u4e00-\u9fa5]+?)</\1>([\u4e00-\u9fa5])'
+        need_space_pattern4 = u'<(.+?)>([^\u4e00-\u9fa5]+?)</\\1>([\u4e00-\u9fa5])'
         cn = re.sub(need_space_pattern4, r'<\1>\2</\1> \3', cn)
 
         all_match = re.findall(r'\'\s(.+?)\s\'', cn)
@@ -396,13 +399,13 @@ class TranslationInspection:
         if en_match_list:
             if print_msg:
                 print('\n【%s】包含小括号，翻译是【%s】' % (en, cn))
-            if len(en_match_list) == cn.count('（') and len(en_match_list) == cn.count('）'):
+            if len(en_match_list) == cn.count(u'（') and len(en_match_list) == cn.count(u'）'):
                 if print_msg:
                     print('被翻译成了【（）】,替换')
-                cn = cn.replace('（', '(')
-                cn = cn.replace('）', ')')
+                cn = cn.replace(u'（', '(')
+                cn = cn.replace(u'）', ')')
 
-            chinese_pattern = r'([\u4e00-\u9fa5])'
+            chinese_pattern = u'([\u4e00-\u9fa5])'
             need_space_pattern = r'(\(\))'
             old = cn
             cn = re.sub(need_space_pattern + chinese_pattern, r'\1 \2', cn)
@@ -422,11 +425,11 @@ class TranslationInspection:
         if en_match_list:
             if print_msg:
                 print('\n【%s】包含两个单引号，翻译是【%s】' % (en, cn))
-            if len(en_match_list) == cn.count('“') and len(en_match_list) == cn.count('”'):
+            if len(en_match_list) == cn.count(u'“') and len(en_match_list) == cn.count(u'”'):
                 if print_msg:
                     print('被翻译成了【“”】,替换')
-                cn = cn.replace('“', '\'\'')
-                cn = cn.replace('”', '\'\'')
+                cn = cn.replace(u'“', '\'\'')
+                cn = cn.replace(u'”', '\'\'')
             if len(en_match_list) * 2 == cn.count('"') and '="' not in cn:
                 if print_msg:
                     print('被翻译成了【"】，替换')
@@ -509,16 +512,16 @@ class TranslationInspection:
 
             cn_match_list = re.findall(pattern, cn)
             if len(en_match_list) != len(cn_match_list):
-                if len(en_match_list) == cn.count('“') and len(en_match_list) == cn.count('”'):
+                if len(en_match_list) == cn.count(u'“') and len(en_match_list) == cn.count(u'”'):
                     if print_msg:
                         print('被翻译成了【“”】,替换')
-                    cn = cn.replace('“', '\'')
-                    cn = cn.replace('”', '\'')
-                elif len(en_match_list) == cn.count('‘') and len(en_match_list) == cn.count('’'):
+                    cn = cn.replace(u'“', '\'')
+                    cn = cn.replace(u'”', '\'')
+                elif len(en_match_list) == cn.count(u'‘') and len(en_match_list) == cn.count(u'’'):
                     if print_msg:
                         print('被翻译成了【‘’】,替换')
-                    cn = cn.replace('‘', '\'')
-                    cn = cn.replace('’', '\'')
+                    cn = cn.replace(u'‘', '\'')
+                    cn = cn.replace(u'’', '\'')
                 elif len(en_match_list) * 2 == cn.count('"'):
                     if print_msg:
                         print('被翻译成了【"】,替换')
@@ -571,11 +574,11 @@ class TranslationInspection:
             en_content = en_match.group(1)
             if print_msg:
                 print('【%s】包含双引号，翻译是【%s】,内容是【%s】' % (en, cn, en_content))
-            if en.count('"') == cn.count('“') * 2 and en.count('"') == cn.count('”') * 2:
+            if en.count('"') == cn.count(u'“') * 2 and en.count('"') == cn.count(u'”') * 2:
                 if print_msg:
                     print('【""】被翻译成了【“”】，替换')
-                cn = cn.replace('“', '\"')
-                cn = cn.replace('”', '\"')
+                cn = cn.replace(u'“', '\"')
+                cn = cn.replace(u'”', '\"')
             else:
                 if print_msg:
                     print('%s 中双引号数量不匹配 %s' % (cn, en))
