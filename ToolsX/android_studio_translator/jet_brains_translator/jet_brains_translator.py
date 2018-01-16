@@ -3,11 +3,14 @@ import os
 import shutil
 import zipfile
 
+from bs4 import BeautifulSoup
+from selenium import webdriver
+from xx import filex
+from xx import iox
+
 from android_studio_translator.tips.tips import Tips
 from android_studio_translator.tools import Tools
 from android_studio_translator.translator.translation_file import TranslationFile
-from xx import filex
-from xx import iox
 
 
 class JetBrainsTranslator:
@@ -73,6 +76,7 @@ class JetBrainsTranslator:
             ['压缩进汉化包', self.iter_software, lambda x: x.zip_translation()],
             ['将汉化包复制到软件目录', self.iter_software, lambda x: x.copy_translation_to_work_dir()],
             ['以下是版本更新时调用的方法----------', ],
+            ['检查官网是否有新版本', self.check_update],
             ['校验版本是否更新', self.iter_software, lambda x: x.validate_version()],
             ['检查 jar 包是否变化', self.iter_software, lambda x: x.compare_jar()],
             ['删除比较 jar 包时的缓存', self.iter_software, lambda x: x.delete_compare_tmp_dir()],
@@ -144,6 +148,60 @@ class JetBrainsTranslator:
         for software in self.software_list:
             print()
             callback(software)
+
+    def check_update(self):
+        """检查更新"""
+        self.check_update_android_studio()
+        self.check_update_from_official_website()
+
+    def check_update_android_studio(self):
+        """检查 Android Studio 更新"""
+        for software in self.software_list:
+            name, version = software.name, software.version
+            if name == 'AndroidStudio':
+                print(name, version)
+                url = 'https://developer.android.google.cn/studio/index.html'
+                print('open %s' % url)
+                driver = webdriver.PhantomJS()
+                driver.get(url)
+                page = driver.page_source
+                soup = BeautifulSoup(page, "html.parser")
+                button = soup.select_one('a.download-bundle-button')
+                latest_version = button.select_one('span.version').text
+                if version == latest_version:
+                    print('%s 已经是最新版本 %s' % (name, version))
+                else:
+                    print('%s 的最新版本为 %s ，当前版本为 %s' % (name, latest_version, version))
+                break
+
+    def check_update_from_official_website(self):
+        """从 JetBrains 官网检查是否有更新"""
+        url = 'https://www.jetbrains.com/products.html'
+        print('打开 %s' % url)
+        driver = webdriver.PhantomJS()
+        driver.get(url)
+        # print('开始解析')
+        # 解析结果
+        soup = BeautifulSoup(driver.page_source, "html.parser")
+        products_group = soup.select_one('.g-row.products-list.js-products-list')
+        product_div_list = products_group.select('div.g-col-4')
+        latest_version = {}
+        for product_div in product_div_list:
+            title = product_div.select_one('.product-item__title').text.strip()
+            version = product_div.select_one('.product-item__version').text.strip()
+            latest_version[title] = version
+        print('解析出所有软件为')
+        print(latest_version)
+        for software in self.software_list:
+            name, version = software.name, software.version
+            name = name.replace('IntelliJIDEA', 'IntelliJ IDEA')
+            if name in latest_version.keys():
+                if version == latest_version[name]:
+                    print('%s 已经是最新版本 %s' % (name, version))
+                else:
+                    print('%s 的最新版本为 %s ，当前版本为 %s' % (name, latest_version[name], version))
+            else:
+                print('没有找到软件名 %s' % name)
 
 
 class Software:
