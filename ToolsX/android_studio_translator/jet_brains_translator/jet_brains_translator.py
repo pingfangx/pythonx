@@ -151,10 +151,13 @@ class JetBrainsTranslator:
 
     def check_update(self):
         """检查更新"""
-        self.check_update_android_studio()
-        self.check_update_from_official_website()
+        print('启动 chrome')
+        driver = webdriver.Chrome()
+        self.check_update_android_studio(driver)
+        self.check_update_from_official_website(driver)
+        driver.quit()
 
-    def check_update_android_studio(self):
+    def check_update_android_studio(self, driver=None):
         """检查 Android Studio 更新"""
         for software in self.software_list:
             name, version = software.name, software.version
@@ -162,7 +165,8 @@ class JetBrainsTranslator:
                 print(name, version)
                 url = 'https://developer.android.google.cn/studio/index.html'
                 print('open %s' % url)
-                driver = webdriver.PhantomJS()
+                if not driver:
+                    driver = webdriver.Chrome()
                 driver.get(url)
                 page = driver.page_source
                 soup = BeautifulSoup(page, "html.parser")
@@ -174,11 +178,12 @@ class JetBrainsTranslator:
                     print('%s 的最新版本为 %s ，当前版本为 %s' % (name, latest_version, version))
                 break
 
-    def check_update_from_official_website(self):
+    def check_update_from_official_website(self, driver=None):
         """从 JetBrains 官网检查是否有更新"""
         url = 'https://www.jetbrains.com/products.html'
         print('打开 %s' % url)
-        driver = webdriver.PhantomJS()
+        if not driver:
+            driver = webdriver.Chrome()
         driver.get(url)
         # print('开始解析')
         # 解析结果
