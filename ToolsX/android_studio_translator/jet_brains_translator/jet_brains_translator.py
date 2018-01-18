@@ -5,12 +5,13 @@ import zipfile
 
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from xx import filex
-from xx import iox
+from selenium.webdriver.chrome.options import Options as ChromeOptions
 
 from android_studio_translator.tips.tips import Tips
 from android_studio_translator.tools import Tools
 from android_studio_translator.translator.translation_file import TranslationFile
+from xx import filex
+from xx import iox
 
 
 class JetBrainsTranslator:
@@ -65,6 +66,7 @@ class JetBrainsTranslator:
             self.software_list.append(software)
 
     def main(self):
+        chrome_path = r'D:\software\browser\Chrome\Application\chrome.exe'
         action_list = [
             ['退出', exit],
             ['处理清单文件，整理tips的名称方便翻译', self.process_tips_manifest_file],
@@ -76,7 +78,7 @@ class JetBrainsTranslator:
             ['压缩进汉化包', self.iter_software, lambda x: x.zip_translation()],
             ['将汉化包复制到软件目录', self.iter_software, lambda x: x.copy_translation_to_work_dir()],
             ['以下是版本更新时调用的方法----------', ],
-            ['检查官网是否有新版本', self.check_update],
+            ['检查官网是否有新版本', self.check_update, chrome_path],
             ['校验版本是否更新', self.iter_software, lambda x: x.validate_version()],
             ['检查 jar 包是否变化', self.iter_software, lambda x: x.compare_jar()],
             ['删除比较 jar 包时的缓存', self.iter_software, lambda x: x.delete_compare_tmp_dir()],
@@ -149,10 +151,14 @@ class JetBrainsTranslator:
             print()
             callback(software)
 
-    def check_update(self):
+    def check_update(self, chrome_path=None):
         """检查更新"""
         print('启动 chrome')
-        driver = webdriver.Chrome()
+        chrome_options = None
+        if chrome_path:
+            chrome_options = ChromeOptions()
+            chrome_options.binary_location = chrome_path
+        driver = webdriver.Chrome(chrome_options=chrome_options)
         self.check_update_android_studio(driver)
         self.check_update_from_official_website(driver)
         driver.quit()
