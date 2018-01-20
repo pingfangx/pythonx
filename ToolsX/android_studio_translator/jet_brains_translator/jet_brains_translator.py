@@ -24,11 +24,11 @@ class JetBrainsTranslator:
 
         current_version_list = [
             '3.0.1-3',
-            '2017.3.2-1',
+            '2017.3.3-1',
         ]
         pre_version_list = [
             '3.0.1-2',
-            '2017.3.1-2',
+            '2017.3.2-1',
         ]
         software_name_list = [
             'AndroidStudio',
@@ -148,7 +148,7 @@ class JetBrainsTranslator:
     def iter_software(self, callback):
         """对所有软件循环进行操作"""
         for software in self.software_list:
-            print()
+            print('\n处理 %s %s' % (software.name, software.version))
             callback(software)
 
     def check_update(self, chrome_path=None):
@@ -184,7 +184,7 @@ class JetBrainsTranslator:
                     print('%s 的最新版本为 %s ，当前版本为 %s' % (name, latest_version, version))
                 break
 
-    def check_update_from_official_website(self, driver=None):
+    def check_update_from_official_website(self, driver=None, retry_times=0):
         """从 JetBrains 官网检查是否有更新"""
         url = 'https://www.jetbrains.com/products.html'
         print('打开 %s' % url)
@@ -195,6 +195,14 @@ class JetBrainsTranslator:
         # 解析结果
         soup = BeautifulSoup(driver.page_source, "html.parser")
         products_group = soup.select_one('.g-row.products-list.js-products-list')
+        if products_group is None:
+            if retry_times <= 10:
+                retry_times += 1
+                print('没有正确的产品列表，第 %d 次重试' % retry_times)
+                self.check_update_from_official_website(driver, retry_times)
+            else:
+                print('重试超过 10 次，失败')
+            return
         product_div_list = products_group.select('div.g-col-4')
         latest_version = {}
         for product_div in product_div_list:
@@ -256,7 +264,6 @@ class Software:
 
     def copy_resources_en_jar(self):
         """复制 jar"""
-        print('处理 %s %s' % (self.name, self.version))
         if not os.path.exists(self.path):
             print('软件目录不存在 %s' % self.path)
             return
@@ -279,7 +286,6 @@ class Software:
 
     def zip_translation(self):
         """打包翻译"""
-        print('处理 %s %s' % (self.name, self.version))
         translation_dir = '%s/target/%s/resources_en' % (self.work_dir, self.name)
         print('将 %s 压缩到 %s' % (translation_dir, self.translation_jar))
         self.zip(translation_dir, self.translation_jar, self.en_jar_path)
@@ -328,27 +334,29 @@ class Software:
         shutil.copyfile(self.translation_jar, jar_file_path)
 
         # 上一版本号
-        pre_jar_name = 'resources_cn_%s_%s_r%s.jar' % (self.name, self.pre_version, self.pre_release_version)
-        pre_jar_file_path = self.path + os.sep + 'lib' + os.sep + pre_jar_name
-        if os.path.exists(pre_jar_file_path):
-            try:
-                os.remove(pre_jar_file_path)
-                print('删除 %s' % pre_jar_file_path)
-            except PermissionError:
-                print('删除 %s 失败' % pre_jar_file_path)
-        else:
-            print('上一版本 %s 不存在' % pre_jar_file_path)
+        if self.version != self.pre_version:
+            pre_jar_name = 'resources_cn_%s_%s_r%s.jar' % (self.name, self.pre_version, self.pre_release_version)
+            pre_jar_file_path = self.path + os.sep + 'lib' + os.sep + pre_jar_name
+            if os.path.exists(pre_jar_file_path):
+                try:
+                    os.remove(pre_jar_file_path)
+                    print('删除 %s' % pre_jar_file_path)
+                except PermissionError:
+                    print('删除 %s 失败' % pre_jar_file_path)
+            else:
+                print('上一版本 %s 不存在' % pre_jar_file_path)
         # 上一 release
-        pre_jar_name = 'resources_cn_%s_%s_r%s.jar' % (self.name, self.version, self.pre_release_version)
-        pre_jar_file_path = self.path + os.sep + 'lib' + os.sep + pre_jar_name
-        if os.path.exists(pre_jar_file_path):
-            try:
-                os.remove(pre_jar_file_path)
-                print('删除 %s' % pre_jar_file_path)
-            except PermissionError:
-                print('删除 %s 失败' % pre_jar_file_path)
-        else:
-            print('上一发布版本 %s 不存在' % pre_jar_file_path)
+        if self.release_version != self.pre_release_version:
+            pre_jar_name = 'resources_cn_%s_%s_r%s.jar' % (self.name, self.version, self.pre_release_version)
+            pre_jar_file_path = self.path + os.sep + 'lib' + os.sep + pre_jar_name
+            if os.path.exists(pre_jar_file_path):
+                try:
+                    os.remove(pre_jar_file_path)
+                    print('删除 %s' % pre_jar_file_path)
+                except PermissionError:
+                    print('删除 %s 失败' % pre_jar_file_path)
+            else:
+                print('上一发布版本 %s 不存在' % pre_jar_file_path)
 
     def validate_version(self):
         """校验是否已更新软件"""
