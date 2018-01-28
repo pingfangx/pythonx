@@ -23,15 +23,18 @@ class JetBrainsTranslator:
         self.target_dir = self.work_dir + os.path.sep + 'target'
 
         current_version_list = [
-            '3.0.1-3',
-            '2017.3.3-1',
+            '3.0.1-4',
+            '2017.3.2-1',
+            '2017.3.3-2',
         ]
         pre_version_list = [
-            '3.0.1-2',
+            '3.0.1-3',
             '2017.3.2-1',
+            '2017.3.3-1',
         ]
         software_name_list = [
             'AndroidStudio',
+            'RubyMine',
             'IntelliJIDEA',
             'PhpStorm',
             'PyCharm',
@@ -313,9 +316,11 @@ class Software:
             print('解压缺少的文件')
             with zipfile.ZipFile(source_jar, 'r') as zip_file:
                 for name in zip_file.namelist():
+                    cn_name = '_zh_CN'.join(os.path.splitext(name))
                     for translation_dir in translation_dir_list:
                         if name.startswith(translation_dir):
-                            if name not in translation_file_list:
+                            # 中英文都不在
+                            if name not in translation_file_list and cn_name not in translation_file_list:
                                 # print('翻译文件中缺少 %s ，解压缩' % name)
                                 zip_file.extract(name, tmp_dir)
             print('压缩缺少的文件')
@@ -329,9 +334,6 @@ class Software:
 
     def copy_translation_to_work_dir(self):
         """复制汉化包到工作目录"""
-        jar_file_path = self.path + os.sep + 'lib' + os.sep + self.translation_jar_name
-        print('复制 %s 到 %s' % (self.translation_jar, jar_file_path))
-        shutil.copyfile(self.translation_jar, jar_file_path)
 
         # 上一版本号
         if self.version != self.pre_version:
@@ -357,6 +359,10 @@ class Software:
                     print('删除 %s 失败' % pre_jar_file_path)
             else:
                 print('上一发布版本 %s 不存在' % pre_jar_file_path)
+
+        jar_file_path = self.path + os.sep + 'lib' + os.sep + self.translation_jar_name
+        print('复制 %s 到 %s' % (self.translation_jar, jar_file_path))
+        shutil.copyfile(self.translation_jar, jar_file_path)
 
     def validate_version(self):
         """校验是否已更新软件"""
@@ -466,7 +472,7 @@ class Software:
                 translation_dir_list.append(path.replace(source_dir, '').replace('\\', '/').lstrip('/'))
         print(translation_dir_list)
 
-        print('2-解压出要文件夹')
+        print('2-解压出需要的文件夹')
         tmp_dir1 = '%s/source/%s/resources_en' % (self.work_dir, self.name)
         ignore_ext = [
             '.png',
