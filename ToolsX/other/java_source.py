@@ -14,8 +14,17 @@ class JavaSource:
         action_list = [
             ['退出', exit],
             ['根据 uml 图复制所需的 java 文件', self.copy_required_class_of_uml, uml_file, source_root, target_root],
+            ['将使用系统源码的 uml 图转为使用项目中的代码', self.convert_uml, uml_file, source_root, target_root],
         ]
         iox.choose_action(action_list)
+
+    @staticmethod
+    def convert_uml(uml_file, source_root, target_root):
+        # 转换文件
+        lines = filex.read_lines(uml_file)
+        lines = [line.replace('java.', 'java2.') for line in lines]
+        filex.write_lines(uml_file, lines)
+        JavaSource.copy_required_class_of_uml(uml_file, source_root, target_root)
 
     @staticmethod
     def copy_required_class_of_uml(uml_file, source_root, target_root):
