@@ -2,10 +2,11 @@
 处理excel
 """
 
+import os
+
 import xlrd
 import xlwt
 from xlutils.copy import copy
-import os
 
 
 def open_or_create_workbook(file_path):
@@ -46,7 +47,10 @@ def write_list_to_excel(file_path, data, title=None, separator='|', print_msg=Tr
             sheet.write(0, i, title[i])
     for i in range(len(data)):
         row = data[i]
-        cells = row.split(separator)
+        if isinstance(row, list):
+            cells = row
+        else:
+            cells = row.split(separator)
         for j in range(len(cells)):
             sheet.write(i + delta_row, j, cells[j])
     workbook.save(file_path)
