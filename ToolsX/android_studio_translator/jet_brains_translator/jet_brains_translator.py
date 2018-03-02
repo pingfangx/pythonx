@@ -23,21 +23,26 @@ class JetBrainsTranslator:
         self.target_dir = self.work_dir + os.path.sep + 'target'
 
         current_version_list = [
-            '3.0.1-4',
-            '2017.3.2-1',
-            '2017.3.3-2',
-        ]
-        pre_version_list = [
-            '3.0.1-3',
+            '3.0.1-5',
             '2017.3.2-1',
             '2017.3.3-1',
+            '2017.3.3-3',
+            '2017.3.4-1',
+        ]
+        pre_version_list = [
+            '3.0.1-4',
+            '2017.3.2-1',
+            '2017.3.2-1',
+            '2017.3.3-2',
+            '2017.3.3-2',
         ]
         software_name_list = [
             'AndroidStudio',
+            'GoLand',
             'RubyMine',
+            'PyCharm',
             'IntelliJIDEA',
             'PhpStorm',
-            'PyCharm',
             'WebStorm',
         ]
 
@@ -74,7 +79,7 @@ class JetBrainsTranslator:
             ['退出', exit],
             ['处理清单文件，整理tips的名称方便翻译', self.process_tips_manifest_file],
             ['检查并补全缺少的tips名', self.check_and_append_tips_name],
-            ['将翻译结果的unicode转为中文', self.change_unicode_to_chinese],
+            ['将 tips 翻译结果的unicode转为中文', self.change_unicode_to_chinese],
             ['处理tips翻译结果为AndroidStudio用', self.process_tips_translation_result],
             ['重命名_zh_CN', self.rename_cn_files],
             ['复制 resources_en.jar', self.iter_software, lambda x: x.copy_resources_en_jar()],
@@ -86,6 +91,7 @@ class JetBrainsTranslator:
             ['检查 jar 包是否变化', self.iter_software, lambda x: x.compare_jar()],
             ['删除比较 jar 包时的缓存', self.iter_software, lambda x: x.delete_compare_tmp_dir()],
             ['解压 jar 到 source 目录', self.iter_software, lambda x: x.extract_jar_to_source_dir()],
+            ['写入 crack 配置', self.iter_software, lambda x: x.write_crack_config()],
         ]
         iox.choose_action(action_list)
 
@@ -490,6 +496,68 @@ class Software:
                     if name1.startswith(translation_dir):
                         print('解压 %s 到 %s' % (name1, tmp_dir1))
                         zipfile1.extract(name1, tmp_dir1)
+
+    def write_crack_config(self):
+        """向启动配置文件中写入破解 jar 包"""
+        name = self.name
+        if name == 'IntelliJIDEA':
+            name = 'IDEA'
+        config_file = '%s/bin/%s64.exe.vmoptions' % (self.path, name)
+        if not os.path.exists(config_file):
+            print('配置文件不存在', config_file)
+            return
+
+        crack_jar_file = r'D:\software\JetBrains\[2456]JetbrainsCrack-2.7-release-str.jar'
+        write_line = '-javaagent:%s\n' % crack_jar_file
+
+        with open(config_file, 'r') as f:
+            lines = f.readlines()
+            for i in range(len(lines)):
+                line = lines[i]
+                if line.startswith('-javaagent'):
+                    if crack_jar_file in line:
+                        # 已经包含了,不需要设置
+                        print('已经包含配置,无需修改')
+                    else:
+                        # 不包含,修改该行
+                        lines[i] = write_line
+                        print('修改配置')
+                        with open(config_file, 'w') as f:
+                            f.writelines(lines)
+                    return
+            # 没有找到行,需要添加
+            with open(config_file, 'a') as f:
+                print('添加配置')
+                f.write(write_line)
+
+    activationCode = """
+{"licenseId":"ThisCrackLicenseId",
+"licenseeName":"pingfangx",
+"assigneeName":"pingfangx",
+"assigneeEmail":"rover12421@163.com",
+"licenseRestriction":"For Rover12421 Crack, Only Test! Please support genuine!!!",
+"checkConcurrentUse":false,
+"products":[
+{"code":"II","paidUpTo":"2099-12-31"},
+{"code":"DM","paidUpTo":"2099-12-31"},
+{"code":"AC","paidUpTo":"2099-12-31"},
+{"code":"RS0","paidUpTo":"2099-12-31"},
+{"code":"WS","paidUpTo":"2099-12-31"},
+{"code":"DPN","paidUpTo":"2099-12-31"},
+{"code":"RC","paidUpTo":"2099-12-31"},
+{"code":"PS","paidUpTo":"2099-12-31"},
+{"code":"DC","paidUpTo":"2099-12-31"},
+{"code":"RM","paidUpTo":"2099-12-31"},
+{"code":"CL","paidUpTo":"2099-12-31"},
+{"code":"PC","paidUpTo":"2099-12-31"},
+{"code":"DB","paidUpTo":"2099-12-31"},
+{"code":"GO","paidUpTo":"2099-12-31"},
+{"code":"RD","paidUpTo":"2099-12-31"}
+],
+"hash":"2911276/0",
+"gracePeriodDays":7,
+"autoProlongated":false}
+    """
 
 
 class ZipTools:
