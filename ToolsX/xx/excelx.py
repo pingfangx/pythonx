@@ -24,6 +24,20 @@ def open_or_create_workbook(file_path):
     return workbook
 
 
+def read_from_excel(file_path):
+    if not os.path.exists(file_path):
+        return []
+    read_book = xlrd.open_workbook(file_path)
+    sheet = read_book.sheet_by_index(0)
+    data = []
+    for row in range(sheet.nrows):
+        column = []
+        for col in range(sheet.ncols):
+            column.append(sheet.cell(row, col).value)
+        data.append(column)
+    return data
+
+
 def write_list_to_excel(file_path, data, title=None, separator='|', print_msg=True):
     """
     将数据写入

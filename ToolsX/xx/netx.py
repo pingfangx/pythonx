@@ -73,6 +73,27 @@ def parse_cookies(cookies=''):
     return result
 
 
+def parse_params_from_file(file_path):
+    with open(file_path, encoding='utf-8') as f:
+        return parse_params(f.read())
+
+
+def parse_params(params):
+    """
+    解析参数，从 fiddler 中抓取后直接复制
+    以 # 开头或者空行将被忽略
+    """
+    data = {}
+    for line in params.split('\n'):
+        if line.startswith('#'):
+            continue
+        if '\t' not in line:
+            continue
+        key, value = line.split('\t')
+        data[key] = value
+    return data
+
+
 def handle_result(requests, success_callback=None, fail_callback=None, print_result=True):
     """处理结果"""
     result = requests.json()

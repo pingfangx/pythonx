@@ -1,0 +1,14 @@
+#tag	标签：可立即入住，可预订，自如客转租 分别为 123
+#sort	5，排序，面积从大到小为5
+#type	1表示合租，1|6|7 分别表示合租不限，2居，3居
+#feature	5|3|4，3独立卫生间，4独立阳台，5首次出租
+#rface	2 南
+
+size	20
+page	1
+sort	5
+city_code	110000
+type	1
+price	,3500
+subway_code	8号线
+subway_station_code	回龙观东大街
