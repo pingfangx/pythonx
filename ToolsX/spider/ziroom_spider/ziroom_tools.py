@@ -392,6 +392,47 @@ class SubwayRoomMonitor:
             print('线程 %d 第 %d 个任务,获取到 %d 个房源' % (thread_id, element_index, len(rooms)))
 
 
+class RoomStatusMonitor:
+    """房源状态监控"""
+
+    def __init__(self, room_id, city_code='110000'):
+        self.room_id = room_id
+        self.city_code = city_code
+
+    def run(self):
+        """运行"""
+        url = 'https://phoenix.ziroom.com/v7/room/detail.json'
+        params = {
+            'id': self.room_id,
+            'city_code': self.city_code
+        }
+        params = netx.parse_params("""
+house_id	60163300
+sign	3819b75389894cc18418b81e882d560a
+size	4
+timestamp	1520072313
+os	android:7.0
+network	WIFI
+sign_open	1
+app_version	5.5.0
+imei	868030026509339
+id	61015398
+ip	192.168.199.128
+uid	0
+city_code	110000
+page	1
+model	MI 5
+        """)
+        print(url)
+        print(params)
+        while True:
+            result = netx.get(url, params, result_type='json', need_print=False)
+            if result['status'] == 'success':
+                data = result['data']
+            print(result)
+            return
+
+
 class ZiroomTools:
     """自如找房的工具"""
 
@@ -405,7 +446,8 @@ class ZiroomTools:
             ['比较两处房源', self.compare_rooms, zip_file_path1, zip_file_path2],
             ['输出为展示网页用的 zip', self.export_to_share_and_whole_rooms, 'new_rooms.zip', web_dir],
             ['启动 web 服务', self.start_web_server, web_dir],
-            ['监控地铁区域房源', self.monitor_subway_room]
+            ['监控地铁区域房源', self.monitor_subway_room],
+            ['监控房源状态', self.monitor_room_status, '61015398']
         ]
         iox.choose_action(action_list)
 
@@ -472,6 +514,10 @@ class ZiroomTools:
     @staticmethod
     def monitor_subway_room():
         SubwayRoomMonitor(600).run()
+
+    def monitor_room_status(self, room_id):
+        """监控房源状态"""
+        RoomStatusMonitor(room_id).run()
 
 
 if __name__ == '__main__':
