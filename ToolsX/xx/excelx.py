@@ -1,7 +1,7 @@
 """
 处理excel
 """
-
+import datetime
 import os
 
 import xlrd
@@ -24,7 +24,13 @@ def open_or_create_workbook(file_path):
     return workbook
 
 
-def read_from_excel(file_path):
+def read_from_excel(file_path, date_format='%Y-%m-%d'):
+    """
+
+    :param file_path: 文件路径
+    :param date_format: 如果有时间时，格式化的日符串
+    :return:
+    """
     if not os.path.exists(file_path):
         return []
     read_book = xlrd.open_workbook(file_path)
@@ -33,7 +39,13 @@ def read_from_excel(file_path):
     for row in range(sheet.nrows):
         column = []
         for col in range(sheet.ncols):
-            column.append(sheet.cell(row, col).value)
+            cell = sheet.cell(row, col)
+            if cell.ctype == 3:
+                date = datetime.datetime(*xlrd.xldate_as_tuple(cell.value, 0))
+                value = date.strftime(date_format)
+            else:
+                value = cell.value
+            column.append(value)
         data.append(column)
     return data
 

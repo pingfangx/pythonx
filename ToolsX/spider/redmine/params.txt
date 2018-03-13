@@ -1,0 +1,16 @@
+Content-Disposition: form-data; name="utf8"	✓
+Content-Disposition: form-data; name="authenticity_token"
+Content-Disposition: form-data; name="form_update_triggered_by"
+Content-Disposition: form-data; name="issue[is_private]"	0
+Content-Disposition: form-data; name="issue[tracker_id]"	2
+Content-Disposition: form-data; name="issue[subject]"	【Android】Glide 图片加载框架分析学习
+Content-Disposition: form-data; name="issue[description]"
+Content-Disposition: form-data; name="issue[status_id]"	3
+Content-Disposition: form-data; name="issue[priority_id]"	2
+Content-Disposition: form-data; name="issue[assigned_to_id]"	42
+Content-Disposition: form-data; name="issue[parent_issue_id]"
+Content-Disposition: form-data; name="issue[start_date]"	2018-03-05
+Content-Disposition: form-data; name="issue[due_date]"	2018-03-06
+Content-Disposition: form-data; name="issue[estimated_hours]"
+Content-Disposition: form-data; name="issue[done_ratio]"	100
+Content-Disposition: form-data; name="commit"	创建

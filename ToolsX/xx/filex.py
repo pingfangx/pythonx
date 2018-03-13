@@ -3,6 +3,14 @@ import re
 from configparser import ConfigParser
 
 
+def read(file_path, encoding='utf-8'):
+    """读取文件内容"""
+    if not os.path.exists(file_path):
+        return None
+    with open(file_path, encoding=encoding) as f:
+        return f.read()
+
+
 def read_lines(file_path, encoding='utf-8', ignore_line_separator=False):
     """
     读取所有行
