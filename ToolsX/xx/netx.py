@@ -58,6 +58,11 @@ def get_file(url, file_path, need_print=True):
         print('下载完成')
 
 
+def parse_cookies_from_file(file_path):
+    with open(file_path, encoding='utf-8') as f:
+        return parse_cookies(f.read())
+
+
 def parse_cookies(cookies=''):
     """从字符串中解析出 cookies"""
     result = dict()

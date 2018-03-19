@@ -2,6 +2,7 @@ import re
 
 import netx
 import requests
+from bs4 import BeautifulSoup
 from xx import excelx
 from xx import filex
 from xx import iox
@@ -69,28 +70,76 @@ class Issue:
 
 
 class Redmine:
-    def __init__(self, token, cookies):
-        self.token = token
-        self.cookies = cookies
-        "用于认证"
+    def __init__(self):
 
         self.issue_list = None
         self.subject_prefix = '【Android】'
         """主题前缀"""
 
-        self.project_url = 'http://redmine.00bang.net/redmine/projects/%s/issues'
+        self.redmine_url = 'http://redmine.00bang.net/redmine'
+        self.project_url = self.redmine_url + '/projects/%s/issues'
+        self.login_url = self.redmine_url + '/login'
 
+        self.login_file = r'ignore/login.txt'
+        self.cookies_file = r'ignore/cookies.txt'
+        self.token_file = r'ignore/token.txt'
         self.params_file = r'params.txt'
         self.excel_file = r'issues.xlsx'
 
     def main(self):
         action_list = [
             ['退出', exit],
+            ['登录', self.login, self.login_file],
             ['从 excel 读取任务', self.read_issue_from_excel, self.excel_file],
             ['上传任务', self.upload_issue]
         ]
         while True:
             iox.choose_action(action_list)
+
+    def login(self, file_path):
+        """登录并保存信息"""
+        lines = filex.read_lines(file_path, ignore_line_separator=True)
+        if not lines:
+            print('没有读取到登录信息', file_path)
+            exit()
+        if len(lines) < 2:
+            print('登录信息不完整，第一行写帐号，第二行写密码')
+            exit()
+
+        print('打开登录页...')
+        r = requests.get(self.login_url)
+        cookies, authenticity_token = self.parse_cookies_and_token_from_result(r)
+        if not (cookies and authenticity_token):
+            print('登录失败')
+            return
+
+        # 获取完 cookies, token ，开始登录
+        params = {
+            'username': lines[0],
+            'password': lines[1],
+            'utf8': '✓',
+            'authenticity_token': authenticity_token,
+        }
+        print('登录帐号 %s ...' % lines[0])
+        r = requests.post(self.login_url, params, cookies=cookies)
+        # 注意 cookies 和 token 都要重新获取
+        cookies, authenticity_token = self.parse_cookies_and_token_from_result(r)
+        if not (cookies and authenticity_token):
+            print('登录失败')
+            return
+        print('登录成功')
+        cookies_str = ';'.join([k + '=' + v for k, v in cookies.items()])
+        filex.write(self.cookies_file, cookies_str)
+        filex.write(self.token_file, authenticity_token)
+
+    @staticmethod
+    def parse_cookies_and_token_from_result(r):
+        """从联网结果解析 cookies 和 token"""
+        soup = BeautifulSoup(r.text, "html.parser")
+        authenticity_token = soup.find('input', {'name': 'authenticity_token'})
+        if authenticity_token:
+            authenticity_token = authenticity_token['value']
+        return r.cookies, authenticity_token
 
     def read_issue_from_excel(self, file_path):
         """读取任务"""
@@ -133,14 +182,27 @@ class Redmine:
         for issue in self.issue_list:
             print(issue)
 
+    def read_cookies_and_token_from_file(self):
+        """从保存的文件读取"""
+        cookies = netx.parse_cookies_from_file(self.cookies_file)
+        if not cookies:
+            print('读取 cookie 失败', self.cookies_file)
+
+        token = filex.read(self.token_file)
+        if not token:
+            print('读取 token 失败', self.token_file)
+        return cookies, token
+
     def upload_issue(self):
         """上传任务"""
+        cookies, token = self.read_cookies_and_token_from_file()
         if not self.issue_list:
-            print('没有任务列表')
+            print('没有任务列表，请先读取任务')
             return
-
+        if not (cookies and token):
+            exit()
         params = self.read_params(self.params_file)
-        params['authenticity_token'] = self.token
+        params['authenticity_token'] = token
         if not params:
             print('读取参数失败，参数文件', self.params_file)
             exit()
@@ -159,9 +221,10 @@ class Redmine:
             url = self.project_url % issue.project
             for k, v in issue.__dict__.items():
                 post_params['issue[%s]' % k] = v
-            self.do_post(url, post_params)
+            self.do_post(url, post_params, cookies)
 
-    def do_post(self, url, params):
+    @staticmethod
+    def do_post(url, params, cookies):
         print('post to', url)
         post_params = {}
         for key, value in params.items():
@@ -169,10 +232,13 @@ class Redmine:
         # 这里也可以过滤掉不用上传的字段
         print(post_params)
         # 不跳转
-        r = requests.post(url, cookies=self.cookies, files=post_params, allow_redirects=False)
+        r = requests.post(url, cookies=cookies, files=post_params, allow_redirects=False)
         print('结果为')
         print(r.text)
-        # TODO 这里要解析结果
+        if re.search('You are being <a href="http://redmine/redmine/issues/\d+">redirected</a>', r.text):
+            print('发布成功')
+        else:
+            print('发布失败')
 
     @staticmethod
     def read_params(file_path):
@@ -189,15 +255,4 @@ class Redmine:
 
 
 if __name__ == '__main__':
-    token_file = r'ignore/token.txt'
-    saved_token = filex.read(token_file)
-    if not saved_token:
-        print('读取 token 失败', token_file)
-        exit()
-
-    cookies_file = r'ignore/cookies.txt'
-    saved_cookies = filex.read(cookies_file)
-    if not saved_cookies:
-        print('读取 cookie 失败', cookies_file)
-        exit()
-    Redmine(saved_token, netx.parse_cookies(saved_cookies)).main()
+    Redmine().main()
