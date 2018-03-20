@@ -1,11 +1,10 @@
 # coding=utf-8
 import re
 
-from xx import filex
-from xx import iox
-
 from android_studio_translator.delete_action import DeleteAction
 from android_studio_translator.tools import Tools
+from xx import filex
+from xx import iox
 
 
 class TranslationInspection:
@@ -22,12 +21,12 @@ class TranslationInspection:
             TranslationInspection.inspect_double_single_quote,
             TranslationInspection.inspect_parentheses,
             TranslationInspection.inspect_ends_symbol,
+            TranslationInspection.inspect_tag,
             TranslationInspection.inspect_short_cut,
             TranslationInspection.inspect_underline_short_cut,
             TranslationInspection.inspect_space,
             TranslationInspection.inspect_space_2,
             TranslationInspection.inspect_serial_number,
-            TranslationInspection.inspect_tag,
         ]
 
     def main(self):
@@ -49,7 +48,7 @@ class TranslationInspection:
         for inspection in inspection_list:
             old = cn
             cn = inspection(en, cn, True)
-            print('\nafter %s\n%s\n%s\n%s' % (inspection.__name__, en, old, cn))
+            print(u'\nafter %s\n%s\n%s\n%s' % (inspection.__name__, en, old, cn))
 
     @staticmethod
     def inspect_file(pseudo_file, translation_file, inspection_list, result_file=None, print_msg=False,
@@ -68,8 +67,8 @@ class TranslationInspection:
             result_file = filex.get_result_file_name(translation_file, '_inspection')
         pseudo_dict = Tools.get_dict_from_omegat(pseudo_file)
         translation_dict = Tools.get_dict_from_omegat(translation_file)
-        print('pseudo size is %d' % (len(pseudo_dict)))
-        print('translation size is %d' % (len(translation_dict)))
+        print(u'pseudo size is %d' % (len(pseudo_dict)))
+        print(u'translation size is %d' % (len(translation_dict)))
         result = dict()
         i = 0
         for en in pseudo_dict.keys():
@@ -91,11 +90,11 @@ class TranslationInspection:
                 if old != value:
                     if print_change:
                         i += 1
-                        print('\n%d.\n【%s】根据【%s】被修改为\n【%s】\n' % (i, old, en, value))
+                        print(u'\n%d.\n【%s】根据【%s】被修改为\n【%s】\n' % (i, old, en, value))
                 result[en] = value
             else:
-                print('不包含key:%s' % en)
-        print('remain translation size %d' % (len(translation_dict)))
+                print(u'不包含key:%s' % en)
+        print(u'remain translation size %d' % (len(translation_dict)))
         Tools.save_omegat_dict(result, result_file)
 
     @staticmethod
@@ -112,11 +111,35 @@ class TranslationInspection:
         pattern = r'</?.+?>'
         en_all_match = re.findall(pattern, en)
         cn_all_match = re.findall(pattern, cn)
+        # 删除空格
+        for i in range(len(cn_all_match)):
+            cn_match = cn_all_match[i]
+            if ' ' in cn_match:
+                # 包含空格
+                cn_match_without_space = cn_match.replace(' ', '').lower()
+                if cn_match_without_space in en_all_match:
+                    # 两处都要替换
+                    cn = cn.replace(cn_match, cn_match_without_space)
+                    cn_all_match[i] = cn_match_without_space
         if not TranslationInspection.compare_list(en_all_match, cn_all_match):
-            print('en=【%s】\ncn=【%s】' % (en, cn))
+            print(u'en=【%s】\ncn=【%s】' % (en, cn))
             print(en_all_match)
             print(cn_all_match)
-            print('')
+            print(u'')
+
+        # 保留标签
+        need_same_tag = True
+        if need_same_tag:
+            pattern = r'<(\w\d)>(.+?)</\1>'
+            en_all_match = re.findall(pattern, en)
+            cn_all_match = re.findall(pattern, cn)
+            if en_all_match and cn_all_match:
+                for tag, content in en_all_match:
+                    for cn_tag, cn_content in cn_all_match:
+                        if tag == cn_tag:
+                            # 标签相等，替换内容
+                            cn = cn.replace('<%s>%s</%s>' % (cn_tag, cn_content, cn_tag),
+                                            '<%s>%s</%s>' % (tag, content, tag))
         return cn
 
     @staticmethod
@@ -127,7 +150,7 @@ class TranslationInspection:
             return True
         elif list1 is None or list2 is None:
             # 有一个为 None
-            print('有一个 list 为 None')
+            print(u'有一个 list 为 None')
             return False
 
         # 忽略换行
@@ -137,7 +160,7 @@ class TranslationInspection:
         while tag in list2:
             list2.remove(tag)
         if len(list1) != len(list2):
-            print('标签长度不相等')
+            print(u'标签长度不相等')
             return False
 
         chinese_pattern = re.compile(u'([\u4e00-\u9fa5])')
@@ -146,7 +169,7 @@ class TranslationInspection:
                 # 忽略中文
                 continue
             if i not in list1 or list1.count(i) != list2.count(i):
-                print('元素 %s 不存在或数量不等' % i)
+                print(u'元素不存在或数量不等', i)
                 return False
         return True
 
@@ -161,9 +184,9 @@ class TranslationInspection:
         if en_all_match:
             cn_all_match = re.findall(pattern, cn)
             if not cn_all_match:
-                print('\n中文中没有序号\nen=【%s】\ncn=【%s】' % (en, cn))
+                print(u'\n中文中没有序号\nen=【%s】\ncn=【%s】' % (en, cn))
             elif len(en_all_match) != len(cn_all_match):
-                print('\n中英文序号数量不一致\nen=【%s】\ncn=【%s】' % (en, cn))
+                print(u'\n中英文序号数量不一致\nen=【%s】\ncn=【%s】' % (en, cn))
         return cn
 
     @staticmethod
@@ -201,14 +224,14 @@ class TranslationInspection:
                 match_without_quote = '\'%s\'' % match
                 if match_without_quote in en:
                     if print_msg:
-                        print('翻译的双引号中有空格，而原文没有，将其空格删除【%s】' % match_without_quote_space)
+                        print(u'翻译的双引号中有空格，而原文没有，将其空格删除【%s】' % match_without_quote_space)
                     cn = cn.replace(match_without_quote_space, match_without_quote)
 
         if print_msg:
             if re.search(chinese_pattern + double_quote_pattern, cn):
-                print('【%s】在中文后有相连的引号' % cn)
+                print(u'【%s】在中文后有相连的引号' % cn)
             if re.search(double_quote_pattern + chinese_pattern, cn):
-                print('【%s】在中文前有相连的引号' % cn)
+                print(u'【%s】在中文前有相连的引号' % cn)
         # 特殊的不替换
         cn = cn.replace('平方 X', '平方X')
         return cn
@@ -237,7 +260,7 @@ class TranslationInspection:
             if en_word not in cn:
                 cn_match = re.search(cn_pattern, cn)
                 if not cn_match:
-                    print('\n%s\n%s\n【%s】不在中文中，并且中文无法匹配正则' % (en, cn, en_word))
+                    print(u'\n%s\n%s\n【%s】不在中文中，并且中文无法匹配正则' % (en, cn, en_word))
                 else:
                     # 中文中找到匹配，可以替换
                     cn_word = cn_match.group()
@@ -286,10 +309,10 @@ class TranslationInspection:
                         append = append.upper()
                         if cn.endswith(append):
                             if print_msg:
-                                print('已经以【%s】结尾' % append)
+                                print(u'已经以【%s】结尾' % append)
                         elif cn.endswith(append.lower()):
                             if print_msg:
-                                print('已经以小写的【%s】结尾,替换为大写' % append.lower())
+                                print(u'已经以小写的【%s】结尾,替换为大写' % append.lower())
                             cn = cn[: -len(append)]
                             cn += append
                         else:
@@ -304,16 +327,16 @@ class TranslationInspection:
                                     contain_ignore_word = True
                                     break
                             if not contain_ignore_word:
-                                print('\n可能需要添加快捷方式【%s】' % append)
-                                print('%s\n%s' % (en, cn))
+                                print(u'\n可能需要添加快捷方式【%s】' % append)
+                                print(u'%s\n%s' % (en, cn))
                     else:
                         if '_' not in cn:
-                            print('\n%s\n%s' % (en, cn))
-                            print('没有匹配字母，且不匹配')
+                            print(u'\n%s\n%s' % (en, cn))
+                            print(u'没有匹配字母，且不匹配')
                 else:
                     if cn.count('_') != en.count('_'):
-                        print('\n%s\n%s' % (en, cn))
-                        print('有多个下划线，且数量不匹配')
+                        print(u'\n%s\n%s' % (en, cn))
+                        print(u'有多个下划线，且数量不匹配')
         shortcut_pattern = '\(_\w\)$'
         match = re.search(shortcut_pattern, cn)
         if match:
@@ -321,8 +344,8 @@ class TranslationInspection:
             if '&' in en or en.count('_') == 1:
                 pass
             else:
-                print('\n%s\n%s' % (en, cn))
-                print('没有 & 或一个下划线，却添加了快捷方式')
+                print(u'\n%s\n%s' % (en, cn))
+                print(u'没有 & 或一个下划线，却添加了快捷方式')
         return cn
 
     @staticmethod
@@ -331,15 +354,15 @@ class TranslationInspection:
         if match is not None:
             content = match.group(group)
             if print_msg:
-                print('\n【%s】匹配，翻译是【%s】,内容是【%s】' % (en, cn, content))
+                print(u'\n【%s】匹配，翻译是【%s】,内容是【%s】' % (en, cn, content))
             append = replace % content
             append = append.upper()
             if cn.endswith(append):
                 if print_msg:
-                    print('已经以【%s】结尾' % append)
+                    print(u'已经以【%s】结尾' % append)
             elif cn.endswith(append.lower()):
                 if print_msg:
-                    print('已经以小写的【%s】结尾,替换为大写' % append.lower())
+                    print(u'已经以小写的【%s】结尾,替换为大写' % append.lower())
                 cn = cn[: -len(append)]
                 cn += append
             else:
@@ -355,11 +378,11 @@ class TranslationInspection:
                         contain_ignore = True
                         break
                 if not contain_ignore:
-                    print('【%s】not endswith 【%s】' % (cn, append))
+                    print(u'【%s】not endswith 【%s】' % (cn, append))
                     cn += append
                 else:
                     if print_msg:
-                        print('忽略')
+                        print(u'忽略')
         return cn
 
     @staticmethod
@@ -367,15 +390,15 @@ class TranslationInspection:
         """
         检查结尾的符号
         """
-        pattern = r'(\s?([.。…\\:：])+)$'
+        pattern = u'(\s?([.。…\\:：])+)$'
         en_match = re.search(pattern, en)
         if en_match:
             if print_msg:
-                print('\n【%s】包含结尾符号，翻译是【%s】' % (en, cn))
+                print(u'\n【%s】包含结尾符号，翻译是【%s】' % (en, cn))
             en_content = en_match.group(1)
             if en_content == '.':
                 # 将句点替换为句号
-                en_content = '。'
+                en_content = u'。'
             if not re.search(pattern, cn):
                 # 忽略已经有的快捷方式
                 if not re.search(pattern, re.sub(r'\([_&]\w\)', '', cn)):
@@ -386,7 +409,7 @@ class TranslationInspection:
                     else:
                         cn = cn + en_content
                     if print_msg:
-                        print('在结尾添加%s' % en_content)
+                        print(u'在结尾添加%s' % en_content)
         return cn
 
     @staticmethod
@@ -398,10 +421,10 @@ class TranslationInspection:
         en_match_list = re.findall(pattern, en)
         if en_match_list:
             if print_msg:
-                print('\n【%s】包含小括号，翻译是【%s】' % (en, cn))
+                print(u'\n【%s】包含小括号，翻译是【%s】' % (en, cn))
             if len(en_match_list) == cn.count(u'（') and len(en_match_list) == cn.count(u'）'):
                 if print_msg:
-                    print('被翻译成了【（）】,替换')
+                    print(u'被翻译成了【（）】,替换')
                 cn = cn.replace(u'（', '(')
                 cn = cn.replace(u'）', ')')
 
@@ -411,7 +434,7 @@ class TranslationInspection:
             cn = re.sub(need_space_pattern + chinese_pattern, r'\1 \2', cn)
             if old != cn:
                 if print_msg:
-                    print('补充括号后的空格')
+                    print(u'补充括号后的空格')
         return cn
 
     @staticmethod
@@ -424,15 +447,15 @@ class TranslationInspection:
         en_match_list = re.findall(pattern, en)
         if en_match_list:
             if print_msg:
-                print('\n【%s】包含两个单引号，翻译是【%s】' % (en, cn))
+                print(u'\n【%s】包含两个单引号，翻译是【%s】' % (en, cn))
             if len(en_match_list) == cn.count(u'“') and len(en_match_list) == cn.count(u'”'):
                 if print_msg:
-                    print('被翻译成了【“”】,替换')
+                    print(u'被翻译成了【“”】,替换')
                 cn = cn.replace(u'“', '\'\'')
                 cn = cn.replace(u'”', '\'\'')
             if len(en_match_list) * 2 == cn.count('"') and '="' not in cn:
                 if print_msg:
-                    print('被翻译成了【"】，替换')
+                    print(u'被翻译成了【"】，替换')
                 cn = cn.replace('"', "\'\'")
             old = cn
             # 这里的目的是去掉两个 ' 中间与内容的空格
@@ -440,7 +463,7 @@ class TranslationInspection:
             cn = re.sub(r"('+)\s*(.+?)\s*('+)", r"\1\2\3", cn)
             if old != cn:
                 if print_msg:
-                    print('去除单引号前后的空格')
+                    print(u'去除单引号前后的空格')
             cn_match_list = re.findall(pattern, cn)
             if not cn_match_list:
                 for en_match in en_match_list:
@@ -450,31 +473,31 @@ class TranslationInspection:
                         right_quote = '\'' + en_match + '\'\''
                         if left_quote in cn:
                             if print_msg:
-                                print('右边缺\'，添加')
+                                print(u'右边缺\'，添加')
                             cn = cn.replace(left_quote, all_quote)
                         elif right_quote in cn:
                             if print_msg:
-                                print('左边缺\'，添加')
+                                print(u'左边缺\'，添加')
                             cn = cn.replace(right_quote, all_quote)
                         else:
                             if print_msg:
-                                print('左右缺\'\'，添加')
+                                print(u'左右缺\'\'，添加')
                             cn = cn.replace(en_match, all_quote)
             cn_match_list = re.findall(pattern, cn)
             if not cn_match_list:
-                print('中文中没有结果')
-                print('\n【%s】包两个单引号，翻译是【%s】,内容是【%s】' % (en, cn, ''))
+                print(u'中文中没有结果')
+                print(u'\n【%s】包两个单引号，翻译是【%s】,内容是【%s】' % (en, cn, ''))
                 return cn
             if len(en_match_list) != len(cn_match_list):
-                print('匹配结果的大小不相等')
-                print('\n【%s】包两个单引号，翻译是【%s】,内容是【%s】' % (en, cn, ''))
+                print(u'匹配结果的大小不相等')
+                print(u'\n【%s】包两个单引号，翻译是【%s】,内容是【%s】' % (en, cn, ''))
                 return cn
             # 如果前后跟字母，则补充空格
             old = cn
             TranslationInspection.add_space_round_quote(en, cn, pattern, '\'\'', print_msg)
             if old != cn:
                 if print_msg:
-                    print('补充与字母相联的''的空格')
+                    print(u'补充与字母相联的''的空格')
         return cn
 
     @staticmethod
@@ -488,7 +511,7 @@ class TranslationInspection:
                 cn_content = cn_match_list[i]
                 if en_content != cn_content and en_content == cn_content.strip():
                     if print_msg:
-                        print('翻译中引号中的内容带有空格，删除')
+                        print(u'翻译中引号中的内容带有空格，删除')
                     cn = cn.replace(quote + cn_content + quote, quote + cn_content.strip() + quote)
                     cn_content_with_quotation = cn_content.strip()
                 else:
@@ -508,23 +531,23 @@ class TranslationInspection:
         en_match_list = re.findall(pattern, en)
         if en_match_list:
             if print_msg:
-                print('\n【%s】包含成对单引号，翻译是【%s】' % (en, cn))
+                print(u'\n【%s】包含成对单引号，翻译是【%s】' % (en, cn))
 
             cn_match_list = re.findall(pattern, cn)
             if len(en_match_list) != len(cn_match_list):
                 if len(en_match_list) == cn.count(u'“') and len(en_match_list) == cn.count(u'”'):
                     if print_msg:
-                        print('被翻译成了【“”】,替换')
+                        print(u'被翻译成了【“”】,替换')
                     cn = cn.replace(u'“', '\'')
                     cn = cn.replace(u'”', '\'')
                 elif len(en_match_list) == cn.count(u'‘') and len(en_match_list) == cn.count(u'’'):
                     if print_msg:
-                        print('被翻译成了【‘’】,替换')
+                        print(u'被翻译成了【‘’】,替换')
                     cn = cn.replace(u'‘', '\'')
                     cn = cn.replace(u'’', '\'')
                 elif len(en_match_list) * 2 == cn.count('"'):
                     if print_msg:
-                        print('被翻译成了【"】,替换')
+                        print(u'被翻译成了【"】,替换')
                     cn = cn.replace('"', '\'')
 
             cn_match_list = re.findall(pattern, cn)
@@ -541,8 +564,8 @@ class TranslationInspection:
                         contain_ignore_word = True
                         break
                 if not contain_ignore_word:
-                    print('\n【%s】包含成对单引号，翻译是【%s】' % (en, cn))
-                    print('匹配结果的大小不相等')
+                    print(u'\n【%s】包含成对单引号，翻译是【%s】' % (en, cn))
+                    print(u'匹配结果的大小不相等')
                     print(en_match_list)
                     print(cn_match_list)
                 return cn
@@ -551,7 +574,7 @@ class TranslationInspection:
                 cn_content = cn_match_list[i]
                 if en_content != cn_content and en_content == cn_content.strip():
                     if print_msg:
-                        print('翻译中引号中的内容带有空格，删除')
+                        print(u'翻译中引号中的内容带有空格，删除')
                     cn = cn.replace('\'' + cn_content + '\'', '\'' + cn_content.strip() + '\'')
                     cn_content_with_quotation = cn_content.strip()
                 else:
@@ -573,22 +596,22 @@ class TranslationInspection:
         if en_match is not None:
             en_content = en_match.group(1)
             if print_msg:
-                print('【%s】包含双引号，翻译是【%s】,内容是【%s】' % (en, cn, en_content))
+                print(u'【%s】包含双引号，翻译是【%s】,内容是【%s】' % (en, cn, en_content))
             if en.count('"') == cn.count(u'“') * 2 and en.count('"') == cn.count(u'”') * 2:
                 if print_msg:
-                    print('【""】被翻译成了【“”】，替换')
+                    print(u'【""】被翻译成了【“”】，替换')
                 cn = cn.replace(u'“', '\"')
                 cn = cn.replace(u'”', '\"')
             else:
                 if print_msg:
-                    print('%s 中双引号数量不匹配 %s' % (cn, en))
+                    print(u'%s 中双引号数量不匹配 %s' % (cn, en))
             cn_match_list = re.findall(pattern, cn)
             if cn_match_list:
                 for cn_content in cn_match_list:
                     cn_content_strip = cn_content.replace(' ', '')
                     if cn_content not in en and cn_content_strip in en:
                         if print_msg:
-                            print('翻译中引号中的内容带有空格，删除')
+                            print(u'翻译中引号中的内容带有空格，删除')
                         cn = cn.replace(cn_content, cn_content_strip)
         return cn
 
@@ -673,7 +696,7 @@ class StandardTranslation:
                                             contain_ignore_word = True
                                             break
                                     if not contain_ignore_word:
-                                        print('\n应该将【%s】替换为【%s】' % (replace, standard_translation.cn_list[0]))
+                                        print(u'\n应该将【%s】替换为【%s】' % (replace, standard_translation.cn_list[0]))
                                         print(en)
                                         print(cn)
                                     # 不再直接替换,提醒操作
@@ -690,7 +713,7 @@ class StandardTranslation:
                                     contain_ignore_word = True
                                     break
                             if not contain_ignore_word:
-                                print('\n【%s】的翻译\n【%s】中不包含期望的翻译\n【%s】应该翻译为【%s】' % (
+                                print(u'\n【%s】的翻译\n【%s】中不包含期望的翻译\n【%s】应该翻译为【%s】' % (
                                     en, cn, s_en, ','.join(standard_translation.cn_list)))
 
         return cn
