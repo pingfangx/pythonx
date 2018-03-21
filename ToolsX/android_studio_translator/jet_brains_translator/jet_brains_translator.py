@@ -24,25 +24,27 @@ class JetBrainsTranslator:
 
         current_version_list = [
             '3.0.1-5',
-            '2017.3.2-1',
             '2017.3.3-1',
-            '2017.3.3-3',
+            '2017.3.5-1',
+            '2017.3.6-1',
             '2017.3.4-1',
+            '2017.3.3-1',
+            '2017.3.5-1',
         ]
+
         pre_version_list = [
-            '3.0.1-4',
-            '2017.3.2-1',
-            '2017.3.2-1',
-            '2017.3.3-2',
-            '2017.3.3-2',
+            '3.0.1',
+            '2017.3.1',
         ]
+        "不再维护上一个版本，除比较 jar 包，比较 build 判断是否更新，等方法用到以外，主要的方法都不再用到"
+
         software_name_list = [
             'AndroidStudio',
             'GoLand',
-            'RubyMine',
-            'PyCharm',
             'IntelliJIDEA',
             'PhpStorm',
+            'PyCharm',
+            'RubyMine',
             'WebStorm',
         ]
 
@@ -85,7 +87,9 @@ class JetBrainsTranslator:
             ['复制 resources_en.jar', self.iter_software, lambda x: x.copy_resources_en_jar()],
             ['压缩进汉化包', self.iter_software, lambda x: x.zip_translation()],
             ['压缩进 en 包', self.iter_software, lambda x: x.zip_translation_to_en()],
-            ['将汉化包复制到软件目录', self.iter_software, lambda x: x.copy_translation_to_work_dir()],
+            ['将汉化包复制到软件目录', self.iter_software, lambda x: x.copy_translation_to_work_dir(1)],
+            ['将 en 汉化包复制到软件目录', self.iter_software, lambda x: x.copy_translation_to_work_dir(2)],
+            ['将英文包复制到软件目录', self.iter_software, lambda x: x.copy_translation_to_work_dir(3)],
             ['以下是版本更新时调用的方法----------', ],
             ['检查官网是否有新版本', self.check_update, chrome_path],
             ['校验版本是否更新', self.iter_software, lambda x: x.validate_version()],
@@ -157,8 +161,10 @@ class JetBrainsTranslator:
 
     def iter_software(self, callback):
         """对所有软件循环进行操作"""
-        for software in self.software_list:
-            print('\n处理 %s %s' % (software.name, software.version))
+        length = len(self.software_list)
+        for i in range(length):
+            software = self.software_list[i]
+            print('\n处理%d/%d %s %s ' % (i + 1, length, software.name, software.version))
             callback(software)
 
     def check_update(self, chrome_path=None):
@@ -268,7 +274,7 @@ class Software:
         self.en_jar_path = '%s/jars/%s/英文包/%s/%s' % (self.work_dir, self.name, self.version, 'resources_en.jar')
         "软件的英文包"
         self.translation_jar_name = 'resources_cn_%s_%s_r%s.jar' % (self.name, self.version, self.release_version)
-        "汉化包言语件名"
+        "汉化包文件名"
         self.translation_jar = '%s/jars/%s/%s/%s' % (
             self.work_dir, self.name, '1-放入 lib 中就可用的汉化包', self.translation_jar_name)
         "汉化包完整路径"
@@ -371,37 +377,40 @@ class Software:
         # 压缩翻译内容，如果是所有文件，则需要重命名
         ZipTools.zip_jar(source_dir, target_jar, all_file)
 
-    def copy_translation_to_work_dir(self):
-        """复制汉化包到工作目录"""
+    def copy_translation_to_work_dir(self, type=1):
+        """
+        复制汉化包到工作目录
+        :param type: 1 为中文包，2 为 en 中文包，3 为英文包
+        :return:
+        """
 
         # 上一版本号
-        if self.version != self.pre_version:
-            pre_jar_name = 'resources_cn_%s_%s_r%s.jar' % (self.name, self.pre_version, self.pre_release_version)
-            pre_jar_file_path = self.path + os.sep + 'lib' + os.sep + pre_jar_name
-            if os.path.exists(pre_jar_file_path):
-                try:
-                    os.remove(pre_jar_file_path)
-                    print('删除 %s' % pre_jar_file_path)
-                except PermissionError:
-                    print('删除 %s 失败' % pre_jar_file_path)
-            else:
-                print('上一版本 %s 不存在' % pre_jar_file_path)
-        # 上一 release
-        if self.release_version != self.pre_release_version:
-            pre_jar_name = 'resources_cn_%s_%s_r%s.jar' % (self.name, self.version, self.pre_release_version)
-            pre_jar_file_path = self.path + os.sep + 'lib' + os.sep + pre_jar_name
-            if os.path.exists(pre_jar_file_path):
-                try:
-                    os.remove(pre_jar_file_path)
-                    print('删除 %s' % pre_jar_file_path)
-                except PermissionError:
-                    print('删除 %s 失败' % pre_jar_file_path)
-            else:
-                print('上一发布版本 %s 不存在' % pre_jar_file_path)
-
-        jar_file_path = self.path + os.sep + 'lib' + os.sep + self.translation_jar_name
-        print('复制 %s 到 %s' % (self.translation_jar, jar_file_path))
-        shutil.copyfile(self.translation_jar, jar_file_path)
+        if type == 1:
+            translation_jar_name = self.translation_jar_name
+            translation_jar_path = self.translation_jar
+        elif type == 2:
+            translation_jar_name = 'resources_en.jar'
+            translation_jar_path = self.translation_en_jar
+        elif type == 3:
+            translation_jar_name = 'resources_en.jar'
+            translation_jar_path = self.en_jar_path
+        else:
+            print('类型不正确', type)
+            return
+        lib_dir = self.path + os.sep + 'lib'
+        for file in os.listdir(lib_dir):
+            if file.startswith('resources_cn') and file.endswith('.jar'):
+                if type != 1 or file != self.translation_jar_name:
+                    # 不是中文包，或者不相同删除
+                    file_path = lib_dir + os.sep + file
+                    try:
+                        os.remove(file_path)
+                        print('删除', file_path)
+                    except PermissionError:
+                        print('删除失败', file_path)
+        jar_file_path = self.path + os.sep + 'lib' + os.sep + translation_jar_name
+        print('复制 %s 到 %s' % (translation_jar_path, jar_file_path))
+        shutil.copyfile(translation_jar_path, jar_file_path)
 
     def validate_version(self):
         """校验是否已更新软件"""
@@ -616,7 +625,7 @@ class ZipTools:
                     arcname = file.replace('_zh_CN', '')
                 else:
                     arcname = file
-                print('压缩 %s 为 %s' % (file, arcname))
+                # print('压缩 %s 为 %s' % (file, arcname))
                 zip_file.write(source_dir + os.sep + file, arcname)
 
 
