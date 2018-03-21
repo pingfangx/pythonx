@@ -84,6 +84,7 @@ class JetBrainsTranslator:
             ['重命名_zh_CN', self.rename_cn_files],
             ['复制 resources_en.jar', self.iter_software, lambda x: x.copy_resources_en_jar()],
             ['压缩进汉化包', self.iter_software, lambda x: x.zip_translation()],
+            ['压缩进 en 包', self.iter_software, lambda x: x.zip_translation_to_en()],
             ['将汉化包复制到软件目录', self.iter_software, lambda x: x.copy_translation_to_work_dir()],
             ['以下是版本更新时调用的方法----------', ],
             ['检查官网是否有新版本', self.check_update, chrome_path],
@@ -268,8 +269,11 @@ class Software:
         "软件的英文包"
         self.translation_jar_name = 'resources_cn_%s_%s_r%s.jar' % (self.name, self.version, self.release_version)
         "汉化包言语件名"
-        self.translation_jar = '%s/jars/%s/%s' % (self.work_dir, self.name, self.translation_jar_name)
+        self.translation_jar = '%s/jars/%s/%s/%s' % (
+            self.work_dir, self.name, '1-放入 lib 中就可用的汉化包', self.translation_jar_name)
         "汉化包完整路径"
+        self.translation_en_jar = self.en_jar_path.replace('英文包', '2-替换 lib 中原文件的汉化包')
+        """替换原文件的汉化包"""
 
     def copy_resources_en_jar(self):
         """复制 jar"""
@@ -299,11 +303,29 @@ class Software:
         print('将 %s 压缩到 %s' % (translation_dir, self.translation_jar))
         self.zip(translation_dir, self.translation_jar, self.en_jar_path)
 
+    def zip_translation_to_en(self):
+        """打包翻译到 resource_en 中"""
+        translation_dir = '%s/target/%s/resources_en' % (self.work_dir, self.name)
+        print('将 %s 压缩到 %s' % (translation_dir, self.translation_en_jar))
+        self.zip(translation_dir, self.translation_en_jar, self.en_jar_path, True)
+
     @staticmethod
-    def zip(source_dir, target_jar, source_jar=None):
+    def zip(source_dir, target_jar, source_jar=None, all_file=False):
+        """
+        将 source_jar 的文件压缩进 target_jar
+        如果 source_dir 中存在文件，则取 source_dir 中的，不取 source_jar 中的
+        :param source_dir: 要压缩的目录
+        :param target_jar: 目标 jar
+        :param source_jar: 源 jar
+        :param all_file: 如果为 false，只压缩 source_dir 对应的文件
+        如果为 true ，压缩所有文件
+        :return:
+        """
+        # 移除 target
         if os.path.exists(target_jar):
             os.remove(target_jar)
         if source_jar is not None:
+            # 记录文件和目录
             translation_dir_list = []
             translation_file_list = []
             for root, dirs, files in os.walk(source_dir):
@@ -315,28 +337,39 @@ class Software:
                     translation_file_list.append(path.replace(source_dir, '').replace('\\', '/').lstrip('/'))
             print(translation_dir_list)
             print(translation_file_list)
+            # 临时目录
             tmp_dir = os.path.splitext(source_jar)[0]
             if os.path.exists(tmp_dir):
                 shutil.rmtree(tmp_dir)
-            # 解压仅存在于 source_jar 中的内空
+            # 解压仅存在于 source_jar 中的内容
             print('解压缺少的文件')
             with zipfile.ZipFile(source_jar, 'r') as zip_file:
                 for name in zip_file.namelist():
                     cn_name = '_zh_CN'.join(os.path.splitext(name))
-                    for translation_dir in translation_dir_list:
-                        if name.startswith(translation_dir):
-                            # 中英文都不在
-                            if name not in translation_file_list and cn_name not in translation_file_list:
-                                # print('翻译文件中缺少 %s ，解压缩' % name)
-                                zip_file.extract(name, tmp_dir)
+                    need_extract = all_file
+                    if not need_extract:
+                        # 判断是否以源目录开头
+                        for translation_dir in translation_dir_list:
+                            if name.startswith(translation_dir):
+                                # 以源目录开头
+                                need_extract = True
+                                break
+                    if need_extract:
+                        # 再判断
+                        if name in translation_file_list or cn_name in translation_file_list:
+                            # 存在于中文或英文
+                            need_extract = False
+                    if need_extract:
+                        # print('翻译文件中缺少 %s ，解压缩' % name)
+                        zip_file.extract(name, tmp_dir)
             print('压缩缺少的文件')
             ZipTools.zip_jar(tmp_dir, target_jar)
             # 删除
             print('删除临时文件 %s' % tmp_dir)
             if os.path.exists(tmp_dir):
                 shutil.rmtree(tmp_dir)
-        # 压缩翻译内容
-        ZipTools.zip_jar(source_dir, target_jar)
+        # 压缩翻译内容，如果是所有文件，则需要重命名
+        ZipTools.zip_jar(source_dir, target_jar, all_file)
 
     def copy_translation_to_work_dir(self):
         """复制汉化包到工作目录"""
@@ -562,8 +595,14 @@ class Software:
 
 class ZipTools:
     @staticmethod
-    def zip_jar(source_dir, target_jar):
-        """压缩文件夹"""
+    def zip_jar(source_dir, target_jar, rename_cn=False):
+        """
+        压缩文件夹
+        :param source_dir:
+        :param target_jar:
+        :param rename_cn: 是否将 _zh_CN 重命名再压缩
+        :return:
+        """
         print('压缩 %s 到 %s' % (source_dir, target_jar))
         filex.check_and_create_dir(target_jar)
         translation_file_list = []
@@ -573,8 +612,12 @@ class ZipTools:
                 translation_file_list.append(path.replace(source_dir, '').replace('\\', '/').lstrip('/'))
         with zipfile.ZipFile(target_jar, 'a') as zip_file:
             for file in translation_file_list:
-                # print('压缩 %s' % file)
-                zip_file.write(source_dir + os.sep + file, file)
+                if rename_cn:
+                    arcname = file.replace('_zh_CN', '')
+                else:
+                    arcname = file
+                print('压缩 %s 为 %s' % (file, arcname))
+                zip_file.write(source_dir + os.sep + file, arcname)
 
 
 if __name__ == '__main__':
