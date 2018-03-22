@@ -6,12 +6,12 @@ import zipfile
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
+from xx import filex
+from xx import iox
 
 from android_studio_translator.tips.tips import Tips
 from android_studio_translator.tools import Tools
 from android_studio_translator.translator.translation_file import TranslationFile
-from xx import filex
-from xx import iox
 
 
 class JetBrainsTranslator:
@@ -97,6 +97,7 @@ class JetBrainsTranslator:
             ['删除比较 jar 包时的缓存', self.iter_software, lambda x: x.delete_compare_tmp_dir()],
             ['解压 jar 到 source 目录', self.iter_software, lambda x: x.extract_jar_to_source_dir()],
             ['写入 crack 配置', self.iter_software, lambda x: x.write_crack_config()],
+            ['输出版本号', self.iter_software_without_print, lambda x: x.print_software_version()],
         ]
         iox.choose_action(action_list)
 
@@ -159,12 +160,16 @@ class JetBrainsTranslator:
                 project_messages_path = project_path + os.sep + 'resources_en' + os.sep + 'messages'
                 TranslationFile.rename_cn_files(project_messages_path)
 
-    def iter_software(self, callback):
+    def iter_software_without_print(self, callback):
+        self.iter_software(callback, False)
+
+    def iter_software(self, callback, print_msg=True):
         """对所有软件循环进行操作"""
         length = len(self.software_list)
         for i in range(length):
             software = self.software_list[i]
-            print('\n处理%d/%d %s %s ' % (i + 1, length, software.name, software.version))
+            if print_msg:
+                print('\n处理%d/%d %s %s ' % (i + 1, length, software.name, software.version))
             callback(software)
 
     def check_update(self, chrome_path=None):
@@ -377,30 +382,30 @@ class Software:
         # 压缩翻译内容，如果是所有文件，则需要重命名
         ZipTools.zip_jar(source_dir, target_jar, all_file)
 
-    def copy_translation_to_work_dir(self, type=1):
+    def copy_translation_to_work_dir(self, jar_type=1):
         """
         复制汉化包到工作目录
-        :param type: 1 为中文包，2 为 en 中文包，3 为英文包
+        :param jar_type: 1 为中文包，2 为 en 中文包，3 为英文包
         :return:
         """
 
         # 上一版本号
-        if type == 1:
+        if jar_type == 1:
             translation_jar_name = self.translation_jar_name
             translation_jar_path = self.translation_jar
-        elif type == 2:
+        elif jar_type == 2:
             translation_jar_name = 'resources_en.jar'
             translation_jar_path = self.translation_en_jar
-        elif type == 3:
+        elif jar_type == 3:
             translation_jar_name = 'resources_en.jar'
             translation_jar_path = self.en_jar_path
         else:
-            print('类型不正确', type)
+            print('类型不正确', jar_type)
             return
         lib_dir = self.path + os.sep + 'lib'
         for file in os.listdir(lib_dir):
             if file.startswith('resources_cn') and file.endswith('.jar'):
-                if type != 1 or file != self.translation_jar_name:
+                if jar_type != 1 or file != self.translation_jar_name:
                     # 不是中文包，或者不相同删除
                     file_path = lib_dir + os.sep + file
                     try:
@@ -564,13 +569,13 @@ class Software:
                         # 不包含,修改该行
                         lines[i] = write_line
                         print('修改配置')
-                        with open(config_file, 'w') as f:
-                            f.writelines(lines)
+                        with open(config_file, 'w') as f2:
+                            f2.writelines(lines)
                     return
             # 没有找到行,需要添加
-            with open(config_file, 'a') as f:
+            with open(config_file, 'a') as f2:
                 print('添加配置')
-                f.write(write_line)
+                f2.write(write_line)
 
     activationCode = """
 {"licenseId":"ThisCrackLicenseId",
@@ -600,6 +605,10 @@ class Software:
 "gracePeriodDays":7,
 "autoProlongated":false}
     """
+
+    def print_software_version(self):
+        """输出版本号"""
+        print('%s %s' % (str(self.name).replace('IntelliJIDEA', 'IntelliJ IDEA'), self.version))
 
 
 class ZipTools:
