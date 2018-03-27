@@ -1,5 +1,6 @@
 import filecmp
 import os
+import re
 import shutil
 import zipfile
 
@@ -294,6 +295,19 @@ class Software:
         self.translation_en_jar = self.en_jar_path.replace('英文包', '2-替换 lib 中原文件的汉化包')
         """替换原文件的汉化包"""
 
+        # 以这几个文件夹开头的
+        ignore_pattern = '^(fileTemplates|inspectionDescriptions|intentionDescriptions|META-INF|search)'
+        # 或者以这几个类型为扩展名的
+        ignore_pattern += '|\.(png|gif|css|txt)$'
+        # 这个文件太长了
+        ignore_pattern += '|InspectionGadgetsBundle\.properties'
+        self.ignore_pattern = re.compile(ignore_pattern)
+        """
+        忽略文件的正则
+        其中 inspectionDescriptions 和 intentionDescriptions ，以及 InspectionGadgetsBundle.properties 是可以汉化的，只是太多了
+        剩余的目录 fileTemplates，META 和 search 是不用翻译的
+        """
+
     def copy_resources_en_jar(self):
         """复制 jar"""
         if not os.path.exists(self.path):
@@ -343,6 +357,9 @@ class Software:
         # 移除 target
         if os.path.exists(target_jar):
             os.remove(target_jar)
+        # 创建目录
+        filex.check_and_create_dir(target_jar)
+        # 写入 source_jar 中的文件
         if source_jar is not None:
             # 记录文件和目录
             translation_dir_list = []
@@ -356,37 +373,35 @@ class Software:
                     translation_file_list.append(path.replace(source_dir, '').replace('\\', '/').lstrip('/'))
             print(translation_dir_list)
             print(translation_file_list)
-            # 临时目录
-            tmp_dir = os.path.splitext(source_jar)[0]
-            if os.path.exists(tmp_dir):
-                shutil.rmtree(tmp_dir)
-            # 解压仅存在于 source_jar 中的内容
-            print('解压缺少的文件')
-            with zipfile.ZipFile(source_jar, 'r') as zip_file:
-                for name in zip_file.namelist():
-                    cn_name = '_zh_CN'.join(os.path.splitext(name))
-                    need_extract = all_file
-                    if not need_extract:
-                        # 判断是否以源目录开头
-                        for translation_dir in translation_dir_list:
-                            if name.startswith(translation_dir):
-                                # 以源目录开头
-                                need_extract = True
-                                break
-                    if need_extract:
-                        # 再判断
-                        if name in translation_file_list or cn_name in translation_file_list:
-                            # 存在于中文或英文
-                            need_extract = False
-                    if need_extract:
-                        # print('翻译文件中缺少 %s ，解压缩' % name)
-                        zip_file.extract(name, tmp_dir)
-            print('压缩缺少的文件')
-            ZipTools.zip_jar(tmp_dir, target_jar)
-            # 删除
-            print('删除临时文件 %s' % tmp_dir)
-            if os.path.exists(tmp_dir):
-                shutil.rmtree(tmp_dir)
+            # 解压仅存在于 source_jar 中，source_dir 中没有的内容
+            print('压缩仅在 source_jar 中的文件')
+            with zipfile.ZipFile(target_jar, 'a') as target_zip_file:
+                with zipfile.ZipFile(source_jar, 'r') as zip_file:
+                    for name in zip_file.namelist():
+                        need_extract = all_file
+                        # 如果是所有文件，那么 source_dir 中不包含的文件夹也要压缩
+                        if not need_extract:
+                            # 如果不是所有文件，那么只压缩 source_dir 中包含的文件夹
+                            for translation_dir in translation_dir_list:
+                                if name.startswith(translation_dir):
+                                    # 以源目录开头
+                                    need_extract = True
+                                    break
+                        if need_extract:
+                            # 需要压缩文件夹，再判断文件是否存在于 source_dir 中，存在则不需要压缩
+                            cn_name = '_zh_CN'.join(os.path.splitext(name))
+                            if name in translation_file_list or cn_name in translation_file_list:
+                                # 存在于中文或英文
+                                need_extract = False
+                        if need_extract:
+                            if all_file:
+                                arcname = name.replace('_zh_CN', '')
+                            else:
+                                arcname = name
+                            # 写入文件
+                            # print('压缩 %s 为 %s' % (name, arcname))
+                            with zip_file.open(name) as tmp_file:
+                                target_zip_file.writestr(arcname, tmp_file.read())
         # 压缩翻译内容，如果是所有文件，则需要重命名
         ZipTools.zip_jar(source_dir, target_jar, all_file)
 
@@ -523,34 +538,15 @@ class Software:
 
     def extract_jar_to_source_dir(self):
         """将 jar 解压到 source 目录"""
-        f1 = self.en_jar_path
-        print('1-收集要解压的文件夹')
-        source_dir = '%s/target/%s/resources_en' % (self.work_dir, self.name)
-        translation_dir_list = []
-        for root, dirs, files in os.walk(source_dir):
-            for dir_name in dirs:
-                path = root + '/' + dir_name
-                translation_dir_list.append(path.replace(source_dir, '').replace('\\', '/').lstrip('/'))
-        print(translation_dir_list)
-
-        print('2-解压出需要的文件夹')
-        tmp_dir1 = '%s/source/%s/resources_en' % (self.work_dir, self.name)
-        ignore_ext = [
-            '.png',
-            '.gif',
-            '.css',
-            '.txt',
-        ]
-        with zipfile.ZipFile(f1) as zipfile1:
-            namelist1 = zipfile1.namelist()
-            for name1 in namelist1:
-                ext = os.path.splitext(name1)[1]
-                if ext in ignore_ext:
+        out_dir = '%s/source/%s/resources_en' % (self.work_dir, self.name)
+        with zipfile.ZipFile(self.en_jar_path) as zip_file:
+            namelist = zip_file.namelist()
+            for name in namelist:
+                if re.search(self.ignore_pattern, name):
+                    # print('过滤', name)
                     continue
-                for translation_dir in translation_dir_list:
-                    if name1.startswith(translation_dir):
-                        print('解压 %s 到 %s' % (name1, tmp_dir1))
-                        zipfile1.extract(name1, tmp_dir1)
+                print('解压 %s 到 %s' % (name, out_dir))
+                zip_file.extract(name, out_dir)
 
     def write_crack_config(self):
         """向启动配置文件中写入破解 jar 包"""
