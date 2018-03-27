@@ -79,25 +79,33 @@ class JetBrainsTranslator:
         chrome_path = r'D:\software\browser\Chrome\Application\chrome.exe'
         action_list = [
             ['退出', exit],
+            ['-tips 相关的', ],
             ['处理清单文件，整理tips的名称方便翻译', self.process_tips_manifest_file],
             ['检查并补全缺少的tips名', self.check_and_append_tips_name],
             ['将 tips 翻译结果的unicode转为中文', self.change_unicode_to_chinese],
-            ['处理tips翻译结果为AndroidStudio用', self.process_tips_translation_result],
-            ['重命名_zh_CN', self.rename_cn_files],
+
+            ['-翻译前应该处理的', ],
+            ['检查官网是否有新版本', self.check_update, chrome_path],
             ['复制 resources_en.jar', self.iter_software, lambda x: x.copy_resources_en_jar()],
+            ['解压 jar 到 source 目录', self.iter_software, lambda x: x.extract_jar_to_source_dir()],
+
+            ['-翻译后应该处理的', ],
+            ['处理tips翻译结果为AndroidStudio用', self.process_tips_translation_result],
             ['压缩进汉化包', self.iter_software, lambda x: x.zip_translation()],
             ['压缩进 en 包', self.iter_software, lambda x: x.zip_translation_to_en()],
+
+            ['-以下是工具的方法', ],
             ['将汉化包复制到软件目录', self.iter_software, lambda x: x.copy_translation_to_work_dir(1)],
             ['将 en 汉化包复制到软件目录', self.iter_software, lambda x: x.copy_translation_to_work_dir(2)],
             ['将英文包复制到软件目录', self.iter_software, lambda x: x.copy_translation_to_work_dir(3)],
-            ['以下是版本更新时调用的方法----------', ],
-            ['检查官网是否有新版本', self.check_update, chrome_path],
+            ['向启动文件写入 crack 配置', self.iter_software, lambda x: x.write_crack_config()],
+            ['输出版本号', self.iter_software_without_print, lambda x: x.print_software_version()],
+
+            ['-弃用的', ],
+            ['重命名_zh_CN', self.rename_cn_files],
             ['校验版本是否更新', self.iter_software, lambda x: x.validate_version()],
             ['检查 jar 包是否变化', self.iter_software, lambda x: x.compare_jar()],
             ['删除比较 jar 包时的缓存', self.iter_software, lambda x: x.delete_compare_tmp_dir()],
-            ['解压 jar 到 source 目录', self.iter_software, lambda x: x.extract_jar_to_source_dir()],
-            ['写入 crack 配置', self.iter_software, lambda x: x.write_crack_config()],
-            ['输出版本号', self.iter_software_without_print, lambda x: x.print_software_version()],
         ]
         iox.choose_action(action_list)
 

@@ -1,14 +1,17 @@
-def choose_action(action_list):
+def choose_action(action_list, loop=False):
     """
     选择操作
 
     :param action_list: 操作列表，每个操作格式为
+    :param loop: 是否重复
 
     [操作名,操作对应的方法,操作对应的参数]
 
     可以有多个参数，直接拼在数组内即可。
 
     如果想用关键字参数，则将第3个参数设置为字典
+
+    如果操作名以 '-' 开头，则表示为分隔线
 
     :return: None
     示例:
@@ -25,8 +28,19 @@ def choose_action(action_list):
     for i in range(0, len(action_list)):
         action = action_list[i]
         if isinstance(action, list) and len(action) > 0:
-            prompt += '\n%d--%s' % (i, action[0])
+            if action[0].startswith('-'):
+                text = action[0].lstrip('-')
+                prompt += '\n\n{0}{1}{0}'.format('-' * 10, text)
+            else:
+                prompt += '\n%d--%s' % (i, action[0])
+    if loop:
+        while True:
+            show_choose_action(action_list, prompt)
+    else:
+        show_choose_action(action_list, prompt)
 
+
+def show_choose_action(action_list, prompt):
     choice = int(input('请选择操作\n%s\n' % prompt))
     if 0 <= choice < len(action_list):
         action = action_list[choice]
