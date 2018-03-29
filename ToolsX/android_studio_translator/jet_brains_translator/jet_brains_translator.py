@@ -7,12 +7,12 @@ import zipfile
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
-from xx import filex
-from xx import iox
 
 from android_studio_translator.tips.tips import Tips
 from android_studio_translator.tools import Tools
 from android_studio_translator.translator.translation_file import TranslationFile
+from xx import filex
+from xx import iox
 
 
 class JetBrainsTranslator:
@@ -24,13 +24,13 @@ class JetBrainsTranslator:
         self.target_dir = self.work_dir + os.path.sep + 'target'
 
         current_version_list = [
-            '3.0.1-5',
+            '3.1-1',
+            '2018.1-1',
+            '2018.1-1',
+            '2018.1-1',
+            '2018.1-1',
             '2017.3.3-1',
-            '2017.3.5-1',
-            '2017.3.6-1',
-            '2017.3.4-1',
-            '2017.3.3-1',
-            '2017.3.5-1',
+            '2018.1-1',
         ]
 
         pre_version_list = [
@@ -81,6 +81,7 @@ class JetBrainsTranslator:
         action_list = [
             ['退出', exit],
             ['-tips 相关的', ],
+            ['解压出清单文件', self.iter_software, lambda x: x.extra_tips_manifest_file()],
             ['处理清单文件，整理tips的名称方便翻译', self.process_tips_manifest_file],
             ['检查并补全缺少的tips名', self.check_and_append_tips_name],
             ['将 tips 翻译结果的unicode转为中文', self.change_unicode_to_chinese],
@@ -296,11 +297,14 @@ class Software:
         """替换原文件的汉化包"""
 
         # 以这几个文件夹开头的
-        ignore_pattern = '^(fileTemplates|inspectionDescriptions|intentionDescriptions|META-INF|search)'
+        # |com|i18n|org ，可以以后翻译
+        ignore_pattern = '^(fileTemplates|inspectionDescriptions|intentionDescriptions|META-INF|search|com|i18n|org)'
         # 或者以这几个类型为扩展名的
         ignore_pattern += '|\.(png|gif|css|txt)$'
-        # 这个文件太长了
-        ignore_pattern += '|InspectionGadgetsBundle\.properties'
+        # 这几个文件太长了，可以以后翻译
+        ignore_pattern += '|(InspectionGadgets|IntentionPowerPack|OC|Py|R)Bundle\.properties$'
+        # 这是根目录的文件，可以以后翻译
+        ignore_pattern += '|^(CidrDebuggerBundle|RuntimeBundle)\.properties$'
         self.ignore_pattern = re.compile(ignore_pattern)
         """
         忽略文件的正则
@@ -610,6 +614,46 @@ class Software:
 "autoProlongated":false}
     """
 
+    def extra_tips_manifest_file(self):
+        """解压出 tips 的清单文件
+
+        Android Studio 和 IntelliJIDEA位于 resources.jar\META-INF\IdeTipsAndTricks.xml
+        goland.jar
+        phpstorm.jar\META-INF\PhpStormTipsAndTricks.xml
+        pycharm.jar
+        rubymine.jar
+        webstorm.jar
+        """
+
+        # jar 包路径
+        jar_path = self.path + os.sep + 'lib' + os.sep
+        if self.name.lower() in ['AndroidStudio'.lower(), 'IntelliJIDEA'.lower()]:
+            jar_path += 'resources'
+        else:
+            jar_path += self.name
+        jar_path += '.jar'
+
+        # 在 jar 包内的路径
+        tips_file_in_jar = 'META-INF/'
+        if self.name.lower() == 'PhpStorm'.lower():
+            tips_file_in_jar += self.name
+        elif self.name.lower() == 'GoLand'.lower():
+            tips_file_in_jar += 'Go'
+        else:
+            tips_file_in_jar += 'Ide'
+        tips_file_in_jar += 'TipsAndTricks.xml'
+        print(jar_path, tips_file_in_jar)
+
+        project_path = self.work_dir + os.sep + 'source' + os.sep + self.name
+        tips_file_path = project_path + os.sep + 'IdeTipsAndTricks' + os.sep + 'IdeTipsAndTricks.xml'
+
+        if not os.path.exists(jar_path):
+            print('jar 包不存在', jar_path)
+            return
+
+        filex.check_and_create_dir(tips_file_path)
+        ZipTools.extra_file(jar_path, tips_file_in_jar, tips_file_path)
+
     def print_software_version(self):
         """输出版本号"""
         print('%s %s' % (str(self.name).replace('IntelliJIDEA', 'IntelliJ IDEA'), self.version))
@@ -640,6 +684,22 @@ class ZipTools:
                     arcname = file
                 # print('压缩 %s 为 %s' % (file, arcname))
                 zip_file.write(source_dir + os.sep + file, arcname)
+
+    @staticmethod
+    def extra_file(zip_file_path, file_path, output, print_msg=True):
+        """解压文件"""
+        with zipfile.ZipFile(zip_file_path) as zip_file:
+            if file_path not in zip_file.namelist():
+                if print_msg:
+                    print('文件不存在 jar 包中', file_path)
+                return
+            if print_msg:
+                print('解压 %s%s 为 %s' % (zip_file_path, file_path, output))
+            # zip_file.extract(file_path, output)
+            # 这里无法直接导出至指定文件
+            with zip_file.open(file_path) as in_file:
+                with open(output, 'w') as output_file:
+                    output_file.write(in_file.read().decode())
 
 
 if __name__ == '__main__':
