@@ -296,15 +296,34 @@ class Software:
         self.translation_en_jar = self.en_jar_path.replace('英文包', '2-替换 lib 中原文件的汉化包')
         """替换原文件的汉化包"""
 
+        """
+        现在基本都翻译完了，剩下的是一些硬骨头，不好啃
+        2 个文件夹
+        inspectionDescriptions 和 intentionDescriptions 
+        是检查和意向描述，分别有 1002 个和 212 个文件
+        
+        5 个 Bundle.properties 文件
+        InspectionGadgets，IntentionPowerPack 和 OC 是 AndroidStudio 中的文件
+        Py 和 R 分别是 PyCharm 和 RubyMine 中的文件
+        条目数分别为
+        377
+        2226
+        208
+        689
+        1826
+        """
         # 以这几个文件夹开头的
         # |com|i18n|org ，可以以后翻译
-        ignore_pattern = '^(fileTemplates|inspectionDescriptions|intentionDescriptions|META-INF|search|com|i18n|org)'
+        ignore_pattern = '^(fileTemplates|inspectionDescriptions|intentionDescriptions|META-INF|search)'
         # 或者以这几个类型为扩展名的
-        ignore_pattern += '|\.(png|gif|css|txt)$'
+        ignore_pattern += '|\.(png|gif|css)$'
+        ignore_pattern += '|(missing_images|icon-robots)\.txt$'
         # 这几个文件太长了，可以以后翻译
-        ignore_pattern += '|(InspectionGadgets|IntentionPowerPack|OC|Py|R)Bundle\.properties$'
+        # 这里要加上以 \ 开头，同时要避免被 python 转义，所以写为 \\\\ 或加上 r
+        # 后来改为 / ，因为在 zip 中是 /
+        ignore_pattern += r'|(\\|/)(InspectionGadgets|IntentionPowerPack|OC|Py|R)Bundle\.properties$'
         # 这是根目录的文件，可以以后翻译
-        ignore_pattern += '|^(CidrDebuggerBundle|RuntimeBundle)\.properties$'
+        # ignore_pattern += '|^(CidrDebuggerBundle|RuntimeBundle)\.properties$'
         self.ignore_pattern = re.compile(ignore_pattern)
         """
         忽略文件的正则
