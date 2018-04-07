@@ -371,6 +371,8 @@ class TranslationInspection:
                     'productName;',
                     'majorVersion;',
                     'minorVersion;',
+                    'majorMinorVersion;',
+                    'settingsPath;',
                 ]
                 contain_ignore = False
                 for ignore_word in ignore_list:

@@ -24,13 +24,14 @@ class JetBrainsTranslator:
         self.target_dir = self.work_dir + os.path.sep + 'target'
 
         current_version_list = [
-            '3.1-1',
+            '3.1-2',
             '2018.1-1',
+            '2018.1-2',
+            '2018.1-2',
+            '2018.1-2',
+            '2018.1-2',
             '2018.1-1',
-            '2018.1-1',
-            '2018.1-1',
-            '2017.3.3-1',
-            '2018.1-1',
+            '2018.1-2',
         ]
 
         pre_version_list = [
@@ -41,6 +42,7 @@ class JetBrainsTranslator:
 
         software_name_list = [
             'AndroidStudio',
+            'CLion',
             'GoLand',
             'IntelliJIDEA',
             'PhpStorm',
@@ -92,6 +94,7 @@ class JetBrainsTranslator:
             ['解压 jar 到 source 目录', self.iter_software, lambda x: x.extract_jar_to_source_dir()],
 
             ['-翻译后应该处理的', ],
+            ['将 tips 翻译结果的unicode转为中文', self.change_unicode_to_chinese],
             ['处理tips翻译结果为AndroidStudio用', self.process_tips_translation_result],
             ['压缩进汉化包', self.iter_software, lambda x: x.zip_translation()],
             ['压缩进 en 包', self.iter_software, lambda x: x.zip_translation_to_en()],
@@ -102,6 +105,7 @@ class JetBrainsTranslator:
             ['将英文包复制到软件目录', self.iter_software, lambda x: x.copy_translation_to_work_dir(3)],
             ['向启动文件写入 crack 配置', self.iter_software, lambda x: x.write_crack_config()],
             ['输出版本号', self.iter_software_without_print, lambda x: x.print_software_version()],
+            ['输出版本号及汉化包版本号', self.iter_software_without_print, lambda x: x.print_software_version(True)],
 
             ['-弃用的', ],
             ['重命名_zh_CN', self.rename_cn_files],
@@ -654,7 +658,7 @@ class Software:
 
         # 在 jar 包内的路径
         tips_file_in_jar = 'META-INF/'
-        if self.name.lower() == 'PhpStorm'.lower():
+        if self.name.lower() in [i.lower() for i in ['PhpStorm', 'CLion']]:
             tips_file_in_jar += self.name
         elif self.name.lower() == 'GoLand'.lower():
             tips_file_in_jar += 'Go'
@@ -673,9 +677,13 @@ class Software:
         filex.check_and_create_dir(tips_file_path)
         ZipTools.extra_file(jar_path, tips_file_in_jar, tips_file_path)
 
-    def print_software_version(self):
+    def print_software_version(self, print_release_version=False):
         """输出版本号"""
-        print('%s %s' % (str(self.name).replace('IntelliJIDEA', 'IntelliJ IDEA'), self.version))
+        if print_release_version:
+            print('%s %s_r%s' % (
+                str(self.name).replace('IntelliJIDEA', 'IntelliJ IDEA'), self.version, self.release_version))
+        else:
+            print('%s %s' % (str(self.name).replace('IntelliJIDEA', 'IntelliJ IDEA'), self.version))
 
 
 class ZipTools:

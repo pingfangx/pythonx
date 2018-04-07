@@ -3,12 +3,11 @@ import re
 import shutil
 from xml.etree import ElementTree as Et
 
-from xx import filex
-from xx import iox
-
 from android_studio_translator.keymap_default.keymap_default import KeymapDefault
 from android_studio_translator.tools import Tools
 from android_studio_translator.version import Version
+from xx import filex
+from xx import iox
 
 
 class Tips:
@@ -264,10 +263,16 @@ class Tips:
 
             Tips.process_tips_translation_file(file_path, result_name, result_type, header, footer, language)
         print('剩余文件%d个' % len(all_files))
+        if len(all_files) > 0:
+            print('**请补全文件**')
+            exit()
 
     @staticmethod
     def check_and_append_tips_name(file_path, tips_name_file, result_file=None):
-        """根据检查tips的文件是否全"""
+        """
+        根据检查tips的文件是否全
+        该方法用于 IdeTipsAndTricks 没有指定所有的文件，但还是需要翻译文件名的，所以补全
+        """
         if result_file is None:
             result_file = filex.get_result_file_name(tips_name_file, '_append')
         file_list = filex.list_file(file_path)
