@@ -105,6 +105,3 @@ ENV/
 
 # ignore the ignore dir
 **/ignore/
-
-# cookies file
-*cookies.txt

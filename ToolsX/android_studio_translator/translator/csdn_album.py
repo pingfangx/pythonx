@@ -104,7 +104,7 @@ class CsdnAlbum:
 
 
 if __name__ == '__main__':
-    cookie_file = 'data/csdn_cookies.txt'
+    cookie_file = 'ignore/csdn_cookies.txt'
     if not os.path.exists(cookie_file):
         print('文件不存在 %s' % cookie_file)
         exit()

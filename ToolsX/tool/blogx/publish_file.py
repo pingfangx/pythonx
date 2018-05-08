@@ -21,7 +21,7 @@ class BlogXTools:
         self.fid = 56
         """论动 id ，这个以后可以修改为通过文件名判断"""
         self.tid = 0
-        self.tid_file = 'tid.txt'
+        self.tid_file = 'ignore/tid.txt'
 
     def main(self):
         action_list = [
@@ -189,10 +189,10 @@ class BlogXTools:
 
 
 if __name__ == '__main__':
-    cookie_file = 'cookies.txt'
+    cookie_file = 'ignore/cookies.txt'
     if not os.path.exists(cookie_file):
         print('文件不存在 %s' % cookie_file)
         exit()
-    with open('cookies.txt', encoding='utf-8') as f:
+    with open(cookie_file, encoding='utf-8') as f:
         cookies_str = f.read()
         BlogXTools(netx.parse_cookies(cookies_str)).main()
