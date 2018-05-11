@@ -5,7 +5,7 @@ import sys
 import pyperclip
 import requests
 
-sys.path.append("..")
+sys.path.append("../..")
 from xx import netx
 from xx import filex
 from xx import iox

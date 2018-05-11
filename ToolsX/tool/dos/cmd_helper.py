@@ -1,10 +1,8 @@
-import sys
-
-sys.path.append('..')
-from xx import iox
-from xx import filex
-import os.path
 from subprocess import call
+
+import os
+from xx import filex
+from xx import iox
 
 
 class CmdHelper:

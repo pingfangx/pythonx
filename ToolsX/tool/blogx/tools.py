@@ -4,7 +4,7 @@ import sys
 
 import pyperclip
 
-sys.path.append("..")
+sys.path.append("../..")
 from xx import filex
 from xx import iox
 
