@@ -3,20 +3,18 @@
 """
 
 import os
-import urllib.parse
-import urllib.request
 
 import requests
 
 
-def get(url, params=None, headers=None, cookies=None, encode='utf-8', result_type='text', need_print=True):
+def get(url, params=None, headers=None, cookies=None, encoding='utf-8', result_type='text', need_print=True):
     """
     获取数据
     :param url: 地址
     :param params: 参数
     :param headers： 头
     :param cookies: cookies
-    :param encode: 编码
+    :param encoding: 编码
     :param result_type: 结果类型
     :param need_print: 是否需要打印
     :return:
@@ -34,7 +32,10 @@ def get(url, params=None, headers=None, cookies=None, encode='utf-8', result_typ
     # 打开请求
     if need_print:
         print("open " + url)
+        if params is not None:
+            print('params', params)
     result = requests.get(url, params=params, headers=headers, cookies=cookies)
+    result.encoding = encoding
     if result_type == 'text':
         result = result.text
     elif result_type == 'json':
@@ -44,7 +45,7 @@ def get(url, params=None, headers=None, cookies=None, encode='utf-8', result_typ
     return result
 
 
-def get_file(url, file_path, need_print=True):
+def get_file(url, file_path, need_print=True, **kwargs):
     """下载文件"""
     if need_print:
         print('下载文件 %s ，从 %s' % (file_path, url))
@@ -53,12 +54,26 @@ def get_file(url, file_path, need_print=True):
         os.makedirs(dir_name)
         if need_print:
             print('创建目录 %s' % dir_name)
-    urllib.request.urlretrieve(url, file_path)
+    r = requests.get(url, None, **kwargs)
+    with open(file_path, 'wb') as f:
+        f.write(r.content)
     if need_print:
         print('下载完成')
 
 
-def parse_cookies_from_file(file_path):
+def parse_cookies_from_file(file_path, exit_if_not_exists=True):
+    """
+    从文件中解析 cookies
+    :param file_path: 文件路径
+    :param exit_if_not_exists:文件不存在时，是否退出
+    :return:
+    """
+    if not os.path.exists(file_path):
+        print('cookies file not exists:', file_path)
+        if exit_if_not_exists:
+            exit()
+        else:
+            return
     with open(file_path, encoding='utf-8') as f:
         return parse_cookies(f.read())
 
@@ -81,6 +96,11 @@ def parse_cookies(cookies=''):
 def parse_params_from_file(file_path):
     with open(file_path, encoding='utf-8') as f:
         return parse_params(f.read())
+
+
+def cookies_to_str(cookies):
+    """转 cookies 为字符串"""
+    return ';'.join([k + '=' + v for k, v in cookies.items()])
 
 
 def parse_params(params):
