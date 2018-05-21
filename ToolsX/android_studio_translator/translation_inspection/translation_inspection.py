@@ -1,10 +1,11 @@
 # coding=utf-8
 import re
 
-from android_studio_translator.delete_action import DeleteAction
-from android_studio_translator.tools import Tools
 from xx import filex
 from xx import iox
+
+from android_studio_translator.delete_action import DeleteAction
+from android_studio_translator.tools import Tools
 
 
 class TranslationInspection:
@@ -130,7 +131,7 @@ class TranslationInspection:
         # 保留标签
         need_same_tag = True
         if need_same_tag:
-            pattern = r'<(\w\d)>(.+?)</\1>'
+            pattern = r'<(\w\d+)>(.+?)</\1>'
             en_all_match = re.findall(pattern, en)
             cn_all_match = re.findall(pattern, cn)
             if en_all_match and cn_all_match:
