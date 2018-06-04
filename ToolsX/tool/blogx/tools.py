@@ -77,7 +77,7 @@ class BlogXTools:
         elif isinstance(destination, str):
             title, tid = BlogXTools.get_title_and_tid(text)
             if tid is not None:
-                url = 'http://blog.pingfangx.com/%s.html' % tid
+                url = 'https://www.pingfangx.com/blog/%s' % tid
                 if destination == BlogXTools.DESTINATION_COPYRIGHT:
                     result = '>本文由平方X发表于平方X网，转载请注明出处。[%s](%s)\n\n' % (url, url)
                 elif destination == BlogXTools.DESTINATION_COPYRIGHT_AND_TITLE:
