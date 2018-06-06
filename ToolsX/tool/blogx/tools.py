@@ -101,6 +101,13 @@ class BlogXTools:
         title = None
         tid = None
         lines = text.split('\n')
+        if len(lines) == 1:
+            line = lines[0]
+            # (.*?) 的懒惰必须配合结尾的 $ ，否则就匹配空了
+            # 如果不懒惰则会包含后面的 .md，?判断无效
+            match = re.match(r'\[(\d+)](.*?)(\.(md)|(txt))?$', line)
+            if match:
+                return match.group(2), match.group(1)
         for i in range(len(lines)):
             line = lines[i]
             tid = BlogXTools.get_tid(line)
