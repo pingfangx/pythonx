@@ -1,11 +1,12 @@
 import re
 
-import netx
 import requests
 from bs4 import BeautifulSoup
+
 from xx import excelx
 from xx import filex
 from xx import iox
+from xx import netx
 
 """
 使用方式
@@ -147,7 +148,9 @@ class Redmine:
         if not data:
             print('没有读取到数据', file_path)
             return
-        title_line = data[0]
+        title_line_index = 0
+        first_data_line_index = title_line_index + 1
+        title_line = data[title_line_index]
         issue = Issue()
         issue_fields = issue.__dict__
         for i in range(len(title_line)):
@@ -161,15 +164,20 @@ class Redmine:
         print(title_line)
         # 有了标题，接下来生成数据
         issue_list = []
-        for i in range(1, len(data)):
+        first_data_line = data[first_data_line_index]
+        for i in range(first_data_line_index, len(data)):
             line = data[i]
             issue_fields = {}
             for j in range(len(title_line)):
-                if isinstance(line[j], float):
+                value = line[j]
+                if i != first_data_line_index and value == '':
+                    # 如果为空，以第一行为准
+                    value = first_data_line[j]
+                if isinstance(value, float):
                     # 取掉小数点
-                    value = str(int(line[j]))
+                    value = str(int(value))
                 else:
-                    value = str(line[j])
+                    value = str(value)
                 issue_fields[title_line[j]] = value
             issue = Issue()
             issue.__dict__ = issue_fields
