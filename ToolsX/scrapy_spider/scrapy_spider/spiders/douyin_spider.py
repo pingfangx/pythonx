@@ -20,14 +20,20 @@ class DouyinSpider(scrapy.Spider):
                       'KHTML, like Gecko) Version/4.0 Chrome/53.0.2785.146 Mobile Safari/537.36 '
                       'XiaoMi/MiuiBrowser/9.1.3',
     }
-    feed_url = 'http://aweme.snssdk.com/aweme/v1/feed/?aid=1128'
+    feed_url = 'http://aweme.snssdk.com/aweme/v1/feed/?aid=1128&count=20'
     has_more = 1
     exit_code = 1
+    total_items = 0
+
+    sleep_time = 1
 
     def start_requests(self):
         i = 0
         while i < 1:
-            i += 1
+            # i += 1
+            print(f'sleep {self.sleep_time}')
+            time.sleep(self.sleep_time)
+            self.sleep_time = 1
             now = int(time.time())
             # 并发的时候，time 是相同的，被 scrapy 认为是相同地址而忽略
             url = self.douyin_encrypt.cal_url(now, self.feed_url)
@@ -43,7 +49,8 @@ class DouyinSpider(scrapy.Spider):
             if result['status_code'] == 0:
                 self.has_more = result['has_more']
                 aweme_list = result['aweme_list']
-                log.info(f'scraped {len(aweme_list)} items')
+                self.total_items += len(aweme_list)
+                log.info(f'scraped {len(aweme_list)}/{self.total_items} items')
                 for aweme in aweme_list:
                     item = AwemeItem(aweme)
                     yield item
@@ -54,8 +61,11 @@ class DouyinSpider(scrapy.Spider):
                 log.warning('签名错误')
                 self.exit_code = 0
             elif status_code == 2154:
+                # 大约会被禁 1 个小时
                 log.warning('请求太频繁，设备被禁')
-                self.exit_code = 0
+                log.warning('休息 10 分钟')
+                self.sleep_time = 10 * 60
+                # self.exit_code = 0
             else:
                 log.warning('错误码 %d' % status_code)
                 log.warning(response.body.decode())

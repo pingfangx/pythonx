@@ -64,6 +64,8 @@ class PostgreSQLPipeline(object):
         try:
             await self.conn.execute(sql)
         except Exception:
+            print('执行 sql 出错')
+            print(sql)
             await tr.rollback()
             raise
         finally:
