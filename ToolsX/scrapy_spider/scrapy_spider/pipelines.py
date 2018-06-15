@@ -51,6 +51,13 @@ class PostgreSQLPipeline(object):
         asyncio.get_event_loop().run_until_complete(self.close_connect())
 
     def process_item(self, item, spider):
+        for k in item.fields.keys():
+            value = item[k]
+            if isinstance(value, str):
+                if "'" in value:
+                    # 转义 '
+                    value = value.replace("'", "''")
+                    item[k] = value
         sql = DOUYIN_INSERT_SQL.format(**item)
         asyncio.get_event_loop().run_until_complete(self.execute(sql))
         return item
