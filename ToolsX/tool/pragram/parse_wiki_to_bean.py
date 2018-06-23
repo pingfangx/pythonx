@@ -54,10 +54,7 @@ class Field:
 
     def get_get_method_str(self) -> str:
         """get 方法"""
-        return """ 
-    /**
-     * @return {comment}
-     */       
+        return """
     public {type} get{method}() {{
         return {name};
     }}
@@ -65,11 +62,7 @@ class Field:
 
     def get_set_method_str(self):
         """set 方法"""
-        return """ 
-    /**
-     * 
-     * @param {name} {comment}
-     */
+        return """
     public void set{method}({type} {name}) {{
         this.{name} = {name};
     }}
