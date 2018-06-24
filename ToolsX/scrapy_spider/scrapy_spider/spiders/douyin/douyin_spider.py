@@ -28,9 +28,7 @@ class DouyinSpider(scrapy.Spider):
     }
     # 好像使用 user-agent 标识，所以保持不变
     headers = {
-        'user-agent': 'Mozilla/5.0 (Linux; U; Android 5.1.1; zh-cn; MI 4S Build/LMY47V) AppleWebKit/537.36 ('
-                      'KHTML, like Gecko) Version/4.0 Chrome/53.0.2785.146 Mobile Safari/537.36 '
-                      'XiaoMi/MiuiBrowser/9.1.3',
+        'user-agent': douyin.generate_default_agent(),
     }
     has_more = 1
     exit_code = 1
