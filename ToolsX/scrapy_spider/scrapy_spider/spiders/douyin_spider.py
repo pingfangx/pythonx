@@ -14,6 +14,15 @@ class DouyinSpider(scrapy.Spider):
     """
     name = 'douyin'
 
+    # 防 ban
+    custom_settings = {
+        'CONCURRENT_REQUESTS': 1,
+        'DOWNLOAD_DELAY': 10,
+        "ITEM_PIPELINES": {
+            'scrapy_spider.pipelines.PostgreSQLPipeline': 300,
+        },
+    }
+
     douyin_encrypt = DouyinEncrypt()
     headers = {
         'user-agent': 'Mozilla/5.0 (Linux; U; Android 5.1.1; zh-cn; MI 4S Build/LMY47V) AppleWebKit/537.36 ('
@@ -31,7 +40,7 @@ class DouyinSpider(scrapy.Spider):
         i = 0
         while i < 1:
             # i += 1
-            print(f'sleep {self.sleep_time}')
+            log.info(f'sleep {self.sleep_time}')
             time.sleep(self.sleep_time)
             self.sleep_time = 1
             now = int(time.time())
