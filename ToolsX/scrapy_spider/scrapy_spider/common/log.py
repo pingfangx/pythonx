@@ -1,8 +1,8 @@
 import logging
 
 
-def get_logger():
-    return logging.getLogger("xx scrapy")
+def get_logger(name):
+    return logging.getLogger(name)
 
 
-log = get_logger()
+log = get_logger('xx')
