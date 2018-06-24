@@ -105,3 +105,5 @@ ENV/
 
 # ignore the ignore dir
 **/ignore/
+
+_trial_temp*

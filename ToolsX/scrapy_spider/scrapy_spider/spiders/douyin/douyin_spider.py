@@ -2,14 +2,14 @@ import json
 import time
 
 import scrapy
+from scrapy_spider.common.ignore import douyin  # 不公开
 from scrapy_spider.common.log import log
-from scrapy_spider.items import AwemeItem
-from scrapy_spider.spiders.ignore.douyin_encypt import DouyinEncrypt  # 不公开
+from scrapy_spider.spiders.douyin.items import DouyinItem
 
 
 class DouyinSpider(scrapy.Spider):
     """
-    来自 https://github.com/a232319779/appspider
+    参考 https://github.com/a232319779/appspider
     感谢
     """
     name = 'douyin'
@@ -18,22 +18,23 @@ class DouyinSpider(scrapy.Spider):
     custom_settings = {
         'CONCURRENT_REQUESTS': 1,
         'DOWNLOAD_DELAY': 10,
-        "ITEM_PIPELINES": {
-            'scrapy_spider.pipelines.PostgreSQLPipeline': 300,
+        'DOWNLOADER_MIDDLEWARES': {
+            # 'scrapy_spider.common.middleware.middlewares.RandomAgentDownloaderMiddleware': 300,
+            'scrapy_spider.common.middleware.middlewares.RandomProxyDownloaderMiddleware': 300,
+        },
+        'ITEM_PIPELINES': {
+            'scrapy_spider.spiders.douyin.pipelines.DouyinPostgreSQLPipeline': 300,
         },
     }
-
-    douyin_encrypt = DouyinEncrypt()
+    # 好像使用 user-agent 标识，所以保持不变
     headers = {
         'user-agent': 'Mozilla/5.0 (Linux; U; Android 5.1.1; zh-cn; MI 4S Build/LMY47V) AppleWebKit/537.36 ('
                       'KHTML, like Gecko) Version/4.0 Chrome/53.0.2785.146 Mobile Safari/537.36 '
                       'XiaoMi/MiuiBrowser/9.1.3',
     }
-    feed_url = 'http://aweme.snssdk.com/aweme/v1/feed/?aid=1128&count=20'
     has_more = 1
     exit_code = 1
     total_items = 0
-
     sleep_time = 1
 
     def start_requests(self):
@@ -43,9 +44,8 @@ class DouyinSpider(scrapy.Spider):
             log.info(f'sleep {self.sleep_time}')
             time.sleep(self.sleep_time)
             self.sleep_time = 1
-            now = int(time.time())
             # 并发的时候，time 是相同的，被 scrapy 认为是相同地址而忽略
-            url = self.douyin_encrypt.cal_url(now, self.feed_url)
+            url = douyin.generate_feed_url()
             log.info("crawl " + url)
             yield scrapy.Request(url=url, headers=self.headers)
             if self.has_more == 0 or self.exit_code == 0:
@@ -61,7 +61,7 @@ class DouyinSpider(scrapy.Spider):
                 self.total_items += len(aweme_list)
                 log.info(f'scraped {len(aweme_list)}/{self.total_items} items')
                 for aweme in aweme_list:
-                    item = AwemeItem(aweme)
+                    item = DouyinItem(aweme)
                     yield item
             elif status_code == 2145:
                 log.warning('请求已过期')
@@ -80,5 +80,6 @@ class DouyinSpider(scrapy.Spider):
                 log.warning(response.body.decode())
                 self.exit_code = 0
         except Exception as e:
+            # TODO 这里要解析代理出错，或者在中间件里处理
             log.error('出错了')
             log.error(repr(e))
