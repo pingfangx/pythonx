@@ -125,4 +125,12 @@ if __name__ == '__main__':
 labelId	Long	标签ID	 
 labelName	String	标签名	 
     """
-    ParseWikiToBean(wiki_text).main()
+    need_replace = False
+    if need_replace:
+        # 将开头的去掉
+        wiki_text = wiki_text.lstrip('\n\t ')
+        wiki_text = wiki_text.replace(' ', '')
+        wiki_text = wiki_text.replace('\n', '\t')
+        wiki_text = wiki_text.replace('\t\t\t', '\n')
+        wiki_text = wiki_text.replace('\t\t', '\t')
+    ParseWikiToBean(wiki_text, include_set=True).main()
