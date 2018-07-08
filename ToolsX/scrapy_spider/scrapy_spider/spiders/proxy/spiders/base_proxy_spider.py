@@ -2,13 +2,20 @@ import scrapy
 
 from scrapy_spider.common.log import log
 from scrapy_spider.common.middleware.proxy_manager import ProxyFilter
-from scrapy_spider.spiders.proxy.items import ProxyItem
 
 
 class BaseProxySpider(scrapy.Spider):
     """代理爬虫基类
-    参考 https://github.com/monkey-soft/Scrapy_IPProxyPool
-    感谢
+    一开始找到的 https://github.com/monkey-soft/Scrapy_IPProxyPool，开始写爬代理的爬虫
+    后来在 github 搜代理，找出更多爬虫与代理网站
+
+    架构为
+    不同的 spider 爬取
+    然后将给 proxy_parser 解析出代理
+    再交由 ProxyFilter 过滤出有效的代理
+    过滤时先使用 telnet 判断是否有效，再使用 ProxyValidatorWithDouyin 直接抓抖音进行校验
+
+    代理的解析，一开始用的 xpath 解析，觉得麻烦就简单提取，后来发现用正则匹配更简单
     """
 
     custom_settings = {
@@ -20,6 +27,19 @@ class BaseProxySpider(scrapy.Spider):
             'scrapy_spider.spiders.proxy.pipelines.ProxyPostgreSQLPipeline': 300,
         },
     }
+    max_page = 0
+    """最大页数"""
+
+    def start_requests(self):
+        if not self.max_page:
+            self.max_page = 1
+        page = 0
+        while page < self.max_page:
+            page += 1
+            for url in self.start_urls:
+                url = url.format(page=page)
+                log.info("crawl " + url)
+                yield scrapy.Request(url=url)
 
     def parse(self, response):
         raise NotImplementedError('{}.parse callback is not defined'.format(self.__class__.__name__))

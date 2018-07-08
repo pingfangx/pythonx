@@ -42,3 +42,6 @@ class ProxyItem(BaseItem):
             'banned_time_int4': '',
             'available': '',
         }
+
+    def __str__(self):
+        return f"{self['http_type']}://{self['ip']}:{self['port']}"

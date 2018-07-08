@@ -24,14 +24,14 @@ class JetBrainsTranslator:
         self.target_dir = self.work_dir + os.path.sep + 'target'
 
         current_version_list = [
-            '3.1-2',
-            '2018.1-1',
-            '2018.1-2',
-            '2018.1-2',
-            '2018.1-2',
-            '2018.1-2',
-            '2018.1-1',
-            '2018.1-2',
+            '3.1.2',
+            '2018.1.3',
+            '2018.1.4',
+            '2018.1.4',
+            '2018.1.4',
+            '2018.1.3',
+            '2018.1.3',
+            '2018.1.4',
         ]
 
         pre_version_list = [
@@ -211,8 +211,8 @@ class JetBrainsTranslator:
                 driver.get(url)
                 page = driver.page_source
                 soup = BeautifulSoup(page, "html.parser")
-                button = soup.select_one('a.download-bundle-button')
-                latest_version = button.select_one('span.version').text
+                latest_version = soup.select_one('div.dac-studio-version').text
+                latest_version = latest_version.split('for')[0].strip()
                 if version == latest_version:
                     print('%s 已经是最新版本 %s' % (name, version))
                 else:
@@ -241,21 +241,29 @@ class JetBrainsTranslator:
         product_div_list = products_group.select('div.g-col-4')
         latest_version = {}
         for product_div in product_div_list:
-            title = product_div.select_one('.product-item__title').text.strip()
-            version = product_div.select_one('.product-item__version').text.strip()
-            latest_version[title] = version
+            title = product_div.select_one('.product-item__title')
+            if title:
+                title = title.text.strip()
+            version = product_div.select_one('.product-item__version')
+            if version:
+                version = version.text.strip()
+            if title and version:
+                latest_version[title] = version
         print('解析出所有软件为')
         print(latest_version)
+        version_result = ''
         for software in self.software_list:
             name, version = software.name, software.version
             name = name.replace('IntelliJIDEA', 'IntelliJ IDEA')
             if name in latest_version.keys():
+                version_result += "\n'%s'," % latest_version[name]
                 if version == latest_version[name]:
                     print('%s 已经是最新版本 %s' % (name, version))
                 else:
                     print('%s 的最新版本为 %s ，当前版本为 %s' % (name, latest_version[name], version))
             else:
                 print('没有找到软件名 %s' % name)
+        print(version_result)
 
 
 class Software:
@@ -585,7 +593,7 @@ class Software:
             print('配置文件不存在', config_file)
             return
 
-        crack_jar_file = r'D:\software\JetBrains\[2456]JetbrainsCrack-2.7-release-str.jar'
+        crack_jar_file = r'D:\software\JetBrains\[2456]JetbrainsCrack-2.8-release-enc.jar'
         write_line = '-javaagent:%s\n' % crack_jar_file
 
         with open(config_file, 'r') as f:
