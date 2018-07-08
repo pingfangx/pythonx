@@ -1,6 +1,8 @@
+import queue
+import random
 import threading
 
-from scrapy_spider.common.middleware.agent_manager import AgentManager
+from scrapy_spider.common.xx import threadx
 from scrapy_spider.spiders.douyin.proxy_validator_with_douyin import ProxyValidatorWithDouyin
 
 proxy_list = [
@@ -29,42 +31,39 @@ class ValidateProxyThread(threading.Thread):
 
 
 class ProxyManager:
-    agent_manager = AgentManager()
-    proxy_validator_with_douyin = ProxyValidatorWithDouyin()
 
     def random_proxy(self):
         """随机代理"""
-        # return random.choice(proxy_list)
-        return None
+        return random.choice(proxy_list)
 
-    def filter_proxy_list(self, proxy_list):
-        available_proxy_list = []
-        for i in range(len(proxy_list)):
-            proxy = proxy_list[i]
-            print(f'检查第 {i} 个代理')
-            if self.validate_proxy(proxy):
-                available_proxy_list.append(proxy)
-        return available_proxy_list
 
-    def filter_proxy_list_in_multi_thread(self, proxy_list):
-        """TODO 需要限制线程数，而且还有数据的问题"""
-        """过滤出可用的代理"""
-        if not proxy_list:
-            return []
-        thread_list = []
-        for i in range(len(proxy_list)):
-            thread_list.append(ValidateProxyThread(i, self.validate_proxy, proxy_list[i]))
-        for t in thread_list:
-            t.start()
-        for t in thread_list:
-            t.join()
-        self.proxy_validator_with_douyin.save_items()
-        available_proxy_list = []
+class ProxyFilter:
+    """过滤"""
+
+    def __init__(self, proxy_list):
+        self._q = queue.Queue()
+        self.available_q = queue.Queue()
+        self.proxy_validator_with_douyin = ProxyValidatorWithDouyin()
+
         for proxy in proxy_list:
-            if proxy['available']:
-                available_proxy_list.append(proxy)
-        return available_proxy_list
+            self._q.put(proxy)
 
-    def validate_proxy(self, proxy) -> bool:
-        """检查 ip 可修改此方法"""
-        return self.proxy_validator_with_douyin.validate_proxy(proxy)
+    def filter(self):
+        multi_thread = threadx.HandleQueueMultiThread(self._q, callback=self.__filter_proxy, thread_num=10,
+                                                      element_str_function=self.get_proxy_str, print_before_task=True)
+        multi_thread.start()
+        # 保存获取到的抖音
+        self.proxy_validator_with_douyin.save_items()
+        # 返回
+        available_proxy = []
+        while not self.available_q.empty():
+            available_proxy.append(self.available_q.get())
+        return available_proxy
+
+    def __filter_proxy(self, element, element_index, thread_id):
+        if self.proxy_validator_with_douyin.validate_proxy(element):
+            self.available_q.put(element)
+
+    @staticmethod
+    def get_proxy_str(proxy):
+        return f"{proxy['http_type']}://{proxy['ip']}:{proxy['port']}"

@@ -1,6 +1,8 @@
 import scrapy
+
 from scrapy_spider.common.log import log
-from scrapy_spider.common.middleware.proxy_manager import ProxyManager
+from scrapy_spider.common.middleware.proxy_manager import ProxyFilter
+from scrapy_spider.spiders.proxy.items import ProxyItem
 
 
 class BaseProxySpider(scrapy.Spider):
@@ -19,14 +21,12 @@ class BaseProxySpider(scrapy.Spider):
         },
     }
 
-    proxy_manager = ProxyManager()
-
     def parse(self, response):
         raise NotImplementedError('{}.parse callback is not defined'.format(self.__class__.__name__))
 
     def filter_and_save_proxy_list(self, proxy_list):
         """过滤并保存代理"""
         log.info(f'抓取 {self.name} 共 {len(proxy_list)} 个代理，校验有效性')
-        available_proxy_list = self.proxy_manager.filter_proxy_list_in_multi_thread(proxy_list)
+        available_proxy_list = ProxyFilter(proxy_list).filter()
         log.info(f'{self.name} 共 {len(available_proxy_list)} 个代理有效')
         return available_proxy_list
