@@ -26,7 +26,7 @@ class ProxyValidatorWithDouyin:
         timeout = 3
         proxy_url = f'{http_type}://{ip}:{port}'
         if not self.validate_proxy_by_telnet(ip, port, timeout):
-            log.info(f'{proxy}-代理无效')
+            print(f'{proxy}-代理无效')
             return False
         else:
             log.info(f'{proxy}-代理有效，抓取抖音测试')
@@ -77,13 +77,13 @@ class ProxyValidatorWithDouyin:
                 item = DouyinItem(aweme)
                 self.items.append(item)
             return True
-        elif status_code == 2145:
+        elif status_code == 2154:
             proxy['available'] = 2
             proxy['banned_time'] = time.time()
             log.info(f"{proxy}-代理有效，但已被禁{result['status_code']}")
             return True
         else:
-            log.info(f"{proxy}-代理无效，返回状态码{result['status_code']}")
+            print(f"{proxy}-代理无效，返回状态码{result['status_code']}")
             return False
 
     def save_items(self):

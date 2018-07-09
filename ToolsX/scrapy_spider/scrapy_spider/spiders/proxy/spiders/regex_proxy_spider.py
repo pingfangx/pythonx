@@ -74,21 +74,21 @@ class Ip3366Spider(BaseRegexProxySpider):
     top_level_domain = 'net'
 
 
-class _66ipSpider(BaseRegexProxySpider):
+class Six66ipSpider(BaseRegexProxySpider):
     name = '66ip'
     top_level_domain = 'cn'
 
 
-class _89ipSpider(BaseRegexProxySpider):
+class Eight89ipSpider(BaseRegexProxySpider):
     name = '89ip'
     top_level_domain = 'cn'
 
 
-class swei360Spider(BaseRegexProxySpider):
+class Swei360Spider(BaseRegexProxySpider):
     name = 'swei360'
 
 
-class data5uSpider(BaseRegexProxySpider):
+class Data5uSpider(BaseRegexProxySpider):
     name = 'data5u'
 
     def get_regex_pattern(self):
@@ -100,7 +100,7 @@ class data5uSpider(BaseRegexProxySpider):
         return Data5uProxyParser(self.get_regex_pattern())
 
 
-class kuaidailiSpider(BaseRegexProxySpider):
+class KuaidailiSpider(BaseRegexProxySpider):
     name = 'kuaidaili'
 
     def get_start_urls(self):

@@ -47,6 +47,9 @@ class BaseProxySpider(scrapy.Spider):
     def filter_and_save_proxy_list(self, proxy_list):
         """过滤并保存代理"""
         log.info(f'抓取 {self.name} 共 {len(proxy_list)} 个代理，校验有效性')
+        # 设置名字
+        for proxy in proxy_list:
+            proxy['source_domain'] = self.name
         available_proxy_list = ProxyFilter(proxy_list).filter()
-        log.info(f'{self.name} 共 {len(available_proxy_list)} 个代理有效')
+        log.info(f'{self.name} 共 {len(available_proxy_list)}/{len(proxy_list)} 个代理有效')
         return available_proxy_list

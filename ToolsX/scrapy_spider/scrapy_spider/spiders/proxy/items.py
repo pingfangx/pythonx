@@ -43,5 +43,15 @@ class ProxyItem(BaseItem):
             'available': '',
         }
 
+    def get_on_conflict_suffix_sql(self):
+        """多更新一下来源"""
+        sql = f"""
+        ON CONFLICT(ip) DO UPDATE SET
+        crawled_times={self.get_table_name()}.crawled_times+1,
+        """
+        sql += "source_domain='{source_domain}',\n"
+        sql += 'update_time={update_time_int4}'
+        return sql
+
     def __str__(self):
         return f"{self['http_type']}://{self['ip']}:{self['port']}"

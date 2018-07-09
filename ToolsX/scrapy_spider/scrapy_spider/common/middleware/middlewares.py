@@ -19,6 +19,25 @@ class RandomProxyDownloaderMiddleware(object):
         log.info(f'use random proxy {proxy}')
         request.meta["proxy"] = proxy
 
+    def process_response(self, request, response, spider):
+        """
+        要考虑两种情况，一是被封，二是ip 失效
+        :param request:
+        :param response:
+        :param spider:
+        :return:
+        """
+        print("process_response")
+        print(response)
+        proxy = request.meta['proxy']
+        print(f'proxy is {proxy}')
+        return response
+
+    def process_exception(self, request, exception, spider):
+        print("process_exception")
+        print(exception)
+        pass
+
 
 class RandomAgentDownloaderMiddleware(object):
     """随机 agent"""
