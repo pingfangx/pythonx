@@ -7,6 +7,9 @@ import scrapy
 
 class BaseItem(scrapy.Item):
     """基类"""
+    id = scrapy.Field()
+    """id，要注意创建表、插入语句要对其进行过滤"""
+
     create_time_int4 = scrapy.Field()
     """创建时间"""
 
@@ -77,6 +80,10 @@ class BaseItem(scrapy.Item):
         """获取表名"""
         return self.camel_to_under_line(self.__class__.__name__)
 
+    def get_primary_key(self):
+        """返回主键"""
+        return 'id'
+
     @staticmethod
     def camel_to_under_line(text):
         """驼峰转下划线"""
@@ -106,7 +113,7 @@ class BaseItem(scrapy.Item):
         :return:
         """
         field_str = ''
-        field_str += '"id" serial PRIMARY KEY NOT NULL,\n'
+        field_str += f'"{self.get_primary_key()}" serial PRIMARY KEY NOT NULL,\n'
 
         head_fields = self.get_head_fields()
         # 填充头部字段
@@ -119,6 +126,8 @@ class BaseItem(scrapy.Item):
 
         # 填充中间字段
         for key in self.fields.keys():
+            if key == self.get_primary_key():
+                continue
             if not head_fields or key not in head_fields.keys():
                 if not tail_fields or key not in tail_fields.keys():
                     name, _type = self.parse_name_type(key)
@@ -142,6 +151,8 @@ class BaseItem(scrapy.Item):
         # 列出名字
         fields_list = []
         for k in self.fields.keys():
+            if k == self.get_primary_key():
+                continue
             name, _type = self.parse_name_type(k)
             fields_list.append(name)
         fields_list = ', '.join(fields_list)
@@ -149,6 +160,8 @@ class BaseItem(scrapy.Item):
         # 用 {} 包起来，后面用于格式化
         value_list = []
         for k in self.fields.keys():
+            if k == self.get_primary_key():
+                continue
             name, _type = self.parse_name_type(k)
             if _type == 'text':
                 value_list.append("'{%s}'" % k)
@@ -168,6 +181,18 @@ class BaseItem(scrapy.Item):
         '''
         return sql
 
+    def generate_delete_sql(self):
+        """生成删除语句"""
+        primary_key = self[self.get_primary_key()]
+        if not primary_key:
+            # 用于格式化
+            primary_key = '%s'
+        return f'DELETE FROM {self.get_table_name()} WHERE {self.get_primary_key()}={primary_key}'
+
+    def generate_get_sql(self):
+        """生成 get 语句"""
+        return f'SELECT * FROM {self.get_table_name()}'
+
 
 class BaseItemTest(unittest.TestCase):
     def test_get(self):
@@ -184,3 +209,12 @@ class BaseItemTest(unittest.TestCase):
 
     def test_generate_insert_formatter_sql(self):
         print(BaseItem().generate_insert_formatter_sql())
+
+    def test_generate_delete_sql(self):
+        item = BaseItem()
+        print(item.generate_delete_sql())
+        item['id'] = 22
+        print(item.generate_delete_sql())
+
+    def test_generate_get_sql(self):
+        print(BaseItem().generate_get_sql())

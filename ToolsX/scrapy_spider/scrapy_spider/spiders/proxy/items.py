@@ -7,6 +7,15 @@ class ProxyItem(BaseItem):
     source_domain = scrapy.Field()
     """来源网站"""
 
+    used_times_int4 = scrapy.Field()
+    """使用次数"""
+
+    success_times_int4 = scrapy.Field()
+    """成功次数"""
+
+    fail_times_int4 = scrapy.Field()
+    """失败次数"""
+
     ip = scrapy.Field()
     """ip"""
 
@@ -31,8 +40,12 @@ class ProxyItem(BaseItem):
     survival_time = scrapy.Field()
     """匿名度"""
 
-    available = scrapy.Field()
-    """是否可用"""
+    available_int4 = scrapy.Field()
+    """是否可用
+    0 失效
+    1 有效
+    2 被禁
+    """
 
     def get_head_fields(self):
         return {
@@ -40,7 +53,10 @@ class ProxyItem(BaseItem):
             'ip': 'UNIQUE',
             'port': '',
             'banned_time_int4': '',
-            'available': '',
+            'available_int4': '',
+            'used_times_int4': '',
+            'success_times_int4': '',
+            'fail_times_int4': '',
         }
 
     def get_on_conflict_suffix_sql(self):

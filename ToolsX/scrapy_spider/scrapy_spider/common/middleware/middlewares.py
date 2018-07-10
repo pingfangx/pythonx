@@ -7,15 +7,14 @@
 
 from scrapy_spider.common.log import log
 from scrapy_spider.common.middleware.agent_manager import AgentManager
-from scrapy_spider.common.middleware.proxy_manager import ProxyManager
+from scrapy_spider.spiders.proxy.manager.proxy_manager import proxy_manager
 
 
 class RandomProxyDownloaderMiddleware(object):
     """随机代理"""
-    proxy_manager = ProxyManager()
 
     def process_request(self, request, spider):
-        proxy = self.proxy_manager.random_proxy()
+        proxy = proxy_manager.get()
         log.info(f'use random proxy {proxy}')
         request.meta["proxy"] = proxy
 

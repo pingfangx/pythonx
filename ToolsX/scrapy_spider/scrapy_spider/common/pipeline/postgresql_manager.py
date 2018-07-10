@@ -1,4 +1,5 @@
 import asyncpg
+from asyncpg import Connection
 from scrapy_spider.common.ignore.postgre_config import postgre_configs
 from scrapy_spider.common.item.base_item import BaseItem
 
@@ -22,7 +23,7 @@ class PostgreSQLManager:
         if insert_formatter_sql is not None:
             self.insert_formatter_sql = insert_formatter_sql
 
-        self.conn = None
+        self.conn: Connection = None
 
     async def insert_item(self, item):
         for k in item.fields.keys():
@@ -50,6 +51,10 @@ class PostgreSQLManager:
             raise
         finally:
             await tr.commit()
+
+    async def fetch(self, sql):
+        """获取"""
+        return await self.conn.fetch(sql)
 
     async def connect_database(self):
         """
