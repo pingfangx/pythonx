@@ -1,4 +1,3 @@
-import telnetlib
 import time
 
 import requests
@@ -6,30 +5,26 @@ from scrapy_spider.common.ignore import douyin
 from scrapy_spider.common.log import log
 from scrapy_spider.spiders.douyin.items import DouyinItem
 from scrapy_spider.spiders.douyin.pipelines import DouyinPostgreSQLPipeline
+from scrapy_spider.spiders.proxy.validator.base_proxy_validator import BaseProxyValidator
 
 
-class ProxyValidatorWithDouyin:
-    """ ip 校验，直接使用抖音校验"""
+class DouyinProxyValidator(BaseProxyValidator):
+    """抖音代理校验"""
+
     items = []
     """item 好像不能在线程中保存，对 yield async 不熟悉
     先这样，线程中保存数据，执行完后再调用保存
     """
 
     def __init__(self):
+        super().__init__(timeout=5)
         self.pipeline = DouyinPostgreSQLPipeline()
         # 初始化
         self.pipeline.open_spider(None)
 
-    def validate_proxy(self, proxy) -> bool:
-        """检查是否可用"""
+    def validate(self, proxy):
         ip, port, http_type = proxy['ip'], proxy['port'], proxy['http_type']
-        timeout = 3
         proxy_url = f'{http_type}://{ip}:{port}'
-        if not self.validate_proxy_by_telnet(ip, port, timeout):
-            print(f'{proxy}-代理无效')
-            return False
-        else:
-            log.info(f'{proxy}-代理有效，抓取抖音测试')
 
         http_type = http_type.lower()
         url = douyin.generate_feed_url(http_type=http_type)
@@ -42,7 +37,7 @@ class ProxyValidatorWithDouyin:
         result = False
         response = None
         try:
-            response = requests.get(url, headers=headers, proxies=proxies, timeout=timeout)
+            response = requests.get(url, headers=headers, proxies=proxies, timeout=self.timeout)
             if response.status_code == 200:
                 try:
                     result = self.validate_response(proxy, response.json())
@@ -57,14 +52,6 @@ class ProxyValidatorWithDouyin:
         if response:
             response.close()
         return result
-
-    @staticmethod
-    def validate_proxy_by_telnet(ip, port, timeout):
-        try:
-            telnetlib.Telnet(ip, port=port, timeout=timeout)
-            return True
-        except:
-            return False
 
     def validate_response(self, proxy, result) -> bool:
         """从爬取代理的过程中，因为直接爬了抖音，所以解析数据"""

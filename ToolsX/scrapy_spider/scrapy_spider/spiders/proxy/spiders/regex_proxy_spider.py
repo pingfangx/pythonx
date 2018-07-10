@@ -1,10 +1,10 @@
 import re
 
+from scrapy_spider.spiders.proxy.parser.regex_proxy_parser import CoderBusyProxyParser
+from scrapy_spider.spiders.proxy.parser.regex_proxy_parser import Data5uProxyParser
+from scrapy_spider.spiders.proxy.parser.regex_proxy_parser import GoubanjiaProxyParser
+from scrapy_spider.spiders.proxy.parser.regex_proxy_parser import RegexProxyParser
 from scrapy_spider.spiders.proxy.spiders.base_proxy_spider import BaseProxySpider
-from scrapy_spider.spiders.proxy.spiders.parser.regex_proxy_parser import CoderBusyProxyParser
-from scrapy_spider.spiders.proxy.spiders.parser.regex_proxy_parser import Data5uProxyParser
-from scrapy_spider.spiders.proxy.spiders.parser.regex_proxy_parser import GoubanjiaProxyParser
-from scrapy_spider.spiders.proxy.spiders.parser.regex_proxy_parser import RegexProxyParser
 
 
 class BaseRegexProxySpider(BaseProxySpider):
@@ -27,14 +27,6 @@ class BaseRegexProxySpider(BaseProxySpider):
     def get_proxy_parser(self):
         """获取解析器"""
         return RegexProxyParser(self.get_regex_pattern())
-
-    def parse(self, response):
-        proxy_parser = self.get_proxy_parser()
-        proxy_list = proxy_parser.parse_proxy_list_from_response(response)
-
-        available_proxy_list = self.filter_and_save_proxy_list(proxy_list)
-        for proxy in available_proxy_list:
-            yield proxy
 
 
 class JiangxianliSpider(BaseRegexProxySpider):

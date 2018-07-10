@@ -1,7 +1,7 @@
 import scrapy
 
 from scrapy_spider.common.log import log
-from scrapy_spider.common.middleware.proxy_manager import ProxyFilter
+from scrapy_spider.spiders.proxy.filter.douyin_proxy_filter import DouyinProxyFilter
 
 
 class BaseProxySpider(scrapy.Spider):
@@ -41,15 +41,37 @@ class BaseProxySpider(scrapy.Spider):
                 log.info("crawl " + url)
                 yield scrapy.Request(url=url)
 
-    def parse(self, response):
-        raise NotImplementedError('{}.parse callback is not defined'.format(self.__class__.__name__))
+    def get_proxy_parser(self):
+        """获取解析器"""
+        return None
 
-    def filter_and_save_proxy_list(self, proxy_list):
+    def parse(self, response):
+        proxy_parser = self.get_proxy_parser()
+        if proxy_parser is None:
+            return
+        proxy_list = proxy_parser.parse_proxy_list_from_response(response)
+
+        available_proxy_list = self.filter_proxy_list(proxy_list)
+        for proxy in available_proxy_list:
+            yield proxy
+
+    def get_proxy_filter(self, proxy_list):
+        """获取过滤器"""
+        return DouyinProxyFilter(proxy_list)
+
+    def filter_proxy_list(self, proxy_list):
         """过滤并保存代理"""
         log.info(f'抓取 {self.name} 共 {len(proxy_list)} 个代理，校验有效性')
         # 设置名字
         for proxy in proxy_list:
             proxy['source_domain'] = self.name
-        available_proxy_list = ProxyFilter(proxy_list).filter()
+
+        # 每次都新建，各自过滤各自保存
+        proxy_filter = self.get_proxy_filter(proxy_list)
+        if proxy_filter is not None:
+            available_proxy_list = proxy_filter.filter()
+        else:
+            available_proxy_list = proxy_list
+
         log.info(f'{self.name} 共 {len(available_proxy_list)}/{len(proxy_list)} 个代理有效')
         return available_proxy_list

@@ -1,7 +1,7 @@
 import re
 
 from scrapy_spider.spiders.proxy.items import ProxyItem
-from scrapy_spider.spiders.proxy.spiders.parser.base_proxy_parser import BaseProxyParser
+from scrapy_spider.spiders.proxy.parser.base_proxy_parser import BaseProxyParser
 
 
 class RegexProxyParser(BaseProxyParser):
