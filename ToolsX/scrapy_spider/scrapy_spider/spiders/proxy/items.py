@@ -71,3 +71,10 @@ class ProxyItem(BaseItem):
 
     def __str__(self):
         return f"{self['http_type']}://{self['ip']}:{self['port']}"
+
+    @staticmethod
+    def parse(proxy_str: str):
+        """解析"""
+        proxy_str = proxy_str.replace('/', '')
+        http_type, ip, port = proxy_str.split(':')
+        return ProxyItem(http_type=http_type, ip=ip, port=port)

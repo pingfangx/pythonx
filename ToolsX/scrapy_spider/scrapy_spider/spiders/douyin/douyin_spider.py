@@ -20,7 +20,7 @@ class DouyinSpider(scrapy.Spider):
         'DOWNLOAD_DELAY': 10,
         'DOWNLOADER_MIDDLEWARES': {
             # 'scrapy_spider.common.middleware.middlewares.RandomAgentDownloaderMiddleware': 300,
-            'scrapy_spider.common.middleware.middlewares.RandomProxyDownloaderMiddleware': 300,
+            'scrapy_spider.common.middleware.middlewares.DouyinRandomProxyDownloaderMiddleware': 300,
         },
         'ITEM_PIPELINES': {
             'scrapy_spider.spiders.douyin.pipelines.DouyinPostgreSQLPipeline': 300,

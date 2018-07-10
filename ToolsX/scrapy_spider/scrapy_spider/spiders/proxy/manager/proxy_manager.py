@@ -17,7 +17,6 @@ class ProxyManager:
 
         # 一些 sql
         # 按使用次数排序，保存都能用到
-        # TODO 修改
         self._sql_fetch_available = item.generate_get_sql() + """
         WHERE available=1
         OR (available=2 AND EXTRACT(EPOCH from NOW()- INTERVAL'1 HOUR') > banned_time)
@@ -26,11 +25,11 @@ class ProxyManager:
 
         """获取可用的"""
 
-        primary_key = item.get_primary_key()
+        primary_key = 'ip'
         self._sql_update = f"""
         UPDATE {item.get_table_name()}
         %s
-        WHERE {primary_key} = {{{primary_key}}}
+        WHERE {primary_key} = '{{{primary_key}}}'
         """
         """后面的 3 个 {} 先求中间值，外面 2 个{{}}表示 1 个{} 用于格式化"""
 
@@ -71,6 +70,7 @@ class ProxyManager:
                 time.sleep(sleep_time)
         # 循环结束，肯定不为空
         proxy = self._proxy_queue.get()
+        # 更新使用次数
         self._execute(self._sql_update_used_times, proxy)
         return proxy
 
@@ -94,7 +94,10 @@ class ProxyManager:
     def _execute(self, sql, proxy=None):
         """执行"""
         if proxy:
-            sql = sql.format(now=int(time.time()), **proxy)
+            if isinstance(proxy, str):
+                sql = sql.format(now=int(time.time()), **ProxyItem.parse(proxy))
+            elif isinstance(proxy, ProxyItem):
+                sql = sql.format(now=int(time.time()), **proxy)
         print(f'执行 {sql}')
         asyncio.get_event_loop().run_until_complete(self.manager.execute(sql))
 
@@ -104,7 +107,7 @@ proxy_manager = ProxyManager()
 
 
 class TestProxyManager(TestCase):
-    item = ProxyItem(id='2')
+    item = ProxyItem(ip='123')
 
     def test_get(self):
         proxy = ProxyManager().get()
