@@ -3,6 +3,7 @@ import queue
 import time
 from unittest import TestCase
 
+from scrapy_spider.common.log import log
 from scrapy_spider.common.pipeline.postgresql_manager import PostgreSQLManager
 from scrapy_spider.spiders.proxy.items import ProxyItem
 
@@ -76,14 +77,17 @@ class ProxyManager:
 
     def success(self, proxy):
         """成功时调用"""
+        log.info(f'{proxy} success')
         self._execute(self._sql_update_success, proxy)
 
     def banned(self, proxy):
         """被禁时调用"""
+        log.info(f'{proxy} banned')
         self._execute(self._sql_update_banned, proxy)
 
     def fail(self, proxy):
         """失败时调用"""
+        log.info(f'{proxy} fail')
         self._execute(self._sql_update_fail, proxy)
 
     def remove(self, proxy: ProxyItem):
@@ -98,7 +102,7 @@ class ProxyManager:
                 sql = sql.format(now=int(time.time()), **ProxyItem.parse(proxy))
             elif isinstance(proxy, ProxyItem):
                 sql = sql.format(now=int(time.time()), **proxy)
-        print(f'执行 {sql}')
+        # print(f'执行 {sql}')
         asyncio.get_event_loop().run_until_complete(self.manager.execute(sql))
 
 

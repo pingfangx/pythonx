@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from scrapy.exceptions import IgnoreRequest
 # Define here the models for your spider middleware
 #
 # See documentation in:
@@ -8,8 +9,8 @@ from scrapy_spider.common.ignore import douyin
 from scrapy_spider.common.log import log
 from scrapy_spider.common.middleware.agent_manager import AgentManager
 from scrapy_spider.spiders.proxy.manager.proxy_manager import proxy_manager
-
-from twisted.internet.error import ConnectionRefusedError
+from twisted.internet import error
+from twisted.web._newclient import ResponseNeverReceived
 
 
 class RandomProxyDownloaderMiddleware(object):
@@ -33,27 +34,41 @@ class DouyinRandomProxyDownloaderMiddleware(RandomProxyDownloaderMiddleware):
         :return:
         """
         proxy = request.meta['proxy']
-        print(f'proxy is {proxy}')
+        # 持有的是方法，只有一个实例，所以并发时 self.proxy 应该是不准确的，需从 request 获取
         code, _ = douyin.parse_result(response.body.decode())
         if code == 1:
             proxy_manager.success(proxy)
         elif code == 2:
             proxy_manager.banned(proxy)
+            raise IgnoreRequest()
         else:
             proxy_manager.fail(proxy)
+            raise IgnoreRequest()
         return response
 
     def process_exception(self, request, exception, spider):
         proxy = request.meta['proxy']
-        if isinstance(exception, ConnectionRefusedError):
-            # 被拒绝
-            print(f'proxy is {proxy}')
-            proxy_manager.fail(proxy)
+        if isinstance(exception, IgnoreRequest):
+            # 已忽略
             return
-        log.info("process_exception")
-        log.info(f'proxy is {proxy}')
-        log.info(type(exception))
-        log.info(exception)
+        else:
+            # 检查是否是已知的错误，如果是未知错误，可能需要记录处理
+            fail_exception_list = [
+                error.ConnectError,
+                error.ConnectionRefusedError,
+                error.TCPTimedOutError,
+                error.TimeoutError,  # 超过设定的 timeout
+                ResponseNeverReceived,
+            ]
+            for e in fail_exception_list:
+                if isinstance(exception, e):
+                    # 被拒绝
+                    proxy_manager.fail(proxy)
+                    return
+        log.error("process_exception")
+        log.error(f'proxy is {proxy}')
+        log.error(type(exception))
+        log.error(exception)
 
 
 class RandomAgentDownloaderMiddleware(object):

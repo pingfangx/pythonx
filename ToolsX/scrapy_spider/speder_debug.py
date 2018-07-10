@@ -85,22 +85,22 @@ class TestAllProxySpider(unittest.TestCase):
             if ip_count > 0:
                 spider_list.append(spider_class)
         times = 0
-        while times < 1:
+        # 无限循环
+        while times >= 0:
             times += 1
             for i in range(len(spider_list)):
                 spider = spider_list[i]
-                log.info(f'第 {times} 轮,使用 {spider.name} {i+1}/{len(spider_list)} 爬取')
+                log.info(f'第 {times} 轮,第 {i+1}/{len(spider_list)} 个爬虫 {spider.name} 开始爬取')
                 try:
                     yield runner.crawl(spider)
                 except SystemExit:
-                    log.info(f'第 {times} 轮,{spider.name} {i+1}/{len(spider_list)} 爬取结束')
-                    pass
+                    log.info(f'第 {times} 轮,第 {i+1}/{len(spider_list)} 个爬虫 {spider.name} 爬取结束')
                 sleep_time = 10
-                log.info(f'sleep {sleep_time}')
+                log.info(f'等待执行下一爬虫,sleep {sleep_time}')
                 time.sleep(sleep_time)
             # 延时下一轮
-            sleep_time = 50
-            log.info(f'sleep {sleep_time}')
+            sleep_time = 600
+            log.info(f'等待下一轮,sleep {sleep_time}')
             time.sleep(sleep_time)
         reactor.stop()
 

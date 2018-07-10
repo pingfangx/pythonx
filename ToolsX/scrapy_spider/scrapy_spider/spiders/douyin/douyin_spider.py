@@ -1,5 +1,4 @@
 import json
-import time
 
 import scrapy
 from scrapy_spider.common.ignore import douyin  # 不公开
@@ -16,8 +15,9 @@ class DouyinSpider(scrapy.Spider):
 
     # 防 ban
     custom_settings = {
-        'CONCURRENT_REQUESTS': 1,
-        'DOWNLOAD_DELAY': 10,
+        'CONCURRENT_REQUESTS': 16,
+        'DOWNLOAD_DELAY': 0,
+        'DOWNLOAD_TIMEOUT': 10,  # 设置超时，默认是 180
         'DOWNLOADER_MIDDLEWARES': {
             # 'scrapy_spider.common.middleware.middlewares.RandomAgentDownloaderMiddleware': 300,
             'scrapy_spider.common.middleware.middlewares.DouyinRandomProxyDownloaderMiddleware': 300,
@@ -33,19 +33,16 @@ class DouyinSpider(scrapy.Spider):
     has_more = 1
     exit_code = 1
     total_items = 0
-    sleep_time = 1
 
     def start_requests(self):
         i = 0
         while i < 1:
             # i += 1
-            log.info(f'sleep {self.sleep_time}')
-            time.sleep(self.sleep_time)
-            self.sleep_time = 1
             # 并发的时候，time 是相同的，被 scrapy 认为是相同地址而忽略
+            # 后来发现要设置 dont_filter
             url = douyin.generate_feed_url()
             log.info("crawl " + url)
-            yield scrapy.Request(url=url, headers=self.headers)
+            yield scrapy.Request(url=url, headers=self.headers, dont_filter=True)
             if self.has_more == 0 or self.exit_code == 0:
                 break
 
@@ -69,9 +66,10 @@ class DouyinSpider(scrapy.Spider):
                 self.exit_code = 0
             elif status_code == 2154:
                 # 大约会被禁 1 个小时
+                # 已经在下载器中间件拦截，应该不会走到这里的
                 log.warning('请求太频繁，设备被禁')
-                log.warning('休息 10 分钟')
-                self.sleep_time = 10 * 60
+                # log.warning('休息 10 分钟')
+                # self.sleep_time = 10 * 60
                 # self.exit_code = 0
             else:
                 log.warning('错误码 %d' % status_code)
