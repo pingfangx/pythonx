@@ -30,6 +30,9 @@ class BaseProxySpider(scrapy.Spider):
     max_page = 0
     """最大页数"""
 
+    ip_count = 1
+    """平均抓取到的 ip 的数量，符点表示有效数 / 总数，如果为 0 ，说明已经失效"""
+
     def start_requests(self):
         if not self.max_page:
             self.max_page = 1

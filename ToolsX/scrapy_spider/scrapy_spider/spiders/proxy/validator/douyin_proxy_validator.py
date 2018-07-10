@@ -1,6 +1,9 @@
 import time
 
 import requests
+from requests.exceptions import ConnectTimeout
+from requests.exceptions import ConnectionError
+from requests.exceptions import ReadTimeout
 from scrapy_spider.common.ignore import douyin
 from scrapy_spider.common.log import log
 from scrapy_spider.spiders.douyin.items import DouyinItem
@@ -42,12 +45,15 @@ class DouyinProxyValidator(BaseProxyValidator):
                 try:
                     result = self.validate_response(proxy, response.json())
                 except Exception as e:
-                    log.info(f'{proxy}-解析出错 {e}')
+                    print(f'{proxy}-解析出错 {e}')
             else:
-                log.info(f'{proxy}-失败，请求状态码{response.status_code}')
+                print(f'{proxy}-失败，请求状态码{response.status_code}')
                 pass
+        except (ConnectTimeout, ConnectionError, ReadTimeout) as e:
+            print(f'{proxy}-连接超时 {e}')
+            pass
         except Exception as e:
-            log.info(f'{proxy}-失败{e}')
+            log.info(f'{proxy}-失败{type(e)}{e}')
             pass
         if response:
             response.close()

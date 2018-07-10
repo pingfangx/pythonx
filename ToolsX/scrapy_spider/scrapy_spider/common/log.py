@@ -4,7 +4,7 @@ import time
 
 
 def get_logger(name):
-    now = time.strftime('%Y%m%d_%H%M%S')
+    now = time.strftime('%Y%m%d/%H%M%S')
     file = f'log/{now}.log'
     dir_name = os.path.dirname(file)
     if not os.path.exists(dir_name):
