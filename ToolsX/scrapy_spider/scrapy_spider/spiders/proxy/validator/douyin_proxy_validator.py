@@ -40,7 +40,7 @@ class DouyinProxyValidator(BaseProxyValidator):
         result = False
         response = None
         try:
-            response = requests.get(url, headers=headers, proxies=proxies, timeout=self.timeout)
+            response = requests.get(url, headers=headers, proxies=proxies, timeout=self.timeout, verify=False)
             if response.status_code == 200:
                 try:
                     result = self.validate_response(proxy, response.json())

@@ -12,7 +12,7 @@ class RegexProxyParser(BaseProxyParser):
         self.pattern = pattern
         """正则"""
         if self.pattern is None:
-            self.pattern = re.compile('(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}).*?(\d{2,5}).*?(http|https)?', re.IGNORECASE)
+            self.pattern = re.compile('(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}).*?(\d{2,5}).*?(http(s)?)', re.IGNORECASE)
 
     def parse_proxy_list_from_response(self, response):
         return self.parse_proxy_list(response.text)

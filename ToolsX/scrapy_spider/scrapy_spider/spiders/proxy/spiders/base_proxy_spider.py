@@ -39,7 +39,9 @@ class BaseProxySpider(scrapy.Spider):
         page = 0
         while page < self.max_page:
             page += 1
-            for url in self.start_urls:
+            for i in range(len(self.start_urls)):
+                url = self.start_urls[i]
+                log.info(f'爬取第 {i+1}/{len(self.start_urls)} 个地址，第 {page}/{self.max_page} 页')
                 url = url.format(page=page)
                 log.info("crawl " + url)
                 yield scrapy.Request(url=url)

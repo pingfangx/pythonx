@@ -44,13 +44,24 @@ class XicidailiSpider(BaseRegexProxySpider):
 
 
 class Data5uSpider(BaseRegexProxySpider):
-    """有效率挺高的，因为是端口加密的"""
+    """有效率挺高的，因为是端口加密的
+    但只有首页的有效"""
     ip_count = 13 / 20
     name = 'data5u'
 
+    def get_start_urls(self):
+        return [
+            'http://www.data5u.com/',
+            'http://www.data5u.com/free/index.html',
+            'http://www.data5u.com/free/gngn/index.shtml',
+            'http://www.data5u.com/free/gnpt/index.shtml',
+            'http://www.data5u.com/free/gwgn/index.shtml',
+            'http://www.data5u.com/free/gwpt/index.shtml',
+        ]
+
     def get_regex_pattern(self):
-        # 端口加密
-        return re.compile('(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}).*?port\s(\w+).*?>(\d{2,5})<.*?(http(s)?)',
+        # 端口加密，端口与 http 都在 ><  包围
+        return re.compile('(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}).*?port\s(\w+).*?>(\d{2,5})<.*?>(http(s)?)<',
                           re.IGNORECASE)
 
     def get_proxy_parser(self):
@@ -58,7 +69,8 @@ class Data5uSpider(BaseRegexProxySpider):
 
 
 class GoubanjiaSpider(BaseRegexProxySpider):
-    """加密方式与 data5u 相同，还增加了样式来混淆"""
+    """加密方式与 data5u 相同，还增加了样式来混淆
+    只有首页有 20 条数据"""
     ip_count = 6 / 20
     name = 'goubanjia'
 
@@ -70,22 +82,27 @@ class GoubanjiaSpider(BaseRegexProxySpider):
 
 
 class CoderbusySpider(BaseRegexProxySpider):
-    """另一种端口加密方式"""
+    """另一种端口加密方式
+    有不同的分类，但是好像停止更新了
+    """
     ip_count = 5 / 50
     name = 'coderbusy'
     cname = 'proxy'
 
     def get_regex_pattern(self):
         # 以data-ip 开头，data-i 为端口密码，端口包在 >< 中
-        return re.compile('data-ip.*?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}).*?data-i.*?(\d+).*?>(\d{2,5})<.*?(http(s)?)',
-                          re.IGNORECASE)
+        # 但是 http 是根据后面的是否选中判断的，可以以后改
+        return re.compile(
+            'data-ip.*?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}).*?data-i.*?(\d+).*?>(\d{2,5})<.*?>(http(s)?)<',
+            re.IGNORECASE)
 
     def get_proxy_parser(self):
         return CoderBusyProxyParser(self.get_regex_pattern())
 
 
 class Ip3366Spider(BaseRegexProxySpider):
-    """每页只有一个，好在每页都有一个"""
+    """每页只有一个，好在每页都有一个
+    正则正常"""
     ip_count = 1 / 10
     name = 'ip3366'
     top_level_domain = 'net'
@@ -105,6 +122,10 @@ class Six66ipSpider(BaseRegexProxySpider):
     def get_start_urls(self):
         """页数用来代替地区"""
         return ['http://www.66ip.cn/areaindex_{page}/1.html', ]
+
+    def get_regex_pattern(self):
+        """没有 http 类型"""
+        return re.compile('(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}).*?(\d{2,5})', re.IGNORECASE)
 
 
 # 以下已不可用
