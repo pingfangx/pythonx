@@ -4,6 +4,7 @@ from scrapy_spider.spiders.proxy.parser.regex_proxy_parser import CoderBusyProxy
 from scrapy_spider.spiders.proxy.parser.regex_proxy_parser import Data5uProxyParser
 from scrapy_spider.spiders.proxy.parser.regex_proxy_parser import GoubanjiaProxyParser
 from scrapy_spider.spiders.proxy.parser.regex_proxy_parser import RegexProxyParser
+from scrapy_spider.spiders.proxy.parser.xpath_proxy_parser import CoderBusyXpathProxyParser
 from scrapy_spider.spiders.proxy.spiders.base_proxy_spider import BaseProxySpider
 
 
@@ -33,6 +34,7 @@ class XicidailiSpider(BaseRegexProxySpider):
     """还是有不少可用的"""
     ip_count = 24 / 400
     name = 'xicidaili'
+    max_page = 5
 
     def get_start_urls(self):
         return [
@@ -81,23 +83,23 @@ class GoubanjiaSpider(BaseRegexProxySpider):
         return GoubanjiaProxyParser(self.get_regex_pattern())
 
 
-class CoderbusySpider(BaseRegexProxySpider):
-    """另一种端口加密方式
-    有不同的分类，但是好像停止更新了
-    """
-    ip_count = 5 / 50
+class CoderBusyXpathSpider(BaseRegexProxySpider):
+    """正则不好解析 http_typ，改用 xpath
+    但是更新时间停止了？
+    父类仍是 BaseRegexProxySpider 方便继承方法"""
+    ip_count = 7 / 50
     name = 'coderbusy'
     cname = 'proxy'
 
-    def get_regex_pattern(self):
-        # 以data-ip 开头，data-i 为端口密码，端口包在 >< 中
-        # 但是 http 是根据后面的是否选中判断的，可以以后改
-        return re.compile(
-            'data-ip.*?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}).*?data-i.*?(\d+).*?>(\d{2,5})<.*?>(http(s)?)<',
-            re.IGNORECASE)
-
     def get_proxy_parser(self):
-        return CoderBusyProxyParser(self.get_regex_pattern())
+        return CoderBusyXpathProxyParser()
+
+    def get_start_urls(self):
+        return [
+            'https://proxy.coderbusy.com/',
+            'https://proxy.coderbusy.com/classical/https-ready.aspx',
+            'https://proxy.coderbusy.com/classical/country/cn.aspx',
+        ]
 
 
 class Ip3366Spider(BaseRegexProxySpider):
@@ -169,3 +171,23 @@ class Swei360Spider(BaseRegexProxySpider):
     """没有可用"""
     ip_count = 0
     name = 'swei360'
+
+
+class CoderbusyRegexSpider(BaseRegexProxySpider):
+    """另一种端口加密方式
+    有不同的分类，但是好像停止更新了
+    """
+    ip_count = 0
+    """弃用，改为用 xpath"""
+    name = 'coderbusy_regex'
+    cname = 'proxy'
+
+    def get_regex_pattern(self):
+        # 以data-ip 开头，data-i 为端口密码，端口包在 >< 中
+        # 但是 http 是根据后面的是否选中判断的，可以以后改
+        return re.compile(
+            'data-ip.*?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}).*?data-i.*?(\d+).*?>(\d{2,5})<.*?>(http(s)?)<',
+            re.IGNORECASE)
+
+    def get_proxy_parser(self):
+        return CoderBusyProxyParser(self.get_regex_pattern())

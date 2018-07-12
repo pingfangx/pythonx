@@ -65,6 +65,9 @@ class TestProxySpider(unittest.TestCase):
     def test_swei360_spider(self):
         self.test_proxy_spider('swei360')
 
+    def test_coderbusy_regex_spider(self):
+        self.test_proxy_spider('coderbusy_regex')
+
     # 测试方法
     def test_proxy_spider(self, spider):
         """运行代理爬虫"""

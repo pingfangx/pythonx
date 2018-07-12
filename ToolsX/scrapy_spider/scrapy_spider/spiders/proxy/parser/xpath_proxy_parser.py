@@ -75,3 +75,30 @@ class XpathProxyParser(BaseProxyParser):
                 xpath = xpath % v
                 proxy_item[k] = element.xpath(xpath)[0]
         return proxy_item
+
+
+class CoderBusyXpathProxyParser(XpathProxyParser):
+    def __init__(self):
+        xpath_element_list = '//table/tbody/tr'
+        super().__init__(xpath_element_list, parse_proxy_extra_method=self.decrypt)
+
+    def decrypt(self, element, proxy_item):
+        """解密"""
+        ip_port_td = element.xpath('./td[3]')[0]
+        ip = ip_port_td.attrib['data-ip']
+
+        port_password = ip_port_td.attrib['data-i']
+        port_password = int(port_password)
+        for i in ip.split('.'):
+            port_password -= int(i)
+        port = str(port_password)
+
+        if len(element.xpath('./td[9]/i')) > 0:
+            # 有 i 表示是 https
+            http_type = 'https'
+        else:
+            http_type = 'http'
+        proxy_item['ip'] = ip
+        proxy_item['port'] = port
+        proxy_item['http_type'] = http_type
+        return proxy_item
