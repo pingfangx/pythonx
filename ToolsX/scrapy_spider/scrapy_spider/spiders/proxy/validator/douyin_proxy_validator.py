@@ -84,3 +84,4 @@ class DouyinProxyValidator(BaseProxyValidator):
         for item in self.items:
             self.pipeline.process_item(item, None)
         self.items.clear()
+        self.pipeline.close_spider(None)
