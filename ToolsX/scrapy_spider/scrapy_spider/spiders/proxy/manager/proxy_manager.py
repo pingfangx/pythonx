@@ -34,8 +34,14 @@ class ProxyManager:
         """
         """后面的 3 个 {} 先求中间值，外面 2 个{{}}表示 1 个{} 用于格式化"""
 
-        self._sql_update_used_times = self._sql_update % 'SET used_times=used_times+1 ,update_time={now}'
-        """更新使用次数"""
+        self._sql_get_fail_times_by_ip = f"""
+        SELECT fail_times FROM {item.get_table_name()}
+        WHERE {primary_key} = '{{{primary_key}}}'
+        """
+        """获取失败次数"""
+
+        self._sql_add_times = self._sql_update % 'SET {key}={key}+1 ,update_time={now}'
+        """添加次数"""
 
         self._sql_update_success = self._sql_update % 'SET success_times=success_times+1 ,' \
                                                       ' update_time={now} , available=1'
@@ -72,7 +78,7 @@ class ProxyManager:
         # 循环结束，肯定不为空
         proxy = self._proxy_queue.get()
         # 更新使用次数
-        self._execute(self._sql_update_used_times, proxy)
+        self._execute(self._sql_add_times, proxy, key='used_times')
         return proxy
 
     def success(self, proxy):
@@ -87,21 +93,32 @@ class ProxyManager:
 
     def fail(self, proxy):
         """失败时调用"""
-        log.info(f'{proxy} fail')
-        self._execute(self._sql_update_fail, proxy)
+        # 添加失败次数
+        self._execute(self._sql_add_times, proxy, key='fail_times')
+        # 获取失败次数
+        sql = self._sql_get_fail_times_by_ip.format(**proxy)
+        record = asyncio.get_event_loop().run_until_complete(self.manager.conn.fetchrow(sql))
+        if record:
+            fail_times = record['fail_times']
+            if fail_times and fail_times >= 5:
+                # 大于 10 次，置为不可用
+                log.info(f'{proxy} fail set available=0')
+                self._execute(self._sql_update_fail, proxy)
+            else:
+                log.info(f'{proxy} fail set fail_times={fail_times}')
 
     def remove(self, proxy: ProxyItem):
         """删除"""
         self._execute(proxy.generate_delete_sql())
 
     # 以下为私有方法
-    def _execute(self, sql, proxy=None):
+    def _execute(self, sql, proxy=None, key=None):
         """执行"""
         if proxy:
             if isinstance(proxy, str):
-                sql = sql.format(now=int(time.time()), **ProxyItem.parse(proxy))
+                sql = sql.format(now=int(time.time()), key=key, **ProxyItem.parse(proxy))
             elif isinstance(proxy, ProxyItem):
-                sql = sql.format(now=int(time.time()), **proxy)
+                sql = sql.format(now=int(time.time()), key=key, **proxy)
         # print(f'执行 {sql}')
         asyncio.get_event_loop().run_until_complete(self.manager.execute(sql))
 
@@ -132,7 +149,7 @@ class TestProxyManager(TestCase):
     def test_sql(self):
         print(ProxyManager()._sql_fetch_available)
         print(ProxyManager()._sql_update)
-        print(ProxyManager()._sql_update_used_times)
+        print(ProxyManager()._sql_add_times)
         print(ProxyManager()._sql_update_success)
         print(ProxyManager()._sql_update_fail)
         print(ProxyManager()._sql_update_banned)

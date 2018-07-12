@@ -5,7 +5,8 @@ import time
 
 def get_logger(name):
     now = time.strftime('%Y%m%d/%H%M%S')
-    file = f'log/{now}.log'
+    root_dir = r'D:\workspace\PythonX\ToolsX\scrapy_spider'
+    file = f'{root_dir}/log/{now}.log'
     dir_name = os.path.dirname(file)
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)

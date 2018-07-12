@@ -1,4 +1,5 @@
 import json
+import time
 
 import scrapy
 from scrapy_spider.common.ignore import douyin  # 不公开
@@ -6,10 +7,26 @@ from scrapy_spider.common.log import log
 from scrapy_spider.spiders.douyin.items import DouyinItem
 
 
+class statistics:
+    """统计"""
+
+    start_time = 0
+    """开始时间"""
+    crawled_pages = 0
+    """爬取页数"""
+    crawled_success__pages = 0
+    """爬取成功页数"""
+    crawled_items = 0
+    """爬取抖音数"""
+
+
 class DouyinSpider(scrapy.Spider):
     """
     参考 https://github.com/a232319779/appspider
     感谢
+    爬取速度
+    并发  速度
+    16  800
     """
     name = 'douyin'
 
@@ -32,16 +49,18 @@ class DouyinSpider(scrapy.Spider):
     }
     has_more = 1
     exit_code = 1
-    total_items = 0
+    statistics = statistics()
 
     def start_requests(self):
+        self.statistics.start_time = time.time()
         i = 0
         while i < 1:
             # i += 1
             # 并发的时候，time 是相同的，被 scrapy 认为是相同地址而忽略
             # 后来发现要设置 dont_filter
             url = douyin.generate_feed_url()
-            log.info("crawl " + url)
+            self.statistics.crawled_pages += 1
+            log.info(f'crawl {self.statistics.crawled_pages} page:' + url)
             yield scrapy.Request(url=url, headers=self.headers, dont_filter=True)
             if self.has_more == 0 or self.exit_code == 0:
                 break
@@ -53,8 +72,12 @@ class DouyinSpider(scrapy.Spider):
             if result['status_code'] == 0:
                 self.has_more = result['has_more']
                 aweme_list = result['aweme_list']
-                self.total_items += len(aweme_list)
-                log.info(f'scraped {len(aweme_list)}/{self.total_items} items')
+                self.statistics.crawled_success__pages += 1
+                self.statistics.crawled_items += len(aweme_list)
+                log.info(
+                    f'scraped {self.statistics.crawled_success__pages}/{self.statistics.crawled_pages} pages,{len(aweme_list)}/{self.statistics.crawled_items} items')
+                speed = (time.time() - self.statistics.start_time) / 60
+                log.info(f'speed {speed:#.2f} items/min')
                 for aweme in aweme_list:
                     item = DouyinItem(aweme)
                     yield item
