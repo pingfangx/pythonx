@@ -20,6 +20,10 @@ class statistics:
     """爬取抖音数"""
 
 
+CONCURRENT_REQUESTS = 16
+"""并发数"""
+
+
 class DouyinSpider(scrapy.Spider):
     """
     参考 https://github.com/a232319779/appspider
@@ -32,7 +36,7 @@ class DouyinSpider(scrapy.Spider):
 
     # 防 ban
     custom_settings = {
-        'CONCURRENT_REQUESTS': 16,
+        'CONCURRENT_REQUESTS': CONCURRENT_REQUESTS,
         'DOWNLOAD_DELAY': 0,
         'DOWNLOAD_TIMEOUT': 10,  # 设置超时，默认是 180
         'DOWNLOADER_MIDDLEWARES': {
@@ -67,17 +71,23 @@ class DouyinSpider(scrapy.Spider):
 
     def parse(self, response):
         try:
-            result = json.loads(response.body.decode())
+            body = response.body.decode()
+            if body == 'error':
+                print('body 为 error，异常已拦截')
+                return
+            result = json.loads(body)
             status_code = result['status_code']
             if result['status_code'] == 0:
                 self.has_more = result['has_more']
                 aweme_list = result['aweme_list']
                 self.statistics.crawled_success__pages += 1
                 self.statistics.crawled_items += len(aweme_list)
+                minute = (time.time() - self.statistics.start_time) / 60
+                print(f'scraped {len(aweme_list)} items')
+                speed = self.statistics.crawled_items / minute
                 log.info(
-                    f'scraped {self.statistics.crawled_success__pages}/{self.statistics.crawled_pages} pages,{len(aweme_list)}/{self.statistics.crawled_items} items')
-                speed = (time.time() - self.statistics.start_time) / 60
-                log.info(f'speed {speed:#.2f} items/min')
+                    f'scraped {self.statistics.crawled_success__pages}/{self.statistics.crawled_pages} pages,'
+                    f'{self.statistics.crawled_items} items,spend {minute:#.2f} minutes,speed {speed:#.2f} items/min')
                 for aweme in aweme_list:
                     item = DouyinItem(aweme)
                     yield item

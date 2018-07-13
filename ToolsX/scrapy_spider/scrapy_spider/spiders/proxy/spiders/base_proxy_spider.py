@@ -19,7 +19,8 @@ class BaseProxySpider(scrapy.Spider):
     """
 
     custom_settings = {
-        'CONCURRENT_REQUESTS': 1,
+        'CONCURRENT_REQUESTS': 2,  # 并发影响不大，因为在校验时使用多线程程但是 join 了，在等待校验完毕
+        'DOWNLOAD_DELAY': 1,  # 有并发，给 1 s 延时
         'DOWNLOADER_MIDDLEWARES': {
             'scrapy_spider.common.middleware.middlewares.RandomAgentDownloaderMiddleware': 300,
         },
@@ -41,9 +42,8 @@ class BaseProxySpider(scrapy.Spider):
             page += 1
             for i in range(len(self.start_urls)):
                 url = self.start_urls[i]
-                log.info(f'爬取第 {i+1}/{len(self.start_urls)} 个地址，第 {page}/{self.max_page} 页')
                 url = url.format(page=page)
-                log.info("crawl " + url)
+                log.info(f'爬取第 {i+1}/{len(self.start_urls)} 个地址，第 {page}/{self.max_page} 页,{url}')
                 yield scrapy.Request(url=url)
 
     def get_proxy_parser(self):

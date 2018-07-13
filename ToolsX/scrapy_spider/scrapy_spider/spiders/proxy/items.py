@@ -72,6 +72,12 @@ class ProxyItem(BaseItem):
     def __str__(self):
         return f"{self['http_type']}://{self['ip']}:{self['port']}"
 
+    def __setitem__(self, key, value):
+        if key == 'http_type':
+            # 最小写
+            value = value.lower()
+        super().__setitem__(key, value)
+
     @staticmethod
     def parse(proxy_str: str):
         """解析"""

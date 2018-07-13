@@ -5,6 +5,7 @@ from unittest import TestCase
 
 from scrapy_spider.common.log import log
 from scrapy_spider.common.pipeline.postgresql_manager import PostgreSQLManager
+from scrapy_spider.spiders.douyin import douyin_spider
 from scrapy_spider.spiders.proxy.items import ProxyItem
 
 
@@ -12,30 +13,46 @@ class ProxyManager:
 
     def __init__(self):
         item = ProxyItem()
-        self.table_name = item.get_table_name()
         self.manager = PostgreSQLManager(item)
         self._proxy_queue = queue.Queue()
 
         # 一些 sql
-        # 按使用次数排序，保存都能用到
-        self._sql_fetch_available = item.generate_get_sql() + """
+        table_name = item.get_table_name()
+        available_condition = """
         WHERE available=1
         OR (available=2 AND EXTRACT(EPOCH from NOW()- INTERVAL'1 HOUR') > banned_time)
-        ORDER BY used_times LIMIT 10
         """
+        # 按使用次数排序，保存都能用到
 
+        # 要让并发每次都能取到，如果每次请求 1s，则每隔 1s 就可能重复取到 ip
+        # 乘以 10，可以让 10 轮请求后，才会重复
+        limit = douyin_spider.CONCURRENT_REQUESTS * 10
+        self._sql_fetch_available = item.generate_get_sql() + available_condition + f"""
+        ORDER BY used_times LIMIT {limit}
+        """
         """获取可用的"""
+
+        self._sql_count = f"""
+        SELECT COUNT(*) FROM {table_name}
+        """
+        """统计数量"""
+
+        self._sql_available_count = f"""
+        SELECT COUNT(*) FROM {table_name}
+        {available_condition}
+        """
+        """统计有效数量"""
 
         primary_key = 'ip'
         self._sql_update = f"""
-        UPDATE {item.get_table_name()}
+        UPDATE {table_name}
         %s
         WHERE {primary_key} = '{{{primary_key}}}'
         """
         """后面的 3 个 {} 先求中间值，外面 2 个{{}}表示 1 个{} 用于格式化"""
 
         self._sql_get_fail_times_by_ip = f"""
-        SELECT fail_times FROM {item.get_table_name()}
+        SELECT fail_times FROM {table_name}
         WHERE {primary_key} = '{{{primary_key}}}'
         """
         """获取失败次数"""
@@ -61,9 +78,18 @@ class ProxyManager:
     async def fetch(self, sql):
         record_list = await self.manager.fetch(sql)
         if record_list:
+            print(f'读取到 ip {len(record_list)} 个')
             for record in record_list:
                 item = ProxyItem(**record)
                 self._proxy_queue.put(item)
+
+    def count(self):
+        """计算数量"""
+        return asyncio.get_event_loop().run_until_complete(self.manager.conn.fetchval(self._sql_count))
+
+    def available_count(self):
+        """计算可用数量"""
+        return asyncio.get_event_loop().run_until_complete(self.manager.conn.fetchval(self._sql_available_count))
 
     def get(self):
         """获取代理"""
@@ -81,17 +107,17 @@ class ProxyManager:
         self._execute(self._sql_add_times, proxy, key='used_times')
         return proxy
 
-    def success(self, proxy):
+    def success(self, proxy: ProxyItem):
         """成功时调用"""
         log.info(f'{proxy} success')
         self._execute(self._sql_update_success, proxy)
 
-    def banned(self, proxy):
+    def banned(self, proxy: ProxyItem):
         """被禁时调用"""
         log.info(f'{proxy} banned')
         self._execute(self._sql_update_banned, proxy)
 
-    def fail(self, proxy):
+    def fail(self, proxy: ProxyItem):
         """失败时调用"""
         # 添加失败次数
         self._execute(self._sql_add_times, proxy, key='fail_times')
@@ -130,6 +156,12 @@ proxy_manager = ProxyManager()
 class TestProxyManager(TestCase):
     item = ProxyItem(ip='123')
 
+    def test_count(self):
+        print(ProxyManager().count())
+
+    def test_available_count(self):
+        print(ProxyManager().available_count())
+
     def test_get(self):
         proxy = ProxyManager().get()
         print(proxy)
@@ -147,9 +179,7 @@ class TestProxyManager(TestCase):
         ProxyManager().banned(ProxyItem(self.item))
 
     def test_sql(self):
-        print(ProxyManager()._sql_fetch_available)
-        print(ProxyManager()._sql_update)
-        print(ProxyManager()._sql_add_times)
-        print(ProxyManager()._sql_update_success)
-        print(ProxyManager()._sql_update_fail)
-        print(ProxyManager()._sql_update_banned)
+        pm = proxy_manager
+        for k, v in pm.__dict__.items():
+            if k.startswith('_sql'):
+                print(f'{k} = {v}')

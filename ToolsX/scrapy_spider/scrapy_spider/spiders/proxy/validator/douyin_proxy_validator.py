@@ -45,15 +45,16 @@ class DouyinProxyValidator(BaseProxyValidator):
                 try:
                     result = self.validate_response(proxy, response.json())
                 except Exception as e:
-                    print(f'{proxy}-解析出错 {e}')
+                    # print(f'{proxy}-解析出错 {e}')
+                    pass
             else:
-                print(f'{proxy}-失败，请求状态码{response.status_code}')
+                # print(f'{proxy}-失败，请求状态码{response.status_code}')
                 pass
         except (ConnectTimeout, ConnectionError, ReadTimeout) as e:
-            print(f'{proxy}-连接超时 {e}')
+            # print(f'{proxy}-连接超时 {e}')
             pass
         except Exception as e:
-            log.info(f'{proxy}-失败{type(e)}{e}')
+            # log.info(f'{proxy}-失败{type(e)}{e}')
             pass
         if response:
             response.close()

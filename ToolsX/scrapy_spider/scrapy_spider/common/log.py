@@ -14,7 +14,7 @@ def get_logger(name):
     logger = logging.getLogger(name)
     file_handler = logging.FileHandler(file, encoding='utf-8')
 
-    fmt = '%(asctime)s [%(name)s] %(levelname)s: %(message)s'
+    fmt = '%(asctime)s [%(name)s] %(levelname)s: %(message)s [%(filename)s:%(lineno)s]'
     datefmt = "%Y-%m-%d %H:%M:%S"
     formatter = logging.Formatter(fmt=fmt, datefmt=datefmt)
     file_handler.setFormatter(formatter)

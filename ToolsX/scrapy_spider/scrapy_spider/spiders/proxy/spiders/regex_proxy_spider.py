@@ -34,7 +34,6 @@ class XicidailiSpider(BaseRegexProxySpider):
     """还是有不少可用的"""
     ip_count = 24 / 400
     name = 'xicidaili'
-    max_page = 5
 
     def get_start_urls(self):
         return [

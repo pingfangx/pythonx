@@ -5,12 +5,15 @@ from scrapy.exceptions import IgnoreRequest
 #
 # See documentation in:
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
+from scrapy.http import Response
+from twisted.internet import error
+from twisted.web._newclient import ResponseNeverReceived
+
 from scrapy_spider.common.ignore import douyin
 from scrapy_spider.common.log import log
 from scrapy_spider.common.middleware.agent_manager import AgentManager
+from scrapy_spider.spiders.proxy.items import ProxyItem
 from scrapy_spider.spiders.proxy.manager.proxy_manager import proxy_manager
-from twisted.internet import error
-from twisted.web._newclient import ResponseNeverReceived
 
 
 class RandomProxyDownloaderMiddleware(object):
@@ -33,7 +36,8 @@ class DouyinRandomProxyDownloaderMiddleware(RandomProxyDownloaderMiddleware):
         :param spider:
         :return:
         """
-        proxy = request.meta['proxy']
+        proxy_str = request.meta['proxy']
+        proxy = ProxyItem.parse(proxy_str)
         # 持有的是方法，只有一个实例，所以并发时 self.proxy 应该是不准确的，需从 request 获取
         code, _ = douyin.parse_result(response.body.decode())
         if code == 1:
@@ -47,10 +51,11 @@ class DouyinRandomProxyDownloaderMiddleware(RandomProxyDownloaderMiddleware):
         return response
 
     def process_exception(self, request, exception, spider):
-        proxy = request.meta['proxy']
+        proxy_str = request.meta['proxy']
+        proxy = ProxyItem.parse(proxy_str)
         if isinstance(exception, IgnoreRequest):
             # 已忽略
-            return
+            return self.get_error_response(exception)
         else:
             # 检查是否是已知的错误，如果是未知错误，可能需要记录处理
             fail_exception_list = [
@@ -63,12 +68,20 @@ class DouyinRandomProxyDownloaderMiddleware(RandomProxyDownloaderMiddleware):
             for e in fail_exception_list:
                 if isinstance(exception, e):
                     # 被拒绝
-                    proxy_manager.fail(proxy)
-                    return
+                    # 此处不调用 fail，返回 response 之后会在 process_response 中处
+                    # proxy_manager.fail(proxy)
+                    return self.get_error_response(exception)
         log.error("process_exception")
         log.error(f'proxy is {proxy}')
         log.error(type(exception))
         log.error(exception)
+
+    def get_error_response(self, exception=None):
+        """用于 process_exception 方法
+        返回 None 异常还会继续被片理
+        返回 Response 会调用 parse 方法"""
+        print(f'已拦截异常 {type(exception)}')
+        return Response('', body=b'error')
 
 
 class RandomAgentDownloaderMiddleware(object):
@@ -77,5 +90,5 @@ class RandomAgentDownloaderMiddleware(object):
 
     def process_request(self, request, spider):
         agent = self.agent_manager.random_agent()
-        log.info(f'use random agent {agent}')
+        # log.info(f'use random agent {agent}')
         request.headers.setdefault('User-Agent', agent)
