@@ -6,6 +6,7 @@ from requests.exceptions import ConnectionError
 from requests.exceptions import ReadTimeout
 from scrapy_spider.common.ignore import douyin
 from scrapy_spider.common.log import log
+from scrapy_spider.spiders.douyin import douyin_spider
 from scrapy_spider.spiders.douyin.items import DouyinItem
 from scrapy_spider.spiders.douyin.pipelines import DouyinPostgreSQLPipeline
 from scrapy_spider.spiders.proxy.validator.base_proxy_validator import BaseProxyValidator
@@ -30,17 +31,18 @@ class DouyinProxyValidator(BaseProxyValidator):
         proxy_url = f'{http_type}://{ip}:{port}'
 
         http_type = http_type.lower()
-        url = douyin.generate_feed_url(http_type=http_type)
-        headers = {
-            'user-agent': douyin.generate_default_agent()
-        }
+        anonymous = douyin_spider.ANONYMOUS
+        url = douyin.generate_feed_url(http_type=http_type, anonymous=anonymous)
         proxies = {
             http_type: proxy_url
         }
         result = False
         response = None
         try:
-            response = requests.get(url, headers=headers, proxies=proxies, timeout=self.timeout, verify=False)
+            headers = douyin.generate_headers(anonymous)
+            cookies = douyin.generate_cookies(anonymous)
+            response = requests.get(url, headers=headers, cookies=cookies, proxies=proxies, timeout=self.timeout,
+                                    verify=False)
             if response.status_code == 200:
                 try:
                     result = self.validate_response(proxy, response.json())

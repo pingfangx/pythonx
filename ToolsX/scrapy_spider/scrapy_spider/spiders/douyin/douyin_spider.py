@@ -20,8 +20,23 @@ class statistics:
     """爬取抖音数"""
 
 
-CONCURRENT_REQUESTS = 16
-"""并发数"""
+ANONYMOUS = False
+"""
+是否匿名
+如果匿名，可以更快的爬取数据，但是遗憾的是，因为没有身份标识，会爬取到重复的数据
+之前也有考虑到身份标识这个问题，一开始以为是用的 user-agent，爬取了几次数据都没重复，就没在意，
+没想到爬取的数量多了之后重复就明显了
+
+如果不匿名，会拼接完整的请求参数，并设置 cookies，目前也不知道是通过参数还是 cookeis 判断的
+"""
+
+CONCURRENT_REQUESTS = 16 if ANONYMOUS else 1
+"""并发数
+匿名为 16，不匿名为 1"""
+
+DOWNLOAD_DELAY = 0 if ANONYMOUS else 10
+"""爬取延时
+匿名为 0，不匿名为 10"""
 
 
 class DouyinSpider(scrapy.Spider):
@@ -33,23 +48,19 @@ class DouyinSpider(scrapy.Spider):
     16  800
     """
     name = 'douyin'
-
+    downloader_middlewares = {} if not ANONYMOUS else {
+        # 'scrapy_spider.common.middleware.middlewares.RandomAgentDownloaderMiddleware': 300,
+        'scrapy_spider.common.middleware.middlewares.DouyinRandomProxyDownloaderMiddleware': 300,
+    }
     # 防 ban
     custom_settings = {
         'CONCURRENT_REQUESTS': CONCURRENT_REQUESTS,
-        'DOWNLOAD_DELAY': 0,
+        'DOWNLOAD_DELAY': DOWNLOAD_DELAY,
         'DOWNLOAD_TIMEOUT': 10,  # 设置超时，默认是 180
-        'DOWNLOADER_MIDDLEWARES': {
-            # 'scrapy_spider.common.middleware.middlewares.RandomAgentDownloaderMiddleware': 300,
-            'scrapy_spider.common.middleware.middlewares.DouyinRandomProxyDownloaderMiddleware': 300,
-        },
+        'DOWNLOADER_MIDDLEWARES': downloader_middlewares,
         'ITEM_PIPELINES': {
             'scrapy_spider.spiders.douyin.pipelines.DouyinPostgreSQLPipeline': 300,
         },
-    }
-    # 好像使用 user-agent 标识，所以保持不变
-    headers = {
-        'user-agent': douyin.generate_default_agent(),
     }
     has_more = 1
     exit_code = 1
@@ -62,10 +73,13 @@ class DouyinSpider(scrapy.Spider):
             # i += 1
             # 并发的时候，time 是相同的，被 scrapy 认为是相同地址而忽略
             # 后来发现要设置 dont_filter
-            url = douyin.generate_feed_url()
+            anonymous = ANONYMOUS
+            url = douyin.generate_feed_url('http', anonymous)
+            headers = douyin.generate_headers(anonymous)
+            cookies = douyin.generate_cookies(anonymous)
             self.statistics.crawled_pages += 1
             log.info(f'crawl {self.statistics.crawled_pages} page:' + url)
-            yield scrapy.Request(url=url, headers=self.headers, dont_filter=True)
+            yield scrapy.Request(url=url, headers=headers, cookies=cookies, dont_filter=True)
             if self.has_more == 0 or self.exit_code == 0:
                 break
 
@@ -99,11 +113,15 @@ class DouyinSpider(scrapy.Spider):
                 self.exit_code = 0
             elif status_code == 2154:
                 # 大约会被禁 1 个小时
-                # 已经在下载器中间件拦截，应该不会走到这里的
                 log.warning('请求太频繁，设备被禁')
-                # log.warning('休息 10 分钟')
-                # self.sleep_time = 10 * 60
-                # self.exit_code = 0
+                if ANONYMOUS:
+                    # 已经在下载器中间件拦截，应该不会走到这里的
+                    pass
+                else:
+                    # 不匿名需要处理
+                    log.warning('休息 10 分钟')
+                    self.sleep_time = 10 * 60
+                    self.exit_code = 0
             else:
                 log.warning('错误码 %d' % status_code)
                 log.warning(response.body.decode())

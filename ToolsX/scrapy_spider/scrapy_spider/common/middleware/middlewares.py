@@ -6,14 +6,14 @@ from scrapy.exceptions import IgnoreRequest
 # See documentation in:
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 from scrapy.http import Response
-from twisted.internet import error
-from twisted.web._newclient import ResponseNeverReceived
-
 from scrapy_spider.common.ignore import douyin
 from scrapy_spider.common.log import log
 from scrapy_spider.common.middleware.agent_manager import AgentManager
+from scrapy_spider.spiders.douyin import douyin_spider
 from scrapy_spider.spiders.proxy.items import ProxyItem
 from scrapy_spider.spiders.proxy.manager.proxy_manager import proxy_manager
+from twisted.internet import error
+from twisted.web._newclient import ResponseNeverReceived
 
 
 class RandomProxyDownloaderMiddleware(object):
@@ -44,7 +44,11 @@ class DouyinRandomProxyDownloaderMiddleware(RandomProxyDownloaderMiddleware):
             proxy_manager.success(proxy)
         elif code == 2:
             proxy_manager.banned(proxy)
-            raise IgnoreRequest()
+            if douyin_spider.ANONYMOUS:
+                # 匿名则忽略并继续 ，不匿名返回处理
+                raise IgnoreRequest()
+            else:
+                return response
         else:
             proxy_manager.fail(proxy)
             raise IgnoreRequest()
