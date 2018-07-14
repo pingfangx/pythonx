@@ -1,24 +1,12 @@
+import asyncio
 import json
 import time
 
 import scrapy
 from scrapy_spider.common.ignore import douyin  # 不公开
 from scrapy_spider.common.log import log
+from scrapy_spider.common.pipeline.postgresql_manager import PostgreSQLManager
 from scrapy_spider.spiders.douyin.items import DouyinItem
-
-
-class statistics:
-    """统计"""
-
-    start_time = 0
-    """开始时间"""
-    crawled_pages = 0
-    """爬取页数"""
-    crawled_success__pages = 0
-    """爬取成功页数"""
-    crawled_items = 0
-    """爬取抖音数"""
-
 
 ANONYMOUS = False
 """
@@ -37,6 +25,32 @@ CONCURRENT_REQUESTS = 16 if ANONYMOUS else 1
 DOWNLOAD_DELAY = 0 if ANONYMOUS else 10
 """爬取延时
 匿名为 0，不匿名为 10"""
+
+
+class statistics:
+    """统计"""
+
+    start_time = 0
+    """开始时间"""
+    crawled_pages = 0
+    """爬取页数"""
+    crawled_success__pages = 0
+    """爬取成功页数"""
+    crawled_items = 0
+    """爬取抖音数"""
+
+
+class DouyinPostgreSQLManager(PostgreSQLManager):
+    """数据库管理"""
+
+    def __init__(self):
+        item = DouyinItem()
+        super().__init__(item)
+        asyncio.get_event_loop().run_until_complete(self.prepare())
+        self._sql_count = item.get_count_sql()
+
+    def count(self):
+        return asyncio.get_event_loop().run_until_complete(self.conn.fetchval(self._sql_count))
 
 
 class DouyinSpider(scrapy.Spider):
@@ -65,10 +79,15 @@ class DouyinSpider(scrapy.Spider):
     has_more = 1
     exit_code = 1
     statistics = statistics()
+    manager = DouyinPostgreSQLManager()
+    start_craw_count = 0
+    """开始爬取时的数量"""
 
     def start_requests(self):
         self.statistics.start_time = time.time()
         i = 0
+        self.start_craw_count = self.manager.count()
+        log.info(f'爬取前 item 数量 {self.start_craw_count}')
         while i < 1:
             # i += 1
             # 并发的时候，time 是相同的，被 scrapy 认为是相同地址而忽略
@@ -94,17 +113,23 @@ class DouyinSpider(scrapy.Spider):
             if result['status_code'] == 0:
                 self.has_more = result['has_more']
                 aweme_list = result['aweme_list']
-                self.statistics.crawled_success__pages += 1
-                self.statistics.crawled_items += len(aweme_list)
-                minute = (time.time() - self.statistics.start_time) / 60
-                print(f'scraped {len(aweme_list)} items')
-                speed = self.statistics.crawled_items / minute
-                log.info(
-                    f'scraped {self.statistics.crawled_success__pages}/{self.statistics.crawled_pages} pages,'
-                    f'{self.statistics.crawled_items} items,spend {minute:#.2f} minutes,speed {speed:#.2f} items/min')
+                # 之前的数量
+                before_item_count = self.manager.count()
                 for aweme in aweme_list:
                     item = DouyinItem(aweme)
                     yield item
+                # 保存后再统计
+                # 之后的数量
+                current_item_count = self.manager.count()
+                self.statistics.crawled_success__pages += 1
+                self.statistics.crawled_items += len(aweme_list)
+                minute = (time.time() - self.statistics.start_time) / 60
+                print(f'scraped {len(aweme_list)} items,available {current_item_count-before_item_count} items.')
+                speed = self.statistics.crawled_items / minute
+                log.info(
+                    f'scraped {self.statistics.crawled_success__pages}/{self.statistics.crawled_pages} pages,'
+                    f'{current_item_count-self.start_craw_count}/{self.statistics.crawled_items} items,'
+                    f'spend {minute:#.2f} minutes,speed {speed:#.2f} items/min,')
             elif status_code == 2145:
                 log.warning('请求已过期')
                 self.exit_code = 0

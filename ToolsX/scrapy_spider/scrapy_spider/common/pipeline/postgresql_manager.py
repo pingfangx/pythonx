@@ -62,6 +62,11 @@ class PostgreSQLManager:
         """
         self.conn = await asyncpg.connect(**self.configs)
 
+    async def prepare(self):
+        """准备"""
+        await self.connect_database()
+        await self.create_table()
+
     async def close_connect(self):
         if self.conn is not None:
             await self.conn.close()

@@ -106,6 +106,12 @@ class DouyinItem(BaseItem):
 {update_sql}
         """
 
+    def get_count_sql(self):
+        """获取求数量的 sql"""
+        return f"""
+        SELECT COUNT(*) FROM {self.get_table_name()}
+        """
+
 
 class DouyinItemTest(unittest.TestCase):
 
