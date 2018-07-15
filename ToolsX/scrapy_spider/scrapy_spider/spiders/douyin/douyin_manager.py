@@ -1,5 +1,6 @@
 import datetime
 import unittest
+import webbrowser
 
 from scrapy_spider.common.pipeline.postgresql_manager import PostgreSQLHelper
 from scrapy_spider.spiders.douyin.items import DouyinItem
@@ -13,7 +14,7 @@ class DouyinManager:
         self.table_name = item.get_table_name()
         self.helper = PostgreSQLHelper(item)
 
-    def list_items_by_digg_count(self, days_before_today=1):
+    def list_items_by_digg_count(self, days_before_today=1, limit=10, offset=0):
         """按点赞次数
         :param days_before_today: 多少天以前
         """
@@ -26,11 +27,13 @@ class DouyinManager:
         else:
             today_zero = datetime.datetime(now.year, now.month, now.day)
             today_before = today_zero - datetime.timedelta(days=days_before_today)
+            today_zero = today_zero.timestamp()
+            today_before = today_before.timestamp()
         sql = f"""
         SELECT author__nickname,desc_,statistics__digg_count,share_url,create_time FROM {self.table_name}
-        WHERE create_time >= {today_before.timestamp()} AND create_time < {today_zero.timestamp()}
+        WHERE create_time >= {today_before} AND create_time < {today_zero}
         ORDER BY statistics__digg_count DESC
-        LIMIT 10 
+        LIMIT {limit} OFFSET {offset}
         """
         self.fetch(sql)
 
@@ -49,15 +52,21 @@ class DouyinManager:
 
     def print_item(self, item: DouyinItem, pre=''):
         create_time = datetime.datetime.fromtimestamp(item['create_time']).strftime('%Y%m%d %H:%M:%S')
-        print(f"{pre}[{item['author__nickname']}]-{item['desc_']}-{item['statistics__digg_count']}-{create_time}\n"
-              f"{item['share_url']}")
+        url = item['share_url']
+        print(f"{pre}[{item['author__nickname']}]-{item['desc_']}-[{item['statistics__digg_count']}]-{create_time}\n"
+              f"{url}")
+        self.open_in_browser(url)
+
+    def open_in_browser(self, url):
+        webbrowser.open_new_tab(url)
 
 
-class testDouyinManager(unittest.TestCase):
+class TestDouyinManager(unittest.TestCase):
     def test_list_items_by_digg_count(self):
-        DouyinManager().list_items_by_digg_count()
+        DouyinManager().list_items_by_digg_count(days_before_today=1, limit=20, offset=0)
 
     def test_print_item(self):
+        print()
         item = DouyinItem()
         item['create_time'] = 1525576962
         DouyinManager().print_item(item)
