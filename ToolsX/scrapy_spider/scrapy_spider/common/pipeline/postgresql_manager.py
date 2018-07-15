@@ -1,5 +1,8 @@
+import asyncio
+
 import asyncpg
 from asyncpg import Connection
+
 from scrapy_spider.common.ignore.postgre_config import postgre_configs
 from scrapy_spider.common.item.base_item import BaseItem
 
@@ -80,3 +83,17 @@ class PostgreSQLManager:
     @staticmethod
     def parse_name_type(name):
         return BaseItem.parse_name_type(name)
+
+
+class PostgreSQLHelper(PostgreSQLManager):
+    """助手类"""
+
+    def __init__(self, item):
+        super().__init__(item)
+        self.prepare()
+
+    def prepare(self):
+        return asyncio.get_event_loop().run_until_complete(super().prepare())
+
+    def fetch(self, sql):
+        return asyncio.get_event_loop().run_until_complete(super().fetch(sql))
