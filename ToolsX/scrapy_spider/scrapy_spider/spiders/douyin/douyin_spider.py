@@ -3,6 +3,7 @@ import json
 import time
 
 import scrapy
+
 from scrapy_spider.common.ignore import douyin  # 不公开
 from scrapy_spider.common.log import log
 from scrapy_spider.common.pipeline.postgresql_manager import PostgreSQLManager
@@ -76,6 +77,7 @@ class DouyinSpider(scrapy.Spider):
             'scrapy_spider.spiders.douyin.pipelines.DouyinPostgreSQLPipeline': 300,
         },
     }
+    sleep_time = 1
     has_more = 1
     exit_code = 1
     statistics = statistics()
@@ -90,6 +92,10 @@ class DouyinSpider(scrapy.Spider):
         log.info(f'爬取前 item 数量 {self.start_craw_count}')
         while i < 1:
             # i += 1
+            if not ANONYMOUS:
+                log.info(f'sleep {self.sleep_time}')
+                time.sleep(self.sleep_time)
+                self.sleep_time = 1
             # 并发的时候，time 是相同的，被 scrapy 认为是相同地址而忽略
             # 后来发现要设置 dont_filter
             anonymous = ANONYMOUS
@@ -146,7 +152,8 @@ class DouyinSpider(scrapy.Spider):
                     # 不匿名需要处理
                     log.warning('休息 10 分钟')
                     self.sleep_time = 10 * 60
-                    self.exit_code = 0
+                    # 仅休眠，不退出
+                    # self.exit_code = 0
             else:
                 log.warning('错误码 %d' % status_code)
                 log.warning(response.body.decode())

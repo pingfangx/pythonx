@@ -27,6 +27,8 @@ class ProxyManager:
         # 要让并发每次都能取到，如果每次请求 1s，则每隔 1s 就可能重复取到 ip
         # 乘以 10，可以让 10 轮请求后，才会重复
         limit = douyin_spider.CONCURRENT_REQUESTS * 10
+        if limit > 200:
+            limit = 200
         self._sql_fetch_available = item.generate_get_sql() + available_condition + f"""
         ORDER BY used_times LIMIT {limit}
         """
