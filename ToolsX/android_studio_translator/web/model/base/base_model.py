@@ -1,0 +1,188 @@
+import inspect
+from typing import List
+
+from android_studio_translator.web.model.base.fields_helper import fields_helper
+
+
+class BaseModel():
+    """基本数据模型
+    peewee 也挺好的，有时间可以学习一下
+    之前是在 scrapy 中实现了 BaseItem，这次也需要数据库，所以修改一下"""
+    id = 0
+    """
+    主键
+    第一行放类型，第二行放注释，后面的行忽略，如果只有一行则为注释
+    要注意创建表、插入语句要对其进行过滤"""
+
+    create_time = 0
+    """创建时间"""
+
+    update_time = 0
+    """更新时间"""
+
+    def __init__(self):
+        # 初始化时先解析父类
+        fields_helper.parse(BaseModel)
+        # 再解析自己
+        fields_helper.parse(self)
+
+    # 建表相关的方法
+
+    def get_table_name_pre(self):
+        """表前缀"""
+        return 'pre_'
+
+    def get_table_name(self):
+        """获取表名"""
+        return self.get_table_name_pre() + fields_helper.camel_to_under_line(self.__class__.__name__)
+
+    def get_primary_key(self):
+        """返回主键"""
+        return 'id'
+
+    def get_insert_ignore_keys(self):
+        """插入时忽略的 key"""
+        return [
+            self.get_primary_key(),
+            'create_time',
+            'update_time',
+        ]
+
+    def get_head_fields(self):
+        """建表时提前的字段，item 的字段将会按字母顺序排列，如果需要，则可以将其提前"""
+        return []
+
+    def get_tail_fields(self):
+        """建表时放在最后的字段"""
+        return [
+            'create_time',
+            'update_time',
+        ]
+
+    def get_on_conflict_suffix_sql(self):
+        """获取冲突时添加在 insert 语句后的 sql"""
+        sql = f"""ON DUPLICATE KEY UPDATE
+        update_time={{update_time}}
+        """
+        return sql
+
+    # 生成 sql 语句的相关方法
+
+    def generate_create_table_sql(self):
+        """
+        生成建表的 SQL
+        :return:
+        """
+        doc = inspect.getdoc(self)
+        if doc:
+            # 只取一行
+            doc = doc.split('\n')[0]
+        table_comment = '' if not doc else f"comment='{doc}'"
+
+        field_str = ''
+        # 添加主键
+        field_str += f"`{self.get_primary_key()}` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '主键',\n"
+
+        head_fields = self.get_head_fields()
+        tail_fields = self.get_tail_fields()
+        # 填充头部字段
+        field_str = self.add_fields(field_str, head_fields)
+
+        # 填充中间字段
+        # 获取所有字段，这里没找到好的方法，这里不能用 __dict__，要用 __class__.__dict__，还要过滤方法
+        for k in self.__class__.__dict__.keys():
+            if not self.is_valid_field_key(k):
+                continue
+            if not head_fields or k not in head_fields:
+                if not tail_fields or k not in tail_fields:
+                    field_str = self.add_fields_by_key(field_str, k)
+        # 填充尾部字段
+        field_str = self.add_fields(field_str, tail_fields)
+
+        # 去掉最后的逗号
+        field_str = field_str[:-2] + '\n'
+
+        sql = f'CREATE TABLE IF NOT EXISTS `{self.get_table_name()}` (\n{field_str}){table_comment};'
+        return sql
+
+    def generate_insert_formatter_sql(self):
+        """生成插入的 sql"""
+        # 列出名字
+        fields_list = []
+        # 列出值，用 {} 包起来，后面用于格式化
+        value_list = []
+        for k in self.__class__.__dict__.keys():
+            if not self.is_valid_field_key(k, True):
+                continue
+            field = fields_helper.fields_dict.get(k)
+            # 字段名
+            fields_list.append(field.name)
+            # 值
+            if field.type == 'text':
+                value_list.append('`{%s}`' % k)
+            else:
+                value_list.append("{%s}" % k)
+        fields_list = ', '.join(fields_list)
+        value_list = ', '.join(value_list)
+
+        # 冲突处理
+        on_conflict_extra_sql = self.get_on_conflict_suffix_sql()
+        if on_conflict_extra_sql is None:
+            on_conflict_extra_sql = ''
+
+        sql = f'''
+        INSERT INTO {self.get_table_name()} ({fields_list}) 
+        VALUES ({value_list})
+        {on_conflict_extra_sql};
+        '''
+        return sql
+
+    def is_valid_field_key(self, key, ignore_insert_keys=False):
+        """
+        是否是有效的字段 key
+        :param key:
+        :param ignore_insert_keys: 是否忽略插入时的部分 key
+        :return:
+        """
+        if key.startswith('_') or key == self.get_primary_key():
+            return False
+        if key in self.__class__.__dict__.keys():
+            v = self.__class__.__dict__[key]
+            if inspect.isfunction(v) or inspect.ismethod(v) or inspect.ismethoddescriptor(v):
+                return False
+        if ignore_insert_keys:
+            if key in self.get_insert_ignore_keys():
+                return False
+        return True
+
+    def add_fields(self, fields_str, fields_list: List[str]):
+        """添加一个列表的各字段"""
+        if not fields_list:
+            return fields_str
+        for k in fields_list:
+            if not self.is_valid_field_key(k):
+                continue
+            fields_str = self.add_fields_by_key(fields_str, k)
+        return fields_str
+
+    def add_fields_by_key(self, fields_str, key):
+        field = fields_helper.fields_dict.get(key)
+        if field is None:
+            raise KeyError(f'key:{key} not exists in {self}')
+        # 拼上换行
+        extra = '' if not field.extra else f' {field.extra}'
+        comment = '' if not field.comment else f" COMMENT '{field.comment}'"
+        fields_str += f'`{field.name}` {field.type}{extra}{comment},\n'
+        return fields_str
+
+    def generate_delete_sql(self):
+        """生成删除语句"""
+        primary_key = self.__dict__[self.get_primary_key()]
+        if not primary_key:
+            # 用于格式化
+            primary_key = '%s'
+        return f'DELETE FROM {self.get_table_name()} WHERE {self.get_primary_key()}={primary_key}'
+
+    @staticmethod
+    def test(self):
+        pass
