@@ -14,6 +14,9 @@ class SegmentLog(BaseTranslatorModel):
     """操作者"""
     action_user_id = 0
     """操作者id"""
+    review_action = 0
+    """TINYINT
+    审核操作"""
     review_user = ''
     """审核者"""
     review_user_id = 0

@@ -1,7 +1,7 @@
 import inspect
 from typing import List
 
-from android_studio_translator.web.model.base.fields_helper import fields_helper
+from android_studio_translator.web.model.base.fields_helper import FieldsHelper
 
 
 class BaseModel():
@@ -11,8 +11,8 @@ class BaseModel():
     id = 0
     """
     主键
-    第一行放类型，第二行放注释，后面的行忽略，如果只有一行则为注释
-    要注意创建表、插入语句要对其进行过滤"""
+    第一行放类型，第二行放注释，后面的行忽略，如果只有一行则视为注释，类型默认为 TEXT
+    要注意创建表、插入语句要对主键进行过滤"""
 
     create_time = 0
     """创建时间"""
@@ -21,20 +21,19 @@ class BaseModel():
     """更新时间"""
 
     def __init__(self):
-        # 初始化时先解析父类
-        fields_helper.parse(BaseModel)
-        # 再解析自己
-        fields_helper.parse(self)
+        """创建并解析"""
+        self.fields_helper = FieldsHelper(self)
 
     # 建表相关的方法
 
     def get_table_name_pre(self):
-        """表前缀"""
+        """表前缀
+        之前的 discuz 表前缀默认为 pre，统一"""
         return 'pre_'
 
     def get_table_name(self):
         """获取表名"""
-        return self.get_table_name_pre() + fields_helper.camel_to_under_line(self.__class__.__name__)
+        return self.get_table_name_pre() + self.fields_helper.camel_to_under_line(self.__class__.__name__)
 
     def get_primary_key(self):
         """返回主键"""
@@ -49,11 +48,13 @@ class BaseModel():
         ]
 
     def get_head_fields(self):
-        """建表时提前的字段，item 的字段将会按字母顺序排列，如果需要，则可以将其提前"""
+        """建表时提前的字段
+        scrapy 的 item 的字段将会按字母顺序排列，如果需要，则可以将其提前"""
         return []
 
     def get_tail_fields(self):
-        """建表时放在最后的字段"""
+        """建表时放在最后的字段
+        默认也会后解析 BaseModel ，这两个在最后的"""
         return [
             'create_time',
             'update_time',
@@ -90,7 +91,7 @@ class BaseModel():
 
         # 填充中间字段
         # 获取所有字段，这里没找到好的方法，这里不能用 __dict__，要用 __class__.__dict__，还要过滤方法
-        for k in self.__class__.__dict__.keys():
+        for k in self.fields_helper.fields_dict.keys():
             if not self.is_valid_field_key(k):
                 continue
             if not head_fields or k not in head_fields:
@@ -111,10 +112,9 @@ class BaseModel():
         fields_list = []
         # 列出值，用 {} 包起来，后面用于格式化
         value_list = []
-        for k in self.__class__.__dict__.keys():
+        for k, field in self.fields_helper.fields_dict.items():
             if not self.is_valid_field_key(k, True):
                 continue
-            field = fields_helper.fields_dict.get(k)
             # 字段名
             fields_list.append(field.name)
             # 值
@@ -146,10 +146,6 @@ class BaseModel():
         """
         if key.startswith('_') or key == self.get_primary_key():
             return False
-        if key in self.__class__.__dict__.keys():
-            v = self.__class__.__dict__[key]
-            if inspect.isfunction(v) or inspect.ismethod(v) or inspect.ismethoddescriptor(v):
-                return False
         if ignore_insert_keys:
             if key in self.get_insert_ignore_keys():
                 return False
@@ -166,7 +162,7 @@ class BaseModel():
         return fields_str
 
     def add_fields_by_key(self, fields_str, key):
-        field = fields_helper.fields_dict.get(key)
+        field = self.fields_helper.fields_dict.get(key)
         if field is None:
             raise KeyError(f'key:{key} not exists in {self}')
         # 拼上换行

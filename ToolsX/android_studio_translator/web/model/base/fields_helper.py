@@ -23,15 +23,20 @@ class Field:
 class FieldsHelper:
     """用来解析字段的描述"""
 
-    def __init__(self):
+    def __init__(self, cls=None):
         self.fields_dict: Dict[str, Field] = {}
+        if cls:
+            self.parse_class(cls)
 
-    def parse(self, obj):
-        """传入模型，解析后才能调用其他方法"""
-        if inspect.isclass(obj):
-            self.parse_text(inspect.getsource(obj))
-        else:
-            self.parse_text(inspect.getsource(obj.__class__))
+    def parse_class(self, cls):
+        """解析后才能调用其他方法"""
+        if not inspect.isclass(cls):
+            cls = cls.__class__
+        # 获取所有
+        for cls in inspect.getmro(cls):
+            # 不处理 object
+            if cls != object:
+                self.parse_text(inspect.getsource(cls))
 
     def parse_text(self, text: str):
         """"解析源码"""
@@ -86,6 +91,3 @@ class FieldsHelper:
             else:
                 result += c
         return result
-
-
-fields_helper = FieldsHelper()

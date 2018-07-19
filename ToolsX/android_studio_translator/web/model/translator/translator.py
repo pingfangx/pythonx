@@ -10,5 +10,9 @@ class Translator(BaseTranslatorModel):
     """译者id"""
     project_id = 0
     """参与项目id"""
-    translate_count = 0
-    """翻译数"""
+    manual_count = 0
+    """参与该项目人工翻译数"""
+    review_count = 0
+    """参与该项目人工审核数"""
+    advice_count = 0
+    """参与该项目建议修改数"""
