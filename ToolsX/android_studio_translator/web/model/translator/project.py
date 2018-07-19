@@ -4,9 +4,9 @@ from android_studio_translator.web.model.translator.base_translator_model import
 class Project(BaseTranslatorModel):
     """翻译项目"""
     thread_id = 0
-    """对应的帖子id"""
+    """对应帖子id"""
     name = ''
-    """ VARCHAR(15)
+    """ VARCHAR(20)
     名字"""
     description = ''
     """VARCHAR(200)

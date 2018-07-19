@@ -23,6 +23,10 @@ class BaseModel():
     def __init__(self):
         """创建并解析"""
         self.fields_helper = FieldsHelper(self)
+        for k, v in self.fields_helper.fields_dict.items():
+            if k not in self.__dict__.keys():
+                # 不包启 k
+                self.__dict__[k] = v.default_value
 
     # 建表相关的方法
 
@@ -62,10 +66,7 @@ class BaseModel():
 
     def get_on_conflict_suffix_sql(self):
         """获取冲突时添加在 insert 语句后的 sql"""
-        sql = f"""ON DUPLICATE KEY UPDATE
-        update_time={{update_time}}
-        """
-        return sql
+        return ''
 
     # 生成 sql 语句的相关方法
 
@@ -78,7 +79,7 @@ class BaseModel():
         if doc:
             # 只取一行
             doc = doc.split('\n')[0]
-        table_comment = '' if not doc else f"comment='{doc}'"
+        table_comment = '' if not doc else f"COMMENT='{doc}'"
 
         field_str = ''
         # 添加主键
@@ -118,10 +119,10 @@ class BaseModel():
             # 字段名
             fields_list.append(field.name)
             # 值
-            if field.type == 'text':
-                value_list.append('`{%s}`' % k)
-            else:
+            if 'INT' in field.type.upper():
                 value_list.append("{%s}" % k)
+            else:
+                value_list.append("'{%s}'" % k)
         fields_list = ', '.join(fields_list)
         value_list = ', '.join(value_list)
 
@@ -131,7 +132,8 @@ class BaseModel():
             on_conflict_extra_sql = ''
 
         sql = f'''
-        INSERT INTO {self.get_table_name()} ({fields_list}) 
+        INSERT INTO {self.get_table_name()}
+        ({fields_list}) 
         VALUES ({value_list})
         {on_conflict_extra_sql};
         '''
@@ -178,7 +180,3 @@ class BaseModel():
             # 用于格式化
             primary_key = '%s'
         return f'DELETE FROM {self.get_table_name()} WHERE {self.get_primary_key()}={primary_key}'
-
-    @staticmethod
-    def test(self):
-        pass

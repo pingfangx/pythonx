@@ -10,9 +10,13 @@ class Translator(BaseTranslatorModel):
     """译者id"""
     project_id = 0
     """参与项目id"""
-    manual_count = 0
-    """参与该项目人工翻译数"""
+    translate_count = 0
+    """
+    参与该项目翻译数
+    表示参照机器翻译进行人工翻译"""
     review_count = 0
-    """参与该项目人工审核数"""
+    """参与该项目审核数"""
     advice_count = 0
-    """参与该项目建议修改数"""
+    """
+    参与该项目建议数
+    表示对现有翻译提出修改建议"""

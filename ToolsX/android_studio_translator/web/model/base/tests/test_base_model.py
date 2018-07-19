@@ -7,6 +7,9 @@ from xx.database.mysql_helper import MySqlHelper
 class TestBaseModel(TestCase):
     test_obj = BaseModel()
 
+    def test_default_values(self):
+        print(self.test_obj.__dict__)
+
     def test_generate_create_table_sql(self):
         print(self.test_obj.generate_create_table_sql())
 

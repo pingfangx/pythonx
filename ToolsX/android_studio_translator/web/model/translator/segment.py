@@ -2,7 +2,8 @@ from android_studio_translator.web.model.translator.base_translator_model import
 
 
 class Segment(BaseTranslatorModel):
-    """片断，翻译的基本单位，不与项目关联，应该独立，然后可以供多个项目使用"""
+    """翻译片段
+    翻译的基本单位，不与项目关联，应该独立，然后可以供多个项目使用"""
     source = ''
     """原语言内容"""
     target = ''
