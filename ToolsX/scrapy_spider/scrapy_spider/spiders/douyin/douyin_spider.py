@@ -33,12 +33,16 @@ class statistics:
 
     start_time = 0
     """开始时间"""
+    start_craw_count = 0
+    """开始爬取时的数量"""
     crawled_pages = 0
     """爬取页数"""
     crawled_success__pages = 0
     """爬取成功页数"""
     crawled_items = 0
     """爬取抖音数"""
+    few_available_result_times = 0
+    """爬取结果中有效数量较少的次数"""
 
 
 class DouyinPostgreSQLManager(PostgreSQLManager):
@@ -82,14 +86,12 @@ class DouyinSpider(scrapy.Spider):
     exit_code = 1
     statistics = statistics()
     manager = DouyinPostgreSQLManager()
-    start_craw_count = 0
-    """开始爬取时的数量"""
 
     def start_requests(self):
         self.statistics.start_time = time.time()
         i = 0
-        self.start_craw_count = self.manager.count()
-        log.info(f'爬取前 item 数量 {self.start_craw_count}')
+        self.statistics.start_craw_count = self.manager.count()
+        log.info(f'爬取前 item 数量 {self.statistics.start_craw_count}')
         while i < 1:
             # i += 1
             if not ANONYMOUS:
@@ -130,11 +132,24 @@ class DouyinSpider(scrapy.Spider):
                 self.statistics.crawled_success__pages += 1
                 self.statistics.crawled_items += len(aweme_list)
                 minute = (time.time() - self.statistics.start_time) / 60
-                print(f'scraped {len(aweme_list)} items,available {current_item_count-before_item_count} items.')
+                available_count = current_item_count - before_item_count
+                if available_count <= 2:
+                    # 获取数量较小，需要等待
+                    if self.statistics.few_available_result_times >= 5:
+                        self.statistics.few_available_result_times = 0
+                        log.info('有 5 次抓取到的有效结果都较少，等待 600 s')
+                        self.sleep_time = 600
+                    else:
+                        self.statistics.few_available_result_times += 1
+                        log.info('抓取到的有效结果较少，等待 60s')
+                        self.sleep_time = 60
+                else:
+                    self.statistics.few_available_result_times = 0
+                log.info(f'scraped {len(aweme_list)} items,available {available_count} items.')
                 speed = self.statistics.crawled_items / minute
                 log.info(
                     f'scraped {self.statistics.crawled_success__pages}/{self.statistics.crawled_pages} pages,'
-                    f'{current_item_count-self.start_craw_count}/{self.statistics.crawled_items} items,'
+                    f'{current_item_count-self.statistics.start_craw_count}/{self.statistics.crawled_items} items,'
                     f'spend {minute:#.2f} minutes,speed {speed:#.2f} items/min,')
             elif status_code == 2145:
                 log.warning('请求已过期')

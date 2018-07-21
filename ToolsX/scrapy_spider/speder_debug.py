@@ -6,20 +6,15 @@ from scrapy.crawler import CrawlerRunner
 from scrapy.utils.log import configure_logging
 from scrapy.utils.project import get_project_settings
 from scrapy.utils.spider import iter_spider_classes
+from twisted.internet import reactor, defer
+
 from scrapy_spider.common.log import log
 from scrapy_spider.spiders.proxy.manager.proxy_manager import proxy_manager
 from scrapy_spider.spiders.proxy.spiders import regex_proxy_spider
-from twisted.internet import reactor, defer
 
 
 class TestDouyinSpider(unittest.TestCase):
     """抖音爬虫"""
-
-    def test_run_spider_to_json(self):
-        spider = "douyin"
-        args = "-o items.json"
-        cmd = "scrapy crawl %s %s" % (spider, args)
-        cmdline.execute(cmd.split())
 
     def test_run_spider(self):
         """运行抖音爬虫"""

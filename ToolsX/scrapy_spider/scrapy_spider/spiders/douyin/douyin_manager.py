@@ -1,4 +1,5 @@
 import datetime
+import time
 import unittest
 import webbrowser
 
@@ -59,6 +60,7 @@ class DouyinManager:
 
     def open_in_browser(self, url):
         webbrowser.open_new_tab(url)
+        time.sleep(0.5)
 
 
 class TestDouyinManager(unittest.TestCase):
