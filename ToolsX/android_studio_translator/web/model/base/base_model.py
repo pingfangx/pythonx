@@ -1,7 +1,7 @@
 import inspect
 from typing import List
 
-from android_studio_translator.web.model.base.fields_helper import fields_helper
+from android_studio_translator.web.model.base.fields_helper import FieldsHelper
 
 
 class BaseModel():
@@ -24,8 +24,9 @@ class BaseModel():
 
     def __init__(self):
         """创建并解析"""
-        fields_helper.parse_class(self)
-        for k, v in fields_helper.fields_dict.items():
+        self.fields_helper = FieldsHelper(self)
+        """持有时注意过滤"""
+        for k, v in self.fields_helper.fields_dict.items():
             if k not in self.__dict__.keys():
                 # 不包启 k
                 self.__dict__[k] = v.default_value
@@ -39,7 +40,7 @@ class BaseModel():
 
     def get_table_name(self):
         """获取表名"""
-        return self.get_table_name_pre() + fields_helper.camel_to_under_line(self.__class__.__name__)
+        return self.get_table_name_pre() + self.fields_helper.camel_to_under_line(self.__class__.__name__)
 
     def get_primary_key(self):
         """返回主键"""
@@ -49,6 +50,7 @@ class BaseModel():
         """插入时忽略的 key"""
         return [
             self.get_primary_key(),
+            'field_helper',
             'create_time',
             'update_time',
         ]
@@ -94,7 +96,7 @@ class BaseModel():
 
         # 填充中间字段
         # 获取所有字段，这里没找到好的方法，这里不能用 __dict__，要用 __class__.__dict__，还要过滤方法
-        for k in fields_helper.fields_dict.keys():
+        for k in self.fields_helper.fields_dict.keys():
             if not self.is_valid_field_key(k):
                 continue
             if not head_fields or k not in head_fields:
@@ -115,7 +117,7 @@ class BaseModel():
         fields_list = []
         # 列出值，用 {} 包起来，后面用于格式化
         value_list = []
-        for k, field in fields_helper.fields_dict.items():
+        for k, field in self.fields_helper.fields_dict.items():
             if not self.is_valid_field_key(k, True):
                 continue
             # 字段名
@@ -153,7 +155,11 @@ class BaseModel():
                 # 格式化的字典，本可以按 key value 进行处理，这里可以不用过滤，但为了可能用于其他用途，保持统一
                 continue
             if isinstance(v, str):
-                r[k] = v.replace("'", "\\'")
+                # 替换单引号
+                v = v.replace("'", "\\'")
+                # 替换斜杠
+                v = v.replace('\\', '\\\\')
+                r[k] = v
             else:
                 r[k] = v
         return r
@@ -183,7 +189,7 @@ class BaseModel():
         return fields_str
 
     def add_fields_by_key(self, fields_str, key):
-        field = fields_helper.fields_dict.get(key)
+        field = self.fields_helper.fields_dict.get(key)
         if field is None:
             raise KeyError(f'key:{key} not exists in {self}')
         # 拼上换行
@@ -199,6 +205,16 @@ class BaseModel():
             # 用于格式化
             primary_key = '%s'
         return f'DELETE FROM {self.get_table_name()} WHERE {self.get_primary_key()}={primary_key}'
+
+    def generate_select_sql(self, condition: str = None, asc=True):
+        """生成选择语句"""
+        if not condition:
+            if not condition.upper().startswith('WHERE'):
+                condition = 'WHERE ' + condition
+        return f"""
+        SELECT * FROM {self.get_table_name()} {condition}
+        ORDER BY {self.get_primary_key()} {'ASC' if asc else 'DESC'}
+        """
 
     def __str__(self):
         return '{' + ','.join([f'{k}={v}' for k, v in self.__dict__.items()]) + '}'

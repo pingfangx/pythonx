@@ -36,13 +36,17 @@ class Field:
 class FieldsHelper:
     """用来解析字段的描述"""
 
-    def __init__(self):
+    def __init__(self, cls=None):
         self.fields_dict: Dict[str, Field] = {}
+        self.cls = cls
+        if cls:
+            self.parse_class(cls)
 
     def parse_class(self, cls):
         """解析后才能调用其他方法"""
         if not inspect.isclass(cls):
             cls = cls.__class__
+            self.cls = cls
 
         # 判断是否有缓存
         if cls in cached_fields_dict.keys():
@@ -90,10 +94,14 @@ class FieldsHelper:
                     else:
                         # 多于一行，取前 2 行作为类型，注释
                         type, comment = comment_list[0:2]
-                        if 'NOT NULL' in type:
-                            extra = ''
+                        if ',' in type:
+                            # 如果包括逗号，分为类型与额外的
+                            type, extra = type.split(',')[0:2]
                         else:
-                            extra = 'NOT NULL'
+                            if 'NOT NULL' in type:
+                                extra = ''
+                            else:
+                                extra = 'NOT NULL'
                 # 去除空格
                 comment = comment.strip()
                 # 去除空格与换行
@@ -130,10 +138,10 @@ class FieldsHelper:
                 result += c
         return result
 
+    def __str__(self):
+        return f'fields helper of {self.cls.__name__}'
+
 
 cached_fields_dict = {}
 """缓存解析结果
 解析是耗时操作（读取文件），所以根据类名进行缓存"""
-fields_helper = FieldsHelper()
-"""不让 BaseModel 持有，以免污染其属性
-并且只持有一个对象，可以保存解析结果"""

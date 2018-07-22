@@ -8,6 +8,6 @@ class ProjectFile(BaseTranslatorModel):
     name = ''
     """文件名"""
     path = ''
-    """文件目录"""
-    segment_count = 0
-    """包含片段数"""
+    """
+    文件目录
+    虽然唯一，但不适合作 key"""

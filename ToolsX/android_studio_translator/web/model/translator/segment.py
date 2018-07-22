@@ -49,7 +49,10 @@ class Segment(BaseTranslatorModel):
 
     def get_insert_ignore_keys(self):
         """创建时间可更新时间，可以插入"""
-        return [self.get_primary_key()]
+        return [
+            self.get_primary_key(),
+            'field_helper',
+        ]
 
     def generate_insert_formatter_dict(self):
         """处理字典"""

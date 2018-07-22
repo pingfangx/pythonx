@@ -1,10 +1,10 @@
 from android_studio_translator.web.model.translator.segment import Segment
 from android_studio_translator.web.model.translator.test.test_sql import TestSql
-from android_studio_translator.web.util.data_importer import DataImporter
+from android_studio_translator.web.util.segment_util import SegmentUtil
 from android_studio_translator.web.util.time_logger import TimeLogger
 
 
-class TestSegment(TestSql):
+class TestSegmentUtil(TestSql):
     test_object = Segment()
 
     def test_insert_sql(self):
@@ -18,7 +18,7 @@ class TestSegment(TestSql):
     def test_import_from_tmx_and_save(self):
         tmx_file = r'D:\workspace\TranslatorX\JetBrains\omegat\project_save.tmx'
         time_logger = TimeLogger('解析 tmx ')
-        segment_list = DataImporter().load_segments_from_tmx_file(tmx_file)
+        segment_list = SegmentUtil().load_segments_from_tmx_file(tmx_file)
         print(f'共 {len(segment_list)} 条')
         time_logger.stop()
 
@@ -28,5 +28,5 @@ class TestSegment(TestSql):
         # time_logger.stop()
 
         time_logger = TimeLogger('保存数据')
-        DataImporter.save_segments(segment_list)
+        SegmentUtil.save_segments(segment_list)
         time_logger.stop()

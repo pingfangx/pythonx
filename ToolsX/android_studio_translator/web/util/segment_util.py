@@ -6,7 +6,7 @@ from android_studio_translator.web.model.translator.segment import Segment
 from xx.database.mysql_model_helper import MySqlModelHelper
 
 
-class DataImporter:
+class SegmentUtil:
     """导入数据"""
 
     @staticmethod

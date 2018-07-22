@@ -2,7 +2,7 @@ import re
 
 from android_studio_translator.web.model.translator.segment import Segment
 from android_studio_translator.web.model.translator.test.test_sql import TestSql
-from android_studio_translator.web.util.data_importer import DataImporter
+from android_studio_translator.web.util.segment_util import SegmentUtil
 from android_studio_translator.web.util.time_logger import TimeLogger
 from xx.database.mysql_helper import MySqlHelper
 
@@ -15,7 +15,7 @@ class TestExecuteMany(TestSql):
         """
         tmx_file = r'D:\workspace\TranslatorX\JetBrains\omegat\project_save.tmx'
         time_logger = TimeLogger('解析 tmx ')
-        segment_list = DataImporter().load_segments_from_tmx_file(tmx_file)
+        segment_list = SegmentUtil().load_segments_from_tmx_file(tmx_file)
         time_logger.stop()
         print(f'共 {len(segment_list)} 条数据')
         self.test_insert_1(segment_list)
