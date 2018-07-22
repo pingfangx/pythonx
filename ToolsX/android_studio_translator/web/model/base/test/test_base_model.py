@@ -1,6 +1,7 @@
 from unittest import TestCase
 
 from android_studio_translator.web.model.base.base_model import BaseModel
+from android_studio_translator.web.model.translator.project import Project
 from xx.database.mysql_helper import MySqlHelper
 
 
@@ -24,3 +25,8 @@ class TestBaseModel(TestCase):
     def test_generate_delete_sql(self):
         self.test_obj.id = 22
         print(self.test_obj.generate_delete_sql())
+
+    def test_multi_object_field_helper(self):
+        """测试多个对象的 field_helper 是否会影响"""
+        print(BaseModel().generate_insert_sql())
+        print(Project().generate_insert_sql())

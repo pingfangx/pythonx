@@ -4,7 +4,7 @@ from android_studio_translator.web.model.translator.project_file_segment import 
 from android_studio_translator.web.model.translator.project_statistics import ProjectStatistics
 from android_studio_translator.web.model.translator.segment import Segment
 from android_studio_translator.web.model.translator.segment_log import SegmentLog
-from android_studio_translator.web.model.translator.tests.test_sql import TestSql
+from android_studio_translator.web.model.translator.test.test_sql import TestSql
 from android_studio_translator.web.model.translator.translator import Translator
 
 

@@ -1,10 +1,12 @@
 import unittest
 
+from android_studio_translator.web.model.base.base_model import BaseModel
 from xx.database.mysql_helper import MySqlHelper
 
 
 class TestSql(unittest.TestCase):
     """测试 sql"""
+    test_object: BaseModel = None
 
     execute_sql = True
     """是否执行 sql，如果为 False ，则只输出"""
@@ -20,3 +22,10 @@ class TestSql(unittest.TestCase):
             MySqlHelper().execute(sql)
         else:
             print(sql)
+
+    def test_insert(self, execute=True):
+        """测试插入"""
+        if self.test_object is None:
+            print('test object is None')
+            return
+        self.execute(self.test_object.generate_insert_sql(), execute)

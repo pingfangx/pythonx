@@ -1,7 +1,7 @@
 import inspect
 from typing import List
 
-from android_studio_translator.web.model.base.fields_helper import FieldsHelper
+from android_studio_translator.web.model.base.fields_helper import fields_helper
 
 
 class BaseModel():
@@ -14,16 +14,18 @@ class BaseModel():
     第一行放类型，第二行放注释，后面的行忽略，如果只有一行则视为注释，类型默认为 TEXT
     要注意创建表、插入语句要对主键进行过滤"""
 
-    create_time = 0
-    """创建时间"""
+    create_time = ''
+    """
+    创建时间
+    因为数据库保存为 TIMESTAMP，所以声明为 str，插入时需要格式化为字段"""
 
-    update_time = 0
+    update_time = ''
     """更新时间"""
 
     def __init__(self):
         """创建并解析"""
-        self.fields_helper = FieldsHelper(self)
-        for k, v in self.fields_helper.fields_dict.items():
+        fields_helper.parse_class(self)
+        for k, v in fields_helper.fields_dict.items():
             if k not in self.__dict__.keys():
                 # 不包启 k
                 self.__dict__[k] = v.default_value
@@ -37,7 +39,7 @@ class BaseModel():
 
     def get_table_name(self):
         """获取表名"""
-        return self.get_table_name_pre() + self.fields_helper.camel_to_under_line(self.__class__.__name__)
+        return self.get_table_name_pre() + fields_helper.camel_to_under_line(self.__class__.__name__)
 
     def get_primary_key(self):
         """返回主键"""
@@ -92,7 +94,7 @@ class BaseModel():
 
         # 填充中间字段
         # 获取所有字段，这里没找到好的方法，这里不能用 __dict__，要用 __class__.__dict__，还要过滤方法
-        for k in self.fields_helper.fields_dict.keys():
+        for k in fields_helper.fields_dict.keys():
             if not self.is_valid_field_key(k):
                 continue
             if not head_fields or k not in head_fields:
@@ -113,13 +115,13 @@ class BaseModel():
         fields_list = []
         # 列出值，用 {} 包起来，后面用于格式化
         value_list = []
-        for k, field in self.fields_helper.fields_dict.items():
+        for k, field in fields_helper.fields_dict.items():
             if not self.is_valid_field_key(k, True):
                 continue
             # 字段名
             fields_list.append(field.name)
             # 值
-            if 'INT' in field.type.upper():
+            if isinstance(field.default_value, int):
                 value_list.append("{%s}" % k)
             else:
                 value_list.append("'{%s}'" % k)
@@ -138,6 +140,23 @@ class BaseModel():
         {on_conflict_extra_sql};
         '''
         return sql
+
+    def generate_insert_sql(self):
+        """生成插入的 sql，用 self 的数据进行格式化"""
+        return self.generate_insert_formatter_sql().format(**self.generate_insert_formatter_dict())
+
+    def generate_insert_formatter_dict(self):
+        """生成用于格式化的字典，对内容进行转义"""
+        r = {}
+        for k, v in self.__dict__.items():
+            if not self.is_valid_field_key(k, True):
+                # 格式化的字典，本可以按 key value 进行处理，这里可以不用过滤，但为了可能用于其他用途，保持统一
+                continue
+            if isinstance(v, str):
+                r[k] = v.replace("'", "\\'")
+            else:
+                r[k] = v
+        return r
 
     def is_valid_field_key(self, key, ignore_insert_keys=False):
         """
@@ -164,7 +183,7 @@ class BaseModel():
         return fields_str
 
     def add_fields_by_key(self, fields_str, key):
-        field = self.fields_helper.fields_dict.get(key)
+        field = fields_helper.fields_dict.get(key)
         if field is None:
             raise KeyError(f'key:{key} not exists in {self}')
         # 拼上换行
@@ -180,3 +199,9 @@ class BaseModel():
             # 用于格式化
             primary_key = '%s'
         return f'DELETE FROM {self.get_table_name()} WHERE {self.get_primary_key()}={primary_key}'
+
+    def __str__(self):
+        return '{' + ','.join([f'{k}={v}' for k, v in self.__dict__.items()]) + '}'
+
+    def __repr__(self):
+        return self.__str__()

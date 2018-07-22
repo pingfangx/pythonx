@@ -11,9 +11,14 @@ class Project(BaseTranslatorModel):
     description = ''
     """VARCHAR(200)
     描述"""
+    project_url = ''
+    """VARCHAR(100)
+    翻译项目地址
+    指汉化结果的发布地址"""
     original_url = ''
     """VARCHAR(100)
-    原始项目地址"""
+    原始项目地址
+    指汉化源的地址"""
     create_user = ''
     """创建者"""
     create_user_id = 0

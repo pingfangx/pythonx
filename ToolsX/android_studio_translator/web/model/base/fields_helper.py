@@ -36,31 +36,42 @@ class Field:
 class FieldsHelper:
     """用来解析字段的描述"""
 
-    def __init__(self, cls=None):
+    def __init__(self):
         self.fields_dict: Dict[str, Field] = {}
-        if cls:
-            self.parse_class(cls)
 
     def parse_class(self, cls):
         """解析后才能调用其他方法"""
         if not inspect.isclass(cls):
             cls = cls.__class__
-        # 获取所有
-        for cls in inspect.getmro(cls):
+
+        # 判断是否有缓存
+        if cls in cached_fields_dict.keys():
+            # 已经有解析结果了
+            self.fields_dict = cached_fields_dict[cls]
+            return
+        # 没有缓存，进行解析
+        # 解析所有父类
+        for c in inspect.getmro(cls):
             # 不处理 object
-            if cls != object:
-                self.parse_text(inspect.getsource(cls))
+            if c != object:
+                self.parse_text(inspect.getsource(c))
+
+        # 如果超限，随机删除一个
+        if len(cached_fields_dict) >= 100:
+            cached_fields_dict.popitem()
+        # 保存解析结果
+        cached_fields_dict[cls] = self.fields_dict
 
     def parse_text(self, text: str):
         """"解析源码"""
         # 将后面的方法过滤
         text = text[:text.find('def ')]
         # 空格 字母 空格 = 内容 3个" 内容 3个"
-        pattern = re.compile(r'\s{4}(\w+)\s*=.*?"{3}(.+?)"{3}', re.S)
+        pattern = re.compile(r'\s{4}(\w+)\s*=(.*?)"{3}(.+?)"{3}', re.S)
         all_match = re.findall(pattern, text)
         if not all_match:
             return
-        for name, comment in all_match:
+        for name, value, comment in all_match:
             if name not in self.fields_dict.keys():
                 type = None
                 if name == 'create_time':
@@ -85,6 +96,14 @@ class FieldsHelper:
                             extra = 'NOT NULL'
                 # 去除空格
                 comment = comment.strip()
+                # 去除空格与换行
+                value = value.strip(' \n')
+                if '\'' in value:
+                    # 字符串
+                    value = value.strip('\'')
+                else:
+                    # 不包启单引号
+                    value = int(value)
                 # 不管单行、多行，对类型进行默认处理
                 if not type:
                     if name.endswith('_id') or name.endswith('_ip') or name.endswith('_count') \
@@ -95,7 +114,7 @@ class FieldsHelper:
                         type = 'VARCHAR(15)'
                     else:
                         type = 'TEXT'
-                self.fields_dict[name] = Field(name, type, extra, comment)
+                self.fields_dict[name] = Field(name, type, extra, comment, value)
 
     @staticmethod
     def camel_to_under_line(text):
@@ -110,3 +129,11 @@ class FieldsHelper:
             else:
                 result += c
         return result
+
+
+cached_fields_dict = {}
+"""缓存解析结果
+解析是耗时操作（读取文件），所以根据类名进行缓存"""
+fields_helper = FieldsHelper()
+"""不让 BaseModel 持有，以免污染其属性
+并且只持有一个对象，可以保存解析结果"""
