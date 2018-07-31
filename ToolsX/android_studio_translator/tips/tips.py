@@ -211,12 +211,12 @@ class Tips:
                 add_cn_title = '(%s)' % cn_name
             else:
                 add_cn_title = ''
-            header = '<h1>[%d/%d] %s%s</h1>\n' % (i + 1, length, en_name, add_cn_title)
+            header = '<h1>%s%s</h1>\n' % (en_name, add_cn_title)
             if result_type == Tips.RESULT_TYPE_ANDROID_STUDIO:
                 author_url = '<a href=\'%s\'>[%s]</a>' % (
-                    'http://www.pingfangx.com/xx/translation/feedback?from=tips',
+                    'https://www.pingfangx.com/xx/translation/feedback?from=tips',
                     '汉化反馈')
-                header = '<h1>[%d/%d] %s%s %s</h1>\n' % (i + 1, length, en_name, add_cn_title, author_url)
+                header = '<h1>%s%s %s</h1>\n' % (en_name, add_cn_title, author_url)
                 footer = None
                 result_name = file_path.replace(tips_cn_dir, result_dir)
             else:

@@ -24,14 +24,8 @@ class JetBrainsTranslator:
         self.target_dir = self.work_dir + os.path.sep + 'target'
 
         current_version_list = [
-            '3.1.2',
-            '2018.1.3',
-            '2018.1.4',
-            '2018.1.4',
-            '2018.1.4',
-            '2018.1.3',
-            '2018.1.3',
-            '2018.1.4',
+            '3.1.3',
+            '2018.2',
         ]
 
         pre_version_list = [
@@ -79,7 +73,6 @@ class JetBrainsTranslator:
             self.software_list.append(software)
 
     def main(self):
-        chrome_path = r'D:\software\browser\Chrome\Application\chrome.exe'
         action_list = [
             ['退出', exit],
             ['-tips 相关的', ],
@@ -89,13 +82,14 @@ class JetBrainsTranslator:
             ['将 tips 翻译结果的unicode转为中文', self.change_unicode_to_chinese],
 
             ['-翻译前应该处理的', ],
-            ['检查官网是否有新版本', self.check_update, chrome_path],
+            ['检查官网是否有新版本', self.check_update],
             ['复制 resources_en.jar', self.iter_software, lambda x: x.copy_resources_en_jar()],
             ['解压 jar 到 source 目录', self.iter_software, lambda x: x.extract_jar_to_source_dir()],
 
             ['-翻译后应该处理的', ],
             ['将 tips 翻译结果的unicode转为中文', self.change_unicode_to_chinese],
             ['处理tips翻译结果为AndroidStudio用', self.process_tips_translation_result],
+            ['压缩进汉化包(处理 tips)', self.iter_software, lambda x: x.zip_translation(rename_tips=True)],
             ['压缩进汉化包', self.iter_software, lambda x: x.zip_translation()],
             ['压缩进 en 包', self.iter_software, lambda x: x.zip_translation_to_en()],
 
@@ -106,6 +100,7 @@ class JetBrainsTranslator:
             ['向启动文件写入 crack 配置', self.iter_software, lambda x: x.write_crack_config()],
             ['输出版本号', self.iter_software_without_print, lambda x: x.print_software_version()],
             ['输出版本号及汉化包版本号', self.iter_software_without_print, lambda x: x.print_software_version(True)],
+            ['输出下载地址', self.iter_software_without_print, lambda x: x.print_software_download_url()],
 
             ['-弃用的', ],
             ['重命名_zh_CN', self.rename_cn_files],
@@ -267,7 +262,7 @@ class JetBrainsTranslator:
 
 
 class Software:
-    def __init__(self, work_dir, path, name=None, version=None, pre_version=None, release_version=1,
+    def __init__(self, work_dir, path, name: str = None, version=None, pre_version=None, release_version=1,
                  pre_release_version=-1):
         self.work_dir = work_dir
         "汉化包的工作目录"
@@ -300,10 +295,9 @@ class Software:
         self.pre_release_version = pre_release_version
         self.en_jar_path = '%s/jars/%s/英文包/%s/%s' % (self.work_dir, self.name, self.version, 'resources_en.jar')
         "软件的英文包"
-        self.translation_jar_name = 'resources_cn_%s_%s_r%s.jar' % (self.name, self.version, self.release_version)
+        self.translation_jar_name = 'resources_zh_CN_%s_%s_r%s.jar' % (self.name, self.version, self.release_version)
         "汉化包文件名"
-        self.translation_jar = '%s/jars/%s/%s/%s' % (
-            self.work_dir, self.name, '1-放入 lib 中就可用的汉化包', self.translation_jar_name)
+        self.translation_jar = '%s/jars/%s/%s' % (self.work_dir, self.name, self.translation_jar_name)
         "汉化包完整路径"
         self.translation_en_jar = self.en_jar_path.replace('英文包', '2-替换 lib 中原文件的汉化包')
         """替换原文件的汉化包"""
@@ -365,11 +359,15 @@ class Software:
         print('复制 %s 到 %s' % (jar_file_path, self.en_jar_path))
         shutil.copyfile(jar_file_path, self.en_jar_path)
 
-    def zip_translation(self):
+    def zip_translation(self, rename_tips=False):
         """打包翻译"""
         translation_dir = '%s/target/%s/resources_en' % (self.work_dir, self.name)
         print('将 %s 压缩到 %s' % (translation_dir, self.translation_jar))
-        self.zip(translation_dir, self.translation_jar, self.en_jar_path)
+        source_jar = None
+        if not rename_tips or self.name.lower() == 'AndroidStudio'.lower():
+            # 重命名 tips 的时候，AndroidStudio 无法读取图片
+            source_jar = self.path + os.sep + 'lib' + os.sep + 'resources_en.jar'
+        self.zip(translation_dir, self.translation_jar, source_jar, rename_tips=rename_tips)
 
     def zip_translation_to_en(self):
         """打包翻译到 resource_en 中"""
@@ -378,7 +376,7 @@ class Software:
         self.zip(translation_dir, self.translation_en_jar, self.en_jar_path, True)
 
     @staticmethod
-    def zip(source_dir, target_jar, source_jar=None, all_file=False):
+    def zip(source_dir, target_jar, source_jar=None, all_file=False, rename_tips=False):
         """
         将 source_jar 的文件压缩进 target_jar
         如果 source_dir 中存在文件，则取 source_dir 中的，不取 source_jar 中的
@@ -387,6 +385,7 @@ class Software:
         :param source_jar: 源 jar
         :param all_file: 如果为 false，只压缩 source_dir 对应的文件
         如果为 true ，压缩所有文件
+        :param rename_tips: 是否重命名 tips
         :return:
         """
         # 移除 target
@@ -433,12 +432,14 @@ class Software:
                                 arcname = name.replace('_zh_CN', '')
                             else:
                                 arcname = name
+                            if rename_tips:
+                                arcname = name.replace('tips/', 'tips_zh_CN/')
                             # 写入文件
                             # print('压缩 %s 为 %s' % (name, arcname))
                             with zip_file.open(name) as tmp_file:
                                 target_zip_file.writestr(arcname, tmp_file.read())
         # 压缩翻译内容，如果是所有文件，则需要重命名
-        ZipTools.zip_jar(source_dir, target_jar, all_file)
+        ZipTools.zip_jar(source_dir, target_jar, all_file, rename_tips)
 
     def copy_translation_to_work_dir(self, jar_type=1):
         """
@@ -593,7 +594,7 @@ class Software:
             print('配置文件不存在', config_file)
             return
 
-        crack_jar_file = r'D:\software\JetBrains\[2456]JetbrainsCrack-2.8-release-enc.jar'
+        crack_jar_file = r'D:\software\JetBrains\[2456]JetbrainsCrack-2.10-release-enc.jar'
         write_line = '-javaagent:%s\n' % crack_jar_file
 
         with open(config_file, 'r') as f:
@@ -693,10 +694,17 @@ class Software:
         else:
             print('%s %s' % (str(self.name).replace('IntelliJIDEA', 'IntelliJ IDEA'), self.version))
 
+    def print_software_download_url(self):
+        software_name = self.name.replace('IntelliJIDEA', 'IntelliJ IDEA')
+        print(
+            f'## {software_name}\n* {self.version}——{self.translation_jar_name} \n'
+            f'[[github](https://github.com/pingfangx/jetbrains-in-chinese/tree/master/{self.name})] \n'
+            f'[[百度云]]\n')
+
 
 class ZipTools:
     @staticmethod
-    def zip_jar(source_dir, target_jar, rename_cn=False):
+    def zip_jar(source_dir, target_jar, rename_cn=False, rename_tips=False):
         """
         压缩文件夹
         :param source_dir:
@@ -717,6 +725,8 @@ class ZipTools:
                     arcname = file.replace('_zh_CN', '')
                 else:
                     arcname = file
+                if rename_tips:
+                    arcname = file.replace('tips/', 'tips_zh_CN/')
                 # print('压缩 %s 为 %s' % (file, arcname))
                 zip_file.write(source_dir + os.sep + file, arcname)
 
@@ -729,7 +739,7 @@ class ZipTools:
                     print('文件不存在 jar 包中', file_path)
                 return
             if print_msg:
-                print('解压 %s%s 为 %s' % (zip_file_path, file_path, output))
+                print('解压 %s!%s 为 %s' % (zip_file_path, file_path, output))
             # zip_file.extract(file_path, output)
             # 这里无法直接导出至指定文件
             with zip_file.open(file_path) as in_file:
