@@ -28,7 +28,7 @@ DOWNLOAD_DELAY = 0 if ANONYMOUS else 10
 匿名为 0，不匿名为 10"""
 
 
-class statistics:
+class Statistics:
     """统计"""
 
     start_time = 0
@@ -63,8 +63,9 @@ class DouyinSpider(scrapy.Spider):
     参考 https://github.com/a232319779/appspider
     感谢
     爬取速度
-    并发  速度
-    16  800
+    scraped 29295/29533 pages,186375/454024 items,spend 12927.06 minutes,speed 35.12 items/min,
+    scraped 42849/43301 pages,315094/834373 items,spend 18150.73 minutes,speed 45.97 items/min,
+    scraped 22803/23147 pages,108139/200390 items,spend 7 days 23:33,speed 17.44 items/min,
     """
     name = 'douyin'
     downloader_middlewares = {} if not ANONYMOUS else {
@@ -84,7 +85,7 @@ class DouyinSpider(scrapy.Spider):
     sleep_time = 1
     has_more = 1
     exit_code = 1
-    statistics = statistics()
+    statistics = Statistics()
     manager = DouyinPostgreSQLManager()
 
     def start_requests(self):
@@ -150,7 +151,7 @@ class DouyinSpider(scrapy.Spider):
                 log.info(
                     f'scraped {self.statistics.crawled_success__pages}/{self.statistics.crawled_pages} pages,'
                     f'{current_item_count-self.statistics.start_craw_count}/{self.statistics.crawled_items} items,'
-                    f'spend {minute:#.2f} minutes,speed {speed:#.2f} items/min,')
+                    f'spend {self.parse_time(minute)},speed {speed:#.2f} items/min.')
             elif status_code == 2145:
                 log.warning('请求已过期')
                 self.exit_code = 0
@@ -177,3 +178,18 @@ class DouyinSpider(scrapy.Spider):
             # TODO 这里要解析代理出错，或者在中间件里处理
             log.error('出错了')
             log.error(repr(e))
+
+    @staticmethod
+    def parse_time(minute):
+        minute = int(minute)
+        """显示分钟"""
+        if minute < 60 * 24:
+            hour = int(minute / 60)
+            minute = minute % 60
+            return f'{hour:#02d}:{minute:#02d}'
+        else:
+            day = int(minute / 1440)
+            hour = int((minute % 1440) / 60)
+            minute = minute % 60
+            plural = 's' if day > 1 or day == 0 else ''
+            return f'{day} day{plural} {hour:#02d}:{minute:#02d}'

@@ -15,24 +15,48 @@ class DouyinManager:
         self.table_name = item.get_table_name()
         self.helper = PostgreSQLHelper(item)
 
-    def list_items_by_digg_count(self, days_before_today=1, limit=10, offset=0):
+    @staticmethod
+    def get_last_watch_days_before_today():
+        """上一次看的天数"""
+        try:
+            with open('../log/log.txt', 'r') as f:
+                last_line = f.readlines()[-1]
+                last_day = last_line.split('-')[1]
+                now = datetime.datetime.today()
+                today_zero = datetime.datetime(now.year, now.month, now.day)
+                last_day_zero = datetime.datetime(int(last_day[0:4]), int(last_day[4:6]), int(last_day[6:8]))
+                return (today_zero - last_day_zero).days
+        except IOError:
+            pass
+        return 1
+
+    def list_items_by_digg_count(self, start_days_before_today=1, end_days_before_today=0, limit=10, offset=0):
         """按点赞次数
-        :param days_before_today: 多少天以前
+        :param start_days_before_today: 开始时间，多少天
+        :param end_days_before_today: 结束时间，多少天
+        :param limit: 限制
+        :param offset: 偏移
         """
 
         # 计算时间
         now = datetime.datetime.today()
-        if days_before_today == 0:
-            today_zero = now.timestamp()
-            today_before = 0
+        if start_days_before_today == 0:
+            # 未指定开始时间，获取所有
+            start_time = 0
+            end_time = now.timestamp()
         else:
+            # 当天 0 时
             today_zero = datetime.datetime(now.year, now.month, now.day)
-            today_before = today_zero - datetime.timedelta(days=days_before_today)
-            today_zero = today_zero.timestamp()
-            today_before = today_before.timestamp()
+            start_day = today_zero - datetime.timedelta(days=start_days_before_today)
+            start_time = start_day.timestamp()
+            end_day = today_zero - datetime.timedelta(days=end_days_before_today)
+            end_time = end_day.timestamp()
+        with open('../log/log.txt', 'a') as f:
+            f.writelines('\n%s-%s' % (datetime.datetime.fromtimestamp(start_time).strftime('%Y%m%d'),
+                                      datetime.datetime.fromtimestamp(end_time).strftime('%Y%m%d')))
         sql = f"""
-        SELECT author__nickname,desc_,statistics__digg_count,share_url,create_time FROM {self.table_name}
-        WHERE create_time >= {today_before} AND create_time < {today_zero}
+        SELECT id,author__nickname,desc_,statistics__digg_count,share_url,create_time FROM {self.table_name}
+        WHERE create_time >= {start_time} AND create_time < {end_time}
         ORDER BY statistics__digg_count DESC
         LIMIT {limit} OFFSET {offset}
         """
@@ -54,7 +78,9 @@ class DouyinManager:
     def print_item(self, item: DouyinItem, pre=''):
         create_time = datetime.datetime.fromtimestamp(item['create_time']).strftime('%Y%m%d %H:%M:%S')
         url = item['share_url']
-        print(f"{pre}[{item['author__nickname']}]-{item['desc_']}-[{item['statistics__digg_count']}]-{create_time}\n"
+        url = url.replace('.iesdouyin.', '.amemv.')
+        print(f"[{create_time}] {pre}[{item['id']}] [{item['author__nickname']}]-"
+              f"{item['desc_']}-[{item['statistics__digg_count']}]\n"
               f"{url}")
         self.open_in_browser(url)
 
@@ -64,8 +90,17 @@ class DouyinManager:
 
 
 class TestDouyinManager(unittest.TestCase):
+
+    def test_list_items_by_digg_count_auto(self):
+        days = DouyinManager.get_last_watch_days_before_today()
+        if days == 0:
+            print('已看到当天')
+            return
+        DouyinManager().list_items_by_digg_count(start_days_before_today=days, end_days_before_today=days - 1,
+                                                 limit=20, offset=0)
+
     def test_list_items_by_digg_count(self):
-        DouyinManager().list_items_by_digg_count(days_before_today=1, limit=20, offset=0)
+        DouyinManager().list_items_by_digg_count(start_days_before_today=7, end_days_before_today=6, limit=20, offset=0)
 
     def test_print_item(self):
         print()
