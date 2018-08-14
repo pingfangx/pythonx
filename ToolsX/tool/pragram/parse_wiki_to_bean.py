@@ -5,15 +5,19 @@ from xx import systemx
 class Field:
     """字段"""
 
-    def __init__(self, name, _type, comment):
+    def __init__(self, name, _type, comment, convert_zero=False):
         """
         :param name: 名字
         :param _type: 类型
         :param comment: 注释
+        :param convert_zero: 是否将 Long 或 Integer 的 get 方法返回 0
         """
         self.name = name.strip()
         self._type = _type.strip()
+        # 日期保存为 Long
+        self._type = self._type.replace('Date', 'Long')
         self.comment = comment.strip()
+        self.convert_zero = convert_zero
 
     def get_name_str(self):
         """名字"""
@@ -26,8 +30,6 @@ class Field:
     def get_type_str(self):
         """类型，可能会进行替换"""
         result = self._type
-        # 日期保存为 Long
-        result = result.replace('Date', 'Long')
         return result
 
     def get_comment_str(self):
@@ -54,6 +56,15 @@ class Field:
 
     def get_get_method_str(self) -> str:
         """get 方法"""
+        if self.convert_zero:
+            if self._type == 'Long' or self._type == 'Integer':
+                format_dict = self.get_format_dict()
+                format_dict['type'] = format_dict['type'].replace('Long', 'long').replace('Integer', 'int')
+                return """
+    public {type} get{method}OrZero() {{
+        return {name} == null ? 0 : {name};
+    }}
+                """.format(**format_dict)
         return """
     public {type} get{method}() {{
         return {name};
@@ -73,7 +84,7 @@ class ParseWikiToBean:
     """解析 wiki 为 bean"""
 
     def __init__(self, text, line_separator='\n', separator='\t', include_field=True, include_get=True,
-                 include_set=False):
+                 include_set=False, convert_zero=False):
         """
         :param text:文本，以指定分符分隔，默认为 \t
         名字\t类型\t描述
@@ -82,6 +93,7 @@ class ParseWikiToBean:
         :param include_field: 是否包生成字段
         :param include_get: 是否包生成 get 方法
         :param include_set: 是否包生成 set 方法
+        :param convert_zero: 是否将 Long 或 Integer 的 get 方法返回 0
         """
         self.text = text
         self.line_separator = line_separator
@@ -89,6 +101,7 @@ class ParseWikiToBean:
         self.include_field = include_field
         self.include_get = include_get
         self.include_set = include_set
+        self.convert_zero = convert_zero
 
     def main(self):
         action_list = [
@@ -106,7 +119,7 @@ class ParseWikiToBean:
                 split_result = line.split(self.separator)
                 if len(split_result) >= 3:
                     name, _type, comment = split_result[:3]
-                    field_list.append(Field(name, _type, comment))
+                    field_list.append(Field(name, _type, comment, self.convert_zero))
         result = ''
         if self.include_field:
             for field in field_list:
@@ -133,4 +146,4 @@ labelName	String	标签名
         wiki_text = wiki_text.replace('\n', '\t')
         wiki_text = wiki_text.replace('\t\t\t', '\n')
         wiki_text = wiki_text.replace('\t\t', '\t')
-    ParseWikiToBean(wiki_text, include_set=True).main()
+    ParseWikiToBean(wiki_text, include_set=False, convert_zero=True).main()
