@@ -1,3 +1,4 @@
+import math
 import os.path
 import re
 from configparser import ConfigParser
@@ -159,3 +160,25 @@ def list_file(dir_path, name_pattern=None):
                 else:
                     file_list.append(parent + '\\' + file)
     return file_list
+
+
+def get_file_size_str(file_path):
+    """获取文件长度"""
+    try:
+        size = os.path.getsize(file_path)
+        return parse_file_size(size)
+    except OSError:
+        return 'error'
+
+
+def parse_file_size(size):
+    """解析文件大小"""
+    unit_array = ['B', 'K', 'M', 'G', 'T']
+    if size < 0:
+        return 'error'
+    if size == 0:
+        return '0B'
+    i = int(math.log2(size) / math.log2(1024))
+    if i >= len(unit_array):
+        i = len(unit_array) - 1
+    return f'{size/1024**i:#.2f}{unit_array[i]}'
