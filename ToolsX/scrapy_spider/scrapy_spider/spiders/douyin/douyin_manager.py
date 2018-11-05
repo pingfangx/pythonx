@@ -97,7 +97,7 @@ class TestDouyinManager(unittest.TestCase):
             print('已看到当天')
             return
         DouyinManager().list_items_by_digg_count(start_days_before_today=days, end_days_before_today=days - 1,
-                                                 limit=20, offset=0)
+                                                 limit=10, offset=0)
 
     def test_list_items_by_digg_count(self):
         DouyinManager().list_items_by_digg_count(start_days_before_today=7, end_days_before_today=6, limit=20, offset=0)

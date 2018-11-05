@@ -66,9 +66,11 @@ class DouyinSpider(scrapy.Spider):
     scraped 29295/29533 pages,186375/454024 items,spend 12927.06 minutes,speed 35.12 items/min,
     scraped 42849/43301 pages,315094/834373 items,spend 18150.73 minutes,speed 45.97 items/min,
     scraped 22803/23147 pages,108139/200390 items,spend 7 days 23:33,speed 17.44 items/min,
+     scraped 21560/22027 pages,98100/134050 items,spend 7 days 10:58,speed 12.48 items/min.
+     scraped 70505/75185 pages,335239/448673 items,spend 17 days 12:35,speed 17.78 items/min.
     """
     name = 'douyin'
-    downloader_middlewares = {} if not ANONYMOUS else {
+    downloader_middlewares = {
         # 'scrapy_spider.common.middleware.middlewares.RandomAgentDownloaderMiddleware': 300,
         'scrapy_spider.common.middleware.middlewares.DouyinRandomProxyDownloaderMiddleware': 300,
     }

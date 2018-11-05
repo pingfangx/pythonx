@@ -92,6 +92,12 @@ class TestAllProxySpider(unittest.TestCase):
         while loop_times >= 0:
             loop_times += 1
 
+            available_count = proxy_manager.available_count()
+            while available_count > 100:
+                print(f'有效 ip {available_count} 个，休息 10 分钟')
+                time.sleep(60 * 10)
+                available_count = proxy_manager.available_count()
+
             # 开始时的数量
             if loop_end_count == 0:
                 # 首次获取
@@ -99,7 +105,7 @@ class TestAllProxySpider(unittest.TestCase):
             else:
                 # 取循环结束时的获取
                 loop_start_count = loop_end_count
-            log.info(f'第 {loop_times} 轮爬取开始，当前 ip 共 {loop_start_count} 个')
+            log.info(f'第 {loop_times} 轮爬取开始，当前 ip 共 {available_count}/{loop_start_count} 个')
 
             # 爬取
 

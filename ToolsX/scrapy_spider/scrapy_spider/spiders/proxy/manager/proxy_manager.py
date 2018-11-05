@@ -107,6 +107,7 @@ class ProxyManager:
         proxy = self._proxy_queue.get()
         # 更新使用次数
         self._execute(self._sql_add_times, proxy, key='used_times')
+        print(f'当前 ip {self.available_count()}/{self.count()}')
         return proxy
 
     def success(self, proxy: ProxyItem):
