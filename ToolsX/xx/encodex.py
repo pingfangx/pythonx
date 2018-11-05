@@ -22,3 +22,11 @@ def chinese_to_unicode(chinese_str):
     except UnicodeEncodeError:
         result = chinese_str
     return result
+
+
+def md5(text: str) -> str:
+    """求 md5"""
+    import hashlib
+    hl = hashlib.md5()
+    hl.update(text.encode())
+    return hl.hexdigest()
