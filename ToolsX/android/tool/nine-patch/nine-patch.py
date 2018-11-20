@@ -139,9 +139,9 @@ class NinePatchTool:
         rows, cols, _ = img.shape
         # 不太会用 insert 方法
         # 插入第一行，最后一行
-        img = np.insert(img, [0, 100], self.transparent_pixel, axis=0)
+        img = np.insert(img, [0, rows], self.transparent_pixel, axis=0)
         # 插入第一列，最后一列
-        img = np.insert(img, [0, 100], self.transparent_pixel, axis=1)
+        img = np.insert(img, [0, cols], self.transparent_pixel, axis=1)
         return img
 
 
@@ -158,4 +158,4 @@ if __name__ == '__main__':
         # bottom 绘制全部
         [],
     ]
-    NinePatchTool(p_image_path, p_draw_position, add_transparent=True).main()
+    NinePatchTool(p_image_path, p_draw_position, add_transparent=False).main()
