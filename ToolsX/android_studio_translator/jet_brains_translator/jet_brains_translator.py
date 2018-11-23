@@ -1,4 +1,5 @@
 import filecmp
+import functools
 import os
 import re
 import shutil
@@ -25,7 +26,7 @@ class JetBrainsTranslator:
 
         current_version_list = [
             '3.1.3',
-            '2018.2',
+            '2018.3',
         ]
 
         pre_version_list = [
@@ -37,7 +38,7 @@ class JetBrainsTranslator:
         software_name_list = [
             'AndroidStudio',
             'CLion',
-            'GoLand',
+            # 'GoLand',
             'IntelliJIDEA',
             'PhpStorm',
             'PyCharm',
@@ -68,7 +69,8 @@ class JetBrainsTranslator:
                 pre_version, pre_release_version = pre_version.split('-')
             else:
                 pre_release_version = 1
-            software = Software(self.work_dir, software_root_dir + software_name, software_name, version, pre_version,
+            software_path = self.find_software_path(software_root_dir, software_name)
+            software = Software(self.work_dir, software_path, software_name, version, pre_version,
                                 release_version, pre_release_version)
             self.software_list.append(software)
 
@@ -259,6 +261,95 @@ class JetBrainsTranslator:
             else:
                 print('没有找到软件名 %s' % name)
         print(version_result)
+
+    def find_software_path(self, software_root_dir, software_name):
+        """查找软件的安装路径"""
+        # 是否安装在对应文件夹
+        path = os.path.join(software_root_dir, software_name)
+        if os.path.exists(path):
+            return path
+        # 查看 apps 目录（使用 Toolbox 安装的目录）
+        path = self.find_software_path_in_toolbox(os.path.join(software_root_dir, 'apps'), software_name)
+        if not path:
+            print(f'无法在 {software_root_dir} 内找到 {software_name} 的安装目录')
+            exit(1)
+        return path
+
+    def get_software_name_in_toolbox(self, name: str):
+        """获取在 toolbox 中的名字，"""
+        if 'IDEA' in name.upper():
+            return 'IDEA'
+        return name
+
+    def find_software_path_in_toolbox(self, root, software_name):
+        """在 toolbox 的安装目录内找出软件目录"""
+        # 在 apps 内的多个子目录找出软件的目录
+        file_list = os.listdir(root)
+        software_name = self.get_software_name_in_toolbox(software_name)
+        software_dir = ''
+        for file in file_list:
+            if os.path.isdir(os.path.join(root, file)) and software_name.lower() in file.lower():
+                software_dir = file
+        if not software_dir:
+            return ''
+
+        software_dir = os.path.join(root, software_dir, 'ch-0')
+        if not os.path.exists(software_dir):
+            return ''
+
+        # ch-0 内可能有多个版本
+        file_list = os.listdir(software_dir)
+        dir_list = []
+        # 列出所有文件夹
+        for file in file_list:
+            if os.path.isdir(os.path.join(software_dir, file)):
+                dir_list.append(file)
+        if not dir_list:
+            return ''
+        # 按版本号排序
+        dir_list = sorted(dir_list, key=functools.cmp_to_key(self.compare_version), reverse=True)
+        software_dir = os.path.join(software_dir, dir_list[0])
+        # 这里还可以校验目录是否正确
+        return software_dir
+
+    @staticmethod
+    def compare_version(x: str, y: str) -> int:
+        list1 = x.split('.')
+        list2 = y.split('.')
+        if not list1 and not list2:
+            return 0
+        elif not list1:
+            return -1
+        elif not list2:
+            return 1
+        length1 = len(list1)
+        length2 = len(list2)
+        i = 0
+        for i in range(length1):
+            if i >= length2:
+                # 因为 2 中没有，2 较小
+                return 1
+            else:
+                # 比较
+                code1 = 0
+                code2 = 0
+                try:
+                    code1 = int(list1[i])
+                except ValueError:
+                    pass
+                try:
+                    code2 = int(list2[i])
+                except ValueError:
+                    pass
+                r = code1 - code2
+                if r != 0:
+                    return r
+        # 循环结束
+        if i == length2:
+            return 0
+        else:
+            # 2 还有，1 较小
+            return -1
 
 
 class Software:
