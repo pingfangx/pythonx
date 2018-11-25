@@ -25,7 +25,7 @@ class JetBrainsTranslator:
         self.target_dir = self.work_dir + os.path.sep + 'target'
 
         current_version_list = [
-            '3.1.3',
+            '3.2.1',
             '2018.3',
         ]
 
@@ -38,7 +38,7 @@ class JetBrainsTranslator:
         software_name_list = [
             'AndroidStudio',
             'CLion',
-            # 'GoLand',
+            'GoLand',
             'IntelliJIDEA',
             'PhpStorm',
             'PyCharm',
@@ -450,6 +450,9 @@ class Software:
         print('复制 %s 到 %s' % (jar_file_path, self.en_jar_path))
         shutil.copyfile(jar_file_path, self.en_jar_path)
 
+    def get_original_en_jar_path(self):
+        return self.path + os.sep + 'lib' + os.sep + 'resources_en.jar'
+
     def zip_translation(self, rename_tips=False):
         """打包翻译"""
         translation_dir = '%s/target/%s/resources_en' % (self.work_dir, self.name)
@@ -666,7 +669,7 @@ class Software:
     def extract_jar_to_source_dir(self):
         """将 jar 解压到 source 目录"""
         out_dir = '%s/source/%s/resources_en' % (self.work_dir, self.name)
-        with zipfile.ZipFile(self.en_jar_path) as zip_file:
+        with zipfile.ZipFile(self.get_original_en_jar_path()) as zip_file:
             namelist = zip_file.namelist()
             for name in namelist:
                 if re.search(self.ignore_pattern, name):
@@ -680,12 +683,14 @@ class Software:
         name = self.name
         if name == 'IntelliJIDEA':
             name = 'IDEA'
-        config_file = '%s/bin/%s64.exe.vmoptions' % (self.path, name)
+        # config_file = '%s/bin/%s64.exe.vmoptions' % (self.path, name)
+        # Toolbox 每个版本的软件是单独的目录，单独的文件，目录名直接拼上扩展名即可
+        config_file = f'{self.path}.vmoptions'
         if not os.path.exists(config_file):
             print('配置文件不存在', config_file)
             return
-
-        crack_jar_file = r'D:\software\JetBrains\[2456]JetbrainsCrack-2.10-release-enc.jar'
+        print(f'配置文件 {config_file}')
+        crack_jar_file = r'D:\software\JetBrains\crack\JetbrainsIdesCrack-3.4-release-enc.jar'
         write_line = '-javaagent:%s\n' % crack_jar_file
 
         with open(config_file, 'r') as f:

@@ -265,7 +265,8 @@ class Tips:
         print('剩余文件%d个' % len(all_files))
         if len(all_files) > 0:
             print('**请补全文件**')
-            exit()
+            # 如果确认不需要补全（如在 exclude 中包含文件），可以不退出
+            # exit()
 
     @staticmethod
     def check_and_append_tips_name(file_path, tips_name_file, result_file=None):
