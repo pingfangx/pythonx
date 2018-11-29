@@ -33,12 +33,8 @@ class VpnLogin:
             print('vpn is running.')
             self.pause_and_exit(0)
         else:
-            if self.get_running_process_count(self.chrome_process_name) > 0:
-                print('chrome is running, if login vpn,chrome will loss cookies when vpn exit.')
-                self.pause_and_exit(1)
-            else:
-                print('vpn not running,start it.')
-                self.login()
+            print('vpn not running,start it.')
+            self.login()
 
     @staticmethod
     def get_running_process_count(image_name):
@@ -95,22 +91,28 @@ class VpnLogin:
             print('chrome is running.')
             self.pause_and_exit(0)
         else:
-            if self.get_running_process_count(self.vpn_process_name) > 0:
-                print('vpn is running, if login vpn,chrome will loss cookies when vpn exit.')
-                self.pause_and_exit(0)
-            else:
-                print('start chrome')
-                subprocess.call(f'start {self.chrome_process_name}', shell=True)
+            print('start chrome')
+            subprocess.call(f'start {self.chrome_process_name}', shell=True)
+
+    def stop_vpn(self):
+        cmd = f'taskkill /F /IM {self.vpn_process_name} /T'
+        print(cmd)
+        subprocess.call(cmd, shell=True)
 
     def check_argument_and_run(self):
         """检查参数并运行"""
         args = sys.argv
         start_chrome = False
+        stop_vpn = False
         if args:
             for arg in args:
                 if arg == '-c' or arg == '--chrome':
                     start_chrome = True
-        if start_chrome:
+                if arg == '-s' or arg == '--stop-vpn':
+                    stop_vpn = True
+        if stop_vpn:
+            self.stop_vpn()
+        elif start_chrome:
             self.start_chrome()
         else:
             self.check_and_login()
