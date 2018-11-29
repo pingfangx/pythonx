@@ -1,5 +1,6 @@
 import os
 import subprocess
+import sys
 import time
 
 from selenium import webdriver
@@ -14,6 +15,7 @@ class VpnLogin:
     """第一行用户名，第二行密码"""
     home_page = 'https://vpn.00bang.net'
     vpn_process_name = 'SangforCSClient.exe'
+    chrome_process_name = 'chrome.exe'
 
     def __init__(self):
         with open(self.user_file_path) as f:
@@ -23,16 +25,20 @@ class VpnLogin:
                 self.password = lines[1].strip('\n')
         if not self.user_name or not self.password:
             print(f'未正确读取到用户名、密码，文件 {self.user_file_path}')
-            exit(1)
+            self.pause_and_exit(1)
 
     def check_and_login(self):
         """检查并登录"""
         if self.get_running_process_count(self.vpn_process_name) > 0:
-            print('vpn running.')
-            exit(0)
+            print('vpn is running.')
+            self.pause_and_exit(0)
         else:
-            print('vpn not running,start it.')
-            self.login()
+            if self.get_running_process_count(self.chrome_process_name) > 0:
+                print('chrome is running, if login vpn,chrome will loss cookies when vpn exit.')
+                self.pause_and_exit(1)
+            else:
+                print('vpn not running,start it.')
+                self.login()
 
     @staticmethod
     def get_running_process_count(image_name):
@@ -55,7 +61,9 @@ class VpnLogin:
             print('您已经登录了VPN')
             return
 
-            # 填入用户名、密码并登录
+        # 填入用户名、密码并登录
+        print('1s 后开始登录')
+        time.sleep(1)
         user_name = driver.find_element_by_id('svpn_name')
         user_name.send_keys(self.user_name)
 
@@ -78,10 +86,40 @@ class VpnLogin:
                 print('3s 后关闭')
                 # 避免客户端未启动
                 time.sleep(3)
-                return
+                self.pause_and_exit(0)
         print('超时，未登录成功')
-        exit(1)
+        self.pause_and_exit(1)
+
+    def start_chrome(self):
+        if self.get_running_process_count(self.chrome_process_name) > 0:
+            print('chrome is running.')
+            self.pause_and_exit(0)
+        else:
+            if self.get_running_process_count(self.vpn_process_name) > 0:
+                print('vpn is running, if login vpn,chrome will loss cookies when vpn exit.')
+                self.pause_and_exit(0)
+            else:
+                print('start chrome')
+                subprocess.call(f'start {self.chrome_process_name}', shell=True)
+
+    def check_argument_and_run(self):
+        """检查参数并运行"""
+        args = sys.argv
+        start_chrome = False
+        if args:
+            for arg in args:
+                if arg == '-c' or arg == '--chrome':
+                    start_chrome = True
+        if start_chrome:
+            self.start_chrome()
+        else:
+            self.check_and_login()
+
+    @staticmethod
+    def pause_and_exit(code):
+        time.sleep(3)
+        exit(code)
 
 
 if __name__ == '__main__':
-    VpnLogin().check_and_login()
+    VpnLogin().check_argument_and_run()
