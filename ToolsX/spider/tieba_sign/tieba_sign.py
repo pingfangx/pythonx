@@ -144,7 +144,8 @@ class TiebaSign:
             self.log('异常退出')
 
     def log(self, text):
-        print(text)
+        now = time.strftime('%Y%m%d %H:%M:%S %z')
+        print(f'[{now}] {text}')
         self.logger.info(text)
 
 
