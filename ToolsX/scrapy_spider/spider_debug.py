@@ -24,6 +24,16 @@ class TestDouyinSpider(unittest.TestCase):
         cmdline.execute(cmd.split())
 
 
+class TestWeiboVideoSpider(unittest.TestCase):
+    """微博视频"""
+
+    def test_weibo_video_spider(self):
+        spider = "weibo_video"
+        args = "--set SPIDER_MODULES=scrapy_spider.spiders.weibo"
+        cmd = "scrapy crawl %s %s" % (spider, args)
+        cmdline.execute(cmd.split())
+
+
 class TestProxySpider(unittest.TestCase):
     """爬取代理的爬虫"""
 
@@ -117,7 +127,7 @@ class TestAllProxySpider(unittest.TestCase):
                 else:
                     spider_start_count = spider_end_count
                 log.info(
-                    f'第 {loop_times} 轮,第 {i+1}/{len(spider_list)} 个爬虫 {spider.name} 开始爬取,'
+                    f'第 {loop_times} 轮,第 {i + 1}/{len(spider_list)} 个爬虫 {spider.name} 开始爬取,'
                     f'当前 ip 共 {spider_start_count} 个')
 
                 spider = spider_list[i]
@@ -133,7 +143,7 @@ class TestAllProxySpider(unittest.TestCase):
                 all_loop_proxy_count += loop_crawled_count
                 divider = '-' * 10
                 log.info(
-                    f'{divider}第 {loop_times} 轮,第 {i+1}/{len(spider_list)} 个爬虫 {spider.name} 爬取结束,'
+                    f'{divider}第 {loop_times} 轮,第 {i + 1}/{len(spider_list)} 个爬虫 {spider.name} 爬取结束,'
                     f'共爬取到 {spider_crawled_count}/{loop_crawled_count}/{all_loop_proxy_count} 个代理{divider}')
                 log.info(f'等待执行下一爬虫,sleep {sleep_time}')
                 log.info(f'当前有效代理共 {proxy_manager.available_count()} 个')
@@ -143,7 +153,7 @@ class TestAllProxySpider(unittest.TestCase):
             loop_end_count = proxy_manager.count()
             # 延时下一轮
             sleep_time = 60
-            log.info(f'本轮共爬到 {loop_end_count-loop_start_count}/{loop_end_count} 个代理，等待下一轮,sleep {sleep_time}')
+            log.info(f'本轮共爬到 {loop_end_count - loop_start_count}/{loop_end_count} 个代理，等待下一轮,sleep {sleep_time}')
             log.info(f'当前有效代理共 {proxy_manager.available_count()} 个')
             time.sleep(sleep_time)
         reactor.stop()

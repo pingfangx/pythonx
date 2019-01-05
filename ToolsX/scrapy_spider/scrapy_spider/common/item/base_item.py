@@ -68,9 +68,12 @@ class BaseItem(scrapy.Item):
         }
 
     def get_on_conflict_suffix_sql(self):
-        """获取冲突时添加在 insert 语句后的 sql"""
+        """
+        获取冲突时添加在 insert 语句后的 sql
+        默认实现只是示例，id 是自增的
+        """
         sql = f"""
-        ON CONFLICT(ip) DO UPDATE SET
+        ON CONFLICT(id) DO UPDATE SET
         crawled_times={self.get_table_name()}.crawled_times+1,
         """
         sql += 'update_time={update_time_int4}'
