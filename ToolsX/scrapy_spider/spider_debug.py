@@ -6,11 +6,21 @@ from scrapy.crawler import CrawlerRunner
 from scrapy.utils.log import configure_logging
 from scrapy.utils.project import get_project_settings
 from scrapy.utils.spider import iter_spider_classes
-from twisted.internet import reactor, defer
-
 from scrapy_spider.common.log import log
 from scrapy_spider.spiders.proxy.manager.proxy_manager import proxy_manager
 from scrapy_spider.spiders.proxy.spiders import regex_proxy_spider
+from twisted.internet import reactor, defer
+
+
+def test_spider(spider, modules):
+    """
+    测试爬虫
+    :param spider: 爬虫名，即 name 指定的名字
+    :param modules: 模块目录
+    """
+    args = f'--set SPIDER_MODULES={modules}'
+    cmd = f'scrapy crawl {spider} {args}'
+    cmdline.execute(cmd.split())
 
 
 class TestDouyinSpider(unittest.TestCase):

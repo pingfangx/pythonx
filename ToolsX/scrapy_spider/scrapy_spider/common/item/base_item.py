@@ -63,6 +63,7 @@ class BaseItem(scrapy.Item):
     def get_tail_fields(self):
         """放在最后的字段"""
         return {
+            'crawled_times_int4': '',
             'create_time_int4': '',
             'update_time_int4': '',
         }
