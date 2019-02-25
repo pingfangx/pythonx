@@ -5,7 +5,7 @@ from xx import systemx
 class Field:
     """字段"""
 
-    def __init__(self, name, _type, comment, convert_zero=False):
+    def __init__(self, name, _type: str, comment, convert_zero=False):
         """
         :param name: 名字
         :param _type: 类型
@@ -16,6 +16,7 @@ class Field:
         self._type = _type.strip()
         # 日期保存为 Long
         self._type = self._type.replace('Date', 'Long')
+        self._type = self._type.capitalize().replace('number', 'Integer')
         self.comment = comment.strip()
         self.convert_zero = convert_zero
 
@@ -133,17 +134,30 @@ class ParseWikiToBean:
         systemx.copy(result)
 
 
+def parse_yapi_data(text):
+    """yapi 格式的转换"""
+    text = text.replace('\n非必须\n', '')
+    text = text.replace('\n必须\n', '')
+    return text
+
+
 if __name__ == '__main__':
     wiki_text = """
-labelId	Long	标签ID	 
-labelName	String	标签名	 
+labelCode	string	
+必须
+标签编码（operation：运营;sgmw:sgmw官方;juncar:骏认证用户,advisor:顾问;live:播主）	
+labelName	string	
+必须
+标签名称	
+labelValue	integer	
+必须
+标签的值 0：否 1：是	
+labelBelong	string	
+必须
+标签所属ID	
+labelBelongName	string	
+必须
+标签所属名称	
     """
-    need_replace = False
-    if need_replace:
-        # 将开头的去掉
-        wiki_text = wiki_text.lstrip('\n\t ')
-        wiki_text = wiki_text.replace(' ', '')
-        wiki_text = wiki_text.replace('\n', '\t')
-        wiki_text = wiki_text.replace('\t\t\t', '\n')
-        wiki_text = wiki_text.replace('\t\t', '\t')
+    wiki_text = parse_yapi_data(wiki_text)
     ParseWikiToBean(wiki_text, include_set=False, convert_zero=True).main()
