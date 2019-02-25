@@ -25,7 +25,7 @@ class JetBrainsTranslator:
         self.target_dir = self.work_dir + os.path.sep + 'target'
 
         current_version_list = [
-            '3.2.1',
+            '3.3',
             '2018.3',
         ]
 
@@ -37,13 +37,13 @@ class JetBrainsTranslator:
 
         software_name_list = [
             'AndroidStudio',
-            'CLion',
-            'GoLand',
-            'IntelliJIDEA',
-            'PhpStorm',
-            'PyCharm',
-            'RubyMine',
-            'WebStorm',
+            # 'CLion',
+            # 'GoLand',
+            # 'IntelliJIDEA',
+            # 'PhpStorm',
+            # 'PyCharm',
+            # 'RubyMine',
+            # 'WebStorm',
         ]
 
         software_root_dir = r'D:/software/JetBrains/'
@@ -79,9 +79,9 @@ class JetBrainsTranslator:
             ['退出', exit],
             ['-tips 相关的', ],
             ['解压出清单文件', self.iter_software, lambda x: x.extra_tips_manifest_file()],
-            ['处理清单文件，整理tips的名称方便翻译', self.process_tips_manifest_file],
-            ['检查并补全缺少的tips名', self.check_and_append_tips_name],
-            ['将 tips 翻译结果的unicode转为中文', self.change_unicode_to_chinese],
+            ['处理清单文件，整理tips的名称方便翻译', self.iter_software, lambda x: x.process_tips_manifest_file()],
+            ['检查并补全缺少的tips名', self.iter_software, lambda x: x.check_and_append_tips_name()],
+            ['将 tips 翻译结果的unicode转为中文', self.iter_software, lambda x: x.change_unicode_to_chinese()],
 
             ['-翻译前应该处理的', ],
             ['检查官网是否有新版本', self.check_update],
@@ -89,8 +89,8 @@ class JetBrainsTranslator:
             ['解压 jar 到 source 目录', self.iter_software, lambda x: x.extract_jar_to_source_dir()],
 
             ['-翻译后应该处理的', ],
-            ['将 tips 翻译结果的unicode转为中文', self.change_unicode_to_chinese],
-            ['处理tips翻译结果为AndroidStudio用', self.process_tips_translation_result],
+            ['将 tips 翻译结果的unicode转为中文', self.iter_software, lambda x: x.change_unicode_to_chinese()],
+            ['处理tips翻译结果为AndroidStudio用', self.iter_software, lambda x: x.process_tips_translation_result()],
             ['压缩进汉化包(处理 tips)', self.iter_software, lambda x: x.zip_translation(rename_tips=True)],
             ['压缩进汉化包', self.iter_software, lambda x: x.zip_translation()],
             ['压缩进 en 包', self.iter_software, lambda x: x.zip_translation_to_en()],
@@ -111,57 +111,6 @@ class JetBrainsTranslator:
             ['删除比较 jar 包时的缓存', self.iter_software, lambda x: x.delete_compare_tmp_dir()],
         ]
         iox.choose_action(action_list)
-
-    def process_tips_manifest_file(self):
-        tips = Tips()
-        project_name_list = os.listdir(self.source_dir)
-        for project_name in project_name_list:
-            project_path = self.source_dir + os.sep + project_name
-            if os.path.isdir(project_path):
-                tips_file_path = project_path + os.sep + 'IdeTipsAndTricks' + os.sep + 'IdeTipsAndTricks.xml'
-                tips_en_file = filex.get_result_file_name(tips_file_path, '_en', 'properties')
-                if os.path.exists(tips_file_path):
-                    print('处理 %s' % tips_file_path)
-                    tips.process_tips_manifest_file(tips_file_path, tips_en_file)
-
-    def check_and_append_tips_name(self):
-        tips = Tips()
-        project_name_list = os.listdir(self.source_dir)
-        for project_name in project_name_list:
-            project_path = self.source_dir + os.sep + project_name
-            if os.path.isdir(project_path):
-                tips_file_path = project_path + os.sep + 'IdeTipsAndTricks' + os.sep + 'IdeTipsAndTricks.xml'
-                tips_en_file = filex.get_result_file_name(tips_file_path, '_en', 'properties')
-                if os.path.exists(tips_file_path):
-                    print('处理 %s' % tips_file_path)
-                    project_tips_path = project_path + os.sep + 'resources_en' + os.sep + 'tips'
-                    tips.check_and_append_tips_name(project_tips_path, tips_en_file, tips_en_file)
-
-    def change_unicode_to_chinese(self):
-        project_name_list = os.listdir(self.source_dir)
-        for project_name in project_name_list:
-            project_path = self.target_dir + os.sep + project_name
-            if os.path.isdir(project_path):
-                tips_dir = project_path + os.sep + 'IdeTipsAndTricks'
-                tips_file_path = tips_dir + os.sep + 'IdeTipsAndTricks_en_zh_CN.properties'
-                tips_cn_file_path = tips_dir + os.sep + 'IdeTipsAndTricks_cn.properties'
-                if os.path.exists(tips_file_path):
-                    print('处理 %s' % tips_file_path)
-                    Tools.change_unicode_to_chinese(tips_file_path, tips_cn_file_path)
-
-    def process_tips_translation_result(self):
-        tips = Tips()
-        project_name_list = os.listdir(self.source_dir)
-        for project_name in project_name_list:
-            project_path = self.target_dir + os.sep + project_name
-            if os.path.isdir(project_path):
-                tips_dir = project_path + os.sep + 'IdeTipsAndTricks'
-                tips_cn_file_path = tips_dir + os.sep + 'IdeTipsAndTricks_cn.properties'
-                if os.path.exists(tips_cn_file_path):
-                    print('处理 %s' % tips_cn_file_path)
-                    project_tips_path = project_path + os.sep + 'resources_en' + os.sep + 'tips'
-                    tips.process_tips_translation_result(tips_cn_file_path, project_tips_path,
-                                                         Tips.RESULT_TYPE_ANDROID_STUDIO, project_tips_path)
 
     def rename_cn_files(self):
         project_name_list = os.listdir(self.source_dir)
@@ -669,6 +618,8 @@ class Software:
     def extract_jar_to_source_dir(self):
         """将 jar 解压到 source 目录"""
         out_dir = '%s/source/%s/resources_en' % (self.work_dir, self.name)
+        print(f'清空 source 目录 {out_dir}')
+        shutil.rmtree(out_dir)
         with zipfile.ZipFile(self.get_original_en_jar_path()) as zip_file:
             namelist = zip_file.namelist()
             for name in namelist:
@@ -742,8 +693,15 @@ class Software:
 "autoProlongated":false}
     """
 
+    def get_tips_manifest_file_path(self):
+        """获取 tips 清单文件的目录"""
+        return os.path.join(self.work_dir, 'source', self.name, 'IdeTipsAndTricks', 'IdeTipsAndTricks.xml')
+
+    def get_tips_files_dir(self):
+        return os.path.join(self.work_dir, 'source', self.name, 'resources_en', 'tips')
+
     def extra_tips_manifest_file(self):
-        """解压出 tips 的清单文件
+        """从不同软件的 jar 包中解压出 tips 的清单文件
 
         Android Studio 和 IntelliJIDEA位于 resources.jar\META-INF\IdeTipsAndTricks.xml
         goland.jar
@@ -772,15 +730,51 @@ class Software:
         tips_file_in_jar += 'TipsAndTricks.xml'
         print(jar_path, tips_file_in_jar)
 
-        project_path = self.work_dir + os.sep + 'source' + os.sep + self.name
-        tips_file_path = project_path + os.sep + 'IdeTipsAndTricks' + os.sep + 'IdeTipsAndTricks.xml'
-
         if not os.path.exists(jar_path):
             print('jar 包不存在', jar_path)
             return
 
-        filex.check_and_create_dir(tips_file_path)
-        ZipTools.extra_file(jar_path, tips_file_in_jar, tips_file_path)
+        tips_manifest_file_path = self.get_tips_manifest_file_path()
+        filex.check_and_create_dir(tips_manifest_file_path)
+        ZipTools.extra_file(jar_path, tips_file_in_jar, tips_manifest_file_path)
+
+    def process_tips_manifest_file(self):
+        """
+        处理 tips 的清单文件，由清单文件生成包含清单中所有文件名的待翻译文件
+        """
+        tips_manifest_file_path = self.get_tips_manifest_file_path()
+        if os.path.exists(tips_manifest_file_path):
+            print('处理 %s' % tips_manifest_file_path)
+            tips = Tips()
+            tips_en_file = filex.get_result_file_name(tips_manifest_file_path, '_en', 'properties')
+            tips.process_tips_manifest_file(tips_manifest_file_path, tips_en_file)
+
+    def check_and_append_tips_name(self):
+        tips_manifest_file_path = self.get_tips_manifest_file_path()
+        if os.path.exists(tips_manifest_file_path):
+            print('处理 %s' % tips_manifest_file_path)
+            tips = Tips()
+            tips_files_dir = self.get_tips_files_dir()
+            tips_en_file = filex.get_result_file_name(tips_manifest_file_path, '_en', 'properties')
+            tips.check_and_append_tips_name(tips_files_dir, tips_en_file, tips_en_file)
+
+    def change_unicode_to_chinese(self):
+        tips_manifest_file_dir = os.path.dirname(self.get_tips_manifest_file_path())
+        tips_file_path = os.path.join(tips_manifest_file_dir, 'IdeTipsAndTricks_en_zh_CN.properties')
+        tips_cn_file_path = os.path.join(tips_manifest_file_dir, 'IdeTipsAndTricks_cn.properties')
+        if os.path.exists(tips_file_path):
+            print('处理 %s' % tips_file_path)
+            Tools.change_unicode_to_chinese(tips_file_path, tips_cn_file_path)
+
+    def process_tips_translation_result(self):
+        tips_manifest_file_dir = os.path.dirname(self.get_tips_manifest_file_path())
+        tips_cn_file_path = os.path.join(tips_manifest_file_dir, 'IdeTipsAndTricks_cn.properties')
+        if os.path.exists(tips_cn_file_path):
+            print('处理 %s' % tips_cn_file_path)
+            project_tips_path = os.path.join(self.work_dir, 'source', self.name, 'resources_en', 'tips')
+            tips = Tips()
+            tips.process_tips_translation_result(tips_cn_file_path, project_tips_path,
+                                                 Tips.RESULT_TYPE_ANDROID_STUDIO, project_tips_path)
 
     def print_software_version(self, print_release_version=False):
         """输出版本号"""
