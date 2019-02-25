@@ -1,7 +1,7 @@
 from typing import List
 
-from android_studio_translator.web.model.base.base_model import BaseModel
 from xx.database.mysql_helper import MySqlHelper
+from .model.base_model import BaseModel
 
 
 class MySqlModelHelper(MySqlHelper):
