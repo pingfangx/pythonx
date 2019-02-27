@@ -26,11 +26,18 @@ class TranslatorX:
     def main(self):
         action_list = [
             ['退出', exit],
+
+            ['-汉化前的准备'],
             ['选择要操作的软件', self.check_software, self.software_list],
             ['i解压 jar 到 source 目录', software_utils.extract_jar_to_source_dir],
             ['i收集所有 tips 文件名', software_utils.collect_tip_names],
+            ['i清空 target 目录', software_utils.clean_target_dir],
+
+            ['-汉化后的操作'],
             ['i打包为汉化包', software_utils.zip_translation_jar],
             ['i将汉化包复制到软件 lib 目录', software_utils.copy_translation_to_work_dir],
+            ['i打开软件', software_utils.open_software],
+
             ['-以下为一些工具方法'],
             ['i转换 tips 文件名翻译结果', software_utils.convert_tip_file_names]
         ]

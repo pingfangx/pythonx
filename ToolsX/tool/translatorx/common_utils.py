@@ -1,4 +1,5 @@
 import os
+import shutil
 
 """
 通用工具，大部分从 xx 包复制而来
@@ -100,3 +101,10 @@ def read_lines(file_path, encoding='utf-8', ignore_line_separator=False):
         else:
             result = f.readlines()
     return result
+
+
+def remove_dir(target_dir: str):
+    """清空目录"""
+    if os.path.exists(target_dir):
+        print(f'清空目录 {target_dir}')
+        shutil.rmtree(target_dir)

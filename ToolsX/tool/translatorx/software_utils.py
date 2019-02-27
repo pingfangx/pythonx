@@ -1,6 +1,7 @@
 import os
 import re
 import shutil
+import subprocess
 import zipfile
 from typing import Callable, List
 
@@ -61,8 +62,7 @@ def get_software_list(config_file='') -> List[Software]:
 def extract_jar_to_source_dir(software: Software):
     """将 jar 解压到 source 目录"""
     out_dir = software.omegat_workspace_source_resources_en
-    print(f'清空 source 目录 {out_dir}')
-    shutil.rmtree(out_dir)
+    common_utils.remove_dir(out_dir)
     with zipfile.ZipFile(software.original_jar) as zip_file:
         namelist = zip_file.namelist()
         for name in namelist:
@@ -71,6 +71,14 @@ def extract_jar_to_source_dir(software: Software):
                 continue
             print('解压 %s 到 %s' % (name, out_dir))
             zip_file.extract(name, out_dir)
+
+
+def clean_target_dir(software: Software):
+    """清空 target 目录
+
+    因为新版本可能减少部分文件，所以清空一个
+    """
+    common_utils.remove_dir(software.omegat_workspace_target_software)
 
 
 def collect_tip_names(software: Software):
@@ -187,6 +195,15 @@ def copy_translation_to_work_dir(software: Software):
 
     print(f'复制 {src} -> {dst}')
     shutil.copyfile(src, dst)
+
+
+def open_software(software: Software):
+    """打开软件"""
+    bin_path = os.path.join(software.home_path, 'bin', software.get_execute_file_name())
+    if not os.path.exists(bin_path):
+        print(f'不在在 {bin_path}')
+        return
+    subprocess.call(f'start {bin_path}', shell=True)
 
 
 if __name__ == '__main__':

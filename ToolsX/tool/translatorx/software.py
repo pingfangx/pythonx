@@ -66,7 +66,7 @@ class Software:
         if not home:
             self.checked = False
             home = '(未找到安装路径)'
-        return f'{"√" if self.checked else "×"}\t{self.name:20}\t{self.translation_jar_name}\t{home}'
+        return f'{"√" if self.checked else "×"}\t{self.name:20}\t{self.translation_jar_name:50}\t{home}'
 
     def find_home_path(self, path: str):
         home_path = path
@@ -128,6 +128,15 @@ class Software:
         if 'IDEA' in name.upper():
             return 'IDEA'
         return name
+
+    def get_execute_file_name(self):
+        """获取执行文件的名称"""
+        bin_name = self.name
+        if bin_name.lower() == 'AndroidStudio'.lower():
+            bin_name = 'Studio'
+        elif bin_name.lower() == 'IntelliJIDEA'.lower():
+            bin_name = 'idea'
+        return f'{bin_name}64.exe'
 
     @staticmethod
     def _compare_version(x: str, y: str) -> int:
@@ -206,8 +215,8 @@ class Software:
         1826
         """
         # 以这几个文件夹开头的
-        # |com|i18n|org ，可以以后翻译
-        ignore_pattern = '^(fileTemplates|inspectionDescriptions|intentionDescriptions|META-INF|search)'
+        # AndroidStudio tips 中的 excluded 好像也被排除了，翻译没用（如果要翻译，OmegaT 中判断是否是 tips 也要修改）
+        ignore_pattern = '^(fileTemplates|inspectionDescriptions|intentionDescriptions|META-INF|search|tips/excluded)'
         # 或者以这几个类型为扩展名的
         ignore_pattern += '|\.(png|gif|css)$'
         ignore_pattern += '|(missing_images|icon-robots)\.txt$'
