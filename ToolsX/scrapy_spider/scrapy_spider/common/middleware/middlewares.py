@@ -1,28 +1,37 @@
 # -*- coding: utf-8 -*-
-
-from scrapy.exceptions import IgnoreRequest
 # Define here the models for your spider middleware
 #
 # See documentation in:
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
+from scrapy.core.downloader.handlers.http11 import TunnelError
 from scrapy.http import Response
-from scrapy_spider.common.ignore import douyin
 from scrapy_spider.common.log import log
 from scrapy_spider.common.middleware.agent_manager import AgentManager
-from scrapy_spider.spiders.douyin import douyin_spider
 from scrapy_spider.spiders.proxy.items import ProxyItem
 from scrapy_spider.spiders.proxy.manager.proxy_manager import proxy_manager
-from twisted.internet import error
-from twisted.web._newclient import ResponseNeverReceived
+from twisted.internet.error import ConnectError
+from twisted.web._newclient import ResponseFailed
 
 
 class RandomProxyDownloaderMiddleware(object):
     """随机代理"""
+    use_unique_proxy = False
+    """是否使用一个唯一有效的代理
+    
+    有的时候只需要不暴露自己的 ip，或是只需一个代理不会被禁
+    """
+    unique_proxy = ''
 
     def process_request(self, request, spider):
         """处理请求"""
-        proxy = proxy_manager.get()
-        log.info(f'use random proxy {proxy}')
+        if self.use_unique_proxy:
+            if not self.unique_proxy:
+                self.unique_proxy = proxy_manager.get()
+                log.info(f'use unique proxy {self.unique_proxy}')
+            proxy = self.unique_proxy
+        else:
+            proxy = proxy_manager.get()
+            log.info(f'use random proxy {proxy}')
         request.meta["proxy"] = str(proxy)
 
     def process_response(self, request, response, spider):
@@ -35,22 +44,31 @@ class RandomProxyDownloaderMiddleware(object):
         如果其返回一个 Request 对象，则中间件链停止， 返回的request会被重新调度下载。处理类似于 process_request() 返回request所做的那样。
         如果其抛出一个 IgnoreRequest 异常，则调用request的errback(Request.errback)。 如果没有代码处理抛出的异常，则该异常被忽略且不记录(不同于其他异常那样)。
         """
+        if not ('proxy' in request.meta):
+            return response
         proxy_str = request.meta['proxy']
         proxy = ProxyItem.parse(proxy_str)
         if isinstance(response, ErrorResponse):
+            self.unique_proxy = ''
             # 请求失败
-            proxy_manager.fail(proxy)
             print('请求失败，记录失败，重新请求')
+            proxy_manager.fail(proxy)
             return self.on_request_error(request, response, spider)
         elif not self.is_success_response(response):
+            self.unique_proxy = ''
             # 回复解析失败
-            proxy_manager.fail(proxy)
             print('回复解析失败，记录失败，重新请求')
+            if self.is_banned_response(response):
+                proxy_manager.banned(proxy)
+            else:
+                proxy_manager.fail(proxy)
             return self.on_request_error(request, response, spider)
         else:
             # 回复成功
-            print('回复解析成功，记录成功')
-            proxy_manager.success(proxy)
+            if not self.use_unique_proxy:
+                # 唯一代理就不用记录了
+                print('回复解析成功，记录成功')
+                proxy_manager.success(proxy)
         return response
 
     def on_request_error(self, request, response, spider):
@@ -58,14 +76,31 @@ class RandomProxyDownloaderMiddleware(object):
         当请求错误时
         :return: 如果返回 IgnoreRequest 这个请求会被忽略，但是实际没有请求成功
         下一次请求时，再次执行相同请求，会被重复过滤
-        所以返回新设置代理的请求，但是如果从 process_exception 而来，好像会报错需要继承 BaseException，待重现
+        所以返回新设置代理的请求
         """
         self.process_request(request, spider)
-        raise request
+        return request
 
     def is_success_response(self, response):
         """是否是成功的请求，可由子类重写"""
+        if response.status != 200:
+            print(f'status 错误 {response.status}')
+            return False
+        text = response.text
+        if not text:
+            print('返回内容为空')
+            return False
+        if 'Please login to browse the internet.' in response.text:
+            print('需要登录才能访问')
+            return False
+        if self.is_banned_response(response):
+            print('被禁')
+            return False
         return True
+
+    def is_banned_response(self, response):
+        """是否是被禁用"""
+        return False
 
     def process_exception(self, request, exception, spider):
         """
@@ -76,15 +111,11 @@ class RandomProxyDownloaderMiddleware(object):
         如果其返回一个 Response 对象，则已安装的中间件链的 process_response() 方法被调用。Scrapy将不会调用任何其他中间件的 process_exception() 方法。
         如果其返回一个 Request 对象， 则返回的request将会被重新调用下载。这将停止中间件的 process_exception() 方法执行，就如返回一个response的那样。
         """
-        proxy_str = request.meta['proxy']
-        proxy = ProxyItem.parse(proxy_str)
         # 检查是否是已知的错误，如果是未知错误，可能需要记录处理
         fail_exception_list = [
-            error.ConnectError,
-            error.ConnectionRefusedError,
-            error.TCPTimedOutError,
-            error.TimeoutError,  # 超过设定的 timeout
-            ResponseNeverReceived,
+            ConnectError,
+            TunnelError,
+            ResponseFailed,
         ]
         for e in fail_exception_list:
             if isinstance(exception, e):
@@ -92,10 +123,16 @@ class RandomProxyDownloaderMiddleware(object):
                 # 此处不调用 fail，返回 response 之后会在 process_response 中处
                 # proxy_manager.fail(proxy)
                 return self.get_error_response(exception)
-        log.error("process_exception")
-        log.error(f'proxy is {proxy}')
-        log.error(type(exception))
-        log.error(exception)
+        if 'proxy' in request.meta:
+            proxy_str = request.meta['proxy']
+            proxy = ProxyItem.parse(proxy_str)
+        else:
+            proxy = ''
+        log.error(f"process_exception 还有未处理的异常"
+                  f"\nproxy is {proxy}"
+                  f"\ntype is {type(exception)}"
+                  f"\nexception is {exception}")
+        return self.get_error_response(exception)
 
     def get_error_response(self, exception=None):
         """用于 process_exception 方法
@@ -107,69 +144,6 @@ class RandomProxyDownloaderMiddleware(object):
 
 class ErrorResponse(Response):
     """错误的回复"""
-
-
-class DouyinRandomProxyDownloaderMiddleware(RandomProxyDownloaderMiddleware):
-    """抖音的随机代理中间件"""
-
-    def process_response(self, request, response, spider):
-        """
-        要考虑两种情况，一是被封，二是ip 失效
-        :param request:
-        :param response:
-        :param spider:
-        :return:
-        """
-        proxy_str = request.meta['proxy']
-        proxy = ProxyItem.parse(proxy_str)
-        # 持有的是方法，只有一个实例，所以并发时 self.proxy 应该是不准确的，需从 request 获取
-        code, _ = douyin.parse_result(response.body.decode())
-        if code == 1:
-            proxy_manager.success(proxy)
-        elif code == 2:
-            proxy_manager.banned(proxy)
-            if douyin_spider.ANONYMOUS:
-                # 匿名则忽略并继续 ，不匿名返回处理
-                raise IgnoreRequest()
-            else:
-                return response
-        else:
-            proxy_manager.fail(proxy)
-            raise IgnoreRequest()
-        return response
-
-    def process_exception(self, request, exception, spider):
-        proxy_str = request.meta['proxy']
-        proxy = ProxyItem.parse(proxy_str)
-        if isinstance(exception, IgnoreRequest):
-            # 已忽略
-            return self.get_error_response(exception)
-        else:
-            # 检查是否是已知的错误，如果是未知错误，可能需要记录处理
-            fail_exception_list = [
-                error.ConnectError,
-                error.ConnectionRefusedError,
-                error.TCPTimedOutError,
-                error.TimeoutError,  # 超过设定的 timeout
-                ResponseNeverReceived,
-            ]
-            for e in fail_exception_list:
-                if isinstance(exception, e):
-                    # 被拒绝
-                    # 此处不调用 fail，返回 response 之后会在 process_response 中处
-                    # proxy_manager.fail(proxy)
-                    return self.get_error_response(exception)
-        log.error("process_exception")
-        log.error(f'proxy is {proxy}')
-        log.error(type(exception))
-        log.error(exception)
-
-    def get_error_response(self, exception=None):
-        """用于 process_exception 方法
-        返回 None 异常还会继续被片理
-        返回 Response 会调用 parse 方法"""
-        print(f'已拦截异常 {type(exception)}')
-        return Response('', body=b'error')
 
 
 class RandomAgentDownloaderMiddleware(object):

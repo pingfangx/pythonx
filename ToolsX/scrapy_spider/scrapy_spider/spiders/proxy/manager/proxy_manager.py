@@ -14,6 +14,7 @@ class ProxyManager:
     def __init__(self):
         item = ProxyItem()
         self.manager = PostgreSQLManager(item)
+        self.max_fail_time = 5
         self._proxy_queue = queue.Queue()
 
         # 一些 sql
@@ -129,9 +130,9 @@ class ProxyManager:
         record = asyncio.get_event_loop().run_until_complete(self.manager.conn.fetchrow(sql))
         if record:
             fail_times = record['fail_times']
-            if fail_times and fail_times >= 5:
-                # 大于 10 次，置为不可用
-                log.info(f'{proxy} fail set available=0')
+            if fail_times and fail_times >= self.max_fail_time:
+                # 大于指定次数，置为不可用
+                log.info(f'{proxy} fail {fail_times} times set available=0')
                 self._execute(self._sql_update_fail, proxy)
             else:
                 log.info(f'{proxy} fail set fail_times={fail_times}')

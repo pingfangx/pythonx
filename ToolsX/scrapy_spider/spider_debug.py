@@ -7,6 +7,7 @@ from scrapy.utils.log import configure_logging
 from scrapy.utils.project import get_project_settings
 from scrapy.utils.spider import iter_spider_classes
 from scrapy_spider.common.log import log
+from scrapy_spider.common.statistic.increase_statistics import IncreaseStatistics
 from scrapy_spider.spiders.proxy.manager.proxy_manager import proxy_manager
 from scrapy_spider.spiders.proxy.spiders import regex_proxy_spider
 from twisted.internet import reactor, defer
@@ -92,6 +93,22 @@ class TestProxySpider(unittest.TestCase):
         cmdline.execute(cmd.split())
 
 
+class ProxyCounter:
+    all = IncreaseStatistics()
+    available = IncreaseStatistics()
+
+    def start(self):
+        self.all.start(proxy_manager.count())
+        self.available.start(proxy_manager.available_count())
+
+    def count(self):
+        self.all.count(proxy_manager.count())
+        self.available.count(proxy_manager.available_count())
+
+    def print_count(self) -> str:
+        return f'ip 可用 {self.available.print_count()},总共 {self.all.print_count()}'
+
+
 class TestAllProxySpider(unittest.TestCase):
     """所有的代理爬虫"""
 
@@ -104,41 +121,32 @@ class TestAllProxySpider(unittest.TestCase):
             ip_count = getattr(spider_class, 'ip_count', 0)
             if ip_count > 0:
                 spider_list.append(spider_class)
-        loop_times = 0
-        loop_end_count = 0
-        all_loop_proxy_count = 0
-        """整个循环中爬取的代理总数"""
+
+        all_loop = ProxyCounter()
+        single_loop = ProxyCounter()
+        # 开始时起动，每轮结束后计数
+        all_loop.start()
         # 无限循环
+        loop_times = 0
         while loop_times >= 0:
             loop_times += 1
 
-            available_count = proxy_manager.available_count()
-            while available_count > 100:
-                print(f'有效 ip {available_count} 个，休息 10 分钟')
+            # 每轮开始时启动，每个爬虫结束时计数
+            single_loop.start()
+            while single_loop.available.start_num > 100:
+                print(f'有效 ip {single_loop.available.start_num} 个，休息 10 分钟')
                 time.sleep(60 * 10)
-                available_count = proxy_manager.available_count()
+                single_loop.start()
 
             # 开始时的数量
-            if loop_end_count == 0:
-                # 首次获取
-                loop_start_count = proxy_manager.count()
-            else:
-                # 取循环结束时的获取
-                loop_start_count = loop_end_count
-            log.info(f'第 {loop_times} 轮爬取开始，当前 ip 共 {available_count}/{loop_start_count} 个')
+            log.info(f'第 {loop_times} 轮爬取开始')
 
             # 爬取
-
-            spider_end_count = 0
             for i in range(len(spider_list)):
                 spider = spider_list[i]
-                if spider_end_count == 0:
-                    spider_start_count = loop_start_count
-                else:
-                    spider_start_count = spider_end_count
                 log.info(
                     f'第 {loop_times} 轮,第 {i + 1}/{len(spider_list)} 个爬虫 {spider.name} 开始爬取,'
-                    f'当前 ip 共 {spider_start_count} 个')
+                    f'{single_loop.print_count()}')
 
                 spider = spider_list[i]
                 try:
@@ -146,26 +154,21 @@ class TestAllProxySpider(unittest.TestCase):
                 except SystemExit:
                     pass
                 sleep_time = 10
-                spider_end_count = proxy_manager.count()
-                spider_crawled_count = spider_end_count - spider_start_count
-                loop_crawled_count = spider_end_count - loop_start_count
-                # 单次循环爬取到的数量
-                all_loop_proxy_count += loop_crawled_count
                 divider = '-' * 10
+                single_loop.count()
                 log.info(
                     f'{divider}第 {loop_times} 轮,第 {i + 1}/{len(spider_list)} 个爬虫 {spider.name} 爬取结束,'
-                    f'共爬取到 {spider_crawled_count}/{loop_crawled_count}/{all_loop_proxy_count} 个代理{divider}')
+                    f'{single_loop.print_count()} {divider}')
                 log.info(f'等待执行下一爬虫,sleep {sleep_time}')
-                log.info(f'当前有效代理共 {proxy_manager.available_count()} 个')
                 time.sleep(sleep_time)
 
-            # 结束时的数量
-            loop_end_count = proxy_manager.count()
             # 延时下一轮
             sleep_time = 60
-            log.info(f'本轮共爬到 {loop_end_count - loop_start_count}/{loop_end_count} 个代理，等待下一轮,sleep {sleep_time}')
-            log.info(f'当前有效代理共 {proxy_manager.available_count()} 个')
+            log.info(f'本轮爬取结束，等待下一轮,sleep {sleep_time}')
+            all_loop.count()
+            log.info(all_loop.print_count())
             time.sleep(sleep_time)
+        # noinspection PyUnresolvedReferences
         reactor.stop()
 
     def test_proxy_spider_list(self):
@@ -173,4 +176,5 @@ class TestAllProxySpider(unittest.TestCase):
         configure_logging()
         runner = CrawlerRunner(get_project_settings())
         self.crawl_in_loop(runner)
+        # noinspection PyUnresolvedReferences
         reactor.run()

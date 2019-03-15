@@ -3,10 +3,9 @@ import json
 import time
 
 import scrapy
-
-from scrapy_spider.common.ignore import douyin  # 不公开
 from scrapy_spider.common.log import log
 from scrapy_spider.common.pipeline.postgresql_manager import PostgreSQLManager
+from scrapy_spider.spiders.douyin.ignore import douyin  # 不公开
 from scrapy_spider.spiders.douyin.items import DouyinItem
 
 ANONYMOUS = False
@@ -152,7 +151,7 @@ class DouyinSpider(scrapy.Spider):
                 speed = self.statistics.crawled_items / minute
                 log.info(
                     f'scraped {self.statistics.crawled_success__pages}/{self.statistics.crawled_pages} pages,'
-                    f'{current_item_count-self.statistics.start_craw_count}/{self.statistics.crawled_items} items,'
+                    f'{current_item_count - self.statistics.start_craw_count}/{self.statistics.crawled_items} items,'
                     f'spend {self.parse_time(minute)},speed {speed:#.2f} items/min.')
             elif status_code == 2145:
                 log.warning('请求已过期')

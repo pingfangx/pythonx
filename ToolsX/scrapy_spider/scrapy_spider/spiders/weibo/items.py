@@ -1,8 +1,6 @@
-import unittest
-
 import scrapy
 
-from scrapy_spider.common.item.base_item import BaseItem
+from scrapy_spider.common.item.base_item import BaseItem, BaseItemTest
 
 
 class WeiboVideoItem(BaseItem):
@@ -22,11 +20,5 @@ class WeiboVideoItem(BaseItem):
     """视频地址"""
 
 
-class ItemTest(unittest.TestCase):
+class WeiboVideoItemTest(BaseItemTest):
     item = WeiboVideoItem()
-
-    def test_generate_create_table_sql(self):
-        print(self.item.generate_create_table_sql())
-
-    def test_generate_insert_formatter_sql(self):
-        print(self.item.generate_insert_formatter_sql())

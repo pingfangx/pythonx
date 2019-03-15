@@ -1,19 +1,19 @@
-import asyncio
+import unittest
 
 from scrapy_spider.common.item.base_item import BaseItem
-from scrapy_spider.common.pipeline.postgresql_manager import PostgreSQLManager
+from scrapy_spider.common.pipeline.postgresql_manager import PostgreSQLHelper
+from scrapy_spider.spiders.ignore.downloader.items import NineItem
 
 
 class BasePostgreSQLPipeline(object):
     """现在是直接保存，可以优化为批量保存"""
-    item = BaseItem
+    item: BaseItem = BaseItem()
+
+    update = False
+    """是否是更新"""
 
     def __init__(self):
-        self.manager = self.get_postgresql_manager()
-
-    def get_postgresql_manager(self):
-        item = self.item()
-        return PostgreSQLManager(item)
+        self.helper: PostgreSQLHelper = PostgreSQLHelper(self.item)
 
     @staticmethod
     def camel_to_under_line(text):
@@ -29,12 +29,28 @@ class BasePostgreSQLPipeline(object):
         return result
 
     def open_spider(self, spider):
-        asyncio.get_event_loop().run_until_complete(self.manager.connect_database())
-        asyncio.get_event_loop().run_until_complete(self.manager.create_table())
+        pass
 
     def close_spider(self, spider):
-        asyncio.get_event_loop().run_until_complete(self.manager.close_connect())
+        self.helper.close_connect()
 
     def process_item(self, item, spider):
-        asyncio.get_event_loop().run_until_complete(self.manager.insert_item(item))
+        if isinstance(item, NineItem):
+            if self.update:
+                self.helper.update_item(item)
+            else:
+                self.helper.insert_item(item)
         return item
+
+
+class BasePostgreSQLPipelineTest(unittest.TestCase):
+    pipeline: BasePostgreSQLPipeline = BasePostgreSQLPipeline()
+    insert_item: BaseItem = None
+
+    def test_create_table(self):
+        self.pipeline.open_spider(None)
+
+    def test_insert(self):
+        if self.insert_item:
+            self.pipeline.open_spider(None)
+            self.pipeline.process_item(self.insert_item, None)

@@ -1,4 +1,5 @@
 from lxml import etree
+
 from scrapy_spider.common.log import log
 from scrapy_spider.spiders.proxy.items import ProxyItem
 from scrapy_spider.spiders.proxy.parser.base_proxy_parser import BaseProxyParser

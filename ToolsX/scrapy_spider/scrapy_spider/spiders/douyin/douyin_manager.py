@@ -73,7 +73,7 @@ class DouyinManager:
                 item = DouyinItem(**result[i])
                 # 时间需要更新一下
                 item['create_time'] = result[i]['create_time']
-                self.print_item(item, f'{i+1}/{length} ')
+                self.print_item(item, f'{i + 1}/{length} ')
 
     def print_item(self, item: DouyinItem, pre=''):
         create_time = datetime.datetime.fromtimestamp(item['create_time']).strftime('%Y%m%d %H:%M:%S')

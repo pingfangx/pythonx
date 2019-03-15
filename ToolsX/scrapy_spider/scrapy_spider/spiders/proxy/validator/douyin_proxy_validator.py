@@ -4,9 +4,9 @@ import requests
 from requests.exceptions import ConnectTimeout
 from requests.exceptions import ConnectionError
 from requests.exceptions import ReadTimeout
-from scrapy_spider.common.ignore import douyin
 from scrapy_spider.common.log import log
 from scrapy_spider.spiders.douyin import douyin_spider
+from scrapy_spider.spiders.douyin.ignore import douyin
 from scrapy_spider.spiders.douyin.items import DouyinItem
 from scrapy_spider.spiders.douyin.pipelines import DouyinPostgreSQLPipeline
 from scrapy_spider.spiders.proxy.validator.base_proxy_validator import BaseProxyValidator

@@ -1,5 +1,6 @@
 import scrapy
-from scrapy_spider.common.item.base_item import BaseItem
+
+from scrapy_spider.common.item.base_item import BaseItem, BaseItemTest
 
 
 class ProxyItem(BaseItem):
@@ -65,8 +66,11 @@ class ProxyItem(BaseItem):
         ON CONFLICT(ip) DO UPDATE SET
         crawled_times={self.get_table_name()}.crawled_times+1,
         """
-        sql += "source_domain='{source_domain}',\n"
-        sql += 'update_time={update_time_int4}'
+        sql += f"source_domain='{self['source_domain']}',\n"
+        # 如果重新爬取到，说明又是可以用的代理（需要校验时配合具体的使用地进行校验），置为 1
+        # 0-1,1-1,2-2 其中 2 为被禁，仍然保留
+        sql += "available=CEIL(ABS(EXCLUDED.available-0.5)),\n"
+        sql += f"update_time={self['update_time']}"
         return sql
 
     def __str__(self):
@@ -84,3 +88,7 @@ class ProxyItem(BaseItem):
         proxy_str = proxy_str.replace('/', '')
         http_type, ip, port = proxy_str.split(':')
         return ProxyItem(http_type=http_type, ip=ip, port=port)
+
+
+class ProxyItemTest(BaseItemTest):
+    item = ProxyItem()

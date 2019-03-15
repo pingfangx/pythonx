@@ -1,8 +1,8 @@
 import time
-import unittest
 
 import scrapy
-from scrapy_spider.common.item.base_item import BaseItem
+
+from scrapy_spider.common.item.base_item import BaseItem, BaseItemTest
 from scrapy_spider.common.log import log
 
 
@@ -91,21 +91,6 @@ class DouyinItem(BaseItem):
     def get_tail_fields(self):
         return None
 
-    def get_on_conflict_suffix_sql(self):
-        update_sql = f'crawled_times={self.get_table_name()}.crawled_times+1,'
-        for key in self.fields.keys():
-            if key.startswith('statistics__'):
-                name, _type = self.parse_name_type(key)
-                if _type == 'text':
-                    update_sql += "\n%s='{%s}'," % (name, key)
-                else:
-                    update_sql += "\n%s={%s}," % (name, key)
-        update_sql += '\n%s={%s}' % ('update_time', 'update_time_int4')
-        return f"""
-        ON CONFLICT(aweme_id) DO UPDATE SET
-{update_sql}
-        """
-
     def get_count_sql(self):
         """获取求数量的 sql"""
         return f"""
@@ -113,10 +98,5 @@ class DouyinItem(BaseItem):
         """
 
 
-class DouyinItemTest(unittest.TestCase):
-
-    def test_generate_create_table_sql(self):
-        print(DouyinItem().generate_create_table_sql())
-
-    def test_generate_insert_formatter_sql(self):
-        print(DouyinItem().generate_insert_formatter_sql())
+class DouyinItemTest(BaseItemTest):
+    item = DouyinItem()
