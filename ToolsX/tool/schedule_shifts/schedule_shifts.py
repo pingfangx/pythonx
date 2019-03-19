@@ -161,6 +161,7 @@ class Person:
         # 统计次数
         info += '\t'
         info += '\t'.join(f'{Shift.name_list[i]}({times})' for i, times in enumerate(self.get_per_shift_times(True)))
+        info += f'\t总计({len(self.shift_list)})'
 
         # 每个班
         info += '\t'
@@ -174,6 +175,7 @@ class Person:
         # 统计次数
         info += '\t'
         info += '\t'.join(f'{Shift.name_list[i]}({times})' for i, times in enumerate(self.get_per_shift_times(False)))
+        info += f'\t总计({len(self.shift_list)})'
         return info
 
     def get_shifts_info_for_output(self):
@@ -217,6 +219,7 @@ class ScheduleShifts:
         person_output = '\n'.join(person_output)
         log(person_output)
         Helper.write(person_output, self.person_output_file)
+        input('执行完成，按任意键退出')
 
     def schedule_all_shift(self):
         """排所有班"""
@@ -333,14 +336,23 @@ class Helper:
         with open(file_path, encoding='utf-8') as f:
             lines = f.readlines()
             for line in lines:
+                # 换行
                 line = line.rstrip('\n')
-                if line.startswith('#'):
+                if not line:
                     continue
+                elif line.startswith('#'):
+                    continue
+                elif len(line) > 0 and line[1] == '#':
+                    # bom
+                    continue
+                # 替换中文逗号
+                line = line.replace("，", ',')
                 data = line.split(',')
                 length = len(data)
                 if length <= 0:
                     continue
-
+                # 移除空格
+                data = [i.strip() for i in data]
                 name = data[0]
                 sex = 0
                 if length > 1:
