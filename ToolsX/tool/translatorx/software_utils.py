@@ -105,10 +105,10 @@ def zip_translation_jar(software: Software):
     """打包汉化包"""
     translation_dir = software.omegat_workspace_target_resources_en
     target_jar = software.translation_jar_path
-    zip(translation_dir, target_jar, software.get_file_zip_name)
+    zip_jar(translation_dir, target_jar, software.get_file_zip_name)
 
 
-def zip(source_dir, target_jar, zip_name_callback: Callable = None):
+def zip_jar(source_dir, target_jar, zip_name_callback: Callable = None):
     """打包文件
 
     :param source_dir:打包目录
@@ -203,7 +203,17 @@ def open_software(software: Software):
     if not os.path.exists(bin_path):
         print(f'不在在 {bin_path}')
         return
-    subprocess.call(f'start {bin_path}', shell=True)
+    cmd = f'start {bin_path}'
+    print(cmd)
+    subprocess.call(cmd, shell=True)
+
+
+def print_name_and_version(software: Software):
+    """输出名字和版本
+
+    可用来填写 commit 信息等
+    """
+    print(f'{software.name} {software.version}')
 
 
 if __name__ == '__main__':

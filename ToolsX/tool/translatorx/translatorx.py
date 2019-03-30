@@ -39,7 +39,8 @@ class TranslatorX:
             ['i打开软件', software_utils.open_software],
 
             ['-以下为一些工具方法'],
-            ['i转换 tips 文件名翻译结果', software_utils.convert_tip_file_names]
+            ['i转换 tips 文件名翻译结果', software_utils.convert_tip_file_names],
+            ['i输出名字和版本', software_utils.print_name_and_version, False],
         ]
         action_list = self.parse_action_list(action_list)
 

@@ -18,6 +18,9 @@ class Software:
         self.name = name
         """软件名"""
 
+        self.version = version
+        """版本"""
+
         self.locale = translation_locale
         """区域"""
 
@@ -218,8 +221,8 @@ class Software:
         # AndroidStudio tips 中的 excluded 好像也被排除了，翻译没用（如果要翻译，OmegaT 中判断是否是 tips 也要修改）
         ignore_pattern = '^(fileTemplates|inspectionDescriptions|intentionDescriptions|META-INF|search|tips/excluded)'
         # 或者以这几个类型为扩展名的
-        ignore_pattern += '|\.(png|gif|css)$'
-        ignore_pattern += '|(missing_images|icon-robots)\.txt$'
+        ignore_pattern += r'|\.(png|gif|css)$'
+        ignore_pattern += r'|(missing_images|icon-robots)\.txt$'
         # 这几个文件太长了，可以以后翻译
         # 这里要加上以 \ 开头，同时要避免被 python 转义，所以写为 \\\\ 或加上 r
         # 后来改为 / ，因为在 zip 中是 /
