@@ -177,7 +177,14 @@ def copy_translation_to_work_dir(software: Software):
     src = software.translation_jar_path
     if not os.path.exists(src):
         print(f'汉化包不在在 {src}')
-        return
+
+        # 社区版使用正式版的汉化包
+        src = src.replace('-C', '')
+        if not os.path.exists(src):
+            print(f'汉化包不在在 {src}')
+            return
+        else:
+            print(f'使用非社区版汉化包 {src}')
 
     dst = os.path.join(software.home_path, 'lib', software.translation_jar_name)
 

@@ -128,13 +128,16 @@ class Software:
     @staticmethod
     def get_software_name_in_toolbox(name: str):
         """获取在 toolbox 中的名字，"""
-        if 'IDEA' in name.upper():
-            return 'IDEA'
+        index = name.upper().find('IDEA')
+        if index != -1:
+            # 截去前面的 IntelliJ
+            return name[index:]
         return name
 
     def get_execute_file_name(self):
         """获取执行文件的名称"""
         bin_name = self.name
+        bin_name = bin_name.split('-')[0]
         if bin_name.lower() == 'AndroidStudio'.lower():
             bin_name = 'Studio'
         elif bin_name.lower() == 'IntelliJIDEA'.lower():
