@@ -3,8 +3,8 @@ import queue
 
 import asyncpg
 from asyncpg import Connection
+from scrapy_spider.common.config import postgre_configs
 from scrapy_spider.common.item.base_item import BaseItem
-from scrapy_spider.spiders.douyin.ignore.postgre_config import postgre_configs
 
 
 class PostgreSQLManager:
