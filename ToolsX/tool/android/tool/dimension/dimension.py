@@ -1,7 +1,7 @@
 from xx import iox
 
 
-class Demension:
+class Dimension:
     def __init__(self, size_in, width_px, height_px):
         """
 
@@ -100,4 +100,4 @@ class Demension:
 
 if __name__ == '__main__':
     # DisplayMetrics{density=3.0, width=1080, height=1920, scaledDensity=3.0, xdpi=428.625, ydpi=427.789}
-    Demension(5.15, 1080, 1920).calculate()
+    Dimension(5.15, 1080, 1920).calculate()
