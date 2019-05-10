@@ -11,7 +11,7 @@ class PageSpider(scrapy.Spider):
 
     name = 'page'
     start_urls = [
-        'reference/android/support/v4/view/NestedScrollingChild',
+        '',
     ]
     custom_settings = {
         'DOWNLOADER_MIDDLEWARES': {
@@ -64,11 +64,14 @@ class AndroidDocPageSpider(PageSpider):
     name = 'android_doc_page'
     host = 'https://developer.android.google.cn/'
     save_file_dir = r'D:\workspace\TranslatorX-other\AndroidSdkDocs\source\docs'
+    start_urls = [
+        '',
+    ]
 
     def generate_request_url(self, url):
         url = super().generate_request_url(url)
         # GFW
-        url = url.replace('developer.android.com', 'developer.android.google.cn')
+        url = url.replace('https://developer.android.com/', self.host)
         return url
 
 

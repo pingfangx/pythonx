@@ -14,7 +14,7 @@ def save_file(path, text):
 def add_file_extension(file_path):
     """添加扩展名"""
     _, ext = os.path.splitext(file_path)
-    if not ext:
+    if not ext or ext != '.html':
         # 如果没有扩展名，则添加
         file_path += '.html'
     return file_path
