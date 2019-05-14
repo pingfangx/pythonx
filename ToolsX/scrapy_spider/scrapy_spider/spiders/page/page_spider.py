@@ -1,4 +1,5 @@
 import os
+import urllib.parse
 
 import scrapy
 from base_spider_test import BaseSpiderTest
@@ -26,13 +27,14 @@ class PageSpider(scrapy.Spider):
     """host，地址不全时自动拼接"""
     save_file_dir = ''
     """保存文件的目录"""
+    cookies = {}
 
     def start_requests(self):
         for url in self.start_urls:
             url = self.generate_request_url(url)
             if url:
-                print(f'load url {url}')
-                yield scrapy.Request(url)
+                print(f'load url {url} ' + (f'cookies={self.cookies}' if self.cookies else ''))
+                yield scrapy.Request(url, cookies=self.cookies)
 
     def generate_request_url(self, url):
         """生成请求地址"""
@@ -50,6 +52,13 @@ class PageSpider(scrapy.Spider):
     def get_file_path(self, response):
         """获取文件路径"""
         url: str = response.url
+        # 将 params query fragment 置空
+        r = list(urllib.parse.urlparse(url))
+        r[3] = ''
+        r[4] = ''
+        r[5] = ''
+        url = urllib.parse.urlunparse(r)
+
         file_path = url.replace(self.host, '')
         file_path = os.path.join(self.save_file_dir, file_path)
         file_path = page_utils.add_file_extension(file_path)
@@ -63,6 +72,9 @@ class PageSpiderTest(BaseSpiderTest):
 class AndroidDocPageSpider(PageSpider):
     name = 'android_doc_page'
     host = 'https://developer.android.google.cn/'
+    cookies = {
+        'django_language': 'zh_cn'
+    }
     save_file_dir = r'D:\workspace\TranslatorX-other\AndroidSdkDocs\source\docs'
     start_urls = [
         '',
