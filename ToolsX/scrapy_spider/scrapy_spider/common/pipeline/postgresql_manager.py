@@ -3,6 +3,7 @@ import queue
 
 import asyncpg
 from asyncpg import Connection
+
 from scrapy_spider.common.config import postgre_configs
 from scrapy_spider.common.item.base_item import BaseItem
 
@@ -19,7 +20,7 @@ class PostgreSQLManager:
     """建表 sql"""
 
     cached_commands = []
-    cached_commands_limit = 100
+    cached_commands_limit = 10
     cached_commands_q = queue.Queue()
 
     def __init__(self, item=None, configs=None, transaction=False):
@@ -68,6 +69,7 @@ class PostgreSQLManager:
             self.cached_commands.append(sql)
             if len(self.cached_commands) >= self.cached_commands_limit and self.cached_commands_q.empty():
                 # 转移到队列，防止未执行完还没清空，又有新 sql
+                print('执行事务')
                 await self.execute_transaction()
         else:
             await self.conn.execute(sql)

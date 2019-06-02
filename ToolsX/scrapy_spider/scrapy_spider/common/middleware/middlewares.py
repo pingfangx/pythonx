@@ -4,13 +4,15 @@
 # See documentation in:
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 from scrapy.core.downloader.handlers.http11 import TunnelError
+from scrapy.exceptions import IgnoreRequest
 from scrapy.http import Response
+from twisted.internet.error import ConnectError
+from twisted.web._newclient import ResponseFailed
+
 from scrapy_spider.common.log import log
 from scrapy_spider.common.middleware.agent_manager import AgentManager
 from scrapy_spider.spiders.proxy.items import ProxyItem
 from scrapy_spider.spiders.proxy.manager.proxy_manager import proxy_manager
-from twisted.internet.error import ConnectError
-from twisted.web._newclient import ResponseFailed
 
 
 class RandomProxyDownloaderMiddleware(object):
@@ -45,7 +47,11 @@ class RandomProxyDownloaderMiddleware(object):
         如果其抛出一个 IgnoreRequest 异常，则调用request的errback(Request.errback)。 如果没有代码处理抛出的异常，则该异常被忽略且不记录(不同于其他异常那样)。
         """
         if not ('proxy' in request.meta):
-            return response
+            if isinstance(response, ErrorResponse):
+                print(f'忽略')
+                raise IgnoreRequest()
+            else:
+                return response
         proxy_str = request.meta['proxy']
         proxy = ProxyItem.parse(proxy_str)
         if isinstance(response, ErrorResponse):

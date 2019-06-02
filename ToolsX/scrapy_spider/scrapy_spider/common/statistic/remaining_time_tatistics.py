@@ -5,7 +5,7 @@ from scrapy_spider.common.statistic.base_statistics import BaseStatistics
 
 class RemainingTimeStatistics(BaseStatistics):
     """统计"""
-    start_time: int
+    start_time: float
     max_speed = 0
     """最大速度"""
 
