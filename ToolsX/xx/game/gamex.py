@@ -85,6 +85,7 @@ class GameX:
                     print('已经连续 %d 次是状态 %d，退出循环' % (10, status))
                     return 0
             else:
+                last_status = status
                 last_status_count = 0
             print('开始截图')
             self.adb.screenshot(self.screenshot)

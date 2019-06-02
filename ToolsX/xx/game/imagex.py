@@ -37,11 +37,24 @@ def find_image(source_img, target_img, result_img=None):
         if result_img:
             # for pt in zip(*loc[::-1]):
             #     cv2.rectangle(img_rgb, pt, (pt[0] + w, pt[1] + h), (0, 0, 255), 2)
-            # 一红一黑
-            thickness = 2
-            cv2.rectangle(img_rgb, result, (result[0] + w, result[1] + h), (0, 0, 0), thickness)
-            cv2.rectangle(img_rgb, (result[0] - thickness, result[1] - thickness),
-                          (result[0] + w + thickness, result[1] + h + thickness), (0, 0, 255), thickness)
+            # 一黑一红
+            thickness = 20
+
+            # 内黑
+            # 减去边框
+            pt1 = np.add(result, (-thickness, -thickness))
+            # 加上宽高
+            pt2 = np.add(result, (w, h))
+            # 加上边框
+            pt2 = np.add(pt2, (thickness, thickness))
+            cv2.rectangle(img_rgb, tuple(pt1), tuple(pt2), (0, 0, 0), thickness)
+
+            # 外红
+            # 减去边框
+            pt1 = np.add(pt1, (-thickness, -thickness))
+            # 加上边框
+            pt2 = np.add(pt2, (thickness, thickness))
+            cv2.rectangle(img_rgb, tuple(pt1), tuple(pt2), (0, 0, 255), thickness)
             # cv2.imwrite(result_img, img_rgb)
             cv2.imencode(os.path.splitext(result_img)[1], img_rgb)[1].tofile(result_img)
             print('共 %d 个匹配结果，输出至 %s' % (len(loc[0]), result_img))
