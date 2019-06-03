@@ -5,16 +5,6 @@ import subprocess
 from PIL import Image
 
 
-def connect():
-    """
-    连接并返回 adb，直接调用 test_device 方法
-    如果不需要测试，可以直接 用 Adb()
-    """
-    adb = Adb()
-    adb.test_device()
-    return adb
-
-
 class Adb:
     """ adb """
 
@@ -65,6 +55,7 @@ class Adb:
             if screenshot_path is None:
                 # 该截图方式必须要保存文件
                 screenshot_path = 'ignore/screenshot.png'
+            self.check_and_makedir(screenshot_path)
             self.run('shell screencap -p {}'.format(screenshot_in_sdcard))
             self.run('pull {} {}'.format(screenshot_in_sdcard, screenshot_path))
             print('截图保存至', screenshot_path)
@@ -86,6 +77,7 @@ class Adb:
             elif self.screen_type == 3:
                 format_binary_screenshot = binary_screenshot.replace(b'\r\r\n', b'\n')
 
+            self.check_and_makedir(screenshot_path)
             # 解析图片
             try:
                 image = Image.open(io.BytesIO(format_binary_screenshot))
@@ -96,6 +88,12 @@ class Adb:
             except OSError:
                 self.screen_type -= 1
                 return self.screenshot(screenshot_path, binary_screenshot)
+
+    @staticmethod
+    def check_and_makedir(file_path):
+        dirname = os.path.dirname(file_path)
+        if not os.path.exists(dirname):
+            os.makedirs(dirname)
 
     def tap_position(self, position):
         """点击"""

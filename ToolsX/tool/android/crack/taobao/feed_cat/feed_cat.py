@@ -24,7 +24,7 @@ class FeedCat:
     def main(self):
         action_list = [
             ['退出', exit],
-            ['adb 测试', adbx.connect],
+            ['adb 测试', self.adb.test_device],
             ['截屏', self.adb.screenshot, self.screenshot],
             ['开始玩游戏', self.start_game],
             ['开始喂猫', self.start_feed],

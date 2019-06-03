@@ -1,5 +1,6 @@
 import time
 
+from scrapy_spider.scrapy_spider.common.statistic.remaining_time_tatistics import RemainingTimeStatistics
 from xx import iox
 from xx.game import adbx
 from xx.game import gamex
@@ -17,11 +18,12 @@ class FeedCat:
         """记录游戏次数"""
         self.adb = adbx.Adb()
         """adb"""
+        self.statistics = RemainingTimeStatistics(50)
 
     def main(self):
         action_list = [
             ['退出', exit],
-            ['adb 测试', adbx.connect],
+            ['adb 测试', self.adb.test_device],
             ['截屏', self.adb.screenshot, self.screenshot_path],
             ['开始游戏', self.start_game],
         ]
@@ -32,14 +34,15 @@ class FeedCat:
         action_list = [
             # 下一状态置为 0 ，重新搜索,
             gamex.Action(1, '首页', '领喵币', 2),
-            gamex.Action(2, '领喵币中心', '去逛店', 3, delay=15),
+            gamex.Action(2, '领喵币中心', '去逛店', 3, delay=12),
             gamex.Action(3, '店铺首页', '猫猫出现啦', 4),
             gamex.Action(4, '成功抓到猫猫', '开心收下', 0),
         ]
         for action in action_list:
             if action.delay == 1:
                 # 修改默认
-                action.delay = 5
+                # action.delay = 5
+                pass
             action.perform = self.perform
         game = gamex.GameX(self.config_path, self.screenshot_path, action_list, adb=self.adb, debug=True)
         game.run()
@@ -52,6 +55,8 @@ class FeedCat:
         if self.game_count >= 50:
             print(f'已进行游戏 50 次,退出')
             exit()
+        else:
+            self.statistics.count(self.game_count)
 
     def perform(self, arguments):
         """执行操作"""

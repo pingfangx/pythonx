@@ -64,9 +64,11 @@ class GameX:
 
         # 设置一定的循环次数或退出条件
         i = 0
-        while i < 100:
+        max_times = 100
+        while i < max_times:
             i += 1
             self.get_status_and_start_loop()
+        print(f'运行超限 {max_times} 次，结束')
 
     def get_status_and_start_loop(self):
         """获取状态并开始循环"""

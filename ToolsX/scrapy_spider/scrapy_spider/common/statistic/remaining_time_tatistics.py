@@ -1,6 +1,6 @@
 import time
 
-from scrapy_spider.common.statistic.base_statistics import BaseStatistics
+from .base_statistics import BaseStatistics
 
 
 class RemainingTimeStatistics(BaseStatistics):
