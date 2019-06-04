@@ -57,6 +57,8 @@ class GameX:
         self.adb = adb
         self.debug = debug
         self.pre_status = 0
+        self.pre_status_not_found_index = 0
+        """记录上一次查找状态时未找到的索引"""
 
     def run(self):
         """运行"""
@@ -121,7 +123,7 @@ class GameX:
         :return:
         """
         print('检查是否是状态', status)
-        action = self.get_status_action(status)
+        index, action = self.get_status_action(status)
         status_path = self.get_action_status_img(action)
         if status_path:
             print('状态图片', os.path.split(status_path)[1])
@@ -131,12 +133,16 @@ class GameX:
             return status if loop_check else 0
         position = imagex.find_image(self.screenshot, status_path, self.get_result_image(status, status_path))
         if position:
+            # 未找到索引置为 -1
+            self.pre_status_not_found_index = -1
             print('找到状态 %d 对应的图片，当前状态为 %s，执行操作' % (status, action.status_desc))
             find_status = status  # 先记录找到的状态，在 perform_action 中不使用该状态
             status = self.perform_action(action, position)
             self.pre_status = find_status  # 赋值
             return status
         else:
+            # 没有找到，记录未找到的索引
+            self.pre_status_not_found_index = index
             if not loop_check:
                 return status
             else:
@@ -177,13 +183,27 @@ class GameX:
 
     def get_status_action(self, status):
         """
-        获取状态对应的操作
+        获取状态对应的操作，返回结果为 (index,action)
         如果没有预设，返回一个默认
         """
-        for action in self.action_list:
+        find_action = []
+        for i, action in enumerate(self.action_list):
             if action.status == status:
-                return action
-        return Action(status)
+                find_action.append((i, action))
+        if find_action:
+            # 找到
+            if len(find_action) > 1:
+                # 有多个结果
+                for i, (index, action) in enumerate(find_action):
+                    if index == self.pre_status_not_found_index:
+                        # 找到上一次未查找的结果
+                        if i + 1 < len(find_action):
+                            # 还有下一个，返回下一个
+                            return find_action[i + 1]
+            # 只有一个结果，或者循环结束，没有匹配
+            return find_action[0]
+        else:
+            return -1, Action(status)
 
     def perform_action(self, action, position):
         """
