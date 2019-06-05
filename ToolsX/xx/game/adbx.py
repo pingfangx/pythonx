@@ -30,7 +30,8 @@ class Adb:
         """
         print('检查设备是否连接...')
         # 这里使用 adb_path 其他命令使用 adb_cmd
-        process = subprocess.Popen(self.adb_path + ' devices', stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        process = subprocess.Popen(self.adb_path + ' devices', shell=True, stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE)
         output = process.communicate()
         print('adb 输出:')
         for each in output:
@@ -119,6 +120,6 @@ class Adb:
         """执行"""
         command = '{} {}'.format(self.adb_cmd, raw_command)
         print(command)
-        process = os.popen(command)
-        output = process.read()
+        process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        output = process.stdout.read()
         return output
