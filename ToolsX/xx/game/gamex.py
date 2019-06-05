@@ -3,6 +3,7 @@ import time
 
 from xx.game import adbx
 from xx.game import imagex
+from xx.game.image_log import ImageLog
 
 
 class Action:
@@ -55,7 +56,7 @@ class GameX:
         if adb is None:
             adb = adbx.Adb()
         self.adb = adb
-        self.debug = debug
+        self.image_log = ImageLog(self.screenshot, max_count=100, debug=debug)
         self.pre_status = 0
         self.pre_status_not_found_index = 0
         """记录上一次查找状态时未找到的索引"""
@@ -123,15 +124,19 @@ class GameX:
         :return:
         """
         print('检查是否是状态', status)
+        # 检查数量
+        self.image_log.check_log_image_count()
         index, action = self.get_status_action(status)
         status_path = self.get_action_status_img(action)
         if status_path:
             print('状态图片', os.path.split(status_path)[1])
         else:
             print('没有找到状态 %d 对应的图片' % status)
+            if not loop_check:
+                self.image_log.save_not_found_image(self.image_log.get_log_image(status, status_path, '未找到'))
             # 没有图片返回 0 终止搜索
             return status if loop_check else 0
-        position = imagex.find_image(self.screenshot, status_path, self.get_result_image(status, status_path))
+        position = imagex.find_image(self.screenshot, status_path, self.image_log.get_log_image(status, status_path))
         if position:
             # 未找到索引置为 -1
             self.pre_status_not_found_index = -1
@@ -148,20 +153,6 @@ class GameX:
             else:
                 # 否则返回 None 继续查找
                 return None
-
-    def get_result_image(self, status, status_path):
-        """获取查找状态的输出文件"""
-        if not self.debug:
-            return None
-        dir_name = os.path.split(self.screenshot)[0]
-        dir_name = os.path.join(dir_name, 'result')
-        if not os.path.exists(dir_name):
-            os.makedirs(dir_name)
-        filename = os.path.split(status_path)[1]
-        filename = os.path.splitext(filename)[0]
-        filename = time.strftime('%Y%m%d-%H%M%S-') + '%02d-%s.png' % (status, filename)
-        file_path = os.path.join(dir_name, filename)
-        return file_path
 
     def get_action_status_img(self, action):
         """获取操作状态的图片"""
