@@ -21,6 +21,7 @@ class FeedCat:
         self.statistics = RemainingTimeStatistics(50)
         self.game = gamex.GameX(self.config_path, self.screenshot_path, [], adb=self.adb, debug=True)
         self.store_home_action = gamex.Action(3, '店铺首页', '猫猫出现啦', 4)
+        self.store_home_action_2 = gamex.Action(3, '店铺首页', '猫猫出现了', 0)
 
     def main(self):
         action_list = [
@@ -87,15 +88,24 @@ class FeedCat:
             # 截图
             self.adb.screenshot(self.game.screenshot)
             # 找图
-            position = imagex.find_image(self.game.screenshot, self.game.get_action_status_img(self.store_home_action))
+            status_path = self.game.get_action_status_img(self.store_home_action)
+            position = imagex.find_image(self.game.screenshot, status_path,
+                                         self.game.image_log.get_log_image(self.store_home_action.status, status_path))
             if position:
                 # 操作
                 return self.game.perform_action(self.store_home_action, position)
-            else:
-                # 没有找到则按返回
-                self.adb.back()
-                time.sleep(1)
-                return 0
+
+            # 查找猫猫出现了
+            status_path = self.game.get_action_status_img(self.store_home_action_2)
+            position = imagex.find_image(self.game.screenshot, status_path,
+                                         self.game.image_log.get_log_image(self.store_home_action.status, status_path))
+            if position:
+                # 点击直接获得，所以后续按返回
+                self.game.perform_action(self.store_home_action_2, position)
+            # 没有找到则按返回
+            self.adb.back()
+            time.sleep(1)
+            return 0
         return arguments.action.status + 1
 
 
