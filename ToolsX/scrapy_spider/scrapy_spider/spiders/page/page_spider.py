@@ -1,4 +1,5 @@
 import os
+import re
 import urllib.parse
 
 import scrapy
@@ -77,14 +78,43 @@ class AndroidDocPageSpider(PageSpider):
     }
     save_file_dir = r'D:\workspace\TranslatorX-other\AndroidSdkDocs\source\docs'
     start_urls = [
-        '',
     ]
+
+    def __init__(self, **kwargs):
+        text = """
+            """
+        self.init_urls(text)
+        super().__init__(**kwargs)
 
     def generate_request_url(self, url):
         url = super().generate_request_url(url)
         # GFW
         url = url.replace('https://developer.android.com/', self.host)
         return url
+
+    def init_urls(self, text):
+        lines = text.split('\n')
+        pattern = re.compile("\s*(.*?)\s*\((.*?)\)")
+        count = 0
+        inner = 0
+        compat = 0
+        for line in lines:
+            if not line.strip():
+                continue
+            count += 1
+            if '中' in line:
+                inner += 1
+                continue
+            if 'AppCompat' in line:
+                compat += 1
+                continue
+            match = re.search(pattern, line)
+            if match:
+                class_name = match.group(2) + "." + match.group(1)
+                class_name = class_name.replace('.', "/")
+                url = f"{self.host}reference/{class_name}.html"
+                self.start_urls.append(url)
+        print(f'共 {count} 行，有效 {len(self.start_urls)} 个地址，过滤内部为 {inner} 个，兼容类 {compat} 个')
 
 
 class AndroidDocPageSpiderTest(BaseSpiderTest):
