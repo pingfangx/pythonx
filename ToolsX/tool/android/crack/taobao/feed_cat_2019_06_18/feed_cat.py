@@ -34,14 +34,26 @@ class FeedCat:
 
     def start_game(self):
         """游戏流程"""
-        action_list = [
-            # 下一状态置为 0 ，重新搜索,
-            gamex.Action(1, '首页', '领喵币', 2),
-            gamex.Action(2, '领喵币中心', '去浏览', self.next_status, delay=25),
-            gamex.Action(2, '领喵币中心', '去逛店', self.next_status, delay=12),
-            self.store_home_action,
-            gamex.Action(4, '成功抓到猫猫', '开心收下', 0),
-        ]
+        version = 2
+        if version == 2:
+            # 后来更新
+            action_list = [
+                # 下一状态置为 0 ，重新搜索,
+                gamex.Action(1, '首页', '召唤理想猫', 2),
+                gamex.Action(2, '首页弹窗', '逛店铺', 3, delay=15),
+                self.store_home_action,
+                gamex.Action(4, '成功抓到猫猫', '开心收下', 0),
+            ]
+        else:
+            # 旧版本
+            action_list = [
+                # 下一状态置为 0 ，重新搜索,
+                gamex.Action(1, '首页', '领喵币', 2),
+                gamex.Action(2, '领喵币中心', '去浏览', self.next_status, delay=25),
+                gamex.Action(2, '领喵币中心', '去逛店', self.next_status, delay=15),
+                self.store_home_action,
+                gamex.Action(4, '成功抓到猫猫', '开心收下', 0),
+            ]
         for action in action_list:
             if action.delay == 1:
                 # 修改默认
