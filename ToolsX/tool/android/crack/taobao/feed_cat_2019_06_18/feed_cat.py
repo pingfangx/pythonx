@@ -1,6 +1,10 @@
 import time
 
-from scrapy_spider.scrapy_spider.common.statistic.remaining_time_tatistics import RemainingTimeStatistics
+try:
+    # noinspection PyUnresolvedReferences
+    from scrapy_spider.scrapy_spider.common.statistic.remaining_time_tatistics import RemainingTimeStatistics
+except ImportError:
+    pass
 from xx import iox
 from xx.game import adbx, imagex
 from xx.game import gamex
@@ -18,7 +22,10 @@ class FeedCat:
         """记录游戏次数"""
         self.adb = adbx.Adb()
         """adb"""
-        self.statistics = RemainingTimeStatistics(50)
+        try:
+            self.statistics = RemainingTimeStatistics(50)
+        except NameError:
+            self.statistics = None
         self.game = gamex.GameX(self.config_path, self.screenshot_path, [], adb=self.adb, debug=True)
         self.store_home_action = gamex.Action(3, '店铺首页', '猫猫出现啦', 4)
         self.store_home_action_2 = gamex.Action(3, '店铺首页', '猫猫出现了', 0)
@@ -34,13 +41,21 @@ class FeedCat:
 
     def start_game(self):
         """游戏流程"""
-        version = 2
+        version = 3
         if version == 2:
             # 后来更新
             action_list = [
                 # 下一状态置为 0 ，重新搜索,
                 gamex.Action(1, '首页', '召唤理想猫', 2),
-                gamex.Action(2, '首页弹窗', '逛店铺', 3, delay=15),
+                gamex.Action(2, '首页弹窗', '逛店铺', self.next_status, delay=15),
+                self.store_home_action,
+                gamex.Action(4, '成功抓到猫猫', '开心收下', 0),
+            ]
+        elif version == 3:
+            action_list = [
+                # 下一状态置为 0 ，重新搜索,
+                gamex.Action(1, '首页', '合合卡', 2),
+                gamex.Action(2, '首页弹窗', '进店领取', self.next_status, delay=15),
                 self.store_home_action,
                 gamex.Action(4, '成功抓到猫猫', '开心收下', 0),
             ]
@@ -72,7 +87,8 @@ class FeedCat:
             print(f'已进行游戏 50 次,退出')
             exit()
         else:
-            self.statistics.count(self.game_count)
+            if self.statistics:
+                self.statistics.count(self.game_count)
 
     def perform(self, arguments):
         """执行操作"""
