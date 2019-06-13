@@ -2,9 +2,10 @@ import os
 from urllib.parse import urljoin
 
 import scrapy
-from base_spider_test import BaseSpiderTest
 from lxml import etree
 from lxml.etree import _Element
+
+from base_spider_test import BaseSpiderTest
 from scrapy_spider.common.statistic.remaining_time_tatistics import RemainingTimeStatistics
 from scrapy_spider.spiders.page.items import PageItem
 from scrapy_spider.spiders.page.page_spider import PageSpider
@@ -106,6 +107,7 @@ class WebsiteSpider(PageSpider):
 
 
 class JavaTutorialSpider(WebsiteSpider):
+    name = 'java_tutorial'
     save_file_dir = r'D:\file\java-tutorials'
     host = 'https://pingfangx.github.io/java-tutorials/'
     start_urls = [

@@ -3,6 +3,7 @@ import re
 import urllib.parse
 
 import scrapy
+
 from base_spider_test import BaseSpiderTest
 from scrapy_spider.spiders.page import page_utils
 from scrapy_spider.spiders.page.items import PageItem
@@ -84,6 +85,8 @@ class AndroidDocPageSpider(PageSpider):
         text = """
             """
         self.init_urls(text)
+        self.valid_url = 0
+        self.invalid_url = 0
         super().__init__(**kwargs)
 
     def generate_request_url(self, url):
@@ -94,7 +97,8 @@ class AndroidDocPageSpider(PageSpider):
 
     def init_urls(self, text):
         lines = text.split('\n')
-        pattern = re.compile("\s*(.*?)\s*\((.*?)\)")
+        pattern = re.compile(r"\s*(.*?)\s*\((.*?)\)")
+        lines_count = len(lines)
         count = 0
         inner = 0
         compat = 0
@@ -114,7 +118,23 @@ class AndroidDocPageSpider(PageSpider):
                 class_name = class_name.replace('.', "/")
                 url = f"{self.host}reference/{class_name}.html"
                 self.start_urls.append(url)
-        print(f'共 {count} 行，有效 {len(self.start_urls)} 个地址，过滤内部为 {inner} 个，兼容类 {compat} 个')
+        print(f'共 {lines_count} 行'
+              f'有效 {count} 行，可用地址 {len(self.start_urls)} 个，过滤内部类 {inner} 个，兼容类 {compat} 个')
+
+    def parse(self, response):
+        redirect_url_list = response.request.meta.get('redirect_urls')
+        if redirect_url_list:
+            url: str = response.url
+            if url.endswith('classes.html') or url.endswith('reference'):
+                self.invalid_url += 1
+                print(f'无效地址 {self.invalid_url} 个')
+                print(f'地址跳转 [{redirect_url_list[0]}] -> [{url}]')
+                return
+            else:
+                print(f'地址跳转 [{redirect_url_list[0]}] -> [{url}]')
+        self.valid_url += 1
+        print(f'有效地址 {self.valid_url} 个')
+        return super().parse(response)
 
 
 class AndroidDocPageSpiderTest(BaseSpiderTest):
