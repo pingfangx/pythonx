@@ -7,7 +7,8 @@ import zipfile
 from http.server import SimpleHTTPRequestHandler, HTTPServer
 
 import requests
-from xx import excelx, filex
+
+# from xx import excelx, filex
 from xx import iox
 from xx import netx
 from xx import threadx
@@ -76,13 +77,13 @@ class Room:
         if rooms:
             print('准备写入 excel,共 %d 条数据' % len(rooms))
             # 标题
-            data = [self.get_title()]
-            for value in rooms.values():
-                data.append(self.sort_value(value))
-            if os.path.exists(excel_file_path):
-                os.remove(excel_file_path)
-            filex.check_and_create_dir(excel_file_path)
-            excelx.write_list_to_excel(excel_file_path, data)
+            # data = [self.get_title()]
+            # for value in rooms.values():
+            #     data.append(self.sort_value(value))
+            # if os.path.exists(excel_file_path):
+            #     os.remove(excel_file_path)
+            # filex.check_and_create_dir(excel_file_path)
+            # excelx.write_list_to_excel(excel_file_path, data)
 
 
 class MapRoom(Room):
@@ -92,38 +93,38 @@ class MapRoom(Room):
         super().__init__()
 
         self.area_display = '面积'
-        self.balcony_exist = 0
+        self.balcony_exist = 0  # 阳台
         self.bizcircle_code = ['611100400', '611100710']
-        self.bizcircle_display = '门头沟其它'
+        self.bizcircle_display = '商圈'
         self.bizcircle_name = ['门头沟其它', '城子']
         self.build_end_year = '2004'
         self.build_size = 99.53
         self.city_code = '110000'
-        self.district_code = '23008620'
-        self.district_name = '门头沟'
+        self.district_code = '23008620'  # 区域
+        self.district_name = '门头沟'  # 区域
         self.facing = '朝向'
         self.first_figure = 'g2/M00/D1/DA/ChAFD1o7xhiAHB8iAAEEgVPkiS8271.jpg'
-        self.floor = '5'
-        self.floor_total = '7'
-        self.garder_exist = 0
+        self.floor = '5'  # 楼层
+        self.floor_total = '7'  # 楼层
+        self.garder_exist = 0  # 衣柜
         self.house_bedroom = '几室'
         self.house_code = 'BJZRGY0817152867'
         self.house_company = '每月'
         self.house_empty_count = '空室'
         self.house_facing = '东西'
-        self.house_parlor = 1
+        self.house_parlor = 1  # 客厅
         self.hx_photo = 'g2/M00/D1/E0/ChAFD1o7zUKAQhEzAAQ8G4mVCb4511.jpg'
         self.id = '60900114'
         self.index_no = 1
-        self.is_ai_lock = '智能锁'
-        self.is_duanzu = 0
+        self.is_ai_lock = '智能锁'  # 智能锁
+        self.is_duanzu = 0  # 短租
         self.is_new = '新'
-        self.is_reserve = 0
-        self.is_whole = 0
+        self.is_reserve = 0  # 转租
+        self.is_whole = 0  # 整合
         self.latitude = 39.95269
         self.longitude = 116.112665
         self.name = '友家 · 阁外山水3居室-东卧'
-        self.payment_type = 1
+        self.payment_type = 1  # 付款类型
         self.photo = '照片'
         self.photo_webp = 'webp'
         self.resblock_id = '1111027374736'
@@ -146,21 +147,26 @@ class MapRoom(Room):
         self.sell_price = '价格'
         self.sell_price_day = 0
         self.sell_price_duanzu = 0
-        self.style_code = 97001001
+        self.style_code = 97001001  # 风格
         self.style_tag = {'name': '友家4.0 拿铁', 'url': 'http://www.ziroom.com/zhuanti/youjia_fbh/'}
-        self.sublet_attestation = 0
+        self.sublet_attestation = 0  # 转租证明
         self.subway = '地铁'
         self.subway_display = '地铁'
-        self.subway_line_code = []
-        self.subway_station_code = []
-        self.subway_tag = []
-        self.supply_heat = '2030001'
-        self.toliet_exist = 0
-        self.type_text = '合整'
-        self.url = 'url'
-        self.usage_area = 13.6
-        self.walking_distance_dt = []
-        self.ziroom_version_id = 1008
+        self.subway_line_code = []  # 地铁线
+        self.subway_station_code = []  # 地铁
+        self.subway_tag = []  # 地铁
+        self.supply_heat = '2030001'  # 供暖
+        """
+        独立  2030001
+        集体  2030002
+        避挂炉 2030005
+        """
+        self.toliet_exist = 0  # 卫生间
+        self.type_text = '合整'  # 类型
+        self.url = 'url'  # 地址
+        self.usage_area = 13.6  # 使用面积
+        self.walking_distance_dt = []  # 走路距离
+        self.ziroom_version_id = 1008  # 版本
 
     def get_type(self):
         return MapRoom()
@@ -322,14 +328,14 @@ class SubwayRoomMonitor:
     def read_all_rooms_from_excel(self):
         """从 excel 中读取"""
         result = {}
-        data = excelx.read_from_excel(self.excel_file_path)
-        keys = SubwayRoom().get_keys()
-        for row in data:
-            monitor_room = SubwayRoom()
-            for i in range(len(keys)):
-                monitor_room.__dict__[keys[i]] = row[i]
-            if monitor_room.id != 'id':
-                result[monitor_room.id] = monitor_room
+        # data = excelx.read_from_excel(self.excel_file_path)
+        # keys = SubwayRoom().get_keys()
+        # for row in data:
+        #     monitor_room = SubwayRoom()
+        #     for i in range(len(keys)):
+        #         monitor_room.__dict__[keys[i]] = row[i]
+        #     if monitor_room.id != 'id':
+        #         result[monitor_room.id] = monitor_room
         return result
 
     def compare_rooms(self):
