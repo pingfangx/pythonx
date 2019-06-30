@@ -22,7 +22,7 @@ def get(url, params=None, headers=None, cookies=None, encoding='utf-8', result_t
     # 伪装头
     # Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36
     ua = 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6'
-    if headers is None or headers is not dict:
+    if headers is None or not isinstance(headers, dict):
         headers = {
             'User-Agent': ua
         }
@@ -41,7 +41,7 @@ def get(url, params=None, headers=None, cookies=None, encoding='utf-8', result_t
     elif result_type == 'json':
         result = result.json()
     if need_print:
-        print('result is ' + result)
+        print(f'result is {result_type}\n{result}')
     return result
 
 
@@ -119,9 +119,9 @@ def parse_params(params):
     return data
 
 
-def handle_result(requests, success_callback=None, fail_callback=None, print_result=True):
+def handle_result(request, success_callback=None, fail_callback=None, print_result=True):
     """处理结果"""
-    result = requests.json()
+    result = request.json()
     if print_result:
         print(result)
     if result:
