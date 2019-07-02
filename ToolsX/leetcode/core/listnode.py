@@ -1,3 +1,6 @@
+import random
+
+
 # Definition for singly-linked list.
 class ListNode:
     def __init__(self, x):
@@ -10,15 +13,23 @@ class ListNode:
     def __repr__(self):
         return self.__str__()
 
+    def trim(self):
+        # 也可以正则
+        return self.__str__().replace(' ', '').replace('-', '').replace('>', '')
+
     @classmethod
-    def create(cls, length=5):
+    def create(cls, length=5, start=1, end=10, rand=False):
         if length == 0:
             return None
-        node = ListNode(1)
+        node = ListNode(start if not rand else random.randrange(start, end))
         if length == 1:
             return node
         current = node
-        for i in range(2, length + 1):
-            current.next = ListNode(i)
+        for i in range(start + 1, start + length):
+            current.next = ListNode(i if not rand else random.randrange(start, end))
             current = current.next
         return node
+
+    @classmethod
+    def random(cls, length=5, **kwargs):
+        return cls.create(length, **kwargs)
