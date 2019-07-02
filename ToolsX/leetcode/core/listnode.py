@@ -57,3 +57,14 @@ class ListNode:
     @classmethod
     def random(cls, length=5, **kwargs):
         return cls.create(length, **kwargs)
+
+    @classmethod
+    def from_array(cls, iterable):
+        head = current = None
+        for i in iterable:
+            if current is None:
+                current = head = ListNode(i)
+            else:
+                current.next = ListNode(i)
+                current = current.next
+        return head
