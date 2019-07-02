@@ -8,6 +8,8 @@ class ListNode:
         self.next = None
 
     def __str__(self):
+        if self.has_cycle():
+            return 'cycle'
         return f'{self.val}' + ('' if not self.next else f' -> {self.next}')
 
     def __repr__(self):
@@ -16,6 +18,15 @@ class ListNode:
     def trim(self):
         # 也可以正则
         return self.__str__().replace(' ', '').replace('-', '').replace('>', '')
+
+    def has_cycle(self) -> bool:
+        slow = fast = self
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+            if id(slow) == id(fast):
+                return True
+        return False
 
     def append_tail(self, node):
         if isinstance(node, ListNode):
