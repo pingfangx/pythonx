@@ -17,6 +17,19 @@ class ListNode:
         # 也可以正则
         return self.__str__().replace(' ', '').replace('-', '').replace('>', '')
 
+    def append_tail(self, node):
+        if isinstance(node, ListNode):
+            self.get_tail().next = node
+            return self
+        else:
+            return self.append_tail(ListNode(node))
+
+    def get_tail(self):
+        tail = self
+        while tail.next:
+            tail = tail.next
+        return tail
+
     @classmethod
     def create(cls, length=5, start=1, end=10, rand=False):
         if length == 0:
