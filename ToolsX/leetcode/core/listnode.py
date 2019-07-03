@@ -3,7 +3,7 @@ import random
 
 # Definition for singly-linked list.
 class ListNode:
-    def __init__(self, x):
+    def __init__(self, x: int):
         self.val = x
         self.next = None
 
@@ -18,6 +18,9 @@ class ListNode:
     def trim(self):
         # 也可以正则
         return self.__str__().replace(' ', '').replace('-', '').replace('>', '')
+
+    def to_number(self):
+        return int(self.trim())
 
     def has_cycle(self) -> bool:
         slow = fast = self
@@ -59,12 +62,48 @@ class ListNode:
         return cls.create(length, **kwargs)
 
     @classmethod
-    def from_array(cls, iterable):
+    def from_iter(cls, iterable):
+        """从可迭代对象解析
+        >>> ListNode.from_iter([1, 2, 3, 4]).to_number()
+        1234
+        """
         head = current = None
         for i in iterable:
             if current is None:
-                current = head = ListNode(i)
+                current = head = ListNode(int(i))
             else:
-                current.next = ListNode(i)
+                current.next = ListNode(int(i))
                 current = current.next
         return head
+
+    @classmethod
+    def from_args(cls, *args):
+        """ 从可变参数解析
+        >>> ListNode.from_args(1,2,3,4).to_number()
+        1234
+        """
+        return cls.from_iter(list(args))
+
+    @classmethod
+    def from_str(cls, values: str):
+        """从 str 解析
+
+        :param values: 视为每一位表示一个数字
+        >>> ListNode.from_str('1234').to_number()
+        1234
+        """
+        return cls.from_iter(values)
+
+    @classmethod
+    def from_num(cls, num: int):
+        """从数字解析
+        >>> ListNode.from_num(1234).to_number()
+        1234
+        """
+        return cls.from_str(str(num))
+
+
+if __name__ == '__main__':
+    import doctest
+
+    doctest.testmod(verbose=True)
