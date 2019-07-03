@@ -102,6 +102,13 @@ class ListNode:
         """
         return cls.from_str(str(num))
 
+    @classmethod
+    def from_file(cls, path):
+        with open(path) as f:
+            lines = f.readlines()
+            txt = ''.join(lines).replace('\n', '').replace('[', '').replace(']', '')
+            return cls.from_iter(txt.split(','))
+
 
 if __name__ == '__main__':
     import doctest
