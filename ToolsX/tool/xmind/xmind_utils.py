@@ -15,6 +15,12 @@ class TopicDir:
         self.topic = topic
         self.path = path
 
+    def __str__(self):
+        return self.path
+
+    def __repr__(self):
+        return self.__str__()
+
 
 class XMindUtils:
     def __init__(self, xmind_file_path, root_dir, back_dir):
@@ -49,15 +55,18 @@ class XMindUtils:
         back_file = sorted(files)[-1]
         print(f'选择备份文件 {back_file}')
         origin_dirs = self.collect_xmind_topics(back_file)
-        print(f'原始目录')
+        # 按路径排序，较长的在前面，防目移动目父录导致子目录变化
+        origin_dirs = sorted(origin_dirs, key=lambda x: x.path, reverse=True)
+        print(f'原始目录 {len(origin_dirs)} 个')
         print(origin_dirs)
 
         new_dirs = self.collect_xmind_topics(self.xmind_file_path)
-        print(f'新建目录')
+        new_dirs = sorted(new_dirs, key=lambda x: x.path, reverse=True)
+        print(f'新的目录 {len(new_dirs)} 个')
         print(new_dirs)
 
         print()
-        print('检查是否需要移动目录')
+        print('1-检查是否需要移动目录')
         origin_dirs_dict = self.dirs_to_dict(origin_dirs)
         new_dirs_dict = self.dirs_to_dict(new_dirs)
 
@@ -65,28 +74,51 @@ class XMindUtils:
             if k in new_dirs_dict:
                 new_v = new_dirs_dict[k]
                 if v.path != new_v.path:
-                    print(f'目录变化 {v.path} -> {new_v.path}')
                     if os.path.exists(v.path):
                         if not os.path.exists(new_v.path):
                             print(f'目录移动 {v.path} -> {new_v.path}')
                             shutil.move(v.path, new_v.path)
                         else:
-                            print(f'目标目录已存在 {new_v.path}')
+                            print(f'目录变化 {v.path} -> {new_v.path}')
+                            print(f'但目标目录已存在 {new_v.path}')
                             os.rmdir(v.path)
                     else:
-                        print(f'源目录已不存在 {v.path}')
+                        print(f'目录变化 {v.path} -> {new_v.path}')
+                        print(f'但源目录已不存在 {v.path}')
             else:
                 # 不存在
-                try:
-                    os.rmdir(v.path)
-                except OSError as e:
-                    print(f'移除目录出错 {v.path}')
-                    print(e)
+                self.delete_empty_dir(v.path)
 
-        print()
-        print('检查并创建目录')
+        print('\n2-检查并创建目录')
         self.create_dirs(new_dirs, False)
+
+        print('\n3-检查多余的目录')
+        dirs = self.collect_dirs(self.root_dir)
+        print(f'共有目录 {len(dirs)} 个')
+        dict_values = [topic_dir.path for topic_dir in new_dirs]
+        for dir_name in dirs:
+            if dir_name not in dict_values:
+                self.delete_empty_dir(dir_name)
         self.back_file()
+
+    @staticmethod
+    def delete_empty_dir(path):
+        """删除空目录"""
+        try:
+            # 为空才会被删除，有文件会报错保留的
+            os.rmdir(path)
+            print(f'删除目录 {path}')
+        except OSError as e:
+            print(f'删除目录出错 {path}')
+            print(e)
+
+    @staticmethod
+    def collect_dirs(path):
+        dirs = []
+        for parent, dir_names, file_names in os.walk(path):
+            for dir_name in dir_names:
+                dirs.append(os.path.join(parent, dir_name))
+        return dirs
 
     def create_dirs_by_xmind(self):
         """根据 xmind 文件创建目录"""
@@ -124,13 +156,13 @@ class XMindUtils:
         """创建目录"""
         if os.path.exists(path):
             if verbose:
-                print(f'文件夹已存在')
+                print(f'文件夹已存在 {path}')
         else:
             os.makedirs(path)
             if os.path.exists(path):
-                print('创建成功')
+                print(f'创建成功 {path}')
             else:
-                print(f'创建失败')
+                print(f'创建失败 {path}')
 
     @staticmethod
     def dirs_to_dict(dirs: List[TopicDir]) -> Dict[str, TopicDir]:
