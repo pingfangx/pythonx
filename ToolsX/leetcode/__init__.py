@@ -19,4 +19,5 @@ xxxx_n 为其他解法
 
 doctest
 """
+from leetcode.core.list_factory import ListFactory
 from leetcode.core.listnode import ListNode

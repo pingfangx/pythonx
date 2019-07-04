@@ -59,7 +59,7 @@ class ListNode:
 
     @classmethod
     def random(cls, length=5, **kwargs):
-        return cls.create(length, **kwargs)
+        return cls.create(length, rand=True, **kwargs)
 
     @classmethod
     def from_iter(cls, iterable):
