@@ -1,7 +1,6 @@
+import math
 import queue
 import random
-
-import math
 
 
 class TreeNode:
@@ -11,7 +10,7 @@ class TreeNode:
         self.right = None
 
     def __str__(self):
-        return str(self.val)
+        return self.to_tree_graph()
 
     def __repr__(self):
         return self.__str__()
@@ -66,8 +65,12 @@ class TreeNode:
                 if j < len(array):
                     line.append(array[j])
                 else:
-                    line.append(0)
-        return lines
+                    line.append(' ')
+        max_length = 2 ** depth
+        for i in range(len(lines)):
+            while len(lines[i]) < max_length:
+                lines[i] = ''.join([' ' + str(i) for i in lines[i]])
+        return '\n'.join([''.join(line) for line in lines])
 
     @classmethod
     def from_array(cls, array, index=0):
