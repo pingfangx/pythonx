@@ -22,6 +22,17 @@ class ListNode:
     def to_number(self):
         return int(self.trim())
 
+    def to_array(self):
+        """转为数组"""
+        if self.has_cycle():
+            return 'cycle'
+        t = []
+        p = self
+        while p:
+            t.append(p.val)
+            p = p.next
+        return t
+
     def has_cycle(self) -> bool:
         slow = fast = self
         while fast and fast.next:
