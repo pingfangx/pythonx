@@ -8,7 +8,7 @@ from leetcode import ListFactory
 class BaseSort:
     """排序基类"""
 
-    def sort(self, array: List) -> List:
+    def sort(self, a: List) -> List:
         """排序"""
         raise NotImplementedError(f'{self.__class__.__name__}.{sys._getframe().f_code.co_name} not implemented')
 
@@ -28,8 +28,8 @@ class BaseSortTest(unittest.TestCase):
         """生成测试列表"""
         return ListFactory.from_num(54321)
 
-    def sort(self, array: List) -> List:
+    def sort(self, a: List) -> List:
         """执行排序"""
         if self.sort_class:
-            return self.sort_class().sort(array)
-        return array
+            return self.sort_class().sort(a)
+        return a
