@@ -8,13 +8,25 @@ class InsertionSort(BaseSort):
 
     def sort(self, a: List) -> List:
         for i in range(1, len(a)):  # i 作为要查找插入的值
+            t = a[i]  # 值
+            j = i  # 开始比较的数
+            while j > 0 and t < a[j - 1]:
+                # 如果t小，则值向后移
+                a[j] = a[j - 1]
+                j -= 1
+            # 当退出循环时，j 为 0 或者 t 比 a[j-1] 大
+            a[j] = t
+        return a
+
+    def sort2(self, a: List) -> List:
+        for i in range(1, len(a)):  # i 作为要查找插入的值
             x = a[i]  # 值
             j = i - 1  # 开始比较的数
             while j >= 0 and x < a[j]:
                 # 如果x小，则值向后移
                 a[j + 1] = a[j]
                 j -= 1
-            # 当退出循环时，j 为 -1 或都 x 比 a[j] 大，所以加1
+            # 当退出循环时，j 为 -1 或者 x 比 a[j] 大，所以加1
             a[j + 1] = x
         return a
 
