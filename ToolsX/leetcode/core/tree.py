@@ -74,19 +74,36 @@ class TreeNode:
 
     @classmethod
     def from_array(cls, array, index=0):
-        if len(array) == 0:
+        """
+        >>> TreeNode.from_array([1,None,2,None,3,None,4,None,5]).to_num()
+        12345
+        >>> TreeNode.from_array([1,2,None,3,None,4,None,5]).to_num()
+        """
+        n = len(array)
+        if n == 0:
             return TreeNode(0)
-        elif len(array) == 1:
-            return TreeNode(array[index])
+        elif n == 1:
+            if array[index] is None:
+                return None
+            else:
+                return TreeNode(array[index])
         else:
             node = TreeNode(array[index])
             # 0 -> 1,1->3
             left_index = (index + 1) * 2 - 1
             right_index = (index + 1) * 2
-            if left_index < len(array):
-                node.left = cls.from_array(array, left_index)
-            if right_index < len(array):
-                node.right = cls.from_array(array, right_index)
+            if left_index < n and right_index < n and (not array[left_index] or not array[right_index]):
+                # 其中有一个是空
+                if not array[left_index]:
+                    node.right = cls.from_array(array[right_index:])
+                if not array[right_index]:
+                    t = [array[left_index]] + array[right_index + 1:]
+                    node.left = cls.from_array(t)
+            else:
+                if left_index < len(array):
+                    node.left = cls.from_array(array, left_index)
+                if right_index < len(array):
+                    node.right = cls.from_array(array, right_index)
         return node
 
     @classmethod
