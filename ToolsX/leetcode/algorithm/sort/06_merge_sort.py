@@ -40,7 +40,7 @@ class MergeSort(BaseSort):
 
 
 class MergeSort1(BaseSort):
-    """需要额个空间"""
+    """需要额外空间"""
 
     def sort(self, a: List) -> List:
         n = len(a)
