@@ -11,6 +11,8 @@ by_math(),avg:0.04381652316952369
 
 import math
 
+from tool.timeit import test_commands
+
 
 def by_symbol():
     return 2 ** 0.5
@@ -21,18 +23,8 @@ def by_math():
 
 
 if __name__ == '__main__':
-    import timeit
-
     commands = [
         "by_symbol()",
         "by_math()",
     ]
-    number = 100000
-    repeat = 100
-    r = []
-    size = len(commands)
-    for i, command in enumerate(commands):
-        print(f'测试命令 {i + 1}/{size}:{command}')
-        time = timeit.repeat(command, repeat=repeat, number=number, setup="from __main__ import by_symbol,by_math")
-        r.append(f'{command},avg:{sum(time) / len(time)},time:{time}')
-    print('\n'.join(r))
+    test_commands(commands, setup="from __main__ import by_symbol,by_math")
