@@ -87,6 +87,7 @@ class XMindUtils:
                         print(f'但源目录已不存在 {v.path}')
             else:
                 # 不存在
+                print(f'目录已不存在于 xmind 中，尝试删除 {v.path}')
                 self.delete_empty_dir(v.path)
 
         print('\n2-检查并创建目录')

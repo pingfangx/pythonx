@@ -17,7 +17,7 @@ class TreeNode:
 
     def trim(self):
         """
-        使用对列，按行添加
+        使用队列，按行添加
         """
         s = ''
         q = queue.Queue()
@@ -50,6 +50,22 @@ class TreeNode:
         123456
         """
         return int(self.trim())
+
+    def to_num_with_comma(self):
+        """数字和逗号"""
+        s = ''
+        q = queue.Queue()
+        q.put(self)
+        while not q.empty():
+            node = q.get()
+            s += str(node.val) + ','
+            if node.left:
+                q.put(node.left)
+            if node.right:
+                q.put(node.right)
+        if s:
+            s = s[:-1]
+        return s
 
     def to_tree_graph(self):
         """
