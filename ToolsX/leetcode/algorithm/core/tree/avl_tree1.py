@@ -73,6 +73,50 @@ class AvlTree(TreeNode):
                 return self.left_rotate(root)
         return root  # 无旋转返回 root
 
+    def delete(self, root, x):
+        if not root:
+            return root
+        if x < root.val:
+            root.left = self.delete(root.left, x)
+        elif x > root.val:
+            root.right = self.delete(root.right, x)
+        else:  # 找到结点，进行删除
+            if not root.left:  # 没有左结点
+                t, root = root.right, None
+                return t
+            elif not root.right:  # 没有右结点
+                t, root = root.left, None
+                return t
+            else:  # 都有
+                t = self.get_min_value_node(root.right)
+                root.val = t.val
+                root.right = self.delete(root.right, t.val)
+        # ①如果只有一个结点，删除后为空
+        if not root:
+            return root
+
+        # 2 更新高度
+        root.height = self.calculate_height(root)
+
+        # 3 获取平衡因子
+        balance = self.get_balance(root)
+
+        # 4 如果不平衡，判断并旋转
+        if balance > 1:  # 左边高
+            if self.get_balance(root.left) >= 0:  # 左左
+                return self.right_rotate(root)
+            elif self.get_balance(root.left) < 0:  # 左右
+                root.left = self.left_rotate(root.left)
+                return self.right_rotate(root)
+        elif balance < -1:  # 右边高
+            if self.get_balance(root.right) <= 0:  # 右右
+                return self.left_rotate(root)
+            elif self.get_balance(root.right) > 0:  # 右左
+                root.right = self.left_rotate(root.right)
+                return self.right_rotate(root)
+
+        return root  # 无旋转返回 root
+
     def get_height(self, root):
         """获取高度
 
@@ -86,6 +130,12 @@ class AvlTree(TreeNode):
     def get_balance(self, root):
         """获取平衡因子"""
         return 0 if not root else (self.get_height(root.left) - self.get_height(root.right))
+
+    def get_min_value_node(self, root):
+        """获取最小值的结点"""
+        if not root or not root.left:
+            return root
+        return self.get_min_value_node(root.left)
 
     def left_rotate(self, root):
         rc = root.right
