@@ -1,5 +1,5 @@
 class Solution:
-    pass
+    """2019"""
 
 
 if __name__ == '__main__':
