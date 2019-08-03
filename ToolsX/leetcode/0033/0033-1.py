@@ -2,7 +2,7 @@ from typing import List
 
 
 class Solution:
-    """2019"""
+    """20190802"""
 
     def search(self, nums: List[int], target: int) -> int:
         """
