@@ -5,7 +5,7 @@ class Solution:
     def maxProfit(self, prices: List[int]) -> int:
         """
 
-        在 0121-3 中记录最低、最高，虽然更快，但就无法解决本问题，可以卖出多次
+        在 0121_3 中记录最低、最高，虽然更快，但就无法解决本问题，可以卖出多次
         所以本问题需要用最大子数列解决
         子数列的结束时，累计子数列的值
 
@@ -21,6 +21,9 @@ class Solution:
 
         2
         答案中的峰谷，注意先找谷，注意 <= 和 >=
+
+        3
+        答案中的峰谷2，如果一直是上坡，直接累加就可以了
         >>> Solution().maxProfit([7,1,5,3,6,4])
         7
         >>> Solution().maxProfit([1,2,3,4,5])
@@ -29,18 +32,10 @@ class Solution:
         0
         """
         total = 0
-        i = 1
-        while i < len(prices):
-            # 找到谷
-            while i < len(prices) and prices[i] <= prices[i - 1]:
-                i += 1
-            valley = prices[i - 1]
-            # 找到峰
-            while i < len(prices) and prices[i] >= prices[i - 1]:
-                i += 1
-            peak = prices[i - 1]
-            # 累加
-            total += peak - valley
+        for i in range(1, len(prices)):
+            if prices[i] > prices[i - 1]:
+                total += prices[i] - prices[i - 1]
+            i += 1
         return total
 
 

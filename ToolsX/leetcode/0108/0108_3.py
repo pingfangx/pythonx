@@ -27,7 +27,7 @@ class Solution:
         T(n)=O(n)
 
         空间复杂度
-        与 0108-2 中一致，是 mid 变量，每轮创建一个 mid
+        与 0108_2 中一致，是 mid 变量，每轮创建一个 mid
         S(n)=O(log n)
         """
         if not nums:

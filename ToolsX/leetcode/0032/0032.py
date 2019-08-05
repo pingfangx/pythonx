@@ -20,7 +20,7 @@ class Solution:
                     if s[j] == '(':  # 为空时只添加左括号
                         stack.append(s[j])
                     else:
-                        left = j + 1  # 这里其实应该 break 见 0032-1
+                        left = j + 1  # 这里其实应该 break 见 0032_1
                 else:
                     if s[j] == '(':
                         stack.append(s[j])

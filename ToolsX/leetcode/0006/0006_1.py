@@ -16,7 +16,7 @@ class Solution:
         用指针来移动
 
         2
-        答案1，和 0006-1 相近
+        答案1，和 0006_1 相近
 
        >>> Solution().convert('PAYPALISHIRING',3)
        'PAHNAPLSIIGYIR'

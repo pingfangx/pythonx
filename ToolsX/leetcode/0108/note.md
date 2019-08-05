@@ -7,4 +7,4 @@ Therefore this algorithm has runtime O(n lg n), space O(n), wheras it could be d
 
 这里的 O(n log n) O(n)
 和 O(n) O(log n)
-是如何分析的呢，学习后已写在 0118-2 和 0188-3 中
+是如何分析的呢，学习后已写在 0118_2 和 0188_3 中
