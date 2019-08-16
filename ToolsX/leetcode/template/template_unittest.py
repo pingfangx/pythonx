@@ -7,4 +7,7 @@ class Solution:
 
 class _Test(unittest.TestCase):
     def test(self):
-        pass
+        _input = []
+        _output = []
+        _expect = []
+        self.assertListEqual(_expect, _output)
