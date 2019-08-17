@@ -32,8 +32,14 @@ class Software:
         if self.home_path:
             self.checked = True
 
-        self.original_jar = os.path.join(self.home_path, 'lib', 'resources_en.jar')
-        """原始 jar 文件"""
+        self.original_jar_list = [
+            os.path.join(self.home_path, 'lib', 'resources_en.jar'),
+            os.path.join(self.home_path, 'plugins', 'java', 'lib', 'resources_en.jar'),
+        ]
+        """原始 jar 文件列表
+        
+        更新 IDEA 2019.2 后，有部分资源移到了 \plugins\java\lib\resources_en.jar
+        """
 
         self.omegat_workspace = omegat_workspace
         """OmegaT 工作目录"""
@@ -112,7 +118,8 @@ class Software:
         dir_list = []
         # 列出所有文件夹
         for file in file_list:
-            if os.path.isdir(os.path.join(software_dir, file)):
+            if os.path.isdir(os.path.join(software_dir, file)) \
+                    and not file.endswith('.plugins'):
                 dir_list.append(file)
         if not dir_list:
             return ''

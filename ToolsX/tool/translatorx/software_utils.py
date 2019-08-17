@@ -63,14 +63,18 @@ def extract_jar_to_source_dir(software: Software):
     """将 jar 解压到 source 目录"""
     out_dir = software.omegat_workspace_source_resources_en
     common_utils.remove_dir(out_dir)
-    with zipfile.ZipFile(software.original_jar) as zip_file:
-        namelist = zip_file.namelist()
-        for name in namelist:
-            if re.search(software.ignore_file_pattern, name):
-                # print(f'过滤文件 {name}')
-                continue
-            print('解压 %s 到 %s' % (name, out_dir))
-            zip_file.extract(name, out_dir)
+    jars = software.original_jar_list
+    jars = list(filter(lambda x: os.path.exists(x), jars))
+    for i, jar in enumerate(jars):
+        print(f'解压 jar {i + 1}/{len(jars)}/{len(software.original_jar_list)}:{jar}')
+        with zipfile.ZipFile(jar) as zip_file:
+            namelist = zip_file.namelist()
+            for name in namelist:
+                if re.search(software.ignore_file_pattern, name):
+                    # print(f'过滤文件 {name}')
+                    continue
+                print('解压 %s 到 %s' % (name, out_dir))
+                zip_file.extract(name, out_dir)
 
 
 def clean_target_dir(software: Software):
