@@ -49,11 +49,8 @@ class Field:
     def get_field_str(self) -> str:
         """字段声明"""
         return """
-    /**
-     * {comment}
-     */
-    private {type} {name};
-        """.format(**self.get_format_dict())
+    /** {comment} */
+    private {type} {name};""".format(**self.get_format_dict())
 
     def get_get_method_str(self) -> str:
         """get 方法"""
