@@ -2,6 +2,7 @@
 # 因为要运行在云主机上，装了两个版本的 python，指定 python3
 
 import configparser
+import datetime
 import logging
 import os
 import time
@@ -94,7 +95,9 @@ class TiebaSign:
             else:
                 self.log('请求结果:' + str(result))
         except Exception as e:
-            self.log('请求出错了:' + str(e))
+            self.log('请求出错了，10 分钟后重试:' + str(e))
+            run_date = datetime.datetime.now() + datetime.timedelta(minutes=10)
+            self.scheduler.add_job(self.sign, trigger='date', run_date=run_date)
 
     @staticmethod
     def get_sign_message(result):
