@@ -14,6 +14,8 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 
 class TiebaSign:
     """贴吧签到"""
+    JOB_STORE_ERROR_RETRY = 'error_retry'
+    """失败重试"""
 
     def __init__(self):
         self.config_file = 'ignore/sign.conf'
@@ -28,6 +30,12 @@ class TiebaSign:
 
         self.sign_hour = ''
         """签到触发小时，用于配置 add_job cron 对应的 hour 参数"""
+
+        self.error_retry_times = 0
+        """错误重试次数"""
+
+        self.max_error_retry_times = 5
+        """最大重试次数"""
 
     def init_logger(self):
         if self.logger is None:
@@ -94,10 +102,19 @@ class TiebaSign:
                 self.log('请求结果:' + sign_message)
             else:
                 self.log('请求结果:' + str(result))
+            self.error_retry_times = 0  # 成功置 0
         except Exception as e:
-            self.log('请求出错了，10 分钟后重试:' + str(e))
-            run_date = datetime.datetime.now() + datetime.timedelta(minutes=10)
-            self.scheduler.add_job(self.sign, trigger='date', run_date=run_date)
+            # 先移除
+            self.scheduler.remove_all_jobs(TiebaSign.JOB_STORE_ERROR_RETRY)
+            self.error_retry_times += 1  # 失败 +1
+            if self.error_retry_times > self.max_error_retry_times:
+                self.log(f'已经失败 {self.error_retry_times} 次，不再重试:{e}')
+                self.error_retry_times = 0
+            else:
+                self.log(f'请求出错了，10 分钟后第 {self.error_retry_times} 重试:{e}')
+                run_date = datetime.datetime.now() + datetime.timedelta(minutes=10)
+                self.scheduler.add_job(self.sign, trigger='date', run_date=run_date,
+                                       jobstore=TiebaSign.JOB_STORE_ERROR_RETRY)
 
     @staticmethod
     def get_sign_message(result):
@@ -133,6 +150,7 @@ class TiebaSign:
         # 服务器上时区不一致，手动指定
         timezone = pytz.timezone('Asia/Shanghai')
         self.scheduler = BlockingScheduler(timezone=timezone)
+        self.scheduler.add_jobstore('memory', TiebaSign.JOB_STORE_ERROR_RETRY)
         # 每分钟触发一次
         self.scheduler.add_job(self.check_lock, trigger='cron', second='0')
         # 早 6 点一次，晚 10 点一次
