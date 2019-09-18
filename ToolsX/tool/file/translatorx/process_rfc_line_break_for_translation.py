@@ -19,11 +19,14 @@ class NextLine:
 class FileUtils:
     """文件工具"""
 
-    def __init__(self, file: str, output: str = None, end_line=None):
+    def __init__(self, file: str, output: str = None, start_line=None, end_line=None):
         self.file = file
         self.output = output
         if self.output is None:
             self.output = filex.get_result_file_name(self.file, '_line')
+
+        self.start_line = start_line
+        """起始行，用于只处理部分内容"""
 
         self.end_line = end_line
         """结束行，一般最后的致谢等内容不需要处理，需要过滤"""
@@ -60,6 +63,13 @@ class FileUtils:
                 i += 3  # 页尾，翻页，页眉，到达下一行
                 continue
             line = lines[i]
+            if self.start_line:  # 有起始行
+                if self.start_line == line or re.fullmatch(self.start_line, line):
+                    print(f'找到起始行，第 {i + 1} 行【{line}】')
+                    self.start_line = None  # 置空，避免使用 flag
+                else:
+                    i += 1
+                    continue
             if line and line.strip():
                 if self.end_line is not None:  # 结束行
                     if self.end_line == line or re.fullmatch(self.end_line, line):
