@@ -5,6 +5,7 @@ import configparser
 import datetime
 import logging
 import os
+import re
 import time
 
 import pytz
@@ -94,27 +95,50 @@ class TiebaSign:
 
     def sign(self):
         """签到"""
+        error_message = ''  # 成功时为空，失败时为错误信息
         try:
             result = requests.get(self.sign_url)
             result = result.json()
             sign_message = self.get_sign_message(result)
             if sign_message:
                 self.log('请求结果:' + sign_message)
+                if not self.check_sign_message(sign_message):
+                    error_message = sign_message  # 记为错误
             else:
-                self.log('请求结果:' + str(result))
-            self.error_retry_times = 0  # 成功置 0
+                error_message = str(result)  # 记为错误
         except Exception as e:
+            error_message = str(e)
+        if not error_message:
+            self.error_retry_times = 0  # 成功置 0
+        else:
             # 先移除
             self.scheduler.remove_all_jobs(TiebaSign.JOB_STORE_ERROR_RETRY)
             self.error_retry_times += 1  # 失败 +1
             if self.error_retry_times > self.max_error_retry_times:
-                self.log(f'已经失败 {self.error_retry_times} 次，不再重试:{e}')
+                self.log(f'已经失败 {self.error_retry_times} 次，不再重试:{error_message}')
                 self.error_retry_times = 0
             else:
-                self.log(f'请求出错了，10 分钟后第 {self.error_retry_times} 重试:{e}')
+                self.log(f'请求失败了，10 分钟后第 {self.error_retry_times} 重试:{error_message}')
                 run_date = datetime.datetime.now() + datetime.timedelta(minutes=10)
                 self.scheduler.add_job(self.sign, trigger='date', run_date=run_date,
                                        jobstore=TiebaSign.JOB_STORE_ERROR_RETRY)
+
+    def check_sign_message(self, sign_message: str) -> bool:
+        """检查签到结果是否成功"""
+        if not sign_message:
+            return False
+        # [签到]论坛帐号 1/1/1+0,[回贴]用户 1/1/1+0
+        # [签到]论坛帐号 1/1/0+1，百度帐号 6/6/6,[回贴]用户 1/1/0+1,百度帐号 3/3/0+3
+        # [签到]论坛帐号 1/1/0+0,[回贴]用户 1/1/0+1,百度帐号 3/3/0+3
+        all_match = re.findall(r'\[(.+?)\].+?(\d+)/(\d+)/(\d+)\+(\d+)', sign_message)
+        if not all_match:
+            return False
+        for m in all_match:
+            name, all_count, need_count, pre_success, cur_success = m
+            if int(need_count) != int(pre_success) + int(cur_success):
+                self.log(f'{name} 未完全成功，认为失败')
+                return False
+        return True
 
     @staticmethod
     def get_sign_message(result):
