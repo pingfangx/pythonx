@@ -108,7 +108,8 @@ class TreeNode:
 
     @classmethod
     def from_iter(cls, iterable):
-        return cls.from_array([int(i) for i in iterable])
+        # else 处理为 None 的情况
+        return cls.from_array([int(i) if i else i for i in iterable])
 
     @classmethod
     def from_args(cls, *args):
