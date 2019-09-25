@@ -6,6 +6,7 @@ from typing import List, Dict
 import xmind
 from xmind.core.topic import TopicElement
 
+from tool.xmind.xmind_indent_utils import XmindIndentUtils
 from xx import filex
 from xx import iox
 
@@ -23,7 +24,7 @@ class TopicDir:
 
 
 class XMindUtils:
-    def __init__(self, xmind_file_path, root_dir, back_dir):
+    def __init__(self, xmind_file_path, root_dir, back_dir, indent_output=None):
         self.xmind_file_path = xmind_file_path
         """ xmind 文件"""
 
@@ -33,12 +34,18 @@ class XMindUtils:
         self.back_dir = back_dir
         """备份文件目录"""
 
+        self.indent_output = indent_output
+        """缩进输出文件"""
+
     def main(self):
+        xmind_indent_utils = XmindIndentUtils(self.xmind_file_path, self.indent_output)
         action_list = [
             ['退出', exit],
             ['显示为 json', self.print_as_json],
             ['根据 xmind 创建目录', self.create_dirs_by_xmind],
             ['根据 xmind 更新目录', self.update_dirs_by_xmind],
+            ['输出为缩进文件', xmind_indent_utils.print_workbook_as_indent],
+            ['更新缩进文件', xmind_indent_utils.update_indent_file],
         ]
         iox.choose_action(action_list)
 
@@ -189,5 +196,6 @@ if __name__ == '__main__':
     XMindUtils(
         xmind_file_path=r'D:\workspace\WorkspaceX\file\mind\知识体系.xmind',
         root_dir=r'D:\workspace\BlogX\xmind',
-        back_dir='ignore'
+        back_dir='ignore',
+        indent_output=r'D:\workspace\BlogX\essay\draft\与知识点相关的文章整理.md',
     ).main()
