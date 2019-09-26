@@ -1,6 +1,7 @@
-import math
 import queue
 import random
+
+from leetcode.core import tree_utils
 
 
 class TreeNode:
@@ -37,11 +38,13 @@ class TreeNode:
         q.put(self)
         while not q.empty():
             node = q.get()
-            array.append(node.val)
-            if node.left:
-                q.put(node.left)
-            if node.right:
-                q.put(node.right)
+            if node:
+                array.append(node.val)
+                if node.left or node.right:  # 有一个为空就添加
+                    q.put(node.left)
+                    q.put(node.right)
+            else:
+                array.append(None)
         return array
 
     def to_num(self):
@@ -53,24 +56,10 @@ class TreeNode:
 
     def to_tree_graph(self):
         """
+        转为树图
         >>> TreeNode.create(20).to_tree_graph()
         """
-        array = self.to_array()
-        depth = int(math.log2(len(array))) + 1
-        lines = []
-        for i in range(depth):
-            line = []
-            lines.append(line)
-            for j in range(2 ** i - 1, 2 ** (i + 1) - 1):
-                if j < len(array):
-                    line.append(array[j])
-                else:
-                    line.append(' ')
-        max_length = 2 ** depth
-        for i in range(len(lines)):
-            while len(lines[i]) < max_length:
-                lines[i] = ''.join([' ' + str(i) for i in lines[i]])
-        return '\n'.join([''.join(line) for line in lines])
+        return tree_utils.to_tree_graph(self)
 
     @classmethod
     def from_array(cls, array, index=0):
@@ -93,10 +82,13 @@ class TreeNode:
             left_index = (index + 1) * 2 - 1
             right_index = (index + 1) * 2
             if left_index < n and right_index < n and (not array[left_index] or not array[right_index]):
-                # 其中有一个是空
-                if not array[left_index]:
+                # 根据层先法遍历，如果一个结点为空，那么后续数组中的值就不再属于这个节点
+                if not array[left_index] and not array[right_index]:
+                    node.left = None
+                    node.right = None
+                elif not array[left_index]:
                     node.right = cls.from_array(array[right_index:])
-                if not array[right_index]:
+                elif not array[right_index]:
                     t = [array[left_index]] + array[right_index + 1:]
                     node.left = cls.from_array(t)
             else:
