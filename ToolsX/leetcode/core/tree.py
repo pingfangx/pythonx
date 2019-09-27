@@ -124,6 +124,13 @@ class TreeNode:
     def random(cls, length=5, **kwargs):
         return cls.create(length, rand=True, **kwargs)
 
+    @classmethod
+    def from_leetcode_array_str(cls, string: str):
+        return cls.from_array([None if i == 'null' else int(i) for i in string.strip('[]').split(',')])
+
+    def to_leetcode_array_str(self) -> str:
+        return str(self.to_array()).replace(' ', '').replace('None', 'null')
+
 
 if __name__ == '__main__':
     import doctest
