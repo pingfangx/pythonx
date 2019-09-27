@@ -72,6 +72,10 @@ class XMindUtils:
         print(f'新的目录 {len(new_dirs)} 个')
         print(new_dirs)
 
+        # 检查空白
+        if not self.valid_dir_names(new_dirs):
+            return
+
         print()
         print('1-检查是否需要移动目录')
         origin_dirs_dict = self.dirs_to_dict(origin_dirs)
@@ -108,6 +112,16 @@ class XMindUtils:
             if dir_name not in dict_values:
                 self.delete_empty_dir(dir_name)
         self.back_file()
+
+    @staticmethod
+    def valid_dir_names(dirs: List[TopicDir]) -> bool:
+        """检查目录名是否都有效"""
+        res = True
+        for i in dirs:
+            if i.path.strip() != i.path:
+                print(f'路径前或后有空白 {i}')
+                res = False
+        return res
 
     @staticmethod
     def delete_empty_dir(path):
