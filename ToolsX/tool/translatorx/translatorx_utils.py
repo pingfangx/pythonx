@@ -41,6 +41,27 @@ def get_translation_dict_from_file(file_path, separator='=', join_line=True) -> 
     return result
 
 
+def get_translation_dict_from_omegat_file(file_path) -> dict:
+    """读取 omegat 的记忆文件"""
+    tree = Et.parse(file_path)
+    tmx = tree.getroot()
+    body = tmx.find('body')
+    result = dict()
+    for tu in body.iter('tu'):
+        cn = None
+        en = None
+        for tuv in tu.iter('tuv'):
+            lang = tuv.attrib['lang'].upper()
+            if lang == 'EN-US':
+                en = tuv.find('seg').text
+            elif lang == 'ZH-CN':
+                cn = tuv.find('seg').text
+        if en is not None:
+            # 中文允许为空
+            result[en] = cn
+    return result
+
+
 def save_translation_dict_to_omegat_file(translation_dict: Dict, output_file):
     """保存翻译"""
     tmx = Et.Element('tmx')
@@ -57,7 +78,7 @@ def save_translation_dict_to_omegat_file(translation_dict: Dict, output_file):
     print('输出为' + output_file)
 
 
-def _add_translate_element(element, en, cn):
+def _add_translate_element(element, en: str, cn: str):
     """向element中添加一个翻译"""
 
     tu = Et.SubElement(element, 'tu')
@@ -65,7 +86,7 @@ def _add_translate_element(element, en, cn):
     tuv = Et.SubElement(tu, 'tuv')
     tuv.attrib['lang'] = 'EN-US'
     seg = Et.SubElement(tuv, 'seg')
-    seg.text = en
+    seg.text = en.strip()
     # 中文
     # TODO 这里需要从原文件中读取 tu 及 tuv ，修改或添加时间作者后再写入
     tuv2 = Et.SubElement(tu, 'tuv')
@@ -76,7 +97,7 @@ def _add_translate_element(element, en, cn):
     tuv2.attrib['creationid'] = 'pingfangx'
     tuv2.attrib['creationdate'] = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
     seg2 = Et.SubElement(tuv2, 'seg')
-    seg2.text = cn
+    seg2.text = cn.strip()
 
 
 def unicode_str_to_chinese(unicode_str):
