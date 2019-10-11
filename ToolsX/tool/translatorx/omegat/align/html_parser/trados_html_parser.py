@@ -1,7 +1,7 @@
 from html.parser import HTMLParser
 
 
-class AlignHtmlParser(HTMLParser):
+class TradosHtmlParser(HTMLParser):
     """用于对齐的解析器
 
     为了判断是否是相同的内容，记录 tag 用于类似 xpath 的实现

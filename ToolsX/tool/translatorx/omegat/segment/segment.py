@@ -63,3 +63,9 @@ class _Test(unittest.TestCase):
             r'',
             r'',
         )
+
+    def test_break_paragraph(self):
+        break_paragraph(
+            r'',
+            r'',
+        )
