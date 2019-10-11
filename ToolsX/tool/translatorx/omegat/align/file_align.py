@@ -3,8 +3,7 @@ from omegat.align.html_align import HtmlAlign
 
 
 class FileAlign(BaseAlign):
-    name = '文件'
-    print_info = False
+    """检查文件类型"""
 
     def align_inner(self, source, target) -> dict:
         translation = {}

@@ -1,6 +1,6 @@
 class BaseAlign:
     name = ''
-    print_info = True
+    print_info = False
 
     def align(self, source, target) -> dict:
         self.align_start(source, target)

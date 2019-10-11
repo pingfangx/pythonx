@@ -54,8 +54,8 @@ class AlignHtmlParser(HTMLParser):
         else:  # 非片段标签，记录
             if self.tmp_data:
                 last = self.tmp_data[-1]
-                if len(tag) > 1:  # 过滤类似 b i
-                    self.tmp_data[-1] = f'<{tag}>{last}</{tag}>'
+                # if len(tag) > 1:  # 过滤类似 b i
+                self.tmp_data[-1] = f'<{tag}>{last}</{tag}>'
 
     def handle_data(self, data: str):
         text = data.strip()
@@ -74,8 +74,14 @@ class AlignHtmlParser(HTMLParser):
             if i == 0:
                 s += data
             else:
-                if len(data) == 1 and data in '.?!':
+                ignore_space = False
+                if len(data) == 1 and data in '.?!。？！':
                     # 如果加上单个符号，则不需要空格，所以不能用 join 来实现
+                    ignore_space = True
+                elif self.tmp_data[i - 1].endswith('>') and re.match('^[.?!,。？！，]', data):
+                    # 以符号结尾，后面不需要添加标点符号
+                    ignore_space = True
+                if ignore_space:
                     s += data
                 else:
                     s += ' ' + data
@@ -90,6 +96,10 @@ class AlignHtmlParser(HTMLParser):
         if v:
             self._data[k] = v
             self.print(f'添加内容【{v}】')
+            if re.search(r'<(a)><(code)>(.*?)</\2></\1>', v):
+                v = re.sub(r'<(a)><(code)>(.*?)</\2></\1>', r'<\2><\1>\3</\1></\2>', v)
+                self._data[self.get_xpath_like_tag()] = v
+                self.print(f'补充添加 【{v}】')
 
     def get_xpath_like_tag(self) -> str:
         """只是用来标识，实际上不是 xpath 的格式"""
@@ -131,6 +141,7 @@ class AlignHtmlParser(HTMLParser):
 class HtmlAlign(BaseAlign):
     """ Html 文件"""
     name = 'html'
+    print_info = True
 
     def __init__(self, debug=False):
         self.debug = debug
@@ -153,9 +164,11 @@ class HtmlAlign(BaseAlign):
         self.print(f'源文件共有 {len(source_data)} 条内容')
         self.print(f'结果文件共有 {len(target_data)} 条内容')
         self.print(f'结果文件独有的内空 {len(target_unique)} 条内容')
-        for k, v in target_unique.items():
-            self.print(k)
-            self.print(v)
+        if self.debug:
+            self.print_dif(source_parser.get_data(), target_parser.get_data())
+            for k, v in target_unique.items():
+                self.print(k)
+                self.print(v)
 
         result = {}
         for k, v in source_data.items():
@@ -168,12 +181,17 @@ class HtmlAlign(BaseAlign):
         if self.debug:
             print(msg)
 
+    def print_dif(self, source: dict, target: dict):
+        for k, v in zip(source.items(), target.items()):
+            print('\n'.join(k))
+            print('\n'.join(v))
+
 
 class _Test(unittest.TestCase):
     def test(self):
         translation = HtmlAlign(debug=True).align(
-            source=r'D:\xx\software\program\java\jdk1.6\java-api-1.6-en\api\java\io\package-summary.html',
-            target=r'D:\xx\software\program\java\jdk1.6\java-api-1.6-cn\api\java\io\package-summary.html'
+            source=r'D:\xx\software\program\java\jdk1.6\en\docs\api\java\nio\package-summary.html',
+            target=r'D:\xx\software\program\java\jdk1.6\cn\docs\api\java\nio\package-summary.html'
         )
         print(f'结果为')
         print(translation)

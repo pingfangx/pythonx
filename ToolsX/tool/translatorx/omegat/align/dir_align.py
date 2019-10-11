@@ -8,6 +8,7 @@ from omegat.align.file_align import FileAlign
 
 class DirAlign(BaseAlign):
     name = '目录'
+    print_info = True
 
     def align_inner(self, source, target) -> dict:
         source_dir = Path(source)
