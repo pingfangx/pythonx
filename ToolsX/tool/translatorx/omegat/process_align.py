@@ -55,6 +55,9 @@ class ProcessAlign(BaseAlign):
         translation = segment.break_translation(translation)
         print(f'分割片段共 {len(translation)} 条记录')
 
+        translation = process.filter_incorrect_translation(translation)
+        print(f'过滤不正确的翻译，共 {len(translation)} 条记录')
+
         if self.output:
             print(f'保存记忆文件')
             if self.output_mode == 'a' and Path(self.output).exists():
