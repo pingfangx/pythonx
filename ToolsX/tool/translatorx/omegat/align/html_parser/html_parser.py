@@ -17,9 +17,11 @@ class AlignHtmlParser(HTMLParser):
         后续再使用 segment 分割片段，使用 shortcut_tag 缩小标签
     """
 
-    def __init__(self, debug=False):
+    def __init__(self, debug=False, ignore_p=False):
         super().__init__()
         self.debug = debug
+        self.ignore_p = ignore_p
+        """是否忽加入 p 标签，有部分文件 p 没有结尾，多个 p 连在一起，需要忽略"""
         self._tag_stack = []
         self._xpath_dict = {}
         self._data = {}
@@ -28,8 +30,6 @@ class AlignHtmlParser(HTMLParser):
         """标签关闭，在标签关闭、添加内容后置为 True
         在为 True 的时候，如果有内容，应该直接添加，不用暂存到 tmp_data
         """
-        self.ignore_p = False
-        """是否忽加入 p 标签，有部分文件 p 没有结尾，多个 p 连在一起，需要忽略"""
 
     def ignore_tag(self, tag: str) -> bool:
         return tag.upper() in ['META']
@@ -54,7 +54,7 @@ class AlignHtmlParser(HTMLParser):
         if self.is_paragraph_tag(tag) and self.check_process_p(tag):
             data = self.contact_and_clear_tmp_data()
             if data:
-                self.print(f'片段标签结束，添加内容【{data}】')
+                self.print(f'片段标签【{tag}】结束，添加内容【{data}】')
                 self.add_data(data)
             self.tag_closed = True
         else:  # 非片段标签，记录
@@ -77,16 +77,20 @@ class AlignHtmlParser(HTMLParser):
     def contact_and_clear_tmp_data(self):
         """连接并清空临时数据"""
         s = ''
+        symbol_pattern = r'[,.?!，。？！]'
         for i, data in enumerate(self.tmp_data):
             if i == 0:
                 s += data
             else:
                 ignore_space = False
-                if len(data) == 1 and data in '.?!。？！':
+                if re.fullmatch(symbol_pattern, data):
                     # 如果加上单个符号，则不需要空格，所以不能用 join 来实现
                     ignore_space = True
-                elif self.tmp_data[i - 1].endswith('>') and re.match('^[.?!,。？！，]', data):
-                    # 以符号结尾，后面不需要添加标点符号
+                elif self.tmp_data[i - 1].endswith('>') and re.match(f'^({symbol_pattern}|[)])', data):
+                    # > 与符号（或闭标签）之间不添加
+                    ignore_space = True
+                elif re.match(f'({symbol_pattern}|[(])$', self.tmp_data[i - 1]) and data.startswith('<'):
+                    # 符号（或开标签）与 < 之间不添加
                     ignore_space = True
                 if ignore_space:
                     s += data

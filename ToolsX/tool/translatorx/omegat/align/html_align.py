@@ -1,7 +1,7 @@
 from twisted.trial import unittest
 
 from omegat.align import BaseAlign
-from omegat.align.html_parser.bs4_parser import Bs4Parser
+from omegat.align.html_parser.html_parser import AlignHtmlParser
 
 
 class HtmlAlign(BaseAlign):
@@ -15,7 +15,7 @@ class HtmlAlign(BaseAlign):
         self.debug = debug
 
     def create_parser(self, file):
-        parser = Bs4Parser(debug=self.debug)
+        parser = AlignHtmlParser(debug=self.debug)
         with open(file) as f:
             parser.feed(f.read())
         return parser

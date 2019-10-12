@@ -8,22 +8,50 @@ def replace_space(sentence: str) -> str:
     return sentence.replace('\xa0', ' ')
 
 
-def shortcut_tag(sentence: str) -> str:
-    """缩短标签"""
+def shortcut_tag_of_translation(translation: dict) -> dict:
+    result = {}
+    for k, v in translation.items():
+        tags = {}
+        k = shortcut_tag(k, tags)  # 需要先算 k 收集 tags
+        v = shortcut_tag(v, tags)
+        result[k] = v
+    return result
+
+
+def shortcut_tag(sentence: str, tags: dict) -> str:
+    """
+    缩短标签
+    :param tags: 顺序可能不一致，所以中文应该参照英文的顺序
+    为空时缩短的同时收集标签
+    """
     if not sentence:
         return sentence
     n = 0
 
+    collect_tags = {}
+    duplicate = False
+
     def replace(match):
-        nonlocal n
+        nonlocal n, duplicate
         tag = match.group(1)  # type:str
-        tag = tag[0].lower() + str(n)
+        if tags:  # 直接比较
+            if tag in tags:
+                tag = tags[tag]
+            else:
+                tag = tag[0].lower() + str(n)
+        else:  # 收集标签
+            if tag in collect_tags:
+                duplicate = True
+            collect_tags[tag] = tag[0].lower() + str(n)
+            tag = collect_tags[tag]
         n += 1
         return f'<{tag}>{match.group(2)}</{tag}>'
 
     pattern = r'<([a-zA-Z]+)>(.+?)</\1>'  # 因为会被替换为数字，所以不能使用 \w
     while re.search(pattern, sentence):  # 因为可能嵌套，所以不能直接 sub，要用 while
         sentence = re.sub(pattern, replace, sentence, count=1)  # 指定 count 1 按顺序替换，否则可能交错
+    if not tags and not duplicate:  # 不重复可以更新
+        tags.update(collect_tags)
     return sentence
 
 
@@ -45,7 +73,9 @@ def process_of_translation(translation: dict, process) -> dict:
 
 class _Test(unittest.TestCase):
     def test_shortcut_tag(self):
-        print(shortcut_tag(''))
+        tags = {}
+        print(shortcut_tag(r'', tags))
+        print(shortcut_tag(r'', tags))
 
     def test_shortcut_tag_of_file(self):
         process_of_file(

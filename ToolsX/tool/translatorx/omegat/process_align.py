@@ -49,7 +49,7 @@ class ProcessAlign(BaseAlign):
         print(f'对齐文档共 {len(translation)} 条记录')
 
         # 先缩短标签，再分割片段
-        translation = process.process_of_translation(translation, process.shortcut_tag)
+        translation = process.shortcut_tag_of_translation(translation)
         print(f'缩短标签共 {len(translation)} 条记录')
 
         translation = segment.break_translation(translation)
