@@ -86,11 +86,11 @@ class AlignHtmlParser(HTMLParser):
                 if re.fullmatch(symbol_pattern, data):
                     # 如果加上单个符号，则不需要空格，所以不能用 join 来实现
                     ignore_space = True
-                elif self.tmp_data[i - 1].endswith('>') and re.match(f'^({symbol_pattern}|[)])', data):
+                elif self.tmp_data[i - 1].endswith('>') and re.search(f'^({symbol_pattern}|[)])', data):
                     # > 与符号（或闭标签）之间不添加
                     ignore_space = True
-                elif re.match(f'({symbol_pattern}|[(])$', self.tmp_data[i - 1]) and data.startswith('<'):
-                    # 符号（或开标签）与 < 之间不添加
+                elif re.search(r'[(]$', self.tmp_data[i - 1]) and data.startswith('<'):
+                    # 开括号与 < 之间不添加
                     ignore_space = True
                 if ignore_space:
                     s += data
