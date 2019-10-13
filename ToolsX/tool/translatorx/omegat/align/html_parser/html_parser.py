@@ -65,52 +65,40 @@ class AlignHtmlParser(HTMLParser):
                     self.tmp_data[-1] = f'<{tag}>{last}</{tag}>'
 
     def handle_data(self, data: str):
-        text = data.strip()
-        if text:
+        if data.strip():
             if self.tag_closed:
                 self.print(f'当前开标签已关闭，直接添加内容【{data}】')
                 self.add_data(data)
             else:
-                self.tmp_data.append(text)
-                self.print(f'添加临时内容【{text}】')
+                self.tmp_data.append(data)
+                self.print(f'添加临时内容【{data}】')
 
     def contact_and_clear_tmp_data(self):
         """连接并清空临时数据"""
-        s = ''
-        symbol_pattern = r'[,.?!，。？！]'
-        for i, data in enumerate(self.tmp_data):
-            if i == 0:
-                s += data
-            else:
-                ignore_space = False
-                if re.fullmatch(symbol_pattern, data):
-                    # 如果加上单个符号，则不需要空格，所以不能用 join 来实现
-                    ignore_space = True
-                elif self.tmp_data[i - 1].endswith('>') and re.search(f'^({symbol_pattern}|[)])', data):
-                    # > 与符号（或闭标签）之间不添加
-                    ignore_space = True
-                elif re.search(r'[(]$', self.tmp_data[i - 1]) and data.startswith('<'):
-                    # 开括号与 < 之间不添加
-                    ignore_space = True
-                if ignore_space:
-                    s += data
-                else:
-                    s += ' ' + data
+        s = ''.join(self.tmp_data)
         self.tmp_data.clear()
         return s
 
     def add_data(self, data):
         k = self.get_xpath_like_tag()
-        v = data
-        v = v.replace('\n', ' ')
-        v = re.sub(r'\s{2,}', ' ', v)  # 多个空格替换为单个
+        split_v = re.split(r'(\n{2,})|(\n(?=\s{4,}))', data)  # 多个换行认为需要分割
+        content = []
+        for i, v in enumerate(split_v):
+            if not v or not v.strip():
+                continue
+            v = v.replace('\n', ' ')  # 这里替换换行与后面重新拼接换行不冲突
+            v = re.sub(r'\s{2,}', ' ', v)  # 多个空格替换为单个
+            v = v.strip()
+            if v:
+                content.append(v)
+        v = '\n'.join(content)
         if v:
-            self._data[k] = v
+            self._data[k] = v  # 因为要使用相同的 tag 作为标记，所以划分好后，再用换行拼接，最后在由片段分割器分割
             self.print(f'添加内容【{v}】')
-            if re.search(r'<(a)><(code)>(.*?)</\2></\1>', v):
-                v = re.sub(r'<(a)><(code)>(.*?)</\2></\1>', r'<\2><\1>\3</\1></\2>', v)
+            if re.search(r'<tt>(.*?)</tt>', v):  # 在 api 1.6 中有部分 tt 标签被替换为 code 所以补充添加
+                v = re.sub(r'<tt>(.*?)</tt>', r'<code>\1</code>', v)
                 self._data[self.get_xpath_like_tag()] = v
-                self.print(f'补充添加 【{v}】')
+                self.print(f'补充添加【{v}】')
 
     def get_xpath_like_tag(self) -> str:
         """只是用来标识，实际上不是 xpath 的格式"""

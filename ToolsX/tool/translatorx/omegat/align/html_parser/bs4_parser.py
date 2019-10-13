@@ -32,8 +32,7 @@ class Bs4Parser(AlignHtmlParser):
     def process_tag(self, pre_tags, text):
         self._tag_stack = pre_tags  # 赋值给父类
         tag = pre_tags[-1]  # 最后一个即是当前标签
-        text = text.strip()
-        if text:
+        if text.strip():
             self.print(f'添加临时内容【{text}】')
             self.tmp_data.append(text)
         self.check_and_process_tag(tag)

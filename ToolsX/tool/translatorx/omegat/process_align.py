@@ -48,7 +48,10 @@ class ProcessAlign(BaseAlign):
     def process_translation(self, translation: dict):
         print(f'对齐文档共 {len(translation)} 条记录')
 
-        # 先缩短标签，再分割片段
+        # 先按换行分割，再缩短标签，再分割片段
+        translation = segment.break_translation_by_lf(translation)
+        print(f'按换行分割共 {len(translation)} 条记录')
+
         translation = process.shortcut_tag_of_translation(translation)
         print(f'缩短标签共 {len(translation)} 条记录')
 

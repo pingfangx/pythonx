@@ -15,6 +15,21 @@ def process_of_file(file, output):
         translatorx_utils.save_translation_dict_to_omegat_file(translation, output)
 
 
+def break_translation_by_lf(translation: dict) -> dict:
+    """先按换行分割，分割后再进行标签缩短，然后再按符号断句"""
+    result = {}
+    for k, v in translation.items():
+        en = k.splitlines()
+        cn = v.splitlines()
+        if len(en) == len(cn):
+            for e, c in zip(en, cn):
+                result[e] = c
+        else:
+            # 换行换为空格
+            result[re.sub(r'\s*\n\s*', ' ', k)] = re.sub(r'\s*\n\s*', ' ', v)
+    return result
+
+
 def break_translation(translation: dict) -> dict:
     """分割翻译"""
     result = {}
@@ -33,8 +48,10 @@ def break_paragraph(en: str, cn: str) -> dict:
     # 结尾不分割 (?=.)，1.1 样式的不分割 (?!\d)
     # 于是改为后面不是数字 (?=\D)
     # 英文后面需要空格
-    en_splits = _split(r'([.?!]+)(?=\s)', en)
-    cn_splits = _split(r'([。？！]+)(?=\D)', cn)
+    # 可以存在标点符号后跟括号的情况。如 .) 或 。）
+    en_splits = _split(r'([.?!]+\)?)(?=\s)', en)
+    # 为了避免 。） 结尾的情况，所以需要加入 (?!）)
+    cn_splits = _split(r'([。？！]+）?)(?=\D)(?!）)', cn)
     result = {}
     if len(en_splits) == len(cn_splits):
         for i in range(len(en_splits)):
