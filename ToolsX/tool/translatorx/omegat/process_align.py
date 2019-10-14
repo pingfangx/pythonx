@@ -58,6 +58,8 @@ class ProcessAlign(BaseAlign):
         translation = segment.break_translation(translation)
         print(f'分割片段共 {len(translation)} 条记录')
 
+        translation = process.process_of_translation(translation, lambda x: x.strip())
+
         translation = process.filter_incorrect_translation(translation)
         print(f'过滤不正确的翻译，共 {len(translation)} 条记录')
 

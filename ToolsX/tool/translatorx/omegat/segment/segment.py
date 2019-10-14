@@ -49,7 +49,8 @@ def break_paragraph(en: str, cn: str) -> dict:
     # 于是改为后面不是数字 (?=\D)
     # 英文后面需要空格
     # 可以存在标点符号后跟括号的情况。如 .) 或 。）
-    en_splits = _split(r'([.?!]+\)?)(?=\s)', en)
+    # i.e. 不拆分
+    en_splits = _split(r'(?<!i\.e)([.?!]+[)"]?)(?=\s)', en)
     # 为了避免 。） 结尾的情况，所以需要加入 (?!）)
     cn_splits = _split(r'([。？！]+）?)(?=\D)(?!）)', cn)
     result = {}

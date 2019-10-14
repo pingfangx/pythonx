@@ -17,10 +17,11 @@ class AlignHtmlParser(HTMLParser):
         后续再使用 segment 分割片段，使用 shortcut_tag 缩小标签
     """
 
-    def __init__(self, debug=False, ignore_p=False):
+    def __init__(self, debug=False, ignore_p=False, ignore_b=False):
         super().__init__()
         self.debug = debug
         self.ignore_p = ignore_p
+        self.ignore_b = ignore_b
         """是否忽加入 p 标签，有部分文件 p 没有结尾，多个 p 连在一起，需要忽略"""
         self._tag_stack = []
         self._xpath_dict = {}
@@ -48,7 +49,11 @@ class AlignHtmlParser(HTMLParser):
 
     def check_process_p(self, tag: str) -> bool:
         """是否处理 p"""
-        return not self.ignore_p or tag.upper() != 'P'
+        if self.ignore_p and tag.upper() == 'P':
+            return False
+        if self.ignore_b and tag.upper() == 'B':
+            return False
+        return True
 
     def check_and_process_tag(self, tag):
         if self.is_paragraph_tag(tag) and self.check_process_p(tag):
@@ -70,6 +75,14 @@ class AlignHtmlParser(HTMLParser):
                 self.print(f'当前开标签已关闭，直接添加内容【{data}】')
                 self.add_data(data)
             else:
+                # 2 个换行，因为在 add_data 中会进行分割
+                if data.startswith(' - '):
+                    data = '\n\n' + data[len(' - '):]
+                if self.tmp_data:
+                    last = re.sub(r'</?\w+>', '', self.tmp_data[-1])
+                    if last in ['Returns:', '返回：', 'Throws:', '抛出：']:
+                        self.tmp_data[-1] = '\n\n' + self.tmp_data[-1]  # 前面添加
+                        data = '\n\n' + data  # 后面添加
                 self.tmp_data.append(data)
                 self.print(f'添加临时内容【{data}】')
 
@@ -81,7 +94,10 @@ class AlignHtmlParser(HTMLParser):
 
     def add_data(self, data):
         k = self.get_xpath_like_tag()
-        split_v = re.split(r'(\n{2,})|(\n(?=\s{4,}))', data)  # 多个换行认为需要分割
+        # # 多个换行认为需要分割
+        # 换行加多个空格也替换为换行，主要用于方法摘要中方法与说明
+        # split_v = re.split(r'(\n{2,})|(\n(?=\s{10,}))', data)#可能中英文行数不一致
+        split_v = re.split(r'(\n{2,})', data)
         content = []
         for i, v in enumerate(split_v):
             if not v or not v.strip():
@@ -99,10 +115,16 @@ class AlignHtmlParser(HTMLParser):
                 v = re.sub(r'<tt>(.*?)</tt>', r'<code>\1</code>', v)
                 self._data[self.get_xpath_like_tag()] = v
                 self.print(f'补充添加【{v}】')
+            # 插入模糊匹配时会尝试自动替换，所以不再需要，只是影响 100% 的自动插入
+            if re.search(r'<(a)><(code)>(.*?)</\2></\1>', v):  # api 1.6 与 Android api 中部分 a 和 code 相反
+                v = re.sub(r'<(a)><(code)>(.*?)</\2></\1>', r'<\2><\1>\3</\1></\2>', v)
+                self._data[self.get_xpath_like_tag()] = v
+                self.print(f'补充添加 【{v}】')
 
     def get_xpath_like_tag(self) -> str:
         """只是用来标识，实际上不是 xpath 的格式"""
         xpath = '/'.join(self._tag_stack)
+        xpath = xpath.replace('html/head/body/hr/table', 'html/head/body/table')  # StringBuilder cn改中缺少一个 hr
         if xpath in self._xpath_dict:
             self._xpath_dict[xpath] += 1
             return f'{xpath}/{self._xpath_dict[xpath]}'
