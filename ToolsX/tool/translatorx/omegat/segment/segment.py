@@ -52,7 +52,9 @@ def break_paragraph(en: str, cn: str) -> dict:
     # i.e. 不拆分
     en_splits = _split(r'(?<!i\.e)([.?!]+[)"]?)(?=\s)', en)
     # 为了避免 。） 结尾的情况，所以需要加入 (?!）)
-    cn_splits = _split(r'([。？！]+）?)(?=\D)(?!）)', cn)
+    # (?!</\w\d+>) 是例如 <b0>直接提交。</b0>这样的情况：
+    # 因为在英文中，后面不是空格（而是</b0>），所以不会拆分，所以中文也应该不拆分
+    cn_splits = _split(r'([。？！]+）?)(?=\D)(?!）)(?!</\w\d+>)', cn)
     result = {}
     if len(en_splits) == len(cn_splits):
         for i in range(len(en_splits)):

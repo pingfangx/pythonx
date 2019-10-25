@@ -75,17 +75,10 @@ class ProcessAlign(BaseAlign):
 
 if __name__ == '__main__':
     ProcessAlign(
-        source=r'D:\xx\software\program\java\jdk1.6\en改\docs\api\java',
-        target=r'D:\xx\software\program\java\jdk1.6\cn\docs\api\java',
+        source=r'D:\software\program\java\jdk1.6.0_45\en改\docs\api\java',
+        target=r'D:\software\program\java\jdk1.6.0_45\cn\docs\api\java',
         files=[
-            r'io\package-summary.html',
-            r'math\package-summary.html',
-            r'net\package-summary.html',
-            r'nio\package-summary.html',
-            r'security\package-summary.html',
-            r'sql\package-summary.html',
-            r'text\package-summary.html',
-            r'util\package-summary.html',
+            r'util\HashMap.html',
         ],
-        output=r'D:\workspace\TranslatorX-other\JavaDocs\tm\0-Python-align-package-summary.tmx'
+        output=r'D:\workspace\TranslatorX-other\JavaDocs\tm\0-Python-align-util.tmx'
     ).align_and_process()

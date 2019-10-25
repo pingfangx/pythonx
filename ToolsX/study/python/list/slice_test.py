@@ -1,0 +1,10 @@
+if __name__ == '__main__':
+    a = list(range(1, 11))
+    print(a)
+    print(a[2:])
+    print(a[:-2])
+    print(a[5:1])
+    print(a[5:1:-1])
+    print(a[1:5:-1])
+    print(a[:])
+    print(a[::-1])

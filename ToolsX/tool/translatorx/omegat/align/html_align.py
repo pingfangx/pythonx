@@ -64,8 +64,8 @@ class HtmlAlign(BaseAlign):
 class _Test(unittest.TestCase):
     def test(self):
         translation = HtmlAlign(debug=True).align(
-            source=r'D:\xx\software\program\java\jdk1.6\en\docs\api\java\nio\package-summary.html',
-            target=r'D:\xx\software\program\java\jdk1.6\cn\docs\api\java\nio\package-summary.html'
+            source=r'D:\software\program\java\jdk1.6.0_45\en改\docs\api\java\util\concurrent\atomic\package-summary.html',
+            target=r'D:\software\program\java\jdk1.6.0_45\cn\docs\api\java\util\concurrent\atomic\package-summary.html'
         )
         print(f'结果为')
         for i, (k, v) in enumerate(translation.items()):
