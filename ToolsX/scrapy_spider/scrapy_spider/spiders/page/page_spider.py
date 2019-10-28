@@ -3,7 +3,6 @@ import re
 import urllib.parse
 
 import scrapy
-
 from base_spider_test import BaseSpiderTest
 from scrapy_spider.spiders.page import page_utils
 from scrapy_spider.spiders.page.items import PageItem
@@ -53,18 +52,24 @@ class PageSpider(scrapy.Spider):
 
     def get_file_path(self, response):
         """获取文件路径"""
-        url: str = response.url
+        url: str = self.remove_url_params(response.url)
+        if not url.startswith(self.host):  # 可能因为跳转导致不在 host 下
+            return ''
+        file_path = url.replace(self.host, '')
+        file_path = file_path.lstrip('/')  # 如果错误地以 / 开头，将其去除
+        file_path = os.path.join(self.save_file_dir, file_path)
+        file_path = page_utils.add_file_extension(file_path)
+        print(f'url={url},path={file_path}')
+        return file_path
+
+    def remove_url_params(self, url: str):
         # 将 params query fragment 置空
         r = list(urllib.parse.urlparse(url))
         r[3] = ''
         r[4] = ''
         r[5] = ''
         url = urllib.parse.urlunparse(r)
-
-        file_path = url.replace(self.host, '')
-        file_path = os.path.join(self.save_file_dir, file_path)
-        file_path = page_utils.add_file_extension(file_path)
-        return file_path
+        return url
 
 
 class PageSpiderTest(BaseSpiderTest):

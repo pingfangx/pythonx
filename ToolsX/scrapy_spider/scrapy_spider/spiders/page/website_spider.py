@@ -2,10 +2,9 @@ import os
 from urllib.parse import urljoin
 
 import scrapy
+from base_spider_test import BaseSpiderTest
 from lxml import etree
 from lxml.etree import _Element
-
-from base_spider_test import BaseSpiderTest
 from scrapy_spider.common.statistic.remaining_time_tatistics import RemainingTimeStatistics
 from scrapy_spider.spiders.page.items import PageItem
 from scrapy_spider.spiders.page.page_spider import PageSpider
@@ -55,14 +54,16 @@ class WebsiteSpider(PageSpider):
             log_i('selector 为空')
             return
 
-        current_url = response.url
+        current_url = self.remove_url_params(response.url)
         log_i(f'开始解析数据 {current_url}')
         # 保存数据
-        data = {
-            'text': response.text,
-            'path': self.get_file_path(response)
-        }
-        yield PageItem(data)
+        file_path = self.get_file_path(response)
+        if file_path:
+            data = {
+                'text': response.text,
+                'path': file_path
+            }
+            yield PageItem(data)
 
         # 记为已爬取
         self.scrap_urls[current_url] = 1
@@ -76,6 +77,7 @@ class WebsiteSpider(PageSpider):
             link: str = a.attrib['href']
             if not link:
                 continue
+            link = self.remove_url_params(link)
             # 后缀
             suffix = os.path.splitext(link)[1]
             if not self.check_suffix(suffix):
@@ -84,7 +86,7 @@ class WebsiteSpider(PageSpider):
             # 拼接
             link = urljoin(current_url, link)
             # host
-            if not link.startswith(self.host):
+            if not link.startswith(self.host) or link == self.host:
                 # log_d(f'地址 {link} 不在 host 下')
                 continue
             # 有效
@@ -92,7 +94,7 @@ class WebsiteSpider(PageSpider):
                 log_i(f'新增地址 {link}')
                 link_host += 1
                 self.scrap_urls[link] = 0
-            yield scrapy.Request(link)
+            yield scrapy.Request(link, cookies=self.cookies)
         all_pages = len(self.scrap_urls)
         scrap_pages = len(list(filter(lambda x: x == 1, self.scrap_urls.values())))
         log_i(f'本页新增链接 {link_host} 个，总计 {scrap_pages}/{all_pages}')
@@ -103,7 +105,7 @@ class WebsiteSpider(PageSpider):
     def check_suffix(suffix: str) -> bool:
         """检查后缀"""
         # 只接收 html 的
-        return suffix == '.html'
+        return suffix == '' or suffix == '.html'
 
 
 class JavaTutorialSpider(WebsiteSpider):
@@ -117,3 +119,19 @@ class JavaTutorialSpider(WebsiteSpider):
 
 class JavaTutorialSpiderTest(BaseSpiderTest):
     spider = JavaTutorialSpider
+
+
+class AndroidGuideSpider(WebsiteSpider):
+    name = 'android_guide'
+    cookies = {
+        'django_language': 'zh_cn'
+    }
+    save_file_dir = r'F:\android-sdk\docs-cn\guide'
+    host = 'https://developer.android.google.cn/guide'
+    start_urls = [
+        'https://developer.android.google.cn/guide/index.html',
+    ]
+
+
+class _AndroidGuideSpider(BaseSpiderTest):
+    spider = AndroidGuideSpider
