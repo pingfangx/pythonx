@@ -54,6 +54,7 @@ class PageSpider(scrapy.Spider):
         """获取文件路径"""
         url: str = self.remove_url_params(response.url)
         if not url.startswith(self.host):  # 可能因为跳转导致不在 host 下
+            print(f'{url} 已不在 host 下 {self.host}')
             return ''
         file_path = url.replace(self.host, '')
         file_path = file_path.lstrip('/')  # 如果错误地以 / 开头，将其去除

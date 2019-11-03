@@ -32,6 +32,12 @@ class WebsiteSpider(PageSpider):
     ]
     """爬取的地址"""
 
+    website_mode = True
+    """
+    网站模式，为 True 时解析页面中的链接
+    为 False 只爬取单个页面
+    """
+
     scrap_urls = {}
     """记录所有爬取的地址，
     key 为地址 
@@ -64,6 +70,8 @@ class WebsiteSpider(PageSpider):
                 'path': file_path
             }
             yield PageItem(data)
+        if not self.website_mode:
+            return
 
         # 记为已爬取
         self.scrap_urls[current_url] = 1
@@ -128,6 +136,7 @@ class AndroidGuideSpider(WebsiteSpider):
     }
     save_file_dir = r'F:\android-sdk\docs-cn\guide'
     host = 'https://developer.android.google.cn/guide'
+    website_mode = False
     start_urls = [
         'https://developer.android.google.cn/guide/index.html',
     ]
