@@ -15,6 +15,9 @@ class Solution:
         1437
         只要价格降低，就可以卖出，不用担心后面会有更高价，因为卖出后就可以买入当天的低价
 
+
+        1
+        峰谷算法
         >>> Solution().maxProfit([7,1,5,3,6,4])
         7
         >>> Solution().maxProfit([1,2,3,4,5])
@@ -22,19 +25,26 @@ class Solution:
         >>> Solution().maxProfit([7,6,4,3,1])
         0
         """
-        max_cur = max_so_far = 0
-        for i in range(len(prices) - 1):
-            dif = prices[i + 1] - prices[i]
-            if dif < 0:
-                # 卖出
-                max_so_far += max_cur
-                max_cur = 0
+        if not prices:
+            return 0
+        total = 0
+        peak = valley = prices[0]
+        i = 1
+        while i < len(prices):
+            # 找到谷
+            while i < len(prices) and prices[i] <= prices[i - 1]:
+                valley = prices[i]
+                i += 1
+            if i < len(prices):
+                # 找到峰
+                while i < len(prices) and prices[i] >= prices[i - 1]:
+                    peak = prices[i]
+                    i += 1
+                # 累加
+                total += peak - valley
             else:
-                # 延续子数列
-                max_cur += dif
-        # 退出循环时，如果有最大值，则加上
-        max_so_far += max_cur
-        return max_so_far
+                i += 1
+        return total
 
 
 if __name__ == '__main__':
