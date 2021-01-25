@@ -7,6 +7,7 @@ import logging
 import os
 import re
 import time
+import traceback
 
 import pytz
 import requests
@@ -35,7 +36,7 @@ class TiebaSign:
         self.error_retry_times = 0
         """错误重试次数"""
 
-        self.max_error_retry_times = 5
+        self.max_error_retry_times = 10
         """最大重试次数"""
 
     def init_logger(self):
@@ -107,7 +108,7 @@ class TiebaSign:
             else:
                 error_message = str(result)  # 记为错误
         except Exception as e:
-            error_message = str(e)
+            error_message = str(e) + '\n' + traceback.format_exc()
         if not error_message:
             self.error_retry_times = 0  # 成功置 0
         else:
